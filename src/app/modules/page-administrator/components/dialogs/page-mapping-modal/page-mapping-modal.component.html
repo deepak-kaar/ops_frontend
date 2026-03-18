@@ -1,0 +1,177 @@
+@if(isShow){
+<div class="flex flex-col gap-4 max-h-[80vh] overflow-y-auto">
+    <form [formGroup]="mappingForm">
+        <div class="flex flex-col gap-2">
+            <label for="mappingName" class="font-semibold">Mapping Name <span class="text-red-500">*</span></label>
+            <input pInputText formControlName="mappingName" placeholder="Enter mapping name" class="w-full" />
+        </div>
+        
+        <div class="flex flex-col gap-2">
+            <label for="mappingDescription" class="font-semibold">Mapping Description</label>
+            <textarea pTextarea pSize="small" rows="3" formControlName="mappingDescription" 
+                placeholder="Enter mapping description" class="w-full"></textarea>
+        </div>
+
+        <div formArrayName="propertyMappings">
+            <p-table [value]="propertyMappings.controls" dataKey="propertyKey" [filterDelay]="0" 
+                responsiveLayout="scroll" [scrollable]="true" scrollHeight="400px">
+                <ng-template pTemplate="caption">
+                    <div class="flex justify-between">
+                        <div class="font-bold text-lg">
+                            Property Mappings
+                        </div>
+                    </div>
+                </ng-template>
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th style="min-width: 15rem">
+                            <div class="flex justify-between items-center">
+                                Property
+                            </div>
+                        </th>
+                        <th style="min-width: 10rem">
+                            <div class="flex justify-between items-center">
+                                Type
+                            </div>
+                        </th>
+                        <th style="min-width: 12rem">
+                            <div class="flex justify-between items-center">
+                                Mapping Type
+                            </div>
+                        </th>
+                        <th style="min-width: 15rem">
+                            <div class="flex justify-between items-center">
+                                Entity/Instance/Tag
+                            </div>
+                        </th>
+                        <th style="min-width: 15rem">
+                            <div class="flex justify-between items-center">
+                                Attribute
+                            </div>
+                        </th>
+                        <th style="min-width: 12rem">
+                            <div class="flex justify-between items-center">
+                                Frequency
+                            </div>
+                        </th>
+                        <th style="min-width: 15rem">
+                            <div class="flex justify-between items-center">
+                                Raw Value / Data Path
+                            </div>
+                        </th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-property let-i="rowIndex">
+                    <tr [formGroupName]="i">
+                        <td>
+                            <div class="flex flex-col">
+                                <span class="font-semibold">{{ property.get('propertyName')?.value }}</span>
+                                <span class="text-xs text-surface-500">{{ property.get('schemaKey')?.value }}</span>
+                                @if(property.get('required')?.value){
+                                <span class="text-xs text-red-500">Required</span>
+                                }
+                            </div>
+                        </td>
+                        <td>
+                            <span class="text-sm">{{ property.get('type')?.value }}</span>
+                        </td>
+                        <td>
+                            <p-select [options]="[
+                                {label: 'Map to Attribute', value: 'attribute'},
+                                {label: 'Use Raw Value', value: 'raw'}
+                            ]" 
+                            optionLabel="label" optionValue="value" 
+                            formControlName="mappingType" 
+                            placeholder="Select mapping type"
+                            class="w-full" 
+                            appendTo="body"
+                            [showClear]="true"></p-select>
+                        </td>
+                        <td>
+                            @if(property.get('mappingType')?.value === 'attribute'){
+                            <p-select 
+                                [options]="getEntityOrInstanceOptions(property.get('propertyKey')?.value, property.get('mappingType')?.value)" 
+                                optionLabel="name" 
+                                formControlName="entityOrInstanceName"
+                                placeholder="Select Entity/Instance/Tag"
+                                class="w-full" 
+                                appendTo="body"
+                                [showClear]="true"
+                                [filter]="true"
+                                filterBy="name">
+                            </p-select>
+                            } @else {
+                            <span class="text-surface-400 text-sm">N/A</span>
+                            }
+                        </td>
+                        <td>
+                            @if(property.get('mappingType')?.value === 'attribute'){
+                            <p-select 
+                                [options]="getAttributeOptions(property.get('propertyKey')?.value)" 
+                                optionLabel="name" 
+                                optionValue="id"
+                                formControlName="attributeId"
+                                placeholder="Select Attribute"
+                                class="w-full" 
+                                appendTo="body"
+                                [showClear]="true"
+                                [filter]="true"
+                                filterBy="name"
+                                (onChange)="onAttributeChange($event, property.get('propertyKey')?.value)"
+                                [disabled]="!property.get('entityOrInstanceName')?.value">
+                            </p-select>
+                            } @else {
+                            <span class="text-surface-400 text-sm">N/A</span>
+                            }
+                        </td>
+                        <td>
+                            @if(property.get('mappingType')?.value === 'attribute' && isTimeSeriesAttribute(property.get('propertyKey')?.value)){
+                            <p-select 
+                                [options]="frequencyOptions" 
+                                optionLabel="label" 
+                                optionValue="value"
+                                formControlName="frequency"
+                                placeholder="Select Frequency"
+                                class="w-full" 
+                                appendTo="body"
+                                [showClear]="true">
+                            </p-select>
+                            } @else {
+                            <span class="text-surface-400 text-sm">N/A</span>
+                            }
+                        </td>
+                        <td>
+                            @if(property.get('mappingType')?.value === 'raw'){
+                            <div class="flex flex-col gap-2">
+                                <input pInputText 
+                                    formControlName="rawValue" 
+                                    placeholder="Enter raw value"
+                                    class="w-full text-sm" />
+                                <span class="text-xs text-surface-500">OR</span>
+                                <input pInputText 
+                                    formControlName="dataPath" 
+                                    placeholder="Data path (e.g., employee.name)"
+                                    class="w-full text-sm" />
+                            </div>
+                            } @else {
+                            <span class="text-surface-400 text-sm">N/A</span>
+                            }
+                        </td>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="emptymessage">
+                    <tr>
+                        <td colspan="7">No properties found in input schema.</td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+    </form>
+    
+    <div class="flex justify-center gap-[10px] pt-4 border-t">
+        <p-button styleClass="w-[250px]" severity="danger" [outlined]="true" label="Cancel"
+            (onClick)="cancel()"></p-button>
+        <p-button styleClass="w-[250px]" label="Save" (onClick)="saveMapping()"></p-button>
+    </div>
+</div>
+}

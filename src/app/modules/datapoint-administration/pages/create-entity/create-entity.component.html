@@ -1,0 +1,196 @@
+<div class="max-sm:px-[20px] flex flex-col h-screen entity-form">
+    <div class="w-full flex justify-center pt-[30px]">
+        <div class="max-sm:min-w-[300px] lg:min-w-[700px]">
+            <div class="mt-auto flex flex-col gap-[20px] md:gap-[0] md:flex-row md:items-center md:justify-between">
+                <div class="md:pl-2 ">
+                    <span class="font-normal text-2xl ">Create Entity</span>
+                </div>
+                <div class="flex flex-wrap justify-end gap-2 pr-2 pb-2 ">
+                    @if(isAdmin || createAccess){
+                    <p-button icon="pi pi-plus" label="Add Attribute" (click)="addAttribute()"
+                        [style]="{'border-radius':'12px','height':'37px'}" [size]="(isMobile$|async)==true? 'small': 'large'" />
+                    <p-button label="Save" (onClick)="onSubmit()" [style]="{'border-radius':'12px','height':'37px'}" [size]="(isMobile$|async)==true? 'small': 'large'"  />
+                    }
+                    <p-button label="Back" (onClick)="closeCallback($event)"
+                        [style]="{'border-radius':'12px','height':'37px'}" [size]="(isMobile$|async)==true? 'small': 'large'"  />
+                </div>
+            </div>
+            <form [formGroup]="entityForm">
+                <div class="pt-[25px] pl-2 flex flex-col gap-7 form-fields ">
+                    <div class="static-form flex gap-4 items-center">
+                        <div class="flex-1 ">
+                            <p-floatLabel>
+                                <input type="text" pInputText formControlName="entityOrInstanceName"
+                                    class="input-field" />
+                                <label for="entityName">Entity Name<span class="text-red-500">*</span></label>
+                            </p-floatLabel>
+                            <small
+                                *ngIf="entityForm.get('entityOrInstanceName')?.invalid && entityForm.get('entityOrInstanceName')?.touched"
+                                class="p-error pl-2">
+                                Entity Name is required.
+                            </small>
+                        </div>
+                    </div>
+                    <div class="static-form flex gap-4 items-center">
+                        <div class="flex-1">
+                            <p-floatLabel>
+                                <textarea rows="3" cols="30" pTextarea formControlName="entityOrInstanceDesc"
+                                    class="input-field"></textarea>
+                                <label for="entityDesc">Entity Description<span class="text-red-500">*</span></label>
+                            </p-floatLabel>
+                            <small
+                                *ngIf="entityForm.get('entityOrInstanceDesc')?.invalid && entityForm.get('entityOrInstanceDesc')?.touched"
+                                class="p-error pl-2">
+                                Description is required.
+                            </small>
+                        </div>
+                    </div>
+                    <div>
+                        <p-floatLabel>
+                            <p-select [style]="{ width:'100%' }" appendTo="body" [options]="entityLevel"
+                                formControlName="entityLevel" [filter]="true" filterBy="" [showClear]="true"
+                                (onChange)="onEntityLevelChange($event)" (onClear)="clearEntity()">
+                            </p-select>
+                            <label for="entity">Entity Level<span class="text-red-500">*</span></label>
+                        </p-floatLabel>
+                        <small *ngIf="entityForm.get('entityLevel')?.invalid && entityForm.get('entityLevel')?.touched"
+                            class="p-error pl-2">
+                            Entity Level is required.
+                        </small>
+                    </div>
+                    @if(isShowApp){
+                    <div>
+                        <p-floatLabel>
+                            <p-select [style]="{ width: '100%' }" appendTo="body" [options]="filteredOptions"
+                                formControlName="entityLevelName" (onChange)="onAppChange($event.value)"
+                                optionValue="id" optionLabel="name" [filter]="true" [showClear]="true">
+                            </p-select>
+                            <label for="subEntity">{{subEntityLabel}}</label>
+                        </p-floatLabel>
+                        <small
+                            *ngIf="entityForm.get('entityLevelName')?.invalid && entityForm.get('entityLevelName')?.touched"
+                            class="p-error pl-2">
+                            {{subEntityLabel}} is required.
+                        </small>
+                    </div>
+                    <div>
+                        <p-floatLabel>
+                            <p-select [style]="{ width: '100%' }" appendTo="body" [options]="orgs"
+                                formControlName="entityOrgLevel" optionValue="orgId" optionLabel="orgName"
+                                [filter]="true" [showClear]="true">
+                            </p-select>
+                            <label for="subEntity">Choose Org Level</label>
+                        </p-floatLabel>
+                    </div>
+                    }
+                    <div>
+                        <p-checkbox formControlName="isEntityOrInstance" [binary]="true" inputId="ny" />
+                        <label for="ny" class="ml-2">Is Entity</label>
+                    </div>
+                    <!-- Dynamic Fields -->
+                    <div formArrayName="entityOrInstanceAttribute">
+                        <div>
+                            <span class="font-normal text-2xl">Attribute Creation</span>
+                        </div>
+                        <div cdkDropList (cdkDropListDropped)="drop($event)">
+                            <div *ngFor="let attribute of attributes.controls; let i = index" [formGroupName]="i"
+                                cdkDrag>
+                                <div class="flex max-sm:flex-col max-sm:gap-[10px] pt-5 justify-between items-center">
+                                    <div>
+                                        <div>
+                                            <p-floatLabel>
+                                                <input type="text" pInputText formControlName="attributeName"
+                                                    class="input-field" />
+                                                <label for="attribute">Attribute name<span
+                                                        class="text-red-500">*</span></label>
+                                            </p-floatLabel>
+                                            <small
+                                                *ngIf="entityForm.get('attributeName')?.invalid && entityForm.get('attributeName')?.touched"
+                                                class="p-error pl-2">
+                                                Attribute name is required.
+                                            </small>
+                                        </div>
+                                    </div>
+                                    <div class="max-sm:hidden"><p-divider layout="vertical" [style]="{'height':'163px'}" /></div>
+                                    <div>
+                                        <div class="flex gap-2">
+                                            <!-- <div>
+                                                <p-floatLabel>
+                                                    <p-select [style]="{ width: '192px' }" appendTo="body"
+                                                        [options]="dataPoints" formControlName="dataType"
+                                                        optionLabel="dataType" [filter]="true" filterBy="dataType"
+                                                        [showClear]="true">
+                                                    </p-select>
+                                                    <label for="dataType">Datatype<span
+                                                            class="text-red-500">*</span></label>
+                                                </p-floatLabel>
+                                                <small
+                                                    *ngIf="attribute.get('dataType')?.invalid && attribute.get('dataType')?.touched"
+                                                    class="p-error pl-2">
+                                                    Datatype is required.
+                                                </small>
+                                            </div> -->
+                                            <div class="flex items-center gap-1">
+                                                <p-checkbox formControlName="nullable" [binary]="true"
+                                                    inputId="nullable" />
+                                                <label for="nullable">Not Null</label>
+                                            </div>
+
+                                            <div class="flex items-center gap-1">
+                                                <p-checkbox formControlName="unique" [binary]="true" inputId="unique" />
+                                                <label for="unique">Unique value</label>
+                                            </div>
+                                            <div>
+                                                <p-floatLabel>
+                                                    <input type="text" pInputText formControlName="alias"
+                                                        class="input-field" />
+                                                    <label for="attribute">Alias Name</label>
+                                                </p-floatLabel>
+                                            </div>
+                                        </div>
+
+                                        <div class="w-full pt-5">
+                                            <p-floatLabel>
+                                                <textarea style="width: 100%;" id="float-input" rows="3" cols="30"
+                                                    pTextarea formControlName="comments">
+                                                </textarea>
+                                                <label for="float-input">Description</label>
+                                            </p-floatLabel>
+                                        </div>
+                                    </div>
+                                    <div class="flex">
+                                        <div>
+                                            <div>
+                                                <p-button icon="pi pi-th-large" [rounded]="true" [text]="true"
+                                                    class="flex ml-4" [raised]="true"
+                                                    [style]="{ color: '#F97316', background: '#FFEADC' }"
+                                                    (onClick)="moreActions(i)" pTooltip="More Action" />
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <div>
+                                                <p-button icon="pi pi-trash" [rounded]="true" [text]="true"
+                                                    class="flex ml-4" [raised]="true" (onClick)="removeAttribute(i)" />
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <div>
+                                                <p-button [style]="{'cursor':'move'}" cdkDragHandle [rounded]="true"
+                                                    [text]="true" [raised]="true" class="flex ml-4">
+                                                    <ng-template pTemplate="icon">
+                                                        <img src="assets/images/svgs/drag.svg">
+                                                    </ng-template>
+                                                </p-button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<p-toast [breakpoints]="breakPointForToastComponent"></p-toast>

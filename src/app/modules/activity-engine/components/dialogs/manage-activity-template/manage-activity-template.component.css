@@ -1,0 +1,92 @@
+/* Drag and Drop Styles */
+.cdk-drop-list {
+  display: block;
+}
+
+.cdk-drag-preview {
+  box-sizing: border-box;
+  border-radius: 8px;
+  box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2),
+              0 8px 10px 1px rgba(0, 0, 0, 0.14),
+              0 3px 14px 2px rgba(0, 0, 0, 0.12);
+}
+
+.cdk-drag-placeholder {
+  opacity: 0;
+}
+
+.cdk-drag-animating {
+  transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+/* Custom drag handle styling */
+.cursor-move {
+  cursor: move !important;
+}
+
+/* Visual feedback when dragging */
+.cdk-drag:hover {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.cdk-drag.cdk-drag-dragging {
+  opacity: 0.8;
+  transform: rotate(5deg);
+}
+
+/* Highlight the drop zone */
+.cdk-drop-list.cdk-drop-list-receiving .cdk-drag {
+  background-color: rgba(59, 130, 246, 0.05);
+  border-color: rgba(59, 130, 246, 0.2);
+}
+
+/* Step number styling for different modes */
+.step-number-auto {
+  background-color: rgba(59, 130, 246, 0.1) !important;
+  color: rgba(59, 130, 246, 1) !important;
+}
+
+.step-number-fixed {
+  background-color: rgba(251, 146, 60, 0.1) !important;
+  color: rgba(251, 146, 60, 1) !important;
+}
+
+/* Toggle switch section styling */
+.numbering-toggle {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.25rem 0.75rem;
+  background-color: rgba(243, 244, 246, 0.5);
+  border-radius: 0.5rem;
+  border: 1px solid rgba(209, 213, 219, 0.5);
+}
+
+.numbering-toggle label {
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  user-select: none;
+}
+
+/* Visual indication for different drag modes */
+.workflow-step-fixed .cdk-drag-preview {
+  border-left: 4px solid rgba(251, 146, 60, 1);
+}
+
+.workflow-step-auto .cdk-drag-preview {
+  border-left: 4px solid rgba(59, 130, 246, 1);
+}
+
+
+.p-togglebutton.p-togglebutton-checked::before {
+  box-shadow: var(--p-togglebutton-content-checked-shadow) !important;
+}
+
+.p-togglebutton-checked .p-togglebutton-content {
+  background: var(--p-primary-color) !important;
+}
+
+.p-togglebutton.p-togglebutton-checked{
+  color: #FFFFFF !important;
+}

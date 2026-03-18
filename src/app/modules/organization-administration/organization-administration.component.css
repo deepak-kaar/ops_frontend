@@ -1,0 +1,358 @@
+/* =========================================
+   Organization Administration Component Styles
+   ========================================= */
+
+.surface {
+  background-color: #f7fafc;
+}
+
+/* ROOT CONTAINER */
+.layout-root {
+  display: flex;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* LEFT SIDEBAR */
+.sidebar-wrapper {
+  width: 260px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  background-color: #f7fafc;
+  overflow-y: auto;
+  z-index: 1000;
+  transition: transform 0.3s ease;
+}
+
+/* RIGHT MAIN SECTION */
+.right-pane {
+  margin-left: 260px;
+  width: calc(100% - 260px);
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* RIGHT SCROLL CONTAINER */
+.right-scroll {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+/* MOBILE & TABLET RESPONSIVE */
+@media (max-width: 1024px) {
+  .sidebar-wrapper {
+    transform: translateX(-100%);
+  }
+
+  .sidebar-wrapper.mobile-open {
+    transform: translateX(0);
+  }
+
+  .right-pane {
+    margin-left: 0;
+    width: 100%;
+  }
+}
+
+/* MOBILE OVERLAY */
+.mobile-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 999;
+  display: none;
+}
+
+.mobile-overlay.active {
+  display: block;
+}
+
+/* =========================================
+   Table Styles (matching pi-table-new)
+   ========================================= */
+
+/* TABLE CONTAINER */
+:host ::ng-deep .p-datatable {
+  border-radius: 16px;
+  background: white;
+}
+
+:host ::ng-deep .p-datatable-header {
+  border: none !important;
+}
+
+/* HEADER */
+:host ::ng-deep .p-datatable-thead > tr {
+  border: none !important;
+}
+
+:host ::ng-deep .p-datatable-thead > tr > th {
+  font-weight: 300;
+  font-size: 16px !important;
+  padding: 8px 16px;
+  color: #808080;
+  border: none !important;
+  background: #f9fbfd !important;
+}
+
+:host ::ng-deep .p-datatable-thead > tr > th div {
+  font-size: 16px !important;
+}
+
+/* Border radius for first and last header cells */
+:host ::ng-deep .p-datatable-thead > tr > th.border-round-left-2xl {
+  border-top-left-radius: 16px;
+  border-bottom-left-radius: 16px;
+}
+
+:host ::ng-deep .p-datatable-thead > tr > th.border-round-right-2xl {
+  border-top-right-radius: 16px;
+  border-bottom-right-radius: 16px;
+}
+
+/* BODY CELLS */
+:host ::ng-deep .p-datatable-tbody > tr {
+  border: none !important;
+}
+
+:host ::ng-deep .p-datatable-tbody > tr > td {
+  padding: 14px 16px;
+  font-size: 16px !important;
+  font-weight: 300;
+  color: #263141;
+  border-top: none !important;
+  border-bottom: none !important;
+}
+
+/* Border radius for first and last body cells */
+:host ::ng-deep .p-datatable-tbody > tr > td.border-round-left-2xl {
+  border-top-left-radius: 16px;
+  border-bottom-left-radius: 16px;
+}
+
+:host ::ng-deep .p-datatable-tbody > tr > td.border-round-right-2xl {
+  border-top-right-radius: 16px;
+  border-bottom-right-radius: 16px;
+}
+
+/* HOVER */
+:host ::ng-deep .p-datatable-tbody > tr:hover {
+  background: #f7f9ff;
+}
+
+/* Selection styles */
+:host ::ng-deep .p-datatable-tbody > tr.p-highlight {
+  background-color: #e8f4ff !important;
+}
+
+/* PAGINATOR */
+:host ::ng-deep .p-paginator {
+  justify-content: end;
+  background: transparent;
+  border: none;
+}
+
+/* Empty message styles */
+:host ::ng-deep .p-datatable .p-datatable-emptymessage td {
+  text-align: center;
+  padding: 2rem;
+  color: #6b7280;
+}
+
+/* =========================================
+   Card Styles
+   ========================================= */
+p-card.w-full {
+  border-radius: 12px;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.04);
+  border: 1px solid #e9eef5;
+}
+
+/* =========================================
+   Home Card Styles (like datapoint routing cards)
+   ========================================= */
+.home-card {
+  border-radius: 12px;
+  border: 1px solid #ebeef0;
+  background: #ffffff;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.03);
+  transition: all 0.18s ease;
+  cursor: pointer;
+  position: relative;
+}
+
+.home-card .p-card-body {
+  padding: 18px 18px !important;
+}
+
+.home-card:hover {
+  box-shadow: 0 10px 26px rgba(0, 0, 0, 0.06);
+  transform: translateY(-1px);
+}
+
+:host ::ng-deep .home-card.p-card {
+  position: relative;
+}
+
+:host ::ng-deep .home-card.active::before {
+  content: "";
+  position: absolute;
+  top: 28px;
+  bottom: 27px;
+  left: 0;
+  width: 3px;
+  background-color: #0064EA;
+}
+
+.icon-box {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.title {
+  font-size: 18px;
+  font-weight: 300;
+  color: #263141;
+}
+
+@media (max-width: 640px) {
+  :host ::ng-deep .home-card.p-card {
+    height: 100%;
+    min-height: 80px;
+  }
+
+  :host ::ng-deep .home-card .p-card-body {
+    padding: 10px 8px !important;
+    height: 100%;
+  }
+
+  :host ::ng-deep .home-card .p-card-content {
+    padding: 0 !important;
+  }
+
+  .icon-box {
+    width: 32px;
+    height: 32px;
+    min-width: 32px;
+    border-radius: 8px;
+    flex-shrink: 0;
+  }
+
+  .icon-box svg {
+    width: 16px;
+    height: 16px;
+  }
+
+  .title {
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 1.2;
+    word-break: break-word;
+  }
+}
+
+/* =========================================
+   Button Styles
+   ========================================= */
+.create-button {
+  border-radius: 12px;
+  border: none;
+  box-shadow: 0px 1px 4px 0px #0000001A;
+}
+
+:host ::ng-deep .p-button {
+  font-size: 16px;
+  font-weight: 300;
+}
+
+:host ::ng-deep .p-button.p-button-outlined {
+  border: 1px solid #e5e7eb;
+}
+
+:host ::ng-deep .p-button.p-button-outlined:hover {
+  background: #f8fafc;
+  border-color: #0064EA;
+  color: #0064EA;
+}
+
+/* Select Button Styling */
+:host ::ng-deep .p-selectbutton .p-button {
+  font-size: 16px;
+  font-weight: 300;
+}
+
+/* =========================================
+   Input Styles
+   ========================================= */
+:host ::ng-deep .p-inputtext {
+  font-size: 16px;
+  font-weight: 300;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+}
+
+/* =========================================
+   Dialog Styles
+   ========================================= */
+:host ::ng-deep .p-dialog {
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+}
+
+:host ::ng-deep .p-dialog .p-dialog-header {
+  background: #f9fbfd;
+  border-bottom: 1px solid #e2e8f0;
+  padding: 1rem 1.5rem;
+  border-radius: 12px 12px 0 0;
+  font-size: 18px;
+  font-weight: 500;
+}
+
+:host ::ng-deep .p-dialog .p-dialog-header .p-dialog-title {
+  font-weight: 600;
+  color: #263141;
+}
+
+:host ::ng-deep .p-dialog .p-dialog-content {
+  padding: 1.5rem;
+}
+
+:host ::ng-deep .p-dialog .p-dialog-footer {
+  background: #f9fbfd;
+  border-top: 1px solid #e2e8f0;
+  padding: 1rem 1.5rem;
+  border-radius: 0 0 12px 12px;
+}
+
+/* =========================================
+   Progress Spinner
+   ========================================= */
+:host ::ng-deep .p-progress-spinner {
+  width: 50px;
+  height: 50px;
+}
+
+/* =========================================
+   Responsive Styles
+   ========================================= */
+@media (max-width: 768px) {
+  :host ::ng-deep .p-dialog {
+    width: 95vw !important;
+    max-width: 95vw !important;
+  }
+}
+
+/* Mobile paginator nowrap */
+@media (max-width: 1024px) {
+  .customizePaginator .p-paginator.p-component {
+    flex-wrap: nowrap !important;
+  }
+}

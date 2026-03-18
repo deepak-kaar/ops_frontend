@@ -1,0 +1,13 @@
+@if(style?.selectionRange){
+    <p-datepicker [view]="style?.month ? 'month' : (style?.year ? 'year' : 'date')" [(ngModel)]="date" [showIcon]="true" inputId="buttondisplay" selectionMode="range"
+      [dateFormat]="style?.month ? 'mm/yy' : (style?.year ? 'yy' : 'dd/mm/yy')" [showButtonBar]="style?.buttonBar"
+      [showOnFocus]="false" appendTo="body" [style]="{ height: '100%', width: '100%','font-size':'20px' }"
+      (ngModelChange)="onInputValueChange($event)"/>
+    }
+    @else{
+    <p-datepicker [view]="style?.month ? 'month' : (style?.year ? 'year' : 'date')" [(ngModel)]="date" [showIcon]="true"
+      inputId="buttondisplay" [dateFormat]="style?.month ? 'mm/yy' : (style?.year ? 'yy' : 'dd/mm/yy')"
+      [showButtonBar]="style?.buttonBar" [showOnFocus]="false" appendTo="body"
+      [style]="{ height: '100%', width: '100%','font-size':'20px' }" 
+      (ngModelChange)="onInputValueChange($event)" />
+    }

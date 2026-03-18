@@ -1,0 +1,61 @@
+<div class="flex flex-col gap-[10px]">
+  <form [formGroup]="tagSendForm" class="flex flex-col gap-[10px]">
+    <div class="grid grid-cols-1 md:grid-cols-2 md:gap-4">
+        <div class="flex flex-col gap-2">
+        <label for="piName">Entity or Instance<span class="text-[var(--p-red-500)]"> *</span></label>
+        <!-- <input pInputText id="piName" formControlName="piName" aria-describedby="username-help" /> -->
+        <p-select [options]="type" [filter]="true" styleClass="w-full" (onChange)="onTypeChange()" appendTo="body"
+          formControlName="type"></p-select>
+      </div>
+
+
+
+ <div class="flex flex-col gap-2">
+        <label for="piDesc">Entity or Instance Id<span class="text-[var(--p-red-500)]"> *</span></label>
+        <p-select [options]="listOptions" optionLabel="name" optionValue="id" [filter]="true" styleClass="w-full"
+          appendTo="body" formControlName="id" (onChange)="onTypeNameChange()"></p-select>
+      </div>
+
+
+
+
+     <div class="flex flex-col gap-2">
+        <label for="piName">Attribute Name<span class="text-[var(--p-red-500)]"> *</span></label>
+        <!-- <input
+          pInputText
+          id="piName"
+          formControlName="piName"
+          aria-describedby="username-help"
+        /> -->
+        <p-select [options]="attributesOptions" optionLabel="name" [filter]="true" styleClass="w-full"
+          (onChange)="onAttributeChange($event)" appendTo="body"></p-select>
+      </div>
+
+      <div class="flex flex-col gap-2">
+        <label for="tagNumber">PI TagNumber<span class="text-[var(--p-red-500)]"> *</span></label>
+        <input pInputText formControlName="tagNumber" id="tagNumber" aria-describedby="username-help" />
+      </div>
+
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 md:gap-4">
+
+
+  <div class="flex flex-col gap-2">
+        <label for="systemName">System Name<span class="text-[var(--p-red-500)]"> *</span></label>
+        <p-select [options]="sysNameDropDown$ | async" optionLabel="sysName" optionValue="sysName" [filter]="true"
+          styleClass="w-full" formControlName="systemName" appendTo="body"></p-select>
+      </div>
+       <div class="flex flex-col gap-2">
+        <label for="piDesc">Description<span class="text-[var(--p-red-500)]"> *</span></label>
+        <input pInputText formControlName="piDesc" id="piDesc" aria-describedby="username-help" />
+      </div>
+
+    </div>
+  </form>
+  <div class="pt-[10px] md:pt-[0px] flex justify-center gap-[10px]">
+    <p-button styleClass="md:w-[250px]" severity="danger" outlined="true" label="Cancel"
+      (onClick)="cancel()"></p-button>
+    <p-button styleClass="md:w-[250px]" label="Save" (onClick)="createPISend()"></p-button>
+  </div>
+</div>

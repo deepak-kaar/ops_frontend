@@ -1,0 +1,6 @@
+
+@media (max-width: 1024px) {
+    .customizePaginator .p-paginator.p-component{
+        flex-wrap: nowrap!important;
+    }
+    }

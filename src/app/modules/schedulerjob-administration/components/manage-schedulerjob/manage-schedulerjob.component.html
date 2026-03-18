@@ -1,0 +1,268 @@
+<div class="flex flex-col gap-[10px]">
+    <form [formGroup]="jobForm" class="flex flex-col gap-[10px]">
+        <div class="flex flex-wrap md:flex-nowrap gap-4">
+            <div class="flex flex-col gap-2 w-full md:w-3/5">
+                <label for="schedulerJobName">Job Name<span class="text-[var(--p-red-500)]"> *</span></label>
+                <input pInputText id="schedulerJobName" formControlName="schedulerJobName"
+                    aria-describedby="username-help" />
+            </div>
+            <div class="flex flex-col gap-2 w-full md:w-1/5">
+                <label for="schedulerType">Scheduler Type</label>
+                <p-select [options]="schedulerTypes" formControlName="schedulerType"
+                    placeholder="Choose Scheduler Type"></p-select>
+            </div>
+
+            <!-- <div class="flex flex-col gap-2 w-full md:w-4/5">
+                <label for="triggerName">Trigger Name</label>
+                <input pInputText id="triggerName" formControlName="triggerName" aria-describedby="username-help" />
+            </div> -->
+
+            <div class="flex flex-col gap-2 w-full md:w-1/5 items-center md:items-start justify-center">
+                <label for="inScheduled">Is Scheduled</label>
+                <p-checkbox formControlName="inScheduled" [binary]="true"></p-checkbox>
+            </div>
+        </div>
+
+        <label for="cronExpression">Cron Expression<span class="text-[var(--p-red-500)]"> *</span></label>
+
+        <!-- FIRST ROW: 3 COLUMNS -->
+        <div class="grid grid-cols-1 md:grid-cols-3 md:gap-4">
+            <!-- Minute -->
+            <div class="flex flex-col gap-2">
+                <div class="flex items-center gap-2">
+                    <label for="minute" class="font-medium">Minute</label>
+                    <i class="pi pi-info-circle text-blue-500 cursor-pointer"
+                        pTooltip="Specify which minute(s) the job should run. Use * for every minute, a fixed minute, or a range like 5-10."
+                        tooltipPosition="top"></i>
+                </div>
+
+                <div class="flex gap-2">
+                    <!-- Mode selector -->
+                    <p-select class="w-2/5" [options]="cronModeOptions" formControlName="minuteMode"
+                        placeholder="Mode"></p-select>
+
+                    <!-- Fixed value -->
+                    <p-select *ngIf="jobForm.get('minuteMode')?.value === 'fixed'" class="w-3/5"
+                        [options]="minuteOptions" formControlName="minute" placeholder="*"></p-select>
+
+                    <!-- Range -->
+                    <div *ngIf="jobForm.get('minuteMode')?.value === 'range'" class="flex gap-2 w-3/5">
+                        <p-select class="w-1/2" [options]="minuteOptionsNoStar" formControlName="minuteFrom"
+                            placeholder="From"></p-select>
+                        <p-select class="w-1/2" [options]="minuteOptionsNoStar" formControlName="minuteTo"
+                            placeholder="To"></p-select>
+                    </div>
+
+                    <!-- Every (*) -->
+                    <div *ngIf="jobForm.get('minuteMode')?.value === 'any'"
+                        class="w-3/5 flex items-center text-sm text-gray-500 border rounded px-3">
+                        *
+                    </div>
+
+                    <!-- Step -->
+                    <div *ngIf="jobForm.get('minuteMode')?.value === 'step'" class="w-3/5">
+                        <p-select [options]="minuteOptionsNoStar" formControlName="minuteStep"
+                            placeholder="Every N minutes">
+                        </p-select>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Hour -->
+            <div class="flex flex-col gap-2">
+                <div class="flex items-center gap-2">
+                    <label for="hour" class="font-medium">Hour</label>
+                    <i class="pi pi-info-circle text-blue-500 cursor-pointer"
+                        pTooltip="Select which hour(s) the job should run. Use * for every hour, a fixed hour, or a range like 8-17."
+                        tooltipPosition="top"></i>
+                </div>
+
+                <div class="flex gap-2">
+                    <!-- Mode selector -->
+                    <p-select class="w-2/5" [options]="cronModeOptions" formControlName="hourMode"
+                        placeholder="Mode"></p-select>
+
+                    <!-- Fixed value -->
+                    <p-select *ngIf="jobForm.get('hourMode')?.value === 'fixed'" class="w-3/5" [options]="hourOptions"
+                        formControlName="hour" placeholder="*"></p-select>
+
+                    <!-- Range -->
+                    <div *ngIf="jobForm.get('hourMode')?.value === 'range'" class="flex gap-2 w-3/5">
+                        <p-select class="w-1/2" [options]="hourOptionsNoStar" formControlName="hourFrom"
+                            placeholder="From"></p-select>
+                        <p-select class="w-1/2" [options]="hourOptionsNoStar" formControlName="hourTo"
+                            placeholder="To"></p-select>
+                    </div>
+
+                    <!-- Every (*) -->
+                    <div *ngIf="jobForm.get('hourMode')?.value === 'any'"
+                        class="w-3/5 flex items-center text-sm text-gray-500 border rounded px-3">
+                        *
+                    </div>
+
+                    <!-- Step -->
+                    <div *ngIf="jobForm.get('hourMode')?.value === 'step'" class="w-3/5">
+                        <p-select [options]="hourOptionsNoStar" formControlName="hourStep" placeholder="Every N hours">
+                        </p-select>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Day of Month -->
+            <div class="flex flex-col gap-2">
+                <div class="flex items-center gap-2">
+                    <label for="dayOfMonth" class="font-medium">Day of Month</label>
+                    <i class="pi pi-info-circle text-blue-500 cursor-pointer"
+                        pTooltip="Choose which day of the month to run. Use *, a fixed day like 15, or a range like 10-20."
+                        tooltipPosition="top"></i>
+                </div>
+
+                <div class="flex gap-2">
+                    <!-- Mode selector -->
+                    <p-select class="w-2/5" [options]="cronModeOptions" formControlName="dayOfMonthMode"
+                        placeholder="Mode"></p-select>
+
+                    <!-- Fixed value -->
+                    <p-select *ngIf="jobForm.get('dayOfMonthMode')?.value === 'fixed'" class="w-3/5"
+                        [options]="dayOptions" formControlName="dayOfMonth" placeholder="*"></p-select>
+
+                    <!-- Range -->
+                    <div *ngIf="jobForm.get('dayOfMonthMode')?.value === 'range'" class="flex gap-2 w-3/5">
+                        <p-select class="w-1/2" [options]="dayOptionsNoStar" formControlName="dayOfMonthFrom"
+                            placeholder="From"></p-select>
+                        <p-select class="w-1/2" [options]="dayOptionsNoStar" formControlName="dayOfMonthTo"
+                            placeholder="To"></p-select>
+                    </div>
+
+                    <!-- Every (*) -->
+                    <div *ngIf="jobForm.get('dayOfMonthMode')?.value === 'any'"
+                        class="w-3/5 flex items-center text-sm text-gray-500 border rounded px-3">
+                        *
+                    </div>
+
+                    <!-- Step -->
+                    <div *ngIf="jobForm.get('dayOfMonthMode')?.value === 'step'" class="w-3/5">
+                        <p-select [options]="dayOptionsNoStar" formControlName="dayOfMonthStep"
+                            placeholder="Every N Day">
+                        </p-select>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SECOND ROW: 2 COLUMNS -->
+        <div class="mt-4 grid grid-cols-1 md:grid-cols-2 md:gap-4">
+            <!-- Month -->
+            <div class="flex flex-col gap-2">
+                <div class="flex items-center gap-2">
+                    <label for="month" class="font-medium">Month</label>
+                    <i class="pi pi-info-circle text-blue-500 cursor-pointer"
+                        pTooltip="Select the month(s) when this job should run. Use *, a specific month, or a range like March-June."
+                        tooltipPosition="top"></i>
+                </div>
+
+                <div class="flex gap-2">
+                    <!-- Mode selector -->
+                    <p-select class="w-2/5" [options]="cronModeOptions" formControlName="monthMode"
+                        placeholder="Mode"></p-select>
+
+                    <!-- Fixed value -->
+                    <p-select *ngIf="jobForm.get('monthMode')?.value === 'fixed'" class="w-3/5" [options]="monthOptions"
+                        formControlName="month" placeholder="*"></p-select>
+
+                    <!-- Range -->
+                    <div *ngIf="jobForm.get('monthMode')?.value === 'range'" class="flex gap-2 w-3/5">
+                        <p-select class="w-1/2" [options]="monthOptionsNoStar" formControlName="monthFrom"
+                            placeholder="From"></p-select>
+                        <p-select class="w-1/2" [options]="monthOptionsNoStar" formControlName="monthTo"
+                            placeholder="To"></p-select>
+                    </div>
+
+                    <!-- Every (*) -->
+                    <div *ngIf="jobForm.get('monthMode')?.value === 'any'"
+                        class="w-3/5 flex items-center text-sm text-gray-500 border rounded px-3">
+                        *
+                    </div>
+
+                    <!-- Step -->
+                    <div *ngIf="jobForm.get('monthMode')?.value === 'step'" class="w-3/5">
+                        <p-select [options]="monthOptionsNoStar" formControlName="monthStep"
+                            placeholder="Every N Month">
+                        </p-select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Day of Week -->
+            <div class="flex flex-col gap-2">
+                <div class="flex items-center gap-2">
+                    <label for="dayOfWeek" class="font-medium">Day of Week</label>
+                    <i class="pi pi-info-circle text-blue-500 cursor-pointer"
+                        pTooltip="Choose which weekday(s) the job runs. Use *, a fixed day, or a range like Mon-Fri."
+                        tooltipPosition="top"></i>
+                </div>
+
+                <div class="flex gap-2">
+                    <!-- Mode selector -->
+                    <p-select class="w-2/5" [options]="cronModeOptions" formControlName="dayOfWeekMode"
+                        placeholder="Mode"></p-select>
+
+                    <!-- Fixed value -->
+                    <p-select *ngIf="jobForm.get('dayOfWeekMode')?.value === 'fixed'" class="w-3/5"
+                        [options]="dayOfWeekOptions" formControlName="dayOfWeek" placeholder="*"></p-select>
+
+                    <!-- Range -->
+                    <div *ngIf="jobForm.get('dayOfWeekMode')?.value === 'range'" class="flex gap-2 w-3/5">
+                        <p-select class="w-1/2" [options]="dayOfWeekOptionsNoStar" formControlName="dayOfWeekFrom"
+                            placeholder="From"></p-select>
+                        <p-select class="w-1/2" [options]="dayOfWeekOptionsNoStar" formControlName="dayOfWeekTo"
+                            placeholder="To"></p-select>
+                    </div>
+
+                    <!-- Every (*) -->
+                    <div *ngIf="jobForm.get('dayOfWeekMode')?.value === 'any'"
+                        class="w-3/5 flex items-center text-sm text-gray-500 border rounded px-3">
+                        *
+                    </div>
+
+                    <!-- Step -->
+                    <div *ngIf="jobForm.get('dayOfWeekMode')?.value === 'step'" class="w-3/5">
+                        <p-select [options]="dayOfWeekOptionsNoStar" formControlName="dayOfWeekStep"
+                            placeholder="Every N Week">
+                        </p-select>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Cron validation messages -->
+        <div class="mt-2">
+            <div *ngIf="cronFatalErrorMessage" class="text-sm text-red-500">
+                {{ cronFatalErrorMessage }}
+            </div>
+            <div *ngIf="!cronFatalErrorMessage && cronWarningMessage" class="text-xs text-amber-500">
+                {{ cronWarningMessage }}
+            </div>
+        </div>
+
+        <div class="mt-3 text-md text-gray-700">
+            <strong class="font-medium">Cron Expression:</strong> {{ jobForm.get('cronExpression')?.value }}<br />
+            <strong class="font-medium">Human Readable:</strong> {{ readableCron }}
+        </div>
+
+        <div class="grid grid-cols-1 gap-4">
+            <div class="flex flex-col gap-2">
+                <label for="jobDescription">Job Description</label>
+                <textarea rows="3" cols="30" pTextarea formControlName="jobDescription" id="jobDescription"
+                    class="input-field"></textarea>
+            </div>
+        </div>
+    </form>
+    <div class="pt-[10px] md:pt-[0px] flex justify-center gap-[10px]">
+        <p-button styleClass="md:w-[250px]" severity="danger" outlined="true" label="Cancel"
+            (onClick)="cancel()"></p-button>
+        <p-button styleClass="md:w-[250px]" label="Save" (onClick)="saveJob()"></p-button>
+    </div>
+</div>

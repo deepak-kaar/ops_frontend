@@ -1,0 +1,202 @@
+/* Table wrapper for horizontal scrolling */
+.table-wrapper {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* card container */
+p-card.w-full {
+  border-radius: 12px;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.04);
+  border: 1px solid #e9eef5;
+}
+
+/* TABLE CONTAINER */
+:host ::ng-deep .p-datatable {
+  border-radius: 16px;
+  background: white;
+}
+
+:host ::ng-deep .p-datatable-header {
+  border: none !important;
+}
+
+/* HEADER */
+:host ::ng-deep .p-datatable-thead>tr>th {
+  font-weight: 300;
+  font-size: 16px !important;
+  padding: 8px 16px;
+  color: #808080;
+  border: none !important;
+  background: #f9fbfd !important;
+}
+
+:host ::ng-deep .p-datatable-thead>tr>th div {
+  font-size: 16px !important;
+}
+
+/* BODY CELLS */
+:host ::ng-deep .p-datatable-tbody>tr>td {
+  padding: 14px 16px;
+  font-size: 16px !important;
+  font-weight: 300;
+  color: #263141;
+  border: none !important;
+}
+
+/* HOVER */
+:host ::ng-deep .p-datatable-tbody>tr:hover {
+  background: #f7f9ff;
+}
+
+:host ::ng-deep .p-paginator {
+  justify-content: end;
+}
+
+/* Responsive Design */
+@media screen and (max-width: 640px) {
+  .pt-\[40px\] {
+    padding-top: 20px !important;
+  }
+
+  .pl-\[20px\],
+  .pr-\[20px\] {
+    padding-left: 10px !important;
+    padding-right: 10px !important;
+  }
+}
+
+/* Mobile paginator nowrap */
+@media (max-width: 1024px) {
+  .customizePaginator .p-paginator.p-component {
+    flex-wrap: nowrap !important;
+  }
+}
+
+/* ================================
+   MOBILE SCHEDULER JOB CARD LAYOUT STYLES
+   ================================ */
+
+.mobile-schedulerjob-container {
+  padding: 0;
+}
+
+/* Search Row */
+.mobile-search-row {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.search-wrapper {
+  flex: 1;
+}
+
+.mobile-search-input {
+  width: 100%;
+  border-radius: 8px;
+  border: 1px solid #e5e7eb;
+  padding: 10px 12px 10px 36px;
+  font-size: 14px;
+  background: #ffffff;
+}
+
+/* Action Buttons */
+.mobile-action-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+/* Override PrimeNG primary button color in mobile view */
+:host ::ng-deep .mobile-action-buttons .p-button.p-button-primary {
+  background: #0064EA !important;
+  border-color: #0064EA !important;
+  color: #ffffff !important;
+}
+
+:host ::ng-deep .mobile-action-buttons .p-button.p-button-primary:hover {
+  background: #0052c4 !important;
+  border-color: #0052c4 !important;
+}
+
+/* Scheduler Job Cards Container */
+.schedulerjob-cards-container {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* Individual Scheduler Job Card */
+.schedulerjob-card {
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 16px;
+  transition: box-shadow 0.2s ease;
+}
+
+.schedulerjob-card:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+}
+
+.schedulerjob-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 12px;
+}
+
+.schedulerjob-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex: 1;
+}
+
+.schedulerjob-name {
+  font-size: 16px;
+  font-weight: 500;
+  color: #1e293b;
+}
+
+.schedulerjob-desc {
+  font-size: 13px;
+  color: #64748b;
+}
+
+.schedulerjob-actions {
+  display: flex;
+  gap: 8px;
+}
+
+/* Scheduler Job Card Footer */
+.schedulerjob-card-footer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+}
+
+.schedulerjob-stat {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.stat-label {
+  font-size: 12px;
+  color: #64748b;
+}
+
+.stat-value {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 6px;
+  background: #f3f4f6;
+  color: #111827;
+  font-size: 12px;
+  font-weight: 500;
+}

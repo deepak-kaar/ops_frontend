@@ -1,0 +1,13 @@
+.logging-container {
+  padding: 20px;
+}
+
+.logging-container.mobile {
+  padding: 10px;
+  font-size: 14px;
+}
+
+.logging-container.tablet {
+  padding: 15px;
+  font-size: 15px;
+}

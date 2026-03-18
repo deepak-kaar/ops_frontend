@@ -1,0 +1,308 @@
+<div class="flex flex-col gap-[10px] p-[20px]">
+    <form [formGroup]="templateForm" class="flex flex-col gap-[10px]">
+        <!-- Template Details -->
+        <div class="grid grid-cols-2 gap-4">
+            <div class="flex flex-col gap-2">
+                <label for="templateName">Activity Template Name<span class="text-red-500">*</span></label>
+                <input pInputText id="templateName" formControlName="templateName" />
+            </div>
+            <div class="flex flex-col gap-2">
+                <label for="templateDesc">Activity Template Description</label>
+                <input pInputText id="templateDesc" formControlName="templateDesc" />
+            </div>
+        </div>
+        <div class="grid grid-cols-1 gap-4">
+            <div class="flex flex-col gap-2">
+                <div class="flex items-center justify-between">
+                    <label for="outputAttributes">Internal Attributes</label>
+                    <p-button label="Add Input" (onClick)="addWorkflowIp()"></p-button>
+                </div>
+                <div formArrayName="internalJsonSchema">
+                    @for(variable of workflowIps.controls;track variable;let idx =
+                    $index){
+                    <div class="flex items-center gap-5" [formGroupName]="idx">
+                        <div class="w-full">
+                            <label for="ipName">Attribute Name</label>
+                            <input id="ipName" type="text" pInputText style='width:100%' formControlName="ipName" />
+                        </div>
+                        <div class="w-full">
+                            <label for="ipName">Type</label>
+                            <p-select [options]="dataTypes" [filter]="true" styleClass="w-full"
+                                formControlName="type"></p-select>
+                        </div>
+                        <div class="pt-4">
+                            <p-checkbox formControlName="isRequired" [binary]="true" />
+                        </div>
+                        <div class="pt-4">
+                            <p-button icon="pi pi-trash" [rounded]="true" (onClick)="removeInputAttr(idx)" [text]="true"
+                                [raised]="true" [style]="{ color: '#F97316', background: '#FFEADC' }" />
+                        </div>
+                    </div>
+                    }
+                </div>
+            </div>
+
+            <!-- <div class="flex flex-col gap-2">
+                <div class="flex items-center justify-between">
+                    <label for="outputAttributes">Internal Output Attributes</label>
+                    <p-button label="Add Output" (onClick)="addWorkflowOp()"></p-button>
+                </div>
+                <div formArrayName="workflowOp">
+                    @for(variable of workflowOps.controls;track variable;let idx =
+                    $index){
+                    <div class="flex items-center gap-5" [formGroupName]="idx">
+                        <div class="w-full">
+                            <label for="ipName">Attribute Name</label>
+                            <input id="opName" type="text" pInputText style='width:100%' formControlName="opName" />
+                        </div>
+                        <div class="w-full">
+                            <label for="ipName">Type</label>
+                            <p-select [options]="dataTypes" [filter]="true" styleClass="w-full"
+                                formControlName="type"></p-select>
+                        </div>
+                        <div class="pt-4">
+                            <p-checkbox formControlName="isRequired" [binary]="true" />
+                        </div>
+                        <div class="pt-4">
+                            <p-button icon="pi pi-trash" (onClick)="removeOutputAttr(idx)" [rounded]="true"
+                                [text]="true" [raised]="true" [style]="{ color: '#F97316', background: '#FFEADC' }" />
+                        </div>
+                    </div>
+                    }
+                </div>
+            </div> -->
+        </div>
+
+        <!-- Workflow Steps -->
+        <div class="flex flex-col gap-4 mt-6">
+            <div class="flex justify-between items-center">
+                <h3 class="font-semibold">Workflow Steps</h3>
+                <p-button icon="pi pi-plus" label="Add Workflow Step" (onClick)="addWorkflowStep()"></p-button>
+            </div>
+
+            <div formArrayName="workflowSteps" class="flex flex-col gap-4">
+                @for(ws of workflowSteps.controls;track ws;let i =
+                $index){
+                <div [formGroupName]="i" class="p-4 border rounded-lg pt-[10px]">
+                    <div class="flex justify-between items-center">
+                        <h4 class="font-medium">Step {{ i + 1 }}</h4>
+                        <p-button icon="pi pi-trash" severity="danger" (onClick)="removeWorkflowStep(i)"></p-button>
+                    </div>
+
+                    <div class="flex flex-col gap-4">
+                        <label>Workflow Step Name</label>
+                        <input pInputText formControlName="activityName" />
+                    </div>
+
+                    <!-- Activity Steps -->
+                    <div class="mt-4">
+                        <div class="flex justify-between items-center">
+                            <h5 class="font-medium">Activity Steps</h5>
+                            <p-button icon="pi pi-plus" label="Add Activity Step"
+                                (onClick)="addActivityStep(i)"></p-button>
+                        </div>
+
+                        <div formArrayName="activitySteps" class="flex flex-col gap-4 mt-2">
+                            <div *ngFor="let act of getActivitySteps(i).controls; let j = index" [formGroupName]="j"
+                                class="p-3 border rounded">
+                                <div class="flex justify-center">
+                                    <p-selectbutton [options]="stepTypes" formControlName="stepType" />
+                                </div>
+                                <div class="flex justify-between items-center pb-[10px]">
+                                    <h6 class="font-medium">Step {{ j + 1 }}</h6>
+                                    <div class="flex gap-4">
+                                        <p-button icon="pi pi-trash" [rounded]="true" [text]="true" class="flex ml-4"
+                                            [raised]="true" severity="danger"
+                                            (onClick)="removeActivityStep(i, j)"></p-button>
+                                        @if(act.get('functionModel')?.value){ <p-button icon="pi pi-th-large"
+                                            [rounded]="true" [text]="true" class="flex ml-4" [raised]="true"
+                                            [style]="{ color: '#F97316', background: '#FFEADC' }"
+                                            (onClick)="moreActions(i, j)" pTooltip="More Action"
+                                            tooltipPosition="bottom" />
+                                        }
+                                    </div>
+
+                                </div>
+                                @if(act.get('stepType')?.value === 'Normal'){
+                                <div class="grid grid-cols-2 gap-4 mt-2">
+                                    <div class="flex flex-col gap-4">
+                                        <label>Step Name</label>
+                                        <input pInputText formControlName="stepName" />
+                                    </div>
+                                    <div class="flex flex-col gap-4">
+                                        <label>Description</label>
+                                        <input pInputText formControlName="stepDesc" />
+                                    </div>
+
+                                </div>
+                                <div class="flex flex-col gap-4">
+                                    <label>Function Model</label>
+                                    <p-select [options]="fmData$ | async" optionLabel="functionName"
+                                        formControlName="functionModel"
+                                        (onChange)="onFunctionModelChange(i, j, $event.value)"></p-select>
+                                </div>
+                                }
+                                @else if (act.get('stepType')?.value === 'Control') {
+                                <div class="flex flex-col gap-4">
+
+                                    <!-- Editor Type Toggle -->
+                                    <div class="flex flex-col gap-2 w-full">
+                                        <label>Editor Type</label>
+                                        <div class="flex justify-center w-full">
+                                            <p-selectbutton
+                                                [options]="[{label: 'Logic Editor', value: 'Logic'}, {label: 'Flow Editor', value: 'Flow'}]"
+                                                formControlName="editorType" class="w-full">
+                                            </p-selectbutton>
+                                        </div>
+                                    </div>
+
+                                    <!-- Conditional Editor Rendering -->
+                                    @if (act.get('editorType')?.value === 'Logic') {
+                                    <div class="flex flex-col gap-2 w-full">
+                                        <label>Logic</label>
+                                        <div class="h-[15rem]">
+                                            <ngx-monaco-editor style="width:100%; height: 100%"
+                                                [options]="editorOptions"
+                                                formControlName="stepLogic"></ngx-monaco-editor>
+                                        </div>
+                                    </div>
+                                    } @else if (act.get('editorType')?.value === 'Flow') {
+                                    <div class="flex flex-col gap-2 w-full">
+                                        <label>Flow Editor</label>
+                                        <div class="">
+                                            <div class="flex flex-col gap-4">
+                                                <div class="flex flex-col gap-2 w-full">
+                                                    <label>Control Type</label>
+                                                    <p-select [options]="['Jump','Continue','Stop']"
+                                                        formControlName="controlType" class="w-full"></p-select>
+                                                </div>
+
+                                                <!-- Show Jump Type and Jump Step only for Jump and Conditional -->
+                                                @if (act.get('controlType')?.value === 'Jump' ||
+                                                act.get('controlType')?.value === 'Conditional') {
+                                                <div class="flex flex-col gap-2 w-full">
+                                                    <label>Jump Type</label>
+                                                    <p-select [options]="['Workflow-step','Internal-step']"
+                                                        formControlName="jumpType" class="w-full"></p-select>
+                                                </div>
+
+                                                 <!-- Show Jump Step based on Jump Type -->
+                                                 @if (act.get('jumpType')?.value === 'Workflow-step') {
+                                                 <div class="flex flex-col gap-2 w-full">
+                                                     <label>Workflow Step</label>
+                                                    <p-select [options]="getWorkflowStepOptions(i)"
+                                                        optionLabel="label" optionValue="realValue"
+                                                        formControlName="jumpStepType" class="w-full"></p-select>
+                                                 </div>
+                                                 
+                                                 <!-- Show Internal Steps selection when workflow step is selected -->
+                                                 @if (act.get('jumpStepType')?.value) {
+                                                     <div class="flex flex-col gap-2 w-full">
+                                                         <label>Internal Steps (Optional)</label>
+                                                         <p-select [options]="getWorkflowInternalStepOptions(act.get('jumpStepType')?.value)"
+                                                             optionLabel="label" optionValue="realValue"
+                                                             formControlName="jumpStep" 
+                                                             class="w-full"
+                                                             placeholder="Select specific steps or leave empty for entire workflow">
+                                                         </p-select>
+                                                         <small class="text-gray-500">
+                                                             Leave empty to select the entire workflow, or choose specific internal steps
+                                                         </small>
+                                                     </div>
+                                                 }
+                                                 } @else if (act.get('jumpType')?.value === 'Internal-step') {
+                                                 <div class="flex flex-col gap-2 w-full">
+                                                     <label>Activity Step</label>
+                                                     <p-select [options]="getActivityStepOptions(i, j)"
+                                                         optionLabel="label" optionValue="realValue"
+                                                         formControlName="jumpStep" class="w-full"></p-select>
+                                                 </div>
+                                                 }
+                                                }
+
+                                               <!-- Code Editor for Jump Condition -->
+                                               <!-- @if (act.get('controlType')?.value === 'Jump' || act.get('controlType')?.value === 'Continue') { -->
+                                               <div class="flex flex-col gap-2 w-full">
+                                                   <label>Jump Condition Logic</label>
+                                                   <div class="h-[12rem]">
+                                                       <ngx-monaco-editor style="width:100%; height: 100%"
+                                                           [options]="editorOptions"
+                                                           formControlName="jumpCondition"></ngx-monaco-editor>
+                                                   </div>
+                                               </div>
+                                               <!-- } -->
+
+                                                <!-- Show message for Continue and Stop -->
+                                                @if (act.get('controlType')?.value === 'Continue' ||
+                                                act.get('controlType')?.value === 'Stop') {
+                                                <div class="flex flex-col gap-2 w-full">
+                                                    <div
+                                                        class="p-4 bg-blue-50 border border-blue-200 rounded text-blue-700">
+                                                        <i class="pi pi-info-circle mr-2"></i>
+                                                        No additional configuration needed for {{
+                                                        act.get('controlType')?.value }}.
+                                                    </div>
+                                                </div>
+                                                }
+                                            </div>
+                                        </div>
+                                    </div>
+                                    }
+                                </div>
+                                }
+
+
+                                <!-- @if(act.get('functionModel')?.value){ -->
+                                <!-- <div formArrayName="inputAttributes" class="mt-3">
+                                    <h6>Input Attributes</h6>
+                                    <div *ngFor="let attr of getInputAttributes(i, j).controls; let k = index"
+                                        [formGroupName]="k" class="flex gap-2 mt-2">
+                                        <input pInputText formControlName="name" readonly />
+                                        <input pInputText formControlName="type" readonly />
+                                        <p-select [options]="types" formControlName="mapType" placeholder="Select"
+                                            class="w-full" showClear="true" appendTo="body" />
+                                        <p-select [options]="getTypeOptions(i,'input')" optionLabel="name"
+                                            placeholder="Select" filterBy="name" [filter]="true" class="w-full"
+                                            showClear="true" appendTo="body" formControlName="typeName" />
+                                        <p-select [options]="getAttributeOptions(i,'input')" optionLabel="name"
+                                            optionValue="id" placeholder="Select" filterBy="name" [filter]="true"
+                                            formControlName="attribute" class="w-full" showClear="true"
+                                            appendTo="body" />
+                                    </div>
+                                </div>
+                                <div formArrayName="inputAttributes" class="mt-3">
+                                    <h6>Output Attributes</h6>
+                                    <div *ngFor="let attr of getOutputAttributes(i, j).controls; let m = index"
+                                        [formGroupName]="m" class="flex gap-2 mt-2">
+                                        <input pInputText formControlName="name" readonly />
+                                        <input pInputText formControlName="type" readonly />
+                                        <p-select [options]="types" formControlName="mapType" placeholder="Select"
+                                            class="w-full" showClear="true" appendTo="body" />
+                                        <p-select [options]="getTypeOptions(i,'input')" optionLabel="name"
+                                            placeholder="Select" filterBy="name" [filter]="true" class="w-full"
+                                            showClear="true" appendTo="body" formControlName="typeName" />
+                                        <p-select [options]="getAttributeOptions(i,'input')" optionLabel="name"
+                                            optionValue="id" placeholder="Select" filterBy="name" [filter]="true"
+                                            formControlName="attribute" class="w-full" showClear="true"
+                                            appendTo="body" />
+                                    </div>
+                                </div> -->
+                                <!-- } -->
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                }
+            </div>
+
+        </div>
+
+        <!-- Actions -->
+        <div class="flex justify-end gap-3 mt-6 pt-4 border-t">
+            <p-button type="button" label="Cancel" severity="secondary" outlined="true"></p-button>
+            <p-button type="button" label="Save Template" (onClick)="onSubmit()"
+                [disabled]="templateForm.invalid"></p-button>
+        </div>
+    </form>
+</div>

@@ -1,0 +1,21 @@
+.active-link {
+    background: white;
+    color: var(--p-primary-color);
+    border-radius: 5px;
+}
+
+.active-link svg path {
+    fill: var(--p-primary-color);
+}
+
+.active-link svg text {
+    fill: var(--p-primary-color);
+}
+
+.active-link svg circle {
+    stroke: var(--p-primary-color);
+}
+
+.header-display{
+    display: none;
+}

@@ -1,0 +1,3 @@
+:host ::ng-deep .calculation-template .textarea {
+    resize: none !important;
+}

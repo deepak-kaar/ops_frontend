@@ -1,0 +1,13 @@
+.topbar {
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0.7) 12.5%, rgba(0, 0, 0, 0) 100%);
+    backdrop-filter: blur(10px)
+}
+
+.active-link{
+    background: var(--p-button-primary-background) !important;
+    border-radius: 12px;
+}
+input,
+input::placeholder {
+    color: white !important;
+}

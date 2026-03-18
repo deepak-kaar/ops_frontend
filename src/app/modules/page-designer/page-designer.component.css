@@ -1,0 +1,129 @@
+.designer-sidebar {
+  transition: width 0.1s ease-out;
+}
+
+.widget-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: auto;
+}
+
+.widget-icon svg {
+  width: 24px;
+  height: 24px;
+}
+
+.widget-icon svg path {
+  fill: var(--p-text-color);
+  stroke: var(--p-text-color);
+}
+
+@media (prefers-color-scheme: dark) {
+  .widget-icon svg path {
+    fill: var(--p-primary-color);
+    stroke: var(--p-primary-color);
+  }
+}
+
+/* Selected widget styling - matching page builder */
+.designer-widget-root {
+  border: 1px solid #e5e7eb;
+  padding: 2px;
+}
+
+.designer-widget-root.selected {
+  border: 2px solid var(--p-primary-color);
+  box-shadow: 0 0 5px #888;
+}
+
+/* Styling panel - matching page builder */
+.sm-properties {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.sm-property {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.sm-property .p-dropdown,
+.sm-property .p-inputnumber,
+.sm-property .p-selectbutton {
+  width: 100%;
+}
+
+.sm-property .fields {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.color-picker {
+  padding: 0px;
+  border: none;
+  background: none;
+  inline-size: 35px;
+  block-size: 35px;
+  cursor: pointer;
+}
+
+.sm-property label {
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--p-text-color);
+}
+
+/* Alignment guides (Figma-like) */
+.alignment-guide {
+  position: absolute;
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 0.8;
+}
+
+.alignment-guide.vertical {
+  background-color: var(--p-primary-color, #2196F3);
+  width: 1px;
+  box-shadow: 0 0 2px rgba(33, 150, 243, 0.5);
+}
+
+.alignment-guide.horizontal {
+  background-color: var(--p-primary-color, #2196F3);
+  height: 1px;
+  box-shadow: 0 0 2px rgba(33, 150, 243, 0.5);
+}
+
+.p-togglebutton.p-togglebutton-checked::before {
+  box-shadow: var(--p-togglebutton-content-checked-shadow) !important;
+}
+
+.p-togglebutton-checked .p-togglebutton-content {
+  background: #0033A0 !important;
+}
+
+.p-togglebutton.p-togglebutton-checked {
+  color: #FFFFFF !important;
+}
+
+.sidebar-wrapper {
+  width: 75px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  background-color: #f7fafc;
+  overflow-y: auto;
+  z-index: 1000;
+  transition: transform 0.3s ease;
+}
+
+::webkit-scrollbar {
+  display: none;
+}

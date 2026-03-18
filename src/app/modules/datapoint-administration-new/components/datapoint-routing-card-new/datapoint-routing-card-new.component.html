@@ -1,0 +1,15 @@
+<div class="pt-[30px] grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3">
+  @for(card of cardList; track card; let idx = $index){
+  <p-card [styleClass]="'home-card ' + (isActive(card.route) ? 'active' : '')" (click)="go(card.route)">
+    <div class="flex items-center gap-2">
+      <div class="icon-box" [ngClass]="card.bg" [innerHTML]="sanitizer.bypassSecurityTrustHtml(card.svg)">
+      </div>
+
+      <div class="flex flex-col flex-1 min-w-0">
+        <span class="title">{{ card.name }}</span>
+        <span class="subtitle">{{ card.subTitle }}</span>
+      </div>
+    </div>
+  </p-card>
+  }
+</div>

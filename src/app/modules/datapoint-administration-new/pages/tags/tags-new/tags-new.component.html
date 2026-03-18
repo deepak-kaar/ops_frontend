@@ -1,0 +1,33 @@
+<div class="pt-[50px] pl-[20px] pr-[20px] w-full">
+    <div class="pt-[10px]">
+        <app-table-wrapper 
+            [data]="attrList" 
+            [columns]="columns" 
+            [config]="tableConfig"
+            (onRowClick)="onRowClick($event)"
+            (onCreate)="createAttribute()">
+            
+            <!-- Custom body template for tag fields with nested data -->
+            <ng-template #bodyTemplate let-row let-columns="columns">
+                <tr class="p-selectable-row">
+                    @for(col of columns; track col.field; let first = $first; let last = $last) {
+                    <td [class.border-round-left-2xl]="first"
+                        [class.border-round-right-2xl]="last"
+                        [class.cursor-pointer]="col.clickable !== false"
+                        class="text-left"
+                        (click)="col.clickable !== false ? onRowClick(row) : null">
+                        @if(col.field === 'alias' || col.field === 'attributeName') {
+                        <span class="ml-1 vertical-align-middle desc">{{ col.field.includes('.') ? getNestedValue(row, col.field) : row[col.field] }}</span>
+                        } @else if(col.template === 'date') {
+                        {{ getNestedValue(row, col.field) | date }}
+                        } @else {
+                        <span class="ml-1 vertical-align-middle">{{ col.field.includes('.') ? getNestedValue(row, col.field) : row[col.field] }}</span>
+                        }
+                    </td>
+                    }
+                </tr>
+            </ng-template>
+        </app-table-wrapper>
+    </div>
+</div>
+<p-toast [breakpoints]="breakPointForToastComponent"></p-toast>

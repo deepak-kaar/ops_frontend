@@ -1,0 +1,150 @@
+@if (isAppMode) {
+<div class="h-screen flex bg-[#F7F8FA]">
+    <app-sidebar-new></app-sidebar-new>
+    <main class="flex-1 overflow-y-auto">
+        <div class="p-[20px] grid grid-cols-1 xl:grid-cols-3 gap-5">
+            <div class="bg-[var(--p-card-background)] rounded-[12px] min-h-[80vh]">
+                <div class="flex flex-col gap-3 pt-[25px] pl-[25px]">
+                    <span class="text-[36px] font-light">Activities</span>
+                    <span class="text-[20px] text-[#7F7F7F] font-extralight">2445 activities, 2 Unread</span>
+                    <div>
+                        <p-iconfield class="w-full pr-[25px]">
+                            <p-inputicon styleClass="pi pi-search" />
+                            <input type="text" class="!border-none w-[100%]" pInputText placeholder="Search"
+                                style="box-shadow: 0px 4px 30px 0px #00000014;" />
+                        </p-iconfield>
+                    </div>
+                </div>
+                <p-divider></p-divider>
+                <div class="pt-[10px] overflow-y-auto h-[80vh]">
+                    <p-card styleClass="pl-[25px] pr-[25px] w-full">
+                        <div class="flex items-center justify-between">
+                            <p-avatar image="https://primefaces.org/cdn/primeng/images/demo/avatar/amyelsner.png"
+                                class="mr-2" size="large" shape="circle" />
+                            <div class="flex">
+                                <div class="flex flex-col">
+                                    <span class="!text-[14px]">Yasser Khalil</span>
+                                    <span class="!text-[13px]">UI project : Client Dashboard</span>
+                                </div>
+                                <span class="!text-[12px] text-[#7F7F7F] font-extralight">20 JUNE</span>
+                            </div>
+                        </div>
+                    </p-card>
+                </div>
+            </div>
+            <div class="bg-[var(--p-card-background)] rounded-[12px] min-h-[80vh]">
+                <div class="flex flex-col gap-3 pt-[25px] pl-[25px]">
+                    <span class="text-[36px] font-light">Activity Status</span>
+                    <span class="text-[20px] text-[#7F7F7F] font-extralight">In Progress</span>
+                </div>
+                <p-divider></p-divider>
+                <div class="pt-[10px] overflow-y-auto h-[65vh] z-1000">
+                    <div class="card">
+                        <p-timeline [value]="events">
+                            <ng-template #content let-event>
+                                {{ event.status }}
+                            </ng-template>
+                        </p-timeline>
+                    </div>
+                </div>
+            </div>
+            <div class="bg-[var(--p-card-background)] rounded-[12px] min-h-[80vh]">
+                <div class="flex flex-col gap-3 pt-[25px] pl-[25px]">
+                    <span class="text-[36px] font-light">Activities</span>
+                    <span class="text-[20px] text-[#7F7F7F] font-extralight">2445 activities, 2 Unread</span>
+                </div>
+                <p-divider></p-divider>
+                <div class="pt-[10px] overflow-y-auto h-[80vh]">
+                    <div class="pl-[25px] pr-[25px] w-full">
+                        <div class="flex items-center justify-between">
+                            <p-avatar image="https://primefaces.org/cdn/primeng/images/demo/avatar/amyelsner.png"
+                                class="mr-2" size="large" shape="circle" />
+                            <div class="flex">
+                                <div class="flex flex-col">
+                                    <span class="!text-[14px]">Yasser Khalil</span>
+                                    <span class="!text-[13px]">UI project : Client Dashboard</span>
+                                </div>
+                                <span class="!text-[12px] text-[#7F7F7F] font-extralight">20 JUNE</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+}
+@else {
+<main class="main h-screen overflow-y-auto">
+    <app-topbar></app-topbar>
+    <div class="pt-[70px] flex w-full h-screen pr-[10px]">
+        <div class="w-[25%] bg-[var(--p-card-background)] h-screen fixed">
+            <div class="flex flex-col gap-3 pt-[25px] pl-[25px]">
+                <span class="text-[36px] font-light">Activities</span>
+                <span class="text-[20px] text-[#7F7F7F] font-extralight">2445 activities, 2 Unread</span>
+                <div>
+                    <p-iconfield class="w-full pr-[25px]">
+                        <p-inputicon styleClass="pi pi-search" />
+                        <input type="text" class="!border-none w-[100%]" pInputText placeholder="Search"
+                            style="box-shadow: 0px 4px 30px 0px #00000014;" />
+                    </p-iconfield>
+                </div>
+            </div>
+            <p-divider></p-divider>
+            <div class="pt-[10px] overflow-y-auto h-[80vh]">
+                <p-card styleClass="pl-[25px] pr-[25px] w-full">
+                    <div class="flex items-center justify-between">
+                        <p-avatar image="https://primefaces.org/cdn/primeng/images/demo/avatar/amyelsner.png"
+                            class="mr-2" size="large" shape="circle" />
+                        <div class="flex">
+                            <div class="flex flex-col">
+                                <span class="!text-[14px]">Yasser Khalil</span>
+                                <span class="!text-[13px]">UI project : Client Dashboard</span>
+                            </div>
+                            <span class="!text-[12px] text-[#7F7F7F] font-extralight">20 JUNE</span>
+                        </div>
+                    </div>
+                </p-card>
+            </div>
+        </div>
+        <div class="ml-[27%] bg-[var(--p-card-background)] h-[88vh] rounded-[12px] fixed w-[25%] mt-[20px]">
+            <div class="flex flex-col gap-3 pt-[25px] pl-[25px]">
+                <span class="text-[36px] font-light">Activity Status</span>
+                <span class="text-[20px] text-[#7F7F7F] font-extralight">In Progress</span>
+            </div>
+            <p-divider></p-divider>
+            <div class="pt-[10px] overflow-y-auto h-[65vh] z-1000">
+                <div class="card">
+                    <p-timeline [value]="events">
+                        <ng-template #content let-event>
+                            {{ event.status }}
+                        </ng-template>
+                    </p-timeline>
+                </div>
+            </div>
+        </div>
+        <div class="ml-[55%] bg-[var(--p-card-background)] h-screen fixed w-[45%]">
+            <div class="flex flex-col gap-3 pt-[25px] pl-[25px]">
+                <span class="text-[36px] font-light">Activities</span>
+                <span class="text-[20px] text-[#7F7F7F] font-extralight">2445 activities, 2 Unread</span>
+            </div>
+            <p-divider></p-divider>
+            <div class="pt-[10px] overflow-y-auto h-[80vh]">
+                <div class="pl-[25px] pr-[25px] w-full">
+                    <div class="flex items-center justify-between">
+                        <p-avatar image="https://primefaces.org/cdn/primeng/images/demo/avatar/amyelsner.png"
+                            class="mr-2" size="large" shape="circle" />
+                        <div class="flex">
+                            <div class="flex flex-col">
+                                <span class="!text-[14px]">Yasser Khalil</span>
+                                <span class="!text-[13px]">UI project : Client Dashboard</span>
+                            </div>
+                            <span class="!text-[12px] text-[#7F7F7F] font-extralight">20 JUNE</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+}

@@ -1,0 +1,639 @@
+/* =========================================
+   Rollout Management Component Styles
+   (New theme: align with calculation-engine-v2 / datasource-administration-new)
+   ========================================= */
+
+.surface {
+  background-color: #f7fafc;
+}
+
+/* Section title - same as other new UI modules (no bold) */
+.section-title {
+  font-weight: 400 !important;
+  font-size: 1rem;
+  color: #263141;
+  font-family: inherit;
+}
+
+/* Content container alignment */
+.rollout-container {
+  max-width: 100%;
+}
+
+/* Filter section - match calculation/correlation filter (light theme) */
+.filter-section {
+  background: #f9fbfd;
+  border-radius: 12px;
+  border: 1px solid #e9eef5;
+  padding: 1rem 1.25rem;
+}
+
+.filter-label {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #263141;
+  margin: 0;
+}
+
+/* Tabs card - same as table cards in other modules */
+.rollout-tabs-card :host ::ng-deep .p-card,
+.rollout-tabs-card.p-card,
+:host ::ng-deep .rollout-tabs-card.p-card {
+  border-radius: 12px;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.04);
+  border: 1px solid #e9eef5;
+}
+
+:host ::ng-deep .rollout-tabs-card .p-card-body,
+:host ::ng-deep .rollout-tabs-card .p-card-content {
+  padding: 1rem 1.25rem;
+}
+
+/* Table wrapper for horizontal scroll */
+.table-wrapper {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* ROOT CONTAINER */
+.layout-root {
+  display: flex;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* LEFT SIDEBAR */
+.sidebar-wrapper {
+  width: 260px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  background-color: #f7fafc;
+  overflow-y: auto;
+  z-index: 1000;
+  transition: transform 0.3s ease;
+}
+
+/* RIGHT MAIN SECTION */
+.right-pane {
+  margin-left: 260px;
+  width: calc(100% - 260px);
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* RIGHT SCROLL CONTAINER */
+.right-scroll {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+/* MOBILE & TABLET RESPONSIVE */
+@media (max-width: 1024px) {
+  .sidebar-wrapper {
+    transform: translateX(-100%);
+  }
+
+  .sidebar-wrapper.mobile-open {
+    transform: translateX(0);
+  }
+
+  .right-pane {
+    margin-left: 0;
+    width: 100%;
+  }
+}
+
+/* MOBILE OVERLAY */
+.mobile-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 999;
+  display: none;
+}
+
+.mobile-overlay.active {
+  display: block;
+}
+
+/* =========================================
+   Table Styles (matching pi-table-new)
+   ========================================= */
+
+/* TABLE CONTAINER */
+:host ::ng-deep .p-datatable {
+  border-radius: 16px;
+  background: white;
+}
+
+:host ::ng-deep .p-datatable-header {
+  border: none !important;
+}
+
+/* HEADER */
+:host ::ng-deep .p-datatable-thead > tr {
+  border: none !important;
+}
+
+:host ::ng-deep .p-datatable-thead > tr > th {
+  font-weight: 400 !important;
+  font-size: 16px !important;
+  padding: 8px 16px;
+  color: #808080;
+  border: none !important;
+  background: #f9fbfd !important;
+  font-family: inherit;
+}
+
+:host ::ng-deep .p-datatable-thead > tr > th div {
+  font-size: 16px !important;
+}
+
+/* Border radius for first and last header cells */
+:host ::ng-deep .p-datatable-thead > tr > th.border-round-left-2xl {
+  border-top-left-radius: 16px;
+  border-bottom-left-radius: 16px;
+}
+
+:host ::ng-deep .p-datatable-thead > tr > th.border-round-right-2xl {
+  border-top-right-radius: 16px;
+  border-bottom-right-radius: 16px;
+}
+
+/* BODY CELLS */
+:host ::ng-deep .p-datatable-tbody > tr {
+  border: none !important;
+}
+
+:host ::ng-deep .p-datatable-tbody > tr > td {
+  padding: 14px 16px;
+  font-size: 16px !important;
+  font-weight: 400 !important;
+  color: #263141;
+  border-top: none !important;
+  border-bottom: none !important;
+  font-family: inherit;
+}
+
+/* Border radius for first and last body cells */
+:host ::ng-deep .p-datatable-tbody > tr > td.border-round-left-2xl {
+  border-top-left-radius: 16px;
+  border-bottom-left-radius: 16px;
+}
+
+:host ::ng-deep .p-datatable-tbody > tr > td.border-round-right-2xl {
+  border-top-right-radius: 16px;
+  border-bottom-right-radius: 16px;
+}
+
+/* HOVER */
+:host ::ng-deep .p-datatable-tbody > tr:hover {
+  background: #f7f9ff;
+}
+
+/* Selection styles */
+:host ::ng-deep .p-datatable-tbody > tr.p-highlight {
+  background-color: #e8f4ff !important;
+}
+
+/* Row hover effect */
+:host ::ng-deep .p-datatable .p-datatable-tbody > tr.cursor-pointer {
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+:host ::ng-deep .p-datatable .p-datatable-tbody > tr.cursor-pointer:hover {
+  background-color: #f7f9ff !important;
+}
+
+/* PAGINATOR */
+:host ::ng-deep .p-paginator {
+  justify-content: end;
+  background: transparent;
+  border: none;
+}
+
+/* Empty message styles */
+:host ::ng-deep .p-datatable .p-datatable-emptymessage td {
+  text-align: center;
+  padding: 2rem;
+  color: #263141;
+  font-weight: 400 !important;
+  font-size: 16px !important;
+}
+
+/* =========================================
+   Accordion Styles
+   ========================================= */
+
+/* Accordion title and record count */
+.accordion-title {
+  font-weight: 600;
+  font-size: 1rem;
+  color: #263141;
+}
+
+.record-count {
+  font-size: 0.875rem;
+  color: #808080;
+  font-weight: 300;
+}
+
+/* Nested Module Accordion Styles */
+:host ::ng-deep .module-accordion {
+  border: none;
+  background: transparent;
+}
+
+:host ::ng-deep .module-accordion .p-accordion-tab {
+  margin-bottom: 0.5rem;
+  border: 1px solid #e2e8f0;
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+:host ::ng-deep .module-accordion .p-accordion-header {
+  background: #f8fafc;
+}
+
+:host ::ng-deep .module-accordion .p-accordion-header .p-accordion-header-link {
+  padding: 0.75rem 1rem;
+  background: #f8fafc;
+  border: none;
+  font-size: 0.9rem;
+}
+
+:host ::ng-deep .module-accordion .p-accordion-header .p-accordion-header-link:hover {
+  background: #f1f5f9;
+}
+
+:host ::ng-deep .module-accordion .p-accordion-header.p-highlight .p-accordion-header-link {
+  background: #e2e8f0;
+  border-bottom: 1px solid #cbd5e1;
+}
+
+:host ::ng-deep .module-accordion .p-accordion-content {
+  padding: 0;
+  border: none;
+  background: white;
+}
+
+/* Nested table styles for module accordion */
+:host ::ng-deep .module-accordion .p-datatable {
+  border: none;
+  border-radius: 0;
+}
+
+:host ::ng-deep .module-accordion .p-datatable .p-datatable-thead > tr > th {
+  background: #f9fbfd !important;
+  padding: 8px 12px;
+  font-size: 14px !important;
+}
+
+:host ::ng-deep .module-accordion .p-datatable .p-datatable-tbody > tr > td {
+  padding: 10px 12px;
+  font-size: 14px !important;
+}
+
+/* Parent Label Accordion Styles */
+:host ::ng-deep .p-accordion > .p-accordion-tab {
+  margin-bottom: 0.75rem;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+:host ::ng-deep .p-accordion > .p-accordion-tab > .p-accordion-header .p-accordion-header-link {
+  background: white;
+  padding: 1rem 1.25rem;
+}
+
+:host ::ng-deep .p-accordion > .p-accordion-tab > .p-accordion-header.p-highlight .p-accordion-header-link {
+  background: #f9fbfd;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+/* =========================================
+   Empty State
+   ========================================= */
+.empty-state {
+  padding: 4rem 2rem;
+  text-align: center;
+}
+
+.empty-state p {
+  margin-top: 1rem;
+  color: #586069;
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+.empty-subtitle {
+  margin-top: 0.5rem !important;
+  font-size: 0.875rem !important;
+  color: #8b949e !important;
+  font-weight: normal !important;
+}
+
+/* =========================================
+   Diff Dialog Styles
+   ========================================= */
+.diff-dialog-container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.diff-header-info {
+  margin-bottom: 1rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.diff-meta-info {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.diff-editor-container {
+  flex: 1;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  min-height: 0;
+}
+
+.diff-editor-wrapper {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #e2e8f0;
+  border-radius: 6px;
+  overflow: hidden;
+  background: white;
+}
+
+.diff-editor-header {
+  padding: 0.5rem 1rem;
+  background: #f9fbfd;
+  border-bottom: 1px solid #e2e8f0;
+  font-weight: 600;
+  font-size: 0.875rem;
+}
+
+.diff-label-old {
+  color: #dc2626;
+}
+
+.diff-label-new {
+  color: #16a34a;
+}
+
+.diff-editor {
+  flex: 1;
+  min-height: 0;
+}
+
+.diff-editor-old {
+  background: #fff5f5;
+}
+
+.diff-editor-new {
+  background: #f0fff4;
+}
+
+.diff-summary {
+  padding: 0.75rem 1rem;
+  background: #e3f2fd;
+  border-radius: 6px;
+  border: 1px solid #90caf9;
+}
+
+.summary-header {
+  display: flex;
+  align-items: center;
+  color: #1565c0;
+  font-size: 0.875rem;
+}
+
+.diff-editor-header.bg-red-50 {
+  background: #fee2e2 !important;
+  border-bottom-color: #fecaca !important;
+}
+
+.diff-editor-header.bg-yellow-50 {
+  background: #fef3c7 !important;
+  border-bottom-color: #fde68a !important;
+}
+
+.diff-editor-header.bg-green-50 {
+  background: #d1fae5 !important;
+  border-bottom-color: #a7f3d0 !important;
+}
+
+.diff-editor-header.bg-blue-50 {
+  background: #dbeafe !important;
+  border-bottom-color: #bfdbfe !important;
+}
+
+.diff-editor-header.bg-gray-50 {
+  background: #f9fafb !important;
+  border-bottom-color: #e5e7eb !important;
+}
+
+/* =========================================
+   Commit Dialog
+   ========================================= */
+.commit-dialog {
+  padding: 0.5rem 0;
+}
+
+.commit-dialog .field {
+  margin-bottom: 1.5rem;
+}
+
+.commit-dialog label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+  color: #263141;
+  font-size: 0.875rem;
+}
+
+.required {
+  color: #d32f2f;
+}
+
+.commit-textarea {
+  width: 100%;
+  font-family: 'Courier New', monospace;
+  font-size: 0.875rem;
+}
+
+.field-hint {
+  display: block;
+  margin-top: 0.25rem;
+  color: #808080;
+  font-size: 0.75rem;
+}
+
+/* =========================================
+   Dialog Styles
+   ========================================= */
+:host ::ng-deep .p-dialog {
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+}
+
+:host ::ng-deep .p-dialog .p-dialog-header {
+  background: #f9fbfd;
+  border-bottom: 1px solid #e2e8f0;
+  padding: 1rem 1.5rem;
+  border-radius: 12px 12px 0 0;
+}
+
+:host ::ng-deep .p-dialog .p-dialog-header .p-dialog-title {
+  font-weight: 600;
+  color: #263141;
+}
+
+:host ::ng-deep .p-dialog .p-dialog-content {
+  padding: 1.5rem;
+}
+
+:host ::ng-deep .p-dialog .p-dialog-footer {
+  background: #f9fbfd;
+  border-top: 1px solid #e2e8f0;
+  padding: 1rem 1.5rem;
+  border-radius: 0 0 12px 12px;
+}
+
+/* =========================================
+   Import Dialog Styles
+   ========================================= */
+.import-preview-container {
+  max-height: 70vh;
+  overflow-y: auto;
+}
+
+.import-summary {
+  border: 1px solid #e2e8f0;
+}
+
+.import-summary h3 {
+  color: #263141;
+}
+
+.import-result-container {
+  max-height: 70vh;
+  overflow-y: auto;
+}
+
+.result-summary {
+  border: 1px solid #e2e8f0;
+}
+
+/* Pre-formatted JSON Preview */
+pre.text-xs {
+  font-family: 'Courier New', Consolas, monospace;
+  font-size: 0.75rem;
+  white-space: pre-wrap;
+  word-break: break-word;
+  margin: 0;
+}
+
+/* Import Loading Overlay */
+.fixed.inset-0 {
+  z-index: 9999;
+}
+
+/* Table row colors for import results */
+:host ::ng-deep .p-datatable .p-datatable-tbody > tr.bg-green-50 {
+  background-color: #f0fdf4 !important;
+}
+
+:host ::ng-deep .p-datatable .p-datatable-tbody > tr.bg-red-50 {
+  background-color: #fef2f2 !important;
+}
+
+:host ::ng-deep .p-datatable .p-datatable-tbody > tr.bg-green-50:hover {
+  background-color: #dcfce7 !important;
+}
+
+:host ::ng-deep .p-datatable .p-datatable-tbody > tr.bg-red-50:hover {
+  background-color: #fee2e2 !important;
+}
+
+/* =========================================
+   Badge & Tag Styles
+   ========================================= */
+:host ::ng-deep .p-badge {
+  font-size: 0.75rem;
+  padding: 0.25rem 0.5rem;
+  font-weight: 600;
+}
+
+:host ::ng-deep .p-tag {
+  font-size: 0.7rem;
+  padding: 0.2rem 0.5rem;
+  font-weight: 500;
+}
+
+/* =========================================
+   Button Styles
+   ========================================= */
+:host ::ng-deep .p-button {
+  font-weight: 500;
+}
+
+/* Action Buttons */
+:host ::ng-deep .action-buttons .p-button {
+  width: 28px;
+  height: 28px;
+}
+
+/* Export Button White Text */
+:host ::ng-deep .p-button.text-white,
+:host ::ng-deep .p-button.text-white .p-button-label,
+:host ::ng-deep .p-button.text-white .p-button-icon {
+  color: white !important;
+}
+
+/* =========================================
+   Filter Section (override - use theme colors)
+   ========================================= */
+.filter-section {
+  background: #f9fbfd;
+  border-radius: 12px;
+  border: 1px solid #e9eef5;
+  padding: 1rem 1.25rem;
+}
+
+/* =========================================
+   Responsive Styles
+   ========================================= */
+@media (max-width: 768px) {
+  .diff-editor-container {
+    grid-template-columns: 1fr;
+  }
+
+  :host ::ng-deep .p-dialog {
+    width: 95vw !important;
+    max-width: 95vw !important;
+  }
+}
+
+/* Mobile paginator nowrap */
+@media (max-width: 1024px) {
+  .customizePaginator .p-paginator.p-component {
+    flex-wrap: nowrap !important;
+  }
+}

@@ -1,0 +1,105 @@
+<div class="pt-[40px] pl-[20px] pr-[20px] w-full pb-[40px]">
+    <p-card class="w-full">
+        <div class="card">
+            <p-table #dt [value]="stepsData$ | async" selectionMode="single" [(selection)]="selectedCalculation"
+                dataKey="stepId" [rowHover]="true" [rows]="20" [showCurrentPageReport]="true"
+                [rowsPerPageOptions]="[20,30,50]" [loading]="loading" [paginator]="true"
+                currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [filterDelay]="0"
+                (onRowSelect)="onCalculationSelect($event)" (onRowUnselect)="onCalculationUnSelect($event)"
+                [globalFilterFields]="['name', 'country.name', 'representative.name', 'status']">
+                <ng-template #caption>
+                    <div class="flex justify-between">
+                        <div>
+                            List of Activity Steps
+                        </div>
+                        <div class="flex gap-[10px]">
+                            <p-button [outlined]="true" icon="pi pi-filter-slash" (click)="clear(dt)" />
+                            <p-iconField iconPosition="left">
+                                <p-inputIcon>
+                                    <i class="pi pi-search"></i>
+                                </p-inputIcon>
+                                <input pInputText type="text" [(ngModel)]="searchValue" placeholder="Search" />
+                            </p-iconField>
+                            <p-button (onClick)="createStep()">Create New Activity Step</p-button>
+                        </div>
+                    </div>
+                </ng-template>
+                <ng-template #header>
+                    <tr>
+                        <th pSortableColumn="calculationName" style="min-width: 14rem">
+                            <div class="flex justify-between items-center">
+                                Activity Step Name
+                                <p-sortIcon field="calculationName" />
+                            </div>
+                        </th>
+                        <th pSortableColumn="calculationDesc" style="min-width: 14rem">
+                            <div class="flex justify-between items-center">
+                                Activity Step Description
+                                <p-sortIcon field="calculationDesc" />
+                            </div>
+                        </th>
+
+
+                        <th pSortableColumn="createdOn" style="min-width: 10rem">
+                            <div class="flex justify-between items-center">
+                                Date
+                                <p-sortIcon field="createdOn" />
+                            </div>
+                        </th>
+
+                        <th style="width: 5rem">
+                            <div class="flex justify-between items-center">
+                                Action
+                                <p-sortIcon field="date" />
+                            </div>
+                        </th>
+                    </tr>
+                </ng-template>
+                <ng-template #body let-step>
+                    <tr [pSelectableRow]="step">
+                        <td>
+                            {{ step.stepName }}
+                        </td>
+                        <td>
+                            {{ step.stepDesc }}
+                        </td>
+                        <td>
+                            {{ step.createdOn | date: 'MM/dd/yyyy' }}
+                        </td>
+                        <td class="flex gap-[5px]">
+                            <p-button icon="pi pi-trash" severity="danger" [rounded]="true" [outlined]="true"
+                                (click)="deleteApp($event,step.stepId)" />
+                        </td>
+                    </tr>
+                </ng-template>
+
+                <ng-template #emptymessage>
+                    <tr>
+                        <td colspan="8">No Activity Steps found.</td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+    </p-card>
+
+    @if(showSelections){
+    <div class="pt-8">
+        <p-selectbutton [options]="selectionOptions" [(ngModel)]="selectedOption" [allowEmpty]="false" />
+
+        <!-- <div class="my-10">
+            @switch (selectedOption) {
+            @case ('Calculation Details'){
+            <app-calculation-engine-detail [template]="selectedCalculation"
+                (OnUpdateEmit)="OnUpdateEmit($event)"></app-calculation-engine-detail>
+            }
+            @case ('Calculation Mapping'){
+            <app-calculation-engine-mapping [template]="selectedCalculation"></app-calculation-engine-mapping>
+            }
+            @case ('Calculation Test Run'){
+            <app-calculation-engine-testrun [template]="selectedCalculation"></app-calculation-engine-testrun>
+            }
+            }
+        </div> -->
+    </div>
+    }
+</div>

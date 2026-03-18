@@ -1,0 +1,7 @@
+<div class="flex flex-wrap gap-[25px]">
+    <p-select *ngIf="!isHideApp" [options]="activeApps" [(ngModel)]="selectedApp" optionLabel="appName" filterBy="appName"
+        (onChange)="onAppChange($event)" [filter]="true" placeholder="Select an Application" class="w-[300px]"
+        showClear="true" />
+    <p-select *ngIf="!isHideOrg" [options]="orgs" [(ngModel)]="selectedOrg" optionLabel="orgName" filterBy="orgName" [filter]="true"
+        placeholder="Select an Organization" class="w-[300px]" showClear="true" (onChange)="onOrgChange($event)" />
+</div>

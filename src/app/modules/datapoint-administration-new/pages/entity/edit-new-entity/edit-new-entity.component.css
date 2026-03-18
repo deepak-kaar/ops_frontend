@@ -1,0 +1,370 @@
+.create-entity-container {
+    padding: 20px 30px;
+    max-width: 100%;
+}
+
+/* Header Section */
+.header-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+}
+
+.header-left {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.back-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: none;
+    border: none;
+    color: #64748b;
+    font-size: 14px;
+    cursor: pointer;
+    padding: 8px 12px;
+    border-radius: 6px;
+    transition: all 0.2s ease;
+}
+
+.back-btn:hover {
+    background: #f1f5f9;
+    color: #334155;
+}
+
+.back-btn i {
+    font-size: 14px;
+}
+
+.header-title h1 {
+    font-size: 24px;
+    font-weight: 600;
+    color: #1e293b;
+    margin: 0;
+}
+
+.header-title p {
+    font-size: 14px;
+    color: #64748b;
+    margin: 4px 0 0 0;
+}
+
+.header-actions {
+    display: flex;
+    gap: 12px;
+}
+
+/* Form Cards */
+.form-card {
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+    margin-bottom: 24px;
+    overflow: hidden;
+}
+
+.card-header {
+    padding: 20px 24px;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.card-header h2 {
+    font-size: 16px;
+    font-weight: 600;
+    color: #1e293b;
+    margin: 0;
+}
+
+.card-header p {
+    font-size: 13px;
+    color: #64748b;
+    margin: 4px 0 0 0;
+}
+
+.card-header-with-action {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 24px;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.card-header-info h2 {
+    font-size: 16px;
+    font-weight: 600;
+    color: #1e293b;
+    margin: 0;
+}
+
+.card-header-info p {
+    font-size: 13px;
+    color: #64748b;
+    margin: 4px 0 0 0;
+}
+
+.card-content {
+    padding: 24px;
+}
+
+/* Form Layout */
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    margin-bottom: 20px;
+}
+
+.form-field {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.form-field.full-width {
+    grid-column: 1 / -1;
+}
+
+.form-field label {
+    font-size: 14px;
+    font-weight: 500;
+    color: #374151;
+}
+
+.form-field .required {
+    color: #ef4444;
+    margin-left: 2px;
+}
+
+.form-field input[type="text"],
+.form-field textarea {
+    width: 100%;
+    padding: 10px 14px;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    font-size: 14px;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.form-field input[type="text"]:focus,
+.form-field textarea:focus {
+    outline: none;
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.form-field input[type="text"]::placeholder,
+.form-field textarea::placeholder {
+    color: #9ca3af;
+}
+
+.error-text {
+    color: #ef4444;
+    font-size: 12px;
+}
+
+/* Is Entity Section */
+.is-entity-section {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 16px 24px;
+    background: #e8eef4;
+    color: #1e293b;
+}
+
+.is-entity-section label {
+    font-size: 14px;
+    font-weight: 500;
+    color: #1e293b;
+}
+
+/* Attribute Items */
+.attribute-item {
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    margin: 16px 24px;
+    background: #fafbfc;
+}
+
+.attribute-content {
+    padding: 20px;
+}
+
+.attribute-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 16px;
+}
+
+.attribute-name-field {
+    flex: 1;
+    max-width: 400px;
+}
+
+.attribute-actions-top {
+    display: flex;
+    gap: 4px;
+}
+
+.attribute-options {
+    display: flex;
+    gap: 24px;
+    margin-bottom: 16px;
+}
+
+.checkbox-group {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.checkbox-group label {
+    font-size: 14px;
+    color: #374151;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+    .create-entity-container {
+        padding: 16px;
+    }
+
+    .header-section {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+    }
+
+    .header-left {
+        width: 100%;
+    }
+
+    .header-actions {
+        width: 100%;
+        justify-content: flex-start;
+        flex-wrap: wrap;
+    }
+
+    .form-row {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+
+    .card-content {
+        padding: 16px;
+    }
+
+    .attribute-item {
+        margin: 12px 16px;
+    }
+
+    .attribute-content {
+        padding: 16px;
+    }
+
+    .attribute-header {
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .attribute-name-field {
+        max-width: 100%;
+    }
+
+    .attribute-actions-top {
+        align-self: flex-start;
+        width: 100%;
+        justify-content: flex-end;
+    }
+
+    .attribute-options {
+        flex-wrap: wrap;
+        gap: 12px;
+    }
+}
+
+@media (max-width: 640px) {
+    .create-entity-container {
+        padding: 12px;
+    }
+
+    .header-title h1 {
+        font-size: 20px;
+    }
+
+    .header-title p {
+        font-size: 12px;
+    }
+
+    .back-btn {
+        font-size: 12px;
+        padding: 6px 10px;
+    }
+
+    .header-actions {
+        gap: 8px;
+    }
+
+    .card-header {
+        padding: 16px;
+    }
+
+    .card-header h2 {
+        font-size: 14px;
+    }
+
+    .card-header p {
+        font-size: 12px;
+    }
+
+    .card-content {
+        padding: 12px;
+    }
+
+    .form-field label {
+        font-size: 13px;
+    }
+
+    .attribute-item {
+        margin: 8px 12px;
+    }
+
+    .attribute-content {
+        padding: 12px;
+    }
+
+    .attribute-options {
+        flex-direction: column;
+        gap: 8px;
+    }
+}
+
+/* PrimeNG Overrides */
+.create-entity-container p-select {
+    width: 100%;
+}
+
+.create-entity-container .p-inputtext {
+    width: 100%;
+}
+
+.create-entity-container .p-inputtextarea {
+    width: 100%;
+    resize: vertical;
+}
+
+.create-entity-container .p-button {
+    white-space: nowrap;
+}
+
+@media (max-width: 640px) {
+    .create-entity-container .p-button {
+        font-size: 0.875rem;
+        padding: 0.5rem 1rem;
+    }
+}

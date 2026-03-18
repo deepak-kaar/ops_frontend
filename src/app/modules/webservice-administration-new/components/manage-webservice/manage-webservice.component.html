@@ -1,0 +1,106 @@
+<div class="flex flex-col gap-[10px]">
+    <form [formGroup]="wsForm" class="flex flex-col gap-[10px]">
+        <div class="grid grid-cols-1 md:grid-cols-3 md:gap-2">
+            <div class="flex flex-col gap-2">
+                <label for="webserviceId">Web Service ID<span class="text-[var(--p-red-500)]"> *</span></label>
+                <input pInputText id="webserviceId" formControlName="webserviceId" aria-describedby="username-help" />
+            </div>
+            <div class="flex flex-col gap-2">
+                <label for="wsName">Web Service Name<span class="text-[var(--p-red-500)]"> *</span></label>
+                <input pInputText id="wsName" formControlName="wsName" aria-describedby="username-help" />
+            </div>
+            <div class="flex flex-col gap-2">
+                <label for="Status">Status</label>
+                <p-select formControlName="active" optionLabel="name" optionValue="value" [options]="activeStatus"
+                    placeholder="Select Active status" class="w-full" />
+            </div>
+        </div>
+        <div class="flex flex-wrap md:flex-nowrap gap-4">
+            <!-- URL takes 2/3 -->
+            <div class="flex flex-col gap-2 w-full md:w-2/3">
+                <label for="wsURL">URL<span class="text-[var(--p-red-500)]"> *</span></label>
+                <input pInputText id="wsURL" formControlName="wsURL" aria-describedby="username-help" />
+            </div>
+
+            <!-- Two dropdowns share remaining 1/3 -->
+            <div class="flex flex-col md:flex-row gap-4 w-full md:w-1/3">
+                <div class="flex flex-col gap-2 w-full md:w-1/2">
+                    <label for="apiType">API</label>
+                    <p-select formControlName="apiType" [options]="apiTypes" placeholder="Select API" class="w-full" />
+                </div>
+                <div class="flex flex-col gap-2 w-full md:w-1/2">
+                    <label for="method">Method</label>
+                    <p-select formControlName="method" [options]="requestMethods" placeholder="Select Request Method"
+                        class="w-full" />
+                </div>
+            </div>
+        </div>
+
+        <div class="flex gap-[25px]">
+            <div class="ws-tabs-toggle flex max-lg:flex-col max-lg:gap-[20px] lg:justify-between lg:items-center w-full">
+                <p-selectbutton [options]="tabActions" [(ngModel)]="selectedTab" [ngModelOptions]="{standalone: true}"
+                    (onOptionClick)="onTabClick($event)" [allowEmpty]="false"
+                    [size]="(isMobile$ | async) == true ? 'small' : 'large'" styleClass="text-center " />
+            </div>
+        </div>
+
+        <div *ngIf="this.isShowAuthorization" class="grid grid-cols-2 gap-4">
+            <div class="flex flex-col gap-2">
+                <label for="Status">Auth Type</label>
+                <p-select formControlName="authType" [options]="authTypes" placeholder="Select Auth Type" class="w-full"
+                    (onChange)="onAuthTypeChange($event.value)" />
+            </div>
+            <div *ngIf="this.wsForm.get('authType')?.value != 'No Auth'" class="flex flex-col gap-2">
+                <div class="h-[11rem]">
+                    <ngx-monaco-editor style="width:100%; height: 100%" [options]="authEditorOptions"
+                        formControlName="wsAuth"></ngx-monaco-editor>
+                </div>
+            </div>
+        </div>
+
+
+        <div *ngIf="this.isShowHeaders" class="grid grid-cols-1 gap-4">
+            <div class="flex flex-col gap-2">
+                <div class="flex justify-between items-center mb-2">
+                    <label>Headers</label>
+                    <p-button icon="pi pi-plus" label="Add Header" (onClick)="addHeader()" size="small" />
+                </div>
+                <div formArrayName="wsHeaders">
+                    <div *ngFor="let header of wsHeaders.controls; let i = index" [formGroupName]="i" class="flex gap-2 mb-2 items-end">
+                        <div class="flex-1">
+                            <label>Key</label>
+                            <p-select formControlName="key" [options]="headerOptions" [editable]="true" placeholder="Select or enter header key" class="w-full" />
+                        </div>
+                        <div class="flex-1">
+                            <label>Value</label>
+                            <input pInputText formControlName="value" placeholder="Enter header value" class="w-full" />
+                        </div>
+                        <p-button icon="pi pi-trash" (onClick)="removeHeader(i)" severity="danger" [text]="true" size="small" />
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div *ngIf="this.isShowBody" class="grid grid-cols-1 gap-4">
+            <div class="flex flex-col gap-2">
+                <div class="h-[11rem]">
+                    <ngx-monaco-editor style="width:100%; height: 100%" [options]="bodyEditorOptions"
+                        formControlName="wsBody"></ngx-monaco-editor>
+                </div>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 gap-4">
+            <div class="flex flex-col gap-2">
+                <label for="description">Description</label>
+                <textarea rows="3" cols="30" pTextarea formControlName="description" id="description"
+                    class="input-field"></textarea>
+            </div>
+        </div>
+    </form>
+    <div class="pt-[10px] md:pt-[0px] flex justify-center gap-[10px]">
+        <p-button styleClass="md:w-[250px]" severity="danger" outlined="true" label="Cancel"
+            (onClick)="cancel()"></p-button>
+        <p-button styleClass="md:w-[250px]" label="Save" (onClick)="saveWS()"></p-button>
+    </div>
+</div>

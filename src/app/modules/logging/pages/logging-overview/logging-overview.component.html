@@ -1,0 +1,439 @@
+<div class="layout-root surface">
+
+  <!-- MOBILE OVERLAY -->
+  <div class="mobile-overlay" [class.active]="mobileSidebarVisible" (click)="toggleMobileSidebar()"></div>
+
+  <!-- FIXED SIDEBAR -->
+  <aside class="sidebar-wrapper" [class.mobile-open]="mobileSidebarVisible">
+    <app-sidebar-new></app-sidebar-new>
+  </aside>
+
+  <!-- RIGHT SIDE -->
+  <div class="right-pane surface-ground">
+
+    <app-topbar-new (menuToggle)="toggleMobileSidebar()"></app-topbar-new>
+
+    <!-- content that scrolls -->
+    <div class="right-scroll">
+
+  <!-- Main Content -->
+  <div class="page-container">
+    <h2 class="page-title">System Logging Overview</h2>
+
+    <!-- System Health Status -->
+    <div class="bg-white rounded-lg shadow-md p-6 mb-6 ml-4 mr-4">
+      <div class="flex items-center justify-between mb-4">
+        <h3 class="text-xl font-medium text-gray-800">System Health</h3>
+        <div class="flex items-center gap-4">
+        <p-button 
+  icon="pi pi-cog"
+  label="Configure Metrics"
+  (onClick)="navigateToMetricsConfig()">
+</p-button>
+          <div class="flex items-center">
+            <i [class]="'pi ' + getHealthStatusIcon() + ' mr-2 text-xl'" [ngClass]="getHealthStatusClass()"></i>
+            <span class="font-medium" [ngClass]="getHealthStatusClass()">{{ systemHealth.status | titlecase }}</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <div class="text-center">
+          <div class="text-2xl font-bold text-blue-600">{{ systemHealth.totalLogs | number }}</div>
+          <div class="text-sm text-gray-600">Total Logs</div>
+        </div>
+        <div class="text-center">
+          <div class="text-2xl font-bold text-red-600">{{ systemHealth.recentErrors | number }}</div>
+          <div class="text-sm text-gray-600">Recent Errors</div>
+        </div>
+        <div class="text-center">
+          <div class="text-2xl font-bold text-yellow-600">{{ systemHealth.recentSecurity | number }}</div>
+          <div class="text-sm text-gray-600">Security Events</div>
+        </div>
+        <div class="text-center">
+          <div class="text-2xl font-bold text-green-600">{{ insights.errorRate }}%</div>
+          <div class="text-sm text-gray-600">Error Rate</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Database Health & System Metrics Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6 ml-4 mr-4">
+
+      <!-- Database Health -->
+      <div class="bg-white rounded-lg shadow-md p-6">
+        <div class="flex items-center justify-between mb-4">
+          <h3 class="text-lg font-medium text-gray-800">Database Health</h3>
+          <i [class]="'pi ' + getDbStatusIcon() + ' text-xl'" [ngClass]="getDbStatusClass()"></i>
+        </div>
+        <div class="space-y-3">
+          <div>
+            <div class="text-2xl font-bold" [ngClass]="getDbStatusClass()">{{ dbHealth.status }}</div>
+            <div class="text-xs text-gray-500">Connection Status</div>
+          </div>
+          <div>
+            <div class="text-lg font-medium text-gray-700">{{ dbHealth.latencyMs }}ms</div>
+            <div class="text-xs text-gray-500">Latency</div>
+          </div>
+          <div>
+            <div class="text-sm text-gray-600">Error Rate: {{ dbHealth.errorRate1m }}/min</div>
+            <div class="text-xs text-gray-500">Uptime: {{ dbHealth.processUptimeSec }}s</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Connection Pool Metrics -->
+      <div class="bg-white rounded-lg shadow-md p-6">
+        <div class="flex items-center justify-between mb-4">
+          <h3 class="text-lg font-medium text-gray-800">Connection Pool</h3>
+          <i class="pi pi-database text-xl text-blue-600"></i>
+        </div>
+        <div class="space-y-3">
+          <div class="flex justify-between items-center">
+            <span class="text-sm text-gray-600">Active</span>
+            <span class="text-lg font-bold text-blue-600">{{ poolMetrics.active }}</span>
+          </div>
+          <div class="flex justify-between items-center">
+            <span class="text-sm text-gray-600">Idle</span>
+            <span class="text-lg font-medium text-gray-700">{{ poolMetrics.idle }}</span>
+          </div>
+          <div>
+            <div class="flex justify-between items-center mb-1">
+              <span class="text-xs text-gray-500">Utilization</span>
+              <span class="text-sm font-medium text-gray-700">{{ poolMetrics.utilizationRate }}%</span>
+            </div>
+            <div class="w-full bg-gray-200 rounded-full h-2">
+              <div [class]="getPoolUtilizationClass()" class="h-2 rounded-full transition-all duration-300"
+                [style.width.%]="poolMetrics.utilizationRate"></div>
+            </div>
+          </div>
+          <div class="text-xs text-gray-500">
+            Max: {{ poolMetrics.maxPoolSize }} | Wait Queue: {{ poolMetrics.waitQueueSize }}
+          </div>
+        </div>
+      </div>
+
+      <!-- CPU Intensity -->
+      <div class="bg-white rounded-lg shadow-md p-6">
+        <div class="flex items-center justify-between mb-4">
+          <h3 class="text-lg font-medium text-gray-800">CPU Usage</h3>
+          <i class="pi pi-chart-line text-xl text-purple-600"></i>
+        </div>
+        <div class="space-y-3">
+          <div>
+            <div class="text-2xl font-bold" [ngClass]="getCpuUsageClass()">{{ cpuMetrics.current }}%</div>
+            <div class="text-xs text-gray-500">Current Usage</div>
+          </div>
+          <div>
+            <div class="w-full bg-gray-200 rounded-full h-3">
+              <div [class]="getCpuProgressClass()" class="h-3 rounded-full transition-all duration-300"
+                [style.width.%]="cpuMetrics.current"></div>
+            </div>
+          </div>
+          <div class="flex justify-between text-sm">
+            <div>
+              <div class="font-medium text-gray-700">{{ cpuMetrics.average5m }}%</div>
+              <div class="text-xs text-gray-500">5m Avg</div>
+            </div>
+            <div>
+              <div class="font-medium text-gray-700">{{ cpuMetrics.peak }}%</div>
+              <div class="text-xs text-gray-500">Peak</div>
+            </div>
+            <div>
+              <div class="font-medium text-gray-700">{{ cpuMetrics.cores }}</div>
+              <div class="text-xs text-gray-500">Cores</div>
+            </div>
+          </div>
+          <div class="flex items-center gap-2 text-xs text-gray-500 pt-2 border-t mt-2">
+            <i class="pi pi-clock"></i>
+            <span>Uptime: {{ formatUptime(cpuMetrics.uptimeSec) }}</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Memory Usage -->
+      <div class="bg-white rounded-lg shadow-md p-6">
+        <div class="flex items-center justify-between mb-4">
+          <h3 class="text-lg font-medium text-gray-800">Memory</h3>
+          <i class="pi pi-server text-xl text-orange-600"></i>
+        </div>
+        <div class="space-y-3">
+          <div>
+            <div class="text-2xl font-bold text-orange-600">{{ cpuMetrics.memoryUsagePercent }}%</div>
+            <div class="text-xs text-gray-500">Memory Usage</div>
+          </div>
+          <div>
+            <div class="w-full bg-gray-200 rounded-full h-3">
+              <div class="bg-orange-500 h-3 rounded-full transition-all duration-300"
+                [style.width.%]="cpuMetrics.memoryUsagePercent"></div>
+            </div>
+          </div>
+          <div class="text-sm text-gray-600">
+            <div>Free: {{ cpuMetrics.freeMemoryGB?.toFixed(2) }} GB</div>
+            <div class="text-xs text-gray-500">Total: {{ cpuMetrics.totalMemoryGB?.toFixed(2) }} GB</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Database Query Analysis -->
+    <div class="bg-white rounded-lg shadow-md p-6 mb-6 ml-4 mr-4">
+      <div class="flex items-center justify-between mb-4">
+        <h3 class="text-lg font-medium text-gray-800">
+          <i class="pi pi-search text-purple-600 mr-2"></i>
+          Database Query Analysis
+        </h3>
+        <div class="flex items-center gap-4">
+          <span class="text-sm text-gray-600">
+            <span class="font-medium">{{ dbAnalysis.currentOperations }}</span> Current Ops
+          </span>
+          <span class="text-sm text-gray-600">
+            <span class="font-medium">{{ dbAnalysis.totalSlowQueries }}</span> Slow Queries
+          </span>
+        </div>
+      </div>
+
+      <div class="overflow-x-auto">
+        <table class="min-w-full divide-y divide-gray-200">
+          <thead class="bg-gray-50">
+            <tr>
+              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Collection</th>
+              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Operation</th>
+              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Execution Time
+              </th>
+              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Timestamp</th>
+              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Query</th>
+            </tr>
+          </thead>
+          <tbody class="bg-white divide-y divide-gray-200">
+            <tr *ngFor="let query of (dbAnalysis.slowQueries || []).slice(0, 10)"
+              [class.bg-red-50]="query.executionTimeMs > dbAnalysis.thresholds.critical"
+              [class.bg-yellow-50]="query.executionTimeMs > dbAnalysis.thresholds.warning && query.executionTimeMs <= dbAnalysis.thresholds.critical">
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ query.collection }}</td>
+              <td class="px-6 py-4 whitespace-nowrap text-sm">
+                <span class="px-2 py-1 text-xs rounded-full" [class.bg-blue-100]="query.operation === 'find'"
+                  [class.bg-green-100]="query.operation === 'insert'"
+                  [class.bg-yellow-100]="query.operation === 'update'"
+                  [class.bg-purple-100]="query.operation === 'aggregate'"
+                  [class.text-blue-800]="query.operation === 'find'"
+                  [class.text-green-800]="query.operation === 'insert'"
+                  [class.text-yellow-800]="query.operation === 'update'"
+                  [class.text-purple-800]="query.operation === 'aggregate'">
+                  {{ query.operation }}
+                </span>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-sm font-medium"
+                [class.text-red-600]="query.executionTimeMs > dbAnalysis.thresholds.critical"
+                [class.text-yellow-600]="query.executionTimeMs > dbAnalysis.thresholds.warning && query.executionTimeMs <= dbAnalysis.thresholds.critical"
+                [class.text-gray-900]="query.executionTimeMs <= dbAnalysis.thresholds.warning">
+                {{ query.executionTimeMs }}ms
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                {{ query.timestamp | date:'short' }}
+              </td>
+              <td class="px-6 py-4 text-sm text-gray-600 max-w-xs truncate">
+                {{ query.query || 'N/A' }}
+              </td>
+            </tr>
+            <tr *ngIf="dbAnalysis.slowQueries?.length === 0">
+              <td colspan="5" class="px-6 py-8 text-center text-sm text-gray-500">
+                <i class="pi pi-check-circle text-green-500 text-2xl mb-2"></i>
+                <div>No slow queries detected</div>
+                <div class="text-xs">All queries are performing well</div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Charts Section -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6 ml-4 mr-4">
+      <div class="bg-white rounded-lg shadow-md p-6">
+        <h3 class="text-lg font-medium mb-4 text-gray-800">Log Distribution</h3>
+        <div class="h-64">
+          <canvas id="distributionChart"></canvas>
+        </div>
+      </div>
+
+      <div class="bg-white rounded-lg shadow-md p-6">
+        <h3 class="text-lg font-medium mb-4 text-gray-800">Module Activity</h3>
+        <div class="h-64">
+          <canvas id="moduleChart"></canvas>
+        </div>
+      </div>
+
+      <div class="bg-white rounded-lg shadow-md p-6">
+        <h3 class="text-lg font-medium mb-4 text-gray-800">Activity Timeline</h3>
+        <div class="h-64">
+          <canvas id="timelineChart"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <!-- Module Navigation -->
+    <div class="bg-white rounded-lg shadow-md p-6 mb-6 ml-4 mr-4">
+      <h3 class="text-lg font-medium mb-4 text-gray-800">Module Dashboards</h3>
+      <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+        <div *ngFor="let module of modules"
+          class="p-4 border border-gray-200 rounded-lg hover:bg-blue-50 cursor-pointer transition-colors"
+          (click)="navigateToModule(module)">
+          <div class="text-sm font-medium text-gray-800">{{ module.label }}</div>
+          <div class="text-xs text-gray-500 mt-1">View detailed logs</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Data Change History (Audit) -->
+    <div class="bg-white rounded-lg shadow-md p-6 mb-6 ml-4 mr-4">
+      <div class="flex items-center justify-between mb-4">
+        <h3 class="text-lg font-medium text-gray-800">Data Change History</h3>
+      </div>
+      <div class="overflow-x-auto">
+    <p-table 
+  [value]="auditRows"
+  responsiveLayout="scroll"
+  [tableStyle]="{ 'min-width': '50rem' }">
+
+  <!-- Header -->
+  <ng-template pTemplate="header">
+    <tr>
+      <th>Timestamp</th>
+      <th>Module</th>
+      <th>User</th>
+      <th>Action</th>
+    </tr>
+  </ng-template>
+
+  <!-- Body -->
+  <ng-template pTemplate="body" let-row>
+    <tr>
+      <td>{{ row.timestamp | date:'short' }}</td>
+      <td>{{ row.module }}</td>
+      <td>{{ row.username || row.userId }}</td>
+      <td>{{ row.action }}</td>
+    </tr>
+  </ng-template>
+
+  <!-- Empty Message -->
+  <ng-template pTemplate="emptymessage">
+    <tr>
+      <td colspan="4" class="text-center">
+        No audit entries found
+      </td>
+    </tr>
+  </ng-template>
+
+</p-table>
+      </div>
+    </div>
+
+    <!-- Collection Viewer -->
+    <div class="bg-white rounded-lg shadow-md p-6 mb-6 ml-4 mr-4">
+      <div class="flex items-center justify-between mb-4">
+        <h3 class="text-lg font-medium text-gray-800">Collection Viewer</h3>
+        <p-select [options]="collections" [(ngModel)]="selectedCollection" optionLabel="label" optionValue="value"
+          (onChange)="onCollectionChange()" class="w-64" />
+      </div>
+
+      <div class="overflow-x-auto">
+       <p-table 
+  [value]="(collectionLogs || []).slice(0,10)"
+  responsiveLayout="scroll">
+
+  <ng-template pTemplate="header">
+    <tr>
+      <th>Timestamp</th>
+      <th>Module</th>
+      <th>Action</th>
+      <th>User</th>
+      <th>Message</th>
+    </tr>
+  </ng-template>
+
+  <ng-template pTemplate="body" let-log>
+    <tr>
+      <td>{{ log.timestamp | date:'short' }}</td>
+      <td>{{ log.module }}</td>
+      <td>{{ log.action }}</td>
+      <td>{{ log.user?.username || 'System' }}</td>
+      <td>{{ log.message }}</td>
+    </tr>
+  </ng-template>
+
+</p-table>
+      </div>
+    </div>
+
+    <!-- Critical Events & Security Alerts -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6 ml-4 mr-4">
+      <div class="bg-white rounded-lg shadow-md p-6">
+        <h3 class="text-lg font-medium mb-4 text-gray-800 flex items-center">
+          <i class="pi pi-exclamation-triangle text-red-500 mr-2"></i>
+          Recent Critical Events
+        </h3>
+        <div class="space-y-3">
+          <div *ngFor="let event of criticalEvents" class="p-3 bg-red-50 border-l-4 border-red-400">
+            <div class="text-sm font-medium text-red-800">{{ event.message }}</div>
+            <div class="text-xs text-red-600 mt-1">{{ event.timestamp | date:'short' }}</div>
+          </div>
+          <div *ngIf="criticalEvents.length === 0" class="text-sm text-gray-500 text-center py-4">
+            No critical events in the last 24 hours
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-white rounded-lg shadow-md p-6">
+        <h3 class="text-lg font-medium mb-4 text-gray-800 flex items-center">
+          <i class="pi pi-shield text-yellow-500 mr-2"></i>
+          Security Alerts
+        </h3>
+        <div class="space-y-3">
+          <div *ngFor="let alert of securityAlerts" class="p-3 bg-yellow-50 border-l-4 border-yellow-400">
+            <div class="text-sm font-medium text-yellow-800">{{ alert.message }}</div>
+            <div class="text-xs text-yellow-600 mt-1">{{ alert.timestamp | date:'short' }}</div>
+          </div>
+          <div *ngIf="securityAlerts.length === 0" class="text-sm text-gray-500 text-center py-4">
+            No security alerts detected
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- System Insights -->
+    <div class="bg-white rounded-lg shadow-md p-6 mb-6 ml-4 mr-4">
+      <h3 class="text-lg font-medium mb-4 text-gray-800">System Insights</h3>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div class="p-4 bg-blue-50 rounded-lg">
+          <div class="flex items-center mb-2">
+            <i class="pi pi-chart-bar text-blue-600 mr-2"></i>
+            <span class="font-medium text-blue-800">Most Active Module</span>
+          </div>
+          <div class="text-sm text-blue-700">{{ insights.mostActiveModule }}</div>
+        </div>
+
+        <div class="p-4 bg-green-50 rounded-lg">
+          <div class="flex items-center mb-2">
+            <i class="pi pi-percentage text-green-600 mr-2"></i>
+            <span class="font-medium text-green-800">Error Rate</span>
+          </div>
+          <div class="text-sm text-green-700">{{ insights.errorRate }}%</div>
+        </div>
+
+        <div class="p-4 bg-purple-50 rounded-lg">
+          <div class="flex items-center mb-2">
+            <i class="pi pi-shield text-purple-600 mr-2"></i>
+            <span class="font-medium text-purple-800">Security Incidents</span>
+          </div>
+          <div class="text-sm text-purple-700">{{ insights.securityIncidents }}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+    </div>
+
+  </div>
+
+</div>

@@ -1,0 +1,425 @@
+<main class="main h-screen overflow-y-auto">
+    <app-topbar></app-topbar>
+    <div class="cursor-pointer">
+        @if(!isExpand){
+        <div pAnimateOnScroll enterClass="animate-enter fade-in-10 slide-in-from-b-20 animate-duration-1000"
+            class="pt-[90px] md:pt-[150px] pb-[20px] flex flex-col justify-center max-sm:pl-[20px] max-sm:pr-[20px] md:items-center"
+            (click)="isExpand=!isExpand">
+            <span class="text-[24px] md:text-[48px] font-[400] text-white">
+                Welcome to
+            </span><span class="text-[24px] md:text-[48px] font-[400] text-white">
+                Operation Insight Hub
+            </span>
+            <span class="w-full md:w-[500px] font-[200] md:font-[250] pt-[20px] md:pt-[0] md:text-center text-white">
+                Unified digital platform for operations monitoring accessible via mobile and desktop and empowered with AI capabilities.
+            </span>
+        </div>
+        }
+        @else {
+        <div class="pt-[150px] pb-[20px] min-h-[660px] w-full flex m-[30px]" pAnimateOnScroll
+            enterClass="animate-enter fade-in-10 slide-in-from-r-8 animate-duration-1000"
+            leaveClass="animate-leave fade-out-0">
+            <div class="flex flex-col justify-center md:items-center" (click)="isExpand=!isExpand">
+                <span class="text-[24px] md:text-[48px] font-[400] text-white">
+                    Where Others See Noise,
+                </span><span class="text-[24px] md:text-[48px] font-[200] md:font-[400] text-white">
+                    We Deliver Insight
+                </span>
+                <span class="w-full md:w-[500px] font-[250] md:text-center text-white">
+                    Converting Operational Complexity
+                    into Actionable Clarity
+                </span>
+            </div>
+            <div>
+                <p-carousel [value]="products" [numVisible]="1" [numScroll]="1" [circular]="true"
+                    [responsiveOptions]="responsiveOptions" autoplayInterval="5000"
+                    [showNavigators]="!(isMobile$|async)">
+                    <ng-template let-product #item>
+                        <div class="p-5">
+                        </div>
+                    </ng-template>
+                </p-carousel>
+            </div>
+            <div>
+            </div>
+        </div>
+        }
+
+    </div>
+
+    <div class="bg-[#FFFFFF33] min-h-[400px] m-[15px] md:m-[30px] backdrop-blur-[40px] rounded-[12px]">
+        <div class="p-[20px] md:p-[40px]">
+            <p class="text-white text-[18px] md:text-[36px] font-[350]">Ongoing Flag Events</p>
+
+            <div class="flex flex-wrap pt-[20px] gap-2 md:gap-5">
+                <p-chip label="Action"
+                    styleClass="!bg-transparent !text-white !border border-solid border-white font-[350] h-[30px]" />
+                <p-chip label="This Week"
+                    styleClass="!bg-transparent !text-white !border border-solid border-white font-[350] h-[30px]" />
+                <p-chip label="This Month"
+                    styleClass="!bg-transparent !text-white !border border-solid border-white font-[350] h-[30px]" />
+                <p-chip label="This Year"
+                    styleClass="!bg-transparent !text-white !border border-solid border-white font-[350] h-[30px]" />
+                <p-chip label="All"
+                    styleClass="!bg-white !text-black !border border-solid border-white font-[350] h-[30px]" />
+            </div>
+
+            <div class="flex pt-[20px] gap-5 overflow-x-auto">
+                <app-ongoing-flag-events></app-ongoing-flag-events>
+            </div>
+
+            <!-- <div class="flex pt-[20px] gap-5 overflow-x-auto">
+                <p-card styleClass="w-[310px] h-[320px]" header="Tank 200 Level">
+                    <div class="flex items-center gap-3 justify-center h-[200px]">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="46" height="46" viewBox="0 0 46 46" fill="none">
+                            <circle cx="23.25" cy="23" r="22.5" fill="#FFC846" />
+                            <path
+                                d="M27.4147 14.6563C25.0157 14.6563 22.8588 13.0938 19.5088 13.0938C17.9805 13.0938 16.662 13.4103 15.5674 13.8344C15.6759 13.5088 15.7116 13.1633 15.672 12.8223C15.5443 11.7058 14.6214 10.8278 13.5 10.7551C12.1349 10.6665 11 11.7476 11 13.0938C11 13.9611 11.4715 14.7179 12.1719 15.1231V34.9688C12.1719 35.4002 12.5216 35.75 12.9531 35.75H13.7344C14.1659 35.75 14.5156 35.4002 14.5156 34.9688V30.8944C16.3647 30.0508 17.9951 29.5 20.7571 29.5C23.1562 29.5 25.313 31.0625 28.663 31.0625C31.5185 31.0625 33.6421 29.9582 34.9398 29.1103C35.6019 28.6778 36 27.94 36 27.1492V15.4344C36 13.7519 34.2781 12.6137 32.7332 13.2803C30.9801 14.0366 29.1465 14.6563 27.4147 14.6563ZM33.6562 27.1562C32.5926 27.9088 30.6863 28.7188 28.663 28.7188C25.736 28.7188 23.6825 27.1562 20.7571 27.1562C18.6399 27.1562 16.0511 27.6154 14.5156 28.3281V17C15.5793 16.2475 17.4855 15.4375 19.5088 15.4375C22.4358 15.4375 24.4894 17 27.4147 17C29.5276 17 32.1179 16.1521 33.6562 15.4375V27.1562Z"
+                                fill="white" />
+                        </svg>
+                        <p class="font-[350] text-[32px]">20%</p>
+                    </div>
+                    <div>
+                        <p-tag styleClass="w-full !bg-[#FCB03E33] h-[42px]">
+                            <svg width="19" height="19" viewBox="0 0 19 19" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <g clip-path="url(#clip0_113_1187)">
+                                    <path
+                                        d="M6.25008 14C5.25258 14 4.59258 14.5925 4.21758 14.9675C3.84258 15.3425 3.75258 15.5 3.25008 15.5C2.74758 15.5 2.65758 15.3425 2.28258 14.9675C2.01258 14.6975 1.59258 14.315 1.00008 14.12V15.8075C1.06758 15.875 1.13508 15.9425 1.21758 16.0325C1.59258 16.4075 2.25258 17 3.25008 17C4.24758 17 4.90758 16.4075 5.28258 16.0325C5.65758 15.6575 5.74758 15.5 6.25008 15.5C6.75258 15.5 6.84258 15.6575 7.21758 16.0325C7.54758 16.355 8.08008 16.85 8.87508 16.97C8.99508 17 9.12258 17 9.25008 17C10.2476 17 10.9076 16.4075 11.2826 16.0325C11.6576 15.6575 11.7476 15.5 12.2501 15.5C12.7526 15.5 12.8426 15.6575 13.2176 16.0325C13.5926 16.4075 14.2526 17 15.2501 17C16.2476 17 16.9076 16.4075 17.2826 16.0325C17.3651 15.9425 17.4326 15.875 17.5001 15.8075V14.12C16.9076 14.315 16.4876 14.6975 16.2176 14.9675C15.8426 15.3425 15.7526 15.5 15.2501 15.5C14.7476 15.5 14.6576 15.3425 14.2826 14.9675C13.9076 14.5925 13.2476 14 12.2501 14C11.2526 14 10.5926 14.5925 10.2176 14.9675C9.84258 15.3425 9.75258 15.5 9.25008 15.5C9.08508 15.5 8.97258 15.4775 8.87508 15.44C8.66508 15.365 8.53758 15.2225 8.28258 14.9675C7.90758 14.5925 7.24758 14 6.25008 14ZM16.7501 8.375C16.7501 8.375 18.2501 10.0025 18.2501 11C18.2501 11.825 17.5751 12.5 16.7501 12.5C15.9251 12.5 15.2501 11.825 15.2501 11C15.2501 10.0025 16.7501 8.375 16.7501 8.375ZM17.1251 5.8475L14.6801 4.43L9.79758 7.25C9.54258 6.8 9.05508 6.5 8.50008 6.5H7.00008V5H7.75008C8.16258 5 8.50008 4.6625 8.50008 4.25C8.50008 3.8375 8.16258 3.5 7.75008 3.5H4.75008C4.33758 3.5 4.00008 3.8375 4.00008 4.25C4.00008 4.6625 4.33758 5 4.75008 5H5.50008V6.5H4.00008C3.17508 6.5 2.50008 7.175 2.50008 8V10.25C2.50008 11.075 3.17508 11.75 4.00008 11.75H10.7501C11.3126 11.75 11.8076 11.435 12.0626 10.9775L14.8001 6.2375L16.3751 7.145C16.7501 7.355 17.1926 7.2275 17.4026 6.875C17.6051 6.5 17.5001 6.05 17.1251 5.8475ZM10.7501 10.25H4.00008V8H9.01758L9.70008 9.0725L12.2951 7.5725L10.7501 10.25ZM2.87508 5.69L1.59258 6.965C1.4491 7.08787 1.26455 7.15207 1.07579 7.14478C0.887032 7.13749 0.707978 7.05924 0.574407 6.92567C0.440836 6.7921 0.362587 6.61305 0.355296 6.42429C0.348005 6.23553 0.412209 6.05098 0.535079 5.9075L1.81758 4.625C1.9581 4.48531 2.14819 4.40691 2.34633 4.40691C2.54447 4.40691 2.73456 4.48531 2.87508 4.625C3.16758 4.9175 3.16758 5.375 2.87508 5.69Z"
+                                        fill="#FCB03E" />
+                                </g>
+                                <defs>
+                                    <clipPath id="clip0_113_1187">
+                                        <rect width="18" height="18" fill="white" transform="translate(0.25 0.5)" />
+                                    </clipPath>
+                                </defs>
+                            </svg>
+                            <span class="text-[#FCB03E] font-[300]">Low Tank</span>
+                        </p-tag>
+                    </div>
+                </p-card>
+                <p-card styleClass="w-[310px] h-[320px]" header="Tank 300 Level">
+                    <div class="flex items-center gap-3 justify-center h-[200px]">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="46" height="46" viewBox="0 0 46 46" fill="none">
+                            <circle cx="23.25" cy="23" r="22.5" fill="#FFC846" />
+                            <path
+                                d="M27.4147 14.6563C25.0157 14.6563 22.8588 13.0938 19.5088 13.0938C17.9805 13.0938 16.662 13.4103 15.5674 13.8344C15.6759 13.5088 15.7116 13.1633 15.672 12.8223C15.5443 11.7058 14.6214 10.8278 13.5 10.7551C12.1349 10.6665 11 11.7476 11 13.0938C11 13.9611 11.4715 14.7179 12.1719 15.1231V34.9688C12.1719 35.4002 12.5216 35.75 12.9531 35.75H13.7344C14.1659 35.75 14.5156 35.4002 14.5156 34.9688V30.8944C16.3647 30.0508 17.9951 29.5 20.7571 29.5C23.1562 29.5 25.313 31.0625 28.663 31.0625C31.5185 31.0625 33.6421 29.9582 34.9398 29.1103C35.6019 28.6778 36 27.94 36 27.1492V15.4344C36 13.7519 34.2781 12.6137 32.7332 13.2803C30.9801 14.0366 29.1465 14.6563 27.4147 14.6563ZM33.6562 27.1562C32.5926 27.9088 30.6863 28.7188 28.663 28.7188C25.736 28.7188 23.6825 27.1562 20.7571 27.1562C18.6399 27.1562 16.0511 27.6154 14.5156 28.3281V17C15.5793 16.2475 17.4855 15.4375 19.5088 15.4375C22.4358 15.4375 24.4894 17 27.4147 17C29.5276 17 32.1179 16.1521 33.6562 15.4375V27.1562Z"
+                                fill="white" />
+                        </svg>
+                        <p class="font-[350] text-[32px]">20%</p>
+                    </div>
+                    <div>
+                        <p-tag styleClass="w-full !bg-[#00843D33] h-[42px]">
+                            <svg width="19" height="19" viewBox="0 0 19 19" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <g clip-path="url(#clip0_113_1187)">
+                                    <path
+                                        d="M6.25008 14C5.25258 14 4.59258 14.5925 4.21758 14.9675C3.84258 15.3425 3.75258 15.5 3.25008 15.5C2.74758 15.5 2.65758 15.3425 2.28258 14.9675C2.01258 14.6975 1.59258 14.315 1.00008 14.12V15.8075C1.06758 15.875 1.13508 15.9425 1.21758 16.0325C1.59258 16.4075 2.25258 17 3.25008 17C4.24758 17 4.90758 16.4075 5.28258 16.0325C5.65758 15.6575 5.74758 15.5 6.25008 15.5C6.75258 15.5 6.84258 15.6575 7.21758 16.0325C7.54758 16.355 8.08008 16.85 8.87508 16.97C8.99508 17 9.12258 17 9.25008 17C10.2476 17 10.9076 16.4075 11.2826 16.0325C11.6576 15.6575 11.7476 15.5 12.2501 15.5C12.7526 15.5 12.8426 15.6575 13.2176 16.0325C13.5926 16.4075 14.2526 17 15.2501 17C16.2476 17 16.9076 16.4075 17.2826 16.0325C17.3651 15.9425 17.4326 15.875 17.5001 15.8075V14.12C16.9076 14.315 16.4876 14.6975 16.2176 14.9675C15.8426 15.3425 15.7526 15.5 15.2501 15.5C14.7476 15.5 14.6576 15.3425 14.2826 14.9675C13.9076 14.5925 13.2476 14 12.2501 14C11.2526 14 10.5926 14.5925 10.2176 14.9675C9.84258 15.3425 9.75258 15.5 9.25008 15.5C9.08508 15.5 8.97258 15.4775 8.87508 15.44C8.66508 15.365 8.53758 15.2225 8.28258 14.9675C7.90758 14.5925 7.24758 14 6.25008 14ZM16.7501 8.375C16.7501 8.375 18.2501 10.0025 18.2501 11C18.2501 11.825 17.5751 12.5 16.7501 12.5C15.9251 12.5 15.2501 11.825 15.2501 11C15.2501 10.0025 16.7501 8.375 16.7501 8.375ZM17.1251 5.8475L14.6801 4.43L9.79758 7.25C9.54258 6.8 9.05508 6.5 8.50008 6.5H7.00008V5H7.75008C8.16258 5 8.50008 4.6625 8.50008 4.25C8.50008 3.8375 8.16258 3.5 7.75008 3.5H4.75008C4.33758 3.5 4.00008 3.8375 4.00008 4.25C4.00008 4.6625 4.33758 5 4.75008 5H5.50008V6.5H4.00008C3.17508 6.5 2.50008 7.175 2.50008 8V10.25C2.50008 11.075 3.17508 11.75 4.00008 11.75H10.7501C11.3126 11.75 11.8076 11.435 12.0626 10.9775L14.8001 6.2375L16.3751 7.145C16.7501 7.355 17.1926 7.2275 17.4026 6.875C17.6051 6.5 17.5001 6.05 17.1251 5.8475ZM10.7501 10.25H4.00008V8H9.01758L9.70008 9.0725L12.2951 7.5725L10.7501 10.25ZM2.87508 5.69L1.59258 6.965C1.4491 7.08787 1.26455 7.15207 1.07579 7.14478C0.887032 7.13749 0.707978 7.05924 0.574407 6.92567C0.440836 6.7921 0.362587 6.61305 0.355296 6.42429C0.348005 6.23553 0.412209 6.05098 0.535079 5.9075L1.81758 4.625C1.9581 4.48531 2.14819 4.40691 2.34633 4.40691C2.54447 4.40691 2.73456 4.48531 2.87508 4.625C3.16758 4.9175 3.16758 5.375 2.87508 5.69Z"
+                                        fill="#00843D" />
+                                </g>
+                                <defs>
+                                    <clipPath id="clip0_113_1187">
+                                        <rect width="18" height="18" fill="white" transform="translate(0.25 0.5)" />
+                                    </clipPath>
+                                </defs>
+                            </svg>
+                            <span class="text-[#00843D] font-[300]">Low Tank</span>
+                        </p-tag>
+                    </div>
+                </p-card>
+                <p-card styleClass="w-[310px] h-[320px]" header="Tank 400 Level">
+                    <div class="flex items-center gap-3 justify-center h-[200px]">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="46" height="46" viewBox="0 0 46 46" fill="none">
+                            <circle cx="23.25" cy="23" r="22.5" fill="#FFC846" />
+                            <path
+                                d="M27.4147 14.6563C25.0157 14.6563 22.8588 13.0938 19.5088 13.0938C17.9805 13.0938 16.662 13.4103 15.5674 13.8344C15.6759 13.5088 15.7116 13.1633 15.672 12.8223C15.5443 11.7058 14.6214 10.8278 13.5 10.7551C12.1349 10.6665 11 11.7476 11 13.0938C11 13.9611 11.4715 14.7179 12.1719 15.1231V34.9688C12.1719 35.4002 12.5216 35.75 12.9531 35.75H13.7344C14.1659 35.75 14.5156 35.4002 14.5156 34.9688V30.8944C16.3647 30.0508 17.9951 29.5 20.7571 29.5C23.1562 29.5 25.313 31.0625 28.663 31.0625C31.5185 31.0625 33.6421 29.9582 34.9398 29.1103C35.6019 28.6778 36 27.94 36 27.1492V15.4344C36 13.7519 34.2781 12.6137 32.7332 13.2803C30.9801 14.0366 29.1465 14.6563 27.4147 14.6563ZM33.6562 27.1562C32.5926 27.9088 30.6863 28.7188 28.663 28.7188C25.736 28.7188 23.6825 27.1562 20.7571 27.1562C18.6399 27.1562 16.0511 27.6154 14.5156 28.3281V17C15.5793 16.2475 17.4855 15.4375 19.5088 15.4375C22.4358 15.4375 24.4894 17 27.4147 17C29.5276 17 32.1179 16.1521 33.6562 15.4375V27.1562Z"
+                                fill="white" />
+                        </svg>
+                        <p class="font-[350] text-[32px]">20%</p>
+                    </div>
+                    <div>
+                        <p-tag styleClass="w-full !bg-[#FFC84633] h-[42px]">
+                            <svg width="19" height="19" viewBox="0 0 19 19" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <g clip-path="url(#clip0_113_1187)">
+                                    <path
+                                        d="M6.25008 14C5.25258 14 4.59258 14.5925 4.21758 14.9675C3.84258 15.3425 3.75258 15.5 3.25008 15.5C2.74758 15.5 2.65758 15.3425 2.28258 14.9675C2.01258 14.6975 1.59258 14.315 1.00008 14.12V15.8075C1.06758 15.875 1.13508 15.9425 1.21758 16.0325C1.59258 16.4075 2.25258 17 3.25008 17C4.24758 17 4.90758 16.4075 5.28258 16.0325C5.65758 15.6575 5.74758 15.5 6.25008 15.5C6.75258 15.5 6.84258 15.6575 7.21758 16.0325C7.54758 16.355 8.08008 16.85 8.87508 16.97C8.99508 17 9.12258 17 9.25008 17C10.2476 17 10.9076 16.4075 11.2826 16.0325C11.6576 15.6575 11.7476 15.5 12.2501 15.5C12.7526 15.5 12.8426 15.6575 13.2176 16.0325C13.5926 16.4075 14.2526 17 15.2501 17C16.2476 17 16.9076 16.4075 17.2826 16.0325C17.3651 15.9425 17.4326 15.875 17.5001 15.8075V14.12C16.9076 14.315 16.4876 14.6975 16.2176 14.9675C15.8426 15.3425 15.7526 15.5 15.2501 15.5C14.7476 15.5 14.6576 15.3425 14.2826 14.9675C13.9076 14.5925 13.2476 14 12.2501 14C11.2526 14 10.5926 14.5925 10.2176 14.9675C9.84258 15.3425 9.75258 15.5 9.25008 15.5C9.08508 15.5 8.97258 15.4775 8.87508 15.44C8.66508 15.365 8.53758 15.2225 8.28258 14.9675C7.90758 14.5925 7.24758 14 6.25008 14ZM16.7501 8.375C16.7501 8.375 18.2501 10.0025 18.2501 11C18.2501 11.825 17.5751 12.5 16.7501 12.5C15.9251 12.5 15.2501 11.825 15.2501 11C15.2501 10.0025 16.7501 8.375 16.7501 8.375ZM17.1251 5.8475L14.6801 4.43L9.79758 7.25C9.54258 6.8 9.05508 6.5 8.50008 6.5H7.00008V5H7.75008C8.16258 5 8.50008 4.6625 8.50008 4.25C8.50008 3.8375 8.16258 3.5 7.75008 3.5H4.75008C4.33758 3.5 4.00008 3.8375 4.00008 4.25C4.00008 4.6625 4.33758 5 4.75008 5H5.50008V6.5H4.00008C3.17508 6.5 2.50008 7.175 2.50008 8V10.25C2.50008 11.075 3.17508 11.75 4.00008 11.75H10.7501C11.3126 11.75 11.8076 11.435 12.0626 10.9775L14.8001 6.2375L16.3751 7.145C16.7501 7.355 17.1926 7.2275 17.4026 6.875C17.6051 6.5 17.5001 6.05 17.1251 5.8475ZM10.7501 10.25H4.00008V8H9.01758L9.70008 9.0725L12.2951 7.5725L10.7501 10.25ZM2.87508 5.69L1.59258 6.965C1.4491 7.08787 1.26455 7.15207 1.07579 7.14478C0.887032 7.13749 0.707978 7.05924 0.574407 6.92567C0.440836 6.7921 0.362587 6.61305 0.355296 6.42429C0.348005 6.23553 0.412209 6.05098 0.535079 5.9075L1.81758 4.625C1.9581 4.48531 2.14819 4.40691 2.34633 4.40691C2.54447 4.40691 2.73456 4.48531 2.87508 4.625C3.16758 4.9175 3.16758 5.375 2.87508 5.69Z"
+                                        fill="#FFC846" />
+                                </g>
+                                <defs>
+                                    <clipPath id="clip0_113_1187">
+                                        <rect width="18" height="18" fill="white" transform="translate(0.25 0.5)" />
+                                    </clipPath>
+                                </defs>
+                            </svg>
+                            <span class="text-[#FFC846] font-[300]">Low Tank</span>
+                        </p-tag>
+                    </div>
+                </p-card>
+                <p-card styleClass="w-[310px] h-[320px]" header="Tank 500 Level">
+                    <div class="flex items-center gap-3 justify-center h-[200px]">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="46" height="46" viewBox="0 0 46 46" fill="none">
+                            <circle cx="23.25" cy="23" r="22.5" fill="#FFC846" />
+                            <path
+                                d="M27.4147 14.6563C25.0157 14.6563 22.8588 13.0938 19.5088 13.0938C17.9805 13.0938 16.662 13.4103 15.5674 13.8344C15.6759 13.5088 15.7116 13.1633 15.672 12.8223C15.5443 11.7058 14.6214 10.8278 13.5 10.7551C12.1349 10.6665 11 11.7476 11 13.0938C11 13.9611 11.4715 14.7179 12.1719 15.1231V34.9688C12.1719 35.4002 12.5216 35.75 12.9531 35.75H13.7344C14.1659 35.75 14.5156 35.4002 14.5156 34.9688V30.8944C16.3647 30.0508 17.9951 29.5 20.7571 29.5C23.1562 29.5 25.313 31.0625 28.663 31.0625C31.5185 31.0625 33.6421 29.9582 34.9398 29.1103C35.6019 28.6778 36 27.94 36 27.1492V15.4344C36 13.7519 34.2781 12.6137 32.7332 13.2803C30.9801 14.0366 29.1465 14.6563 27.4147 14.6563ZM33.6562 27.1562C32.5926 27.9088 30.6863 28.7188 28.663 28.7188C25.736 28.7188 23.6825 27.1562 20.7571 27.1562C18.6399 27.1562 16.0511 27.6154 14.5156 28.3281V17C15.5793 16.2475 17.4855 15.4375 19.5088 15.4375C22.4358 15.4375 24.4894 17 27.4147 17C29.5276 17 32.1179 16.1521 33.6562 15.4375V27.1562Z"
+                                fill="white" />
+                        </svg>
+                        <p class="font-[350] text-[32px]">20%</p>
+                    </div>
+                    <div>
+                        <p-tag styleClass="w-full !bg-[#C2463333] h-[42px]">
+                            <svg width="19" height="19" viewBox="0 0 19 19" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <g clip-path="url(#clip0_113_1187)">
+                                    <path
+                                        d="M6.25008 14C5.25258 14 4.59258 14.5925 4.21758 14.9675C3.84258 15.3425 3.75258 15.5 3.25008 15.5C2.74758 15.5 2.65758 15.3425 2.28258 14.9675C2.01258 14.6975 1.59258 14.315 1.00008 14.12V15.8075C1.06758 15.875 1.13508 15.9425 1.21758 16.0325C1.59258 16.4075 2.25258 17 3.25008 17C4.24758 17 4.90758 16.4075 5.28258 16.0325C5.65758 15.6575 5.74758 15.5 6.25008 15.5C6.75258 15.5 6.84258 15.6575 7.21758 16.0325C7.54758 16.355 8.08008 16.85 8.87508 16.97C8.99508 17 9.12258 17 9.25008 17C10.2476 17 10.9076 16.4075 11.2826 16.0325C11.6576 15.6575 11.7476 15.5 12.2501 15.5C12.7526 15.5 12.8426 15.6575 13.2176 16.0325C13.5926 16.4075 14.2526 17 15.2501 17C16.2476 17 16.9076 16.4075 17.2826 16.0325C17.3651 15.9425 17.4326 15.875 17.5001 15.8075V14.12C16.9076 14.315 16.4876 14.6975 16.2176 14.9675C15.8426 15.3425 15.7526 15.5 15.2501 15.5C14.7476 15.5 14.6576 15.3425 14.2826 14.9675C13.9076 14.5925 13.2476 14 12.2501 14C11.2526 14 10.5926 14.5925 10.2176 14.9675C9.84258 15.3425 9.75258 15.5 9.25008 15.5C9.08508 15.5 8.97258 15.4775 8.87508 15.44C8.66508 15.365 8.53758 15.2225 8.28258 14.9675C7.90758 14.5925 7.24758 14 6.25008 14ZM16.7501 8.375C16.7501 8.375 18.2501 10.0025 18.2501 11C18.2501 11.825 17.5751 12.5 16.7501 12.5C15.9251 12.5 15.2501 11.825 15.2501 11C15.2501 10.0025 16.7501 8.375 16.7501 8.375ZM17.1251 5.8475L14.6801 4.43L9.79758 7.25C9.54258 6.8 9.05508 6.5 8.50008 6.5H7.00008V5H7.75008C8.16258 5 8.50008 4.6625 8.50008 4.25C8.50008 3.8375 8.16258 3.5 7.75008 3.5H4.75008C4.33758 3.5 4.00008 3.8375 4.00008 4.25C4.00008 4.6625 4.33758 5 4.75008 5H5.50008V6.5H4.00008C3.17508 6.5 2.50008 7.175 2.50008 8V10.25C2.50008 11.075 3.17508 11.75 4.00008 11.75H10.7501C11.3126 11.75 11.8076 11.435 12.0626 10.9775L14.8001 6.2375L16.3751 7.145C16.7501 7.355 17.1926 7.2275 17.4026 6.875C17.6051 6.5 17.5001 6.05 17.1251 5.8475ZM10.7501 10.25H4.00008V8H9.01758L9.70008 9.0725L12.2951 7.5725L10.7501 10.25ZM2.87508 5.69L1.59258 6.965C1.4491 7.08787 1.26455 7.15207 1.07579 7.14478C0.887032 7.13749 0.707978 7.05924 0.574407 6.92567C0.440836 6.7921 0.362587 6.61305 0.355296 6.42429C0.348005 6.23553 0.412209 6.05098 0.535079 5.9075L1.81758 4.625C1.9581 4.48531 2.14819 4.40691 2.34633 4.40691C2.54447 4.40691 2.73456 4.48531 2.87508 4.625C3.16758 4.9175 3.16758 5.375 2.87508 5.69Z"
+                                        fill="#C24633" />
+                                </g>
+                                <defs>
+                                    <clipPath id="clip0_113_1187">
+                                        <rect width="18" height="18" fill="white" transform="translate(0.25 0.5)" />
+                                    </clipPath>
+                                </defs>
+                            </svg>
+                            <span class="text-[#C24633] font-[300]">Low Tank</span>
+                        </p-tag>
+                    </div>
+                </p-card>
+            </div> -->
+        </div>
+    </div>
+    <div class="m-[20px] md:m-[30px]">
+        <div class="md:p-[40px]">
+            <p class="text-white text-[24px] md:text-[36px] font-[350]">Recent Events</p>
+            <div class="flex flex-wrap pt-[20px] gap-2 md:gap-5">
+                <p-chip label="Action"
+                    styleClass="!bg-transparent !text-white !border border-solid border-white font-[350] h-[30px]" />
+                <p-chip label="This Week"
+                    styleClass="!bg-transparent !text-white !border border-solid border-white font-[350] h-[30px]" />
+                <p-chip label="This Month"
+                    styleClass="!bg-transparent !text-white !border border-solid border-white font-[350] h-[30px]" />
+                <p-chip label="This Year"
+                    styleClass="!bg-transparent !text-white !border border-solid border-white font-[350] h-[30px]" />
+                <p-chip label="All"
+                    styleClass="!bg-white !text-black !border border-solid border-white font-[350] h-[30px]" />
+            </div>
+            <div class="flex pt-[20px] gap-5 overflow-x-auto">
+                <div class="grid md:grid-cols-2 gap-4 w-full">
+                    <div>
+                        <p-card styleClass="w-full md:h-[320px]" header="Well by Status">
+                            <div class="flex md:h-[200px] justify-around">
+                                <div class="flex h-full flex-col items-center justify-center">
+                                    <span class="text-[24px] md:text-[32px] font-[350]">
+                                        {{ wellCount }}
+                                    </span>
+                                    <span class="text-[14px] md:text-[20px] font-[350] text-[#808080]">
+                                        Total no. of Wells
+                                    </span>
+                                </div>
+                                <p-divider layout="vertical" />
+                                <div class="flex h-full flex-col items-center justify-center gap-[10px]">
+                                    <span class="text-[14px] md:text-[20px] font-[350]">
+                                        528
+                                    </span>
+                                    <span class="text-[14px] md:text-[16px] font-[350] text-[#808080]">
+                                        Active
+                                    </span>
+                                    <span class="text-[14px] md:text-[20px] font-[350]">
+                                        219
+                                    </span>
+                                    <span class="text-[14px] md:text-[16px] font-[350] text-[#808080]">
+                                        Shut-in
+                                    </span>
+                                    <span class="text-[14px] md:text-[20px] font-[350]">
+                                        365
+                                    </span>
+                                    <span class="text-[14px] md:text-[16px] font-[350] text-[#808080]">
+                                        Cancelled
+                                    </span>
+                                </div>
+                            </div>
+                        </p-card>
+                    </div>
+                    <div>
+                        <p-card styleClass="w-full md:h-[320px]" header="Oil and Gas Production">
+                            <div class="flex md:h-[200px] justify-around">
+                                <div class="flex h-full flex-col items-center justify-center">
+                                    <span class="text-[24px] md:text-[32px] font-[350]">
+                                        272,018
+                                    </span>
+                                    <span class="text-[14px] md:text-[20px] font-[350] text-[#808080]">
+                                        Barrels of Oil / Day
+                                    </span>
+                                </div>
+                                <p-divider layout="vertical" />
+                                <div class="flex h-full flex-col items-center justify-center gap-[10px]">
+                                    <span class="text-[14px] md:text-[20px] font-[350]">
+                                        184,975
+                                    </span>
+                                    <span class="text-[14px] text-center md:text-[16px] font-[350] text-[#808080]">
+                                        Current Week
+                                    </span>
+                                    <span class="text-[14px] md:text-[20px] font-[350]">
+                                        87,043
+                                    </span>
+                                    <span class="text-[14px] text-center md:text-[16px] font-[350] text-[#808080]">
+                                        Previous Week
+                                    </span>
+                                </div>
+                            </div>
+                        </p-card>
+                    </div>
+                </div>
+            </div>
+            <div class="flex pt-[20px] gap-5 overflow-x-auto">
+                <p-card styleClass="w-[220px] md:w-[320px] h-[250px] md:h-[350px]" header="Crude Production">
+                    <div class="flex flex-col items-start gap-3 justify-center h-[100px] md:h-[200px]">
+                        <p class="font-[350] text-[20px] md:text-[32px]">93,000</p>
+                        <p class="font-[350] text-[14px] md:text-[20px] text-[#808080]">Thousand Barrels / Day</p>
+                    </div>
+                    <div>
+                        <div class="pb-[5px]">
+                            <span class="text-[#808080] font-[300] font-[20px]">Status</span>
+                        </div>
+
+                        <p-tag styleClass="w-full !bg-[#C2463333] h-[42px]">
+                            <svg width="17" height="12" viewBox="0 0 17 12" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M0.825497 0.519044H15.6759C15.8263 0.519464 15.9737 0.556389 16.1022 0.625845C16.2307 0.695301 16.3356 0.794657 16.4054 0.913218C16.4752 1.03178 16.5074 1.16506 16.4986 1.29871C16.4897 1.43236 16.44 1.56131 16.3549 1.6717L8.9297 11.2221C8.62197 11.618 7.8811 11.618 7.57254 11.2221L0.147327 1.6717C0.0613806 1.56154 0.0109793 1.43252 0.00159966 1.29865C-0.00778 1.16478 0.0242207 1.03118 0.094125 0.912367C0.164029 0.793553 0.269164 0.69407 0.398105 0.624727C0.527047 0.555384 0.674864 0.518833 0.825497 0.519044Z"
+                                    fill="#C24633" />
+                            </svg>
+
+                            <span class="text-[#C24633] font-[300]">15%</span>
+                        </p-tag>
+                    </div>
+                </p-card>
+                <p-card styleClass="w-[220px] md:w-[320px] h-[250px] md:h-[350px]" header="Shafaniya Offshore">
+                    <div class="flex flex-col items-start gap-3 justify-center h-[100px] md:h-[200px]">
+                        <p class="font-[350] text-[20px] md:text-[32px]">59.01</p>
+                        <p class="font-[350] text-[14px] md:text-[20px] text-[#808080]">Billion Cubic Feet</p>
+                    </div>
+                    <div>
+                        <div class="pb-[5px]">
+                            <span class="text-[#808080] font-[300] font-[20px]">Status</span>
+                        </div>
+
+                        <p-tag styleClass="w-full !bg-[#00843D33] h-[42px]">
+                            <svg width="17" height="12" viewBox="0 0 17 12" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M1.3255 11.519H16.1759C16.3263 11.5186 16.4737 11.4817 16.6022 11.4122C16.7307 11.3428 16.8356 11.2434 16.9054 11.1249C16.9752 11.0063 17.0074 10.873 16.9986 10.7394C16.9897 10.6057 16.94 10.4768 16.8549 10.3664L9.4297 0.816023C9.12197 0.42005 8.3811 0.42005 8.07254 0.816023L0.647327 10.3664C0.561381 10.4765 0.510979 10.6056 0.5016 10.7394C0.49222 10.8733 0.524221 11.0069 0.594125 11.1257C0.664029 11.2445 0.769164 11.344 0.898105 11.4134C1.02705 11.4827 1.17486 11.5193 1.3255 11.519Z"
+                                    fill="#00843D" />
+                            </svg>
+                            <span class="text-[#00843D] font-[300]">36%</span>
+                        </p-tag>
+                    </div>
+                </p-card>
+                <p-card styleClass="w-[220px] md:w-[320px] h-[250px] md:h-[350px]" header="Natural Gas">
+                    <div class="flex flex-col items-start gap-3 justify-center h-[100px] md:h-[200px]">
+                        <p class="font-[350] text-[20px] md:text-[32px]">2.7</p>
+                        <p class="font-[350] text-[14px] md:text-[20px] text-[#808080]">Billion Cubic Feet</p>
+                    </div>
+                    <div>
+                        <div class="pb-[5px]">
+                            <span class="text-[#808080] font-[300] font-[20px]">Status</span>
+                        </div>
+
+                        <p-tag styleClass="w-full !bg-[#C2463333] h-[42px]">
+                            <svg width="17" height="12" viewBox="0 0 17 12" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M0.825497 0.519044H15.6759C15.8263 0.519464 15.9737 0.556389 16.1022 0.625845C16.2307 0.695301 16.3356 0.794657 16.4054 0.913218C16.4752 1.03178 16.5074 1.16506 16.4986 1.29871C16.4897 1.43236 16.44 1.56131 16.3549 1.6717L8.9297 11.2221C8.62197 11.618 7.8811 11.618 7.57254 11.2221L0.147327 1.6717C0.0613806 1.56154 0.0109793 1.43252 0.00159966 1.29865C-0.00778 1.16478 0.0242207 1.03118 0.094125 0.912367C0.164029 0.793553 0.269164 0.69407 0.398105 0.624727C0.527047 0.555384 0.674864 0.518833 0.825497 0.519044Z"
+                                    fill="#C24633" />
+                            </svg>
+
+                            <span class="text-[#C24633] font-[300]">15%</span>
+                        </p-tag>
+                    </div>
+                </p-card>
+                <p-card styleClass="w-[220px] md:w-[320px] h-[250px] md:h-[350px]" header="Gasoline">
+                    <div class="flex flex-col items-start gap-3 justify-center h-[100px] md:h-[200px]">
+                        <p class="font-[350] text-[20px] md:text-[32px]">2.2</p>
+                        <p class="font-[350] text-[14px] md:text-[20px] text-[#808080]">USD / Gallon</p>
+                    </div>
+                    <div>
+                        <div class="pb-[5px]">
+                            <span class="text-[#808080] font-[300] font-[20px]">Status</span>
+                        </div>
+
+                        <p-tag styleClass="w-full !bg-[#C2463333] h-[42px]">
+                            <svg width="17" height="12" viewBox="0 0 17 12" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M0.825497 0.519044H15.6759C15.8263 0.519464 15.9737 0.556389 16.1022 0.625845C16.2307 0.695301 16.3356 0.794657 16.4054 0.913218C16.4752 1.03178 16.5074 1.16506 16.4986 1.29871C16.4897 1.43236 16.44 1.56131 16.3549 1.6717L8.9297 11.2221C8.62197 11.618 7.8811 11.618 7.57254 11.2221L0.147327 1.6717C0.0613806 1.56154 0.0109793 1.43252 0.00159966 1.29865C-0.00778 1.16478 0.0242207 1.03118 0.094125 0.912367C0.164029 0.793553 0.269164 0.69407 0.398105 0.624727C0.527047 0.555384 0.674864 0.518833 0.825497 0.519044Z"
+                                    fill="#C24633" />
+                            </svg>
+
+                            <span class="text-[#C24633] font-[300]">24%</span>
+                        </p-tag>
+                    </div>
+                </p-card>
+            </div>
+        </div>
+    </div>
+    <div class="m-[20px] md:m-[30px]">
+        <div class="md:p-[40px]">
+            <p class="text-white text-[24px] md:text-[36px] font-[350]">Most Visited Apps ></p>
+            <div class="flex flex-wrap pt-[20px] gap-2 md:gap-5">
+                <p-chip label="Action"
+                    styleClass="!bg-transparent !text-white !border border-solid border-white font-[350] h-[30px]" />
+                <p-chip label="This Week"
+                    styleClass="!bg-transparent !text-white !border border-solid border-white font-[350] h-[30px]" />
+                <p-chip label="This Month"
+                    styleClass="!bg-transparent !text-white !border border-solid border-white font-[350] h-[30px]" />
+                <p-chip label="This Year"
+                    styleClass="!bg-transparent !text-white !border border-solid border-white font-[350] h-[30px]" />
+                <p-chip label="All"
+                    styleClass="!bg-white !text-black !border border-solid border-white font-[350] h-[30px]" />
+            </div>
+            <app-module-cards></app-module-cards>
+        </div>
+    </div>
+
+    @if(hasAdminAccess) {
+    <div class="m-[20px] md:m-[30px]">
+        <div class="md:p-[40px]">
+            <p class="text-white text-[24px] md:text-[36px] font-[350]">News ></p>
+            <div class="flex flex-wrap pt-[20px] gap-2 md:gap-5">
+                <p-chip label="Action"
+                    styleClass="!bg-transparent !text-white !border border-solid border-white font-[350] h-[30px]" />
+                <p-chip label="This Week"
+                    styleClass="!bg-transparent !text-white !border border-solid border-white font-[350] h-[30px]" />
+                <p-chip label="This Month"
+                    styleClass="!bg-transparent !text-white !border border-solid border-white font-[350] h-[30px]" />
+                <p-chip label="This Year"
+                    styleClass="!bg-transparent !text-white !border border-solid border-white font-[350] h-[30px]" />
+                <p-chip label="All"
+                    styleClass="!bg-white !text-black !border border-solid border-white font-[350] h-[30px]" />
+            </div>
+            <app-news></app-news>
+        </div>
+    </div>
+    }
+
+    @if(hasAdminAccess) {
+    <div class="m-[20px] md:m-[30px]">
+        <div class="md:p-[40px]">
+            <p class="text-white text-[24px] md:text-[36px] font-[350]">Blogs ></p>
+            <div class="flex flex-wrap pt-[20px] gap-2 md:gap-5">
+                <p-chip label="Action"
+                    styleClass="!bg-transparent !text-white !border border-solid border-white font-[350] h-[30px]" />
+                <p-chip label="This Week"
+                    styleClass="!bg-transparent !text-white !border border-solid border-white font-[350] h-[30px]" />
+                <p-chip label="This Month"
+                    styleClass="!bg-transparent !text-white !border border-solid border-white font-[350] h-[30px]" />
+                <p-chip label="This Year"
+                    styleClass="!bg-transparent !text-white !border border-solid border-white font-[350] h-[30px]" />
+                <p-chip label="All"
+                    styleClass="!bg-white !text-black !border border-solid border-white font-[350] h-[30px]" />
+            </div>
+            <app-blogs></app-blogs>
+        </div>
+    </div>
+    }
+</main>

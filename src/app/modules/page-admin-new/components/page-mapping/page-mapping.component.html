@@ -1,0 +1,121 @@
+<div class="w-full">
+    <div class="pt-[10px]">
+        <p-card class="w-full">
+            @if(template){
+            <div class="mb-4 p-3 bg-surface-100 rounded">
+                <div class="flex justify-between items-center">
+                    <div>
+                        <h3 class="text-lg font-semibold mb-2">{{ template.templateName }}</h3>
+                        <p class="text-sm text-surface-600">{{ template.templateDescription }}</p>
+                    </div>
+                    <div class="flex gap-2">
+                        <p-button 
+                            icon="pi pi-search" 
+                            label="Preview" 
+                            [outlined]="true"
+                            (onClick)="previewTemplate()" 
+                            [pTooltip]="'Preview Template with Sample Data'" 
+                            tooltipPosition="bottom">
+                        </p-button>
+                    </div>
+                </div>
+            </div>
+            }
+            <p-table #dt [value]="mappings" dataKey="id" [rowHover]="true" [rows]="20" [showCurrentPageReport]="true"
+                [rowsPerPageOptions]="[20, 30, 50]" [paginator]="true"
+                currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [filterDelay]="0"
+                [globalFilterFields]="['mappingName', 'mappingDescription']">
+                <ng-template pTemplate="caption">
+                    <div class="flex justify-between">
+                        <p-button [outlined]="true" icon="pi pi-filter-slash" label="Clear" (onClick)="clear(dt)" />
+                        <div class="flex gap-[10px] items-center">
+                            <p-iconField iconPosition="left">
+                                <p-inputIcon>
+                                    <i class="pi pi-search"></i>
+                                </p-inputIcon>
+                                <input pInputText type="text" (keyup)="applyFilterGlobal($event, 'contains')"
+                                    [(ngModel)]="searchValue" placeholder="Keyboard Search" />
+                            </p-iconField>
+                            <p-button label="Create Mapping"
+                                [style]="{'border-radius':'12px','height':'37px','border':'none'}"
+                                (onClick)="createMapping()" />
+                        </div>
+                    </div>
+                </ng-template>
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th pSortableColumn="mappingName" style="min-width: 14rem" class="border-round-left-2xl text-left">
+                            <div class="flex justify-between items-center">
+                                Mapping Name
+                                <p-sortIcon field="mappingName" />
+                                <p-columnFilter type="text" field="mappingName" display="menu" class="ml-auto" />
+                            </div>
+                        </th>
+                        <th pSortableColumn="mappingDescription" style="min-width: 14rem">
+                            <div class="flex justify-between items-center">
+                                Description
+                                <p-sortIcon field="mappingDescription" />
+                                <p-columnFilter type="text" field="mappingDescription" display="menu" class="ml-auto" />
+                            </div>
+                        </th>
+                        <th pSortableColumn="status" style="min-width: 10rem">
+                            <div class="flex justify-between items-center">
+                                Status
+                                <p-sortIcon field="status" />
+                            </div>
+                        </th>
+                        <th style="min-width: 10rem">
+                            <div class="flex justify-between items-center">
+                                Created On
+                                <p-sortIcon field="createdOn" />
+                            </div>
+                        </th>
+                        <th>
+                            <div class="flex justify-between items-center">
+                                Actions
+                            </div>
+                        </th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-mapping>
+                    <tr class="p-selectable-row">
+                        <td class="text-left cursor-pointer" (click)="openMapping(mapping)">
+                            <span class="ml-1 vertical-align-middle desc">{{ mapping.mappingName || mapping.name || 'N/A' }}</span>
+                        </td>
+                        <td class="text-left cursor-pointer" (click)="openMapping(mapping)">
+                            {{ mapping.mappingDescription || mapping.description || 'N/A' }}
+                        </td>
+                        <td class="text-left">
+                            <p-tag [value]="mapping.status || 'Active'"
+                                [severity]="mapping.status === 'Active' ? 'success' : 'warn'"></p-tag>
+                        </td>
+                        <td class="text-left">
+                            {{ mapping.createdOn | date: 'MM/dd/yyyy' }}
+                        </td>
+                        <td class="text-left">
+                            <div class="flex gap-2">
+                                <p-button icon="pi pi-eye" [text]="true" [rounded]="true"
+                                    (onClick)="viewMappedPage(mapping); $event.stopPropagation()"
+                                    [pTooltip]="'View Mapped Page'" tooltipPosition="top"></p-button>
+                                <p-button icon="pi pi-pencil" [text]="true" [rounded]="true"
+                                    (onClick)="openMapping(mapping); $event.stopPropagation()"
+                                    [pTooltip]="'Edit Mapping'" tooltipPosition="top"></p-button>
+                                <p-button icon="pi pi-trash" [text]="true" [rounded]="true" severity="danger"
+                                    (onClick)="deleteMapping(mapping, $event)"
+                                    [pTooltip]="'Delete Mapping'" tooltipPosition="top"></p-button>
+                            </div>
+                        </td>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="emptymessage">
+                    <tr>
+                        <td colspan="5">No template mappings found.</td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </p-card>
+    </div>
+</div>
+
+<p-toast [breakpoints]="breakPointForToastComponent"></p-toast>
+<p-confirmDialog></p-confirmDialog>

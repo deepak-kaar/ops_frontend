@@ -1,0 +1,48 @@
+<form [formGroup]="fmDetail">
+    <div class="grid grid-cols-2 gap-4 mt-2">
+        <div class="flex flex-col gap-4">
+            <label>Retry Rule</label>
+            <p-select [options]="retryRules" formControlName="retryRule" appendTo="body"></p-select>
+        </div>
+        <div class="flex flex-col gap-4">
+            <label>Run Mode</label>
+            <p-select [options]="runModes" formControlName="runMode" appendTo="body"></p-select>
+        </div>
+    </div>
+    <div formArrayName="inputAttributes" class="mt-3">
+        <h6>Input Attributes</h6>
+        <div *ngFor="let attr of workflowIps.controls; let k = index" [formGroupName]="k" class="flex gap-2 mt-2">
+            <input pInputText formControlName="name" readonly />
+            <input pInputText formControlName="type" readonly />
+            <p-select [options]="internalIps" optionLabel="ipName" class="w-full" appendTo="body"
+                formControlName="value"></p-select>
+            <!-- <p-select [options]="types" formControlName="mapType" placeholder="Select" class="w-full" showClear="true"
+                appendTo="body" />
+            <p-select [options]="getTypeOptions(i,'input')" optionLabel="name" placeholder="Select" filterBy="name"
+                [filter]="true" class="w-full" showClear="true" appendTo="body" formControlName="typeName" />
+            <p-select [options]="getAttributeOptions(i,'input')" optionLabel="name" optionValue="id"
+                placeholder="Select" filterBy="name" [filter]="true" formControlName="attribute" class="w-full"
+                showClear="true" appendTo="body" /> -->
+        </div>
+    </div>
+    <div formArrayName="outputAttributes" class="mt-3">
+        <h6>Output Attributes</h6>
+        <div *ngFor="let attr of workflowOps.controls; let m = index" [formGroupName]="m" class="flex gap-2 mt-2">
+            <input pInputText formControlName="name" readonly />
+            <input pInputText formControlName="type" readonly />
+            <p-select [options]="internalIps" class="w-full" optionLabel="ipName" appendTo="body"
+                formControlName="value"></p-select>
+            <!-- <p-select [options]="types" formControlName="mapType" placeholder="Select" class="w-full" showClear="true"
+                appendTo="body" />
+            <p-select [options]="getTypeOptions(i,'input')" optionLabel="name" placeholder="Select" filterBy="name"
+                [filter]="true" class="w-full" showClear="true" appendTo="body" formControlName="typeName" />
+            <p-select [options]="getAttributeOptions(i,'input')" optionLabel="name" optionValue="id"
+                placeholder="Select" filterBy="name" [filter]="true" formControlName="attribute" class="w-full"
+                showClear="true" appendTo="body" /> -->
+        </div>
+    </div>
+</form>
+<div class="flex gap-4 justify-end pt-[10px]">
+    <p-button label="Save" (onClick)="onSubmit()"></p-button>
+    <p-button label="Close" (onClick)="this.ref.close()"> </p-button>
+</div>

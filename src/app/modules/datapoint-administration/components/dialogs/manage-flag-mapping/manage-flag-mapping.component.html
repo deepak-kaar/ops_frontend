@@ -1,0 +1,195 @@
+<div class="flex flex-col gap-4">
+    <form [formGroup]="mappingForm">
+        <div class="flex flex-col gap-2">
+            <label for="username">Mapping Description</label>
+            <textarea pTextarea pSize="small" rows="3"></textarea>
+        </div>
+        <div class="pt-3 flex gap-2 justify-between items-center">
+            <p class="font-bold">Event Mapping</p>
+            <p-button (onClick)="addEvent()">Add more events</p-button>
+        </div>
+        <div formArrayName="events">
+            @for(event of events.controls;track event;let idx =
+            $index){
+            <div class="flex flex-col gap-2">
+                <label for="username">Event {{idx + 1}}</label>
+                <p-select optionLabel="name" placeholder="Choose an event" class="w-full" />
+            </div>
+            }
+        </div>
+        <div class="pt-3" formArrayName="inputMappings">
+            <p-table #dt [value]="inputMappings.controls" dataKey="index" [rows]="20" [showCurrentPageReport]="true"
+                [rowsPerPageOptions]="[20, 30, 50]" [paginator]="true" paginatorDropdownAppendTo="body" [filterDelay]="0"
+                responsiveLayout="scroll">
+                <ng-template #caption>
+                    <div class="flex justify-between">
+                        <div class="font-bold">
+                            Input Variables Mapping
+                        </div>
+                        <div class="flex gap-[10px]">
+                        </div>
+                    </div>
+                </ng-template>
+                <ng-template #header>
+                    <tr>
+                        <th style="min-width: 10rem">
+                            <div class="flex justify-between items-center">
+                                Input Variables Name
+                            </div>
+                        </th>
+                        <th style="min-width: 10rem">
+                            <div class="flex justify-between items-center">
+                                Entity/Instance/Tag
+                            </div>
+                        </th>
+                        <th style="min-width: 10rem">
+                            <div class="flex justify-between items-center">
+                                Entity/Instance Name
+                            </div>
+                        </th>
+                        <th style="min-width: 15rem">
+                            <div class="flex justify-between items-center">
+                                Attributes
+                            </div>
+                        </th>
+                        <th style="min-width: 15rem">
+                            <div class="flex justify-between items-center">
+                                Frequency
+                            </div>
+                        </th>
+
+                        <th style="min-width: 15rem">
+                            <div class="flex justify-between items-center">
+                                Offset
+                            </div>
+                        </th>
+                    </tr>
+                </ng-template>
+                <ng-template #body let-cal let-i="rowIndex">
+                    <tr [formGroupName]="i">
+                        <td>
+                            {{inputMappings.at(i).get('variableName')?.value}}
+                        </td>
+                        <td>
+                            <p-select [options]="types" formControlName="type" placeholder="Select" class="w-full"
+                                showClear="true" appendTo="body" />
+                        </td>
+                        <td>
+                            <p-select [options]="getTypeOptions(i)" optionLabel="name" placeholder="Select"
+                                filterBy="name" [filter]="true" class="w-full" showClear="true" appendTo="body"
+                                formControlName="typeName" />
+                        </td>
+                        <td>
+                            <p-select [options]="getAttributeOptions(i)" optionLabel="name" placeholder="Select"
+                                filterBy="name" [filter]="true" class="w-full" showClear="true" appendTo="body" />
+                        </td>
+                        <td>
+                            <p-select [options]="frequencyOptions" optionLabel="name" placeholder="Select"
+                                filterBy="name" [filter]="true" class="w-full" showClear="true" appendTo="body" />
+                        </td>
+                        <td>
+                            <p-inputnumber inputId="integeronly" [showButtons]="true" class="w-full"
+                                placeholder="Input" />
+                        </td>
+                    </tr>
+                </ng-template>
+
+                <ng-template #emptymessage>
+                    <tr>
+                        <td colspan="5">No Apps found.</td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+        <div formArrayName="outputMappings">
+            <p-table #dt [value]="outputMappings.controls" dataKey="index" [rows]="20" [showCurrentPageReport]="true"
+                [rowsPerPageOptions]="[20, 30, 50]" [paginator]="true" paginatorDropdownAppendTo="body" [filterDelay]="0"
+                responsiveLayout="scroll">
+                <ng-template #caption>
+                    <div class="flex justify-between">
+                        <div class="font-bold">
+                            Output Variables Mapping
+                        </div>
+                        <div class="flex gap-[10px]">
+                            <p-button (onClick)="addOutput()">Add More Output Variable</p-button>
+                        </div>
+                    </div>
+                </ng-template>
+                <ng-template #header>
+                    <tr>
+                        <th style="min-width: 10rem">
+                            <div class="flex justify-between items-center">
+                                Output Variables Name
+                            </div>
+                        </th>
+                        <th style="min-width: 10rem">
+                            <div class="flex justify-between items-center">
+                                Entity/Instance/Tag
+                            </div>
+                        </th>
+                        <th style="min-width: 10rem">
+                            <div class="flex justify-between items-center">
+                                Entity/Instance Name
+                            </div>
+                        </th>
+                        <th style="min-width: 15rem">
+                            <div class="flex justify-between items-center">
+                                Attributes
+                            </div>
+                        </th>
+                        <th style="min-width: 15rem">
+                            <div class="flex justify-between items-center">
+                                Frequency
+                            </div>
+                        </th>
+
+                        <th style="min-width: 15rem">
+                            <div class="flex justify-between items-center">
+                                Offset
+                            </div>
+                        </th>
+                    </tr>
+                </ng-template>
+                <ng-template #body let-cal let-i="rowIndex">
+                    <tr [formGroupName]="i">
+                        <td>
+                            {{outputMappings.at(i).get('variableName')?.value}}
+                        </td>
+                        <td>
+                            <p-select [options]="types" formControlName="type" placeholder="Select" class="w-full"
+                                showClear="true" appendTo="body" />
+                        </td>
+                        <td>
+                            <p-select [options]="getTypeOptions(i)" optionLabel="name" placeholder="Select"
+                                filterBy="name" [filter]="true" class="w-full" showClear="true" appendTo="body"
+                                formControlName="typeName" />
+                        </td>
+                        <td>
+                            <p-select [options]="getAttributeOptions(i)" optionLabel="name" placeholder="Select"
+                                filterBy="name" [filter]="true" class="w-full" showClear="true" appendTo="body" />
+                        </td>
+                        <td>
+                            <p-select [options]="frequencyOptions" optionLabel="name" placeholder="Select"
+                                filterBy="name" [filter]="true" class="w-full" showClear="true" appendTo="body" />
+                        </td>
+                        <td>
+                            <p-inputnumber inputId="integeronly" [showButtons]="true" class="w-full"
+                                placeholder="Input" />
+                        </td>
+                    </tr>
+                </ng-template>
+
+                <ng-template #emptymessage>
+                    <tr>
+                        <td colspan="5">No Apps found.</td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+    </form>
+    <div class="flex justify-center gap-[10px]">
+        <p-button styleClass="w-[250px]" severity="danger" outlined="true" label="Cancel"
+            (onClick)="ref.close()"></p-button>
+        <p-button styleClass="w-[250px]" label="Save" (onClick)="createMapping()"></p-button>
+    </div>
+</div>

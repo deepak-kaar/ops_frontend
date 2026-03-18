@@ -1,0 +1,39 @@
+<div class="layout-root surface">
+
+  <!-- MOBILE OVERLAY -->
+  @if(!isDeepAccess){
+  <div class="mobile-overlay" [class.active]="mobileSidebarOpen" (click)="toggleSidebar()"></div>
+  }
+
+  <!-- FIXED SIDEBAR -->
+  @if(!isDeepAccess){
+  <aside class="sidebar-wrapper" [class.mobile-open]="mobileSidebarOpen">
+    <app-sidebar-new></app-sidebar-new>
+  </aside>
+  }
+
+  <!-- RIGHT SIDE -->
+  <div class="right-pane surface-ground">
+
+    @if(!isDeepAccess){
+    <app-topbar-new (menuToggle)="toggleSidebar()" [showRolloutLabel]="true" [labels]="labels" [selectedLabel]="selectedLabel" (labelChange)="onLabelChange()"></app-topbar-new>
+    }
+
+    <!-- content that scrolls -->
+    <div class="right-scroll">
+
+      @if(!isDeepAccess && showRoutingCards){
+      <div class="px-6 pt-4 pb-1">
+        <app-filter></app-filter>
+      </div>
+      }
+
+      <router-outlet></router-outlet>
+
+    </div>
+
+  </div>
+
+</div>
+
+<p-toast></p-toast>

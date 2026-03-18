@@ -1,0 +1,239 @@
+<div class="flex flex-col h-full entity-form">
+    <div class="w-full flex p-4 justify-center">
+        <div class="">
+            <div class="mt-auto flex items-center justify-between">
+                <div>
+                    <span class="font-normal text-2xl">Create Event</span>
+                </div>
+                <div class="flex justify-content-end gap-2 pr-2 pb-2">
+                    <p-button label="Save" (onClick)="onSubmit()" [style]="{
+                'border-radius': '12px',
+                height: '37px'
+              }" />
+                    <p-button label="Back" (onClick)="closeCallback($event)" [style]="{
+                'border-radius': '12px',
+                height: '37px',
+              }" />
+                </div>
+            </div>
+            <div [formGroup]="createEvent" class="form-fields">
+                <div class="col flex pt-3">
+                    <span class="text-xl font-bold">Event Details</span>
+                </div>
+                <div class="col flex items-center flex-col gap-6 justify-center pt-6">
+                    <div class="field w-full">
+                        <p-floatLabel>
+                            <input pInputText id="event_name" formControlName="eventName"
+                                class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full" />
+                            <label for="Event name">Event name <span class="text-red-500">*</span></label>
+                        </p-floatLabel>
+                        <small *ngIf="createEvent.get('eventName')?.invalid && createEvent.get('eventName')?.touched "
+                            class="p-error pl-2">
+                            Event name is required.
+                        </small>
+                    </div>
+                    <div class="field w-full">
+                        <p-floatLabel>
+                            <textarea rows="3" cols="30" pTextarea id="event_desc" formControlName="eventDescription"
+                                class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"></textarea>
+                            <label for="Event description">Event description <span class="text-red-500">*</span></label>
+                        </p-floatLabel>
+                        <small *ngIf="
+                  createEvent.get('eventDescription')?.invalid &&
+                  createEvent.get('eventDescription')?.touched
+                " class="p-error pl-2">
+                            Description is required.
+                        </small>
+                    </div>
+                </div>
+
+                <div>
+                    <div class="col flex pt-3">
+                        <span class="text-xl font-bold">Event Attributes</span>
+                    </div>
+                    <div class="flex flex-col gap-4">
+                        <form [formGroup]="attributeForm">
+                            <div class="flex gap-[10px] justify-end">
+                                <p-button label="Add Input Variable" (onClick)="setMapping()" />
+                            </div>
+                            <div formArrayName="inputMappings" class="pt-4">
+                                @for(variable of inputMappings.controls;track variable;let idx =
+                                $index){
+                                <div class="flex items-center gap-5">
+                                    <div class="w-full pb-4">
+                                        <label for="variableName">Attribute Name</label>
+                                        <input id="variableName" type="text" pInputText style='width:100%'
+                                            formControlName="variableName" />
+                                    </div>
+                                    <div class="pt-4">
+                                        <p-button icon="pi pi-trash" [rounded]="true" [text]="true" [raised]="true"
+                                            [style]="{ color: '#F97316', background: '#FFEADC' }"
+                                            (onClick)="onRemoveVaribale(idx)" />
+                                    </div>
+                                </div>
+                                }
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <div class="pt-10">
+                    <div class="card flex flex-col gap-5 justify-center">
+                        <p-panel header="Event Start" [toggleable]="true" [collapseIcon]="'pi pi-chevron-up'"
+                            [expandIcon]="'pi pi-chevron-down'">
+                            <div class="surface-border border-bottom-2 p-1 flex content-end justify-end">
+                                <p-button label="Add Task/Activity" icon="pi pi-plus" outlined="true"
+                                    (onClick)="addEventStart()" />
+                            </div>
+                            <div formArrayName="eventStart">
+                                @for(variable of eventStarts.controls;track variable;let idx =
+                                $index){
+                                <div class="w-full flex gap-4 card items-center pt-10 flex-wrap" [formGroupName]="idx">
+                                    <div class="card flex justify-center">
+                                        <p-floatlabel class="">
+                                            <p-select inputId="on_label" [options]="activities" appendTo="body"
+                                                styleClass="w-full" [style]="{ width: '250px' }"
+                                                formControlName="activityType" 
+                                                (onChange)="onActivityChange($event.value)" />
+                                            <label for="on_label">Select Activity Type</label>
+                                        </p-floatlabel>
+                                    </div>
+                                    <div class="card flex justify-center">
+                                        <p-floatlabel class="">
+                                            <p-multiSelect [options]="rolesData" formControlName="activityRoles"
+                                                [filter]="true" filterBy="roleName" optionLabel="roleName"
+                                                appendTo="body" [maxSelectedLabels]="1"
+                                                selectedItemsLabel="{0} roles selected" [style]="{ width: '250px' }" />
+                                            <label for="on_label">Select Roles</label>
+                                        </p-floatlabel>
+                                    </div>
+                                    <div class="card flex justify-center">
+                                        <p-floatlabel class="">
+                                            <p-select inputId="on_label" [options]="notifications" appendTo="body"
+                                                styleClass="w-full" [style]="{ width: '250px' }"
+                                                formControlName="activityType" optionLabel="notificationName" />
+                                            <label for="on_label">Select {{variable.get('activityType')?.value}}
+                                                Template </label>
+                                        </p-floatlabel>
+                                    </div>
+                                    <div>
+                                        <p-button icon="pi pi-trash" [rounded]="true" [text]="true" [raised]="true"
+                                            [style]="{ color: '#F97316', background: '#FFEADC' }"
+                                            (onClick)="onRemoveVaribale(idx)" />
+                                    </div>
+                                </div>
+                                }
+                            </div>
+                        </p-panel>
+                        <p-panel header="Event On Going" [toggleable]="true" [collapseIcon]="'pi pi-chevron-up'"
+                            [expandIcon]="'pi pi-chevron-down'">
+                            <div class="surface-border border-bottom-2 p-1 flex content-end justify-end">
+                                <p-button label="Add Task/Activity" icon="pi pi-plus" outlined="true"
+                                    (onClick)="addEventOnGoing()" />
+                            </div>
+                            <div formArrayName="eventOnGoing">
+                                @for(variable of eventOnGoings.controls;track variable;let idx =
+                                $index){
+                                <div class="w-full flex gap-4 card items-center pt-10 flex-wrap" [formGroupName]="idx">
+                                    <div class="card flex justify-center">
+                                        <p-floatlabel class="">
+                                            <p-select inputId="on_label" [options]="activities" appendTo="body"
+                                                styleClass="w-full" [style]="{ width: '250px' }"
+                                                formControlName="activityType" />
+                                            <label for="on_label">Select Activity Type</label>
+                                        </p-floatlabel>
+                                    </div>
+                                    <div class="card flex justify-center">
+                                        <p-floatlabel class="">
+                                            <p-multiSelect [options]="rolesData" formControlName="activityRoles"
+                                                [filter]="true" filterBy="roleName" optionLabel="roleName"
+                                                appendTo="body" [maxSelectedLabels]="0"
+                                                selectedItemsLabel="{0} roles selected" [style]="{ width: '250px' }" />
+                                            <label for="on_label">Select Roles</label>
+                                        </p-floatlabel>
+                                    </div>
+                                    <div class="card flex justify-center">
+                                        <p-floatlabel class="">
+                                            <p-select inputId="on_label" [options]="activities" appendTo="body"
+                                                styleClass="w-full" [style]="{ width: '250px' }"
+                                                formControlName="activityType" />
+                                            <label for="on_label">Select {{variable.get('activityType')?.value}}
+                                                Template </label>
+                                        </p-floatlabel>
+                                    </div>
+
+                                    <p-floatlabel>
+                                        <p-inputnumber formControlName="thresholdTime" [showButtons]="true"
+                                            inputId="stacked" suffix=" min" />
+                                        <label for="over_label">Threshold Time</label>
+                                    </p-floatlabel>
+                                    <div>
+                                        <p-button icon="pi pi-trash" [rounded]="true" [text]="true" [raised]="true"
+                                            [style]="{ color: '#F97316', background: '#FFEADC' }"
+                                            (onClick)="onRemoveVaribale(idx)" />
+                                    </div>
+
+                                </div>
+                                }
+                            </div>
+                        </p-panel>
+                        <p-panel header="Event End" [toggleable]="true" [collapseIcon]="'pi pi-chevron-up'"
+                            [expandIcon]="'pi pi-chevron-down'">
+                            <div class="surface-border border-bottom-2 p-1 flex content-end justify-end">
+                                <p-button label="Add Task/Activity" icon="pi pi-plus" outlined="true"
+                                    (onClick)="addEventEnd()" />
+                            </div>
+                            <div formArrayName="eventEnd">
+                                @for(variable of eventEnds.controls;track variable;let idx =
+                                $index){
+                                <div class="w-full flex gap-4 card items-center pt-10 flex-wrap" [formGroupName]="idx">
+
+                                    <div class="card flex justify-center">
+                                        <p-floatlabel class="">
+                                            <p-select inputId="on_label" [options]="activities" appendTo="body"
+                                                styleClass="w-full" [style]="{ width: '250px' }"
+                                                formControlName="activityType" />
+                                            <label for="on_label">Select Activity Type</label>
+                                        </p-floatlabel>
+                                    </div>
+                                    <div class="card flex justify-center">
+                                        <p-floatlabel class="">
+                                            <p-multiSelect [options]="rolesData" formControlName="activityRoles"
+                                                [filter]="true" filterBy="roleName" optionLabel="roleName"
+                                                appendTo="body" [maxSelectedLabels]="0"
+                                                selectedItemsLabel="{0} roles selected" [style]="{ width: '250px' }" />
+                                            <label for="on_label">Select Roles</label>
+                                        </p-floatlabel>
+                                    </div>
+                                    <div class="card flex justify-center">
+                                        <p-floatlabel class="">
+                                            <p-select inputId="on_label" [options]="activities" appendTo="body"
+                                                styleClass="w-full" [style]="{ width: '250px' }"
+                                                formControlName="activityType" />
+                                            <label for="on_label">Select {{variable.get('activityType')?.value}}
+                                                Template </label>
+                                        </p-floatlabel>
+                                    </div>
+
+                                    <p-floatlabel>
+                                        <p-inputnumber formControlName="thresholdTime" [showButtons]="true"
+                                            inputId="stacked" suffix=" min" />
+                                        <label for="over_label">Threshold Time</label>
+                                    </p-floatlabel>
+                                    <div class="pt-4">
+                                        <p-button icon="pi pi-trash" [rounded]="true" [text]="true" [raised]="true"
+                                            [style]="{ color: '#F97316', background: '#FFEADC' }"
+                                            (onClick)="onRemoveVaribale(idx)" />
+                                    </div>
+                                </div>
+                                }
+                            </div>
+                        </p-panel>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+<p-toast [breakpoints]="breakPointForToastComponent"></p-toast>

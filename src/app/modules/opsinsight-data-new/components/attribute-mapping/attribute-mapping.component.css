@@ -1,0 +1,22 @@
+.table-container {
+  border: 1px solid #e5e7eb;
+  border-radius: 6px;
+}
+
+:host ::ng-deep .p-datatable {
+  border-radius: 6px;
+}
+
+:host ::ng-deep .p-datatable-thead>tr>th {
+  background: #f9fafb;
+  font-weight: 600;
+  padding: 12px;
+}
+
+:host ::ng-deep .p-datatable-tbody>tr>td {
+  padding: 12px;
+}
+
+:host ::ng-deep .p-datatable-tbody>tr:hover {
+  background: #f9fafb;
+}

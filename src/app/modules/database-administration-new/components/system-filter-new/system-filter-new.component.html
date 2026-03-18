@@ -1,0 +1,4 @@
+<div class="filter-container">
+    <p-select [options]="systems" [(ngModel)]="selectedSystem" optionLabel="sysName" filterBy="sysName" [filter]="true"
+        placeholder="Select a System" class="filter-select" showClear="true" (onChange)="onSystemChange($event)" />
+</div>

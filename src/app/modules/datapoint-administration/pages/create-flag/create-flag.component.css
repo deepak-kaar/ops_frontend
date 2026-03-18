@@ -1,0 +1,40 @@
+.input-field {
+    width: 100%;
+  }
+  
+  .h-80 {
+    height: 65vh;
+  }
+
+  .bottom-12 {
+    bottom: 12%;
+  }
+  
+  .flex-half {
+    flex: 0.5;
+  }
+  
+  .flex-3 {
+    flex: 3;
+  }
+  
+  .p-ripple.p-element.p-button.p-component.p-highlight.ng-star-inserted {
+    height: 40px;
+  }
+  
+  .p-stepper .p-stepper-header:has(~ .p-highlight) .p-stepper-separator {
+    background-color: #83bd01;
+  }
+
+  .p-togglebutton.p-togglebutton-checked::before {
+    box-shadow: var(--p-togglebutton-content-checked-shadow) !important;
+  }
+
+  .p-togglebutton-checked .p-togglebutton-content {
+    background: var(--p-primary-color) !important;
+  }
+  
+  .p-togglebutton.p-togglebutton-checked{
+    color: #FFFFFF !important;
+  }
+  

@@ -1,0 +1,52 @@
+<div class="scan-container px-6 pt-4 pb-6">
+  <div class="flex flex-col md:flex-row justify-between gap-3 mb-4">
+    <div class="section-title">
+      <i class="pi pi-video mr-2"></i>View Stream
+    </div>
+  </div>
+
+  <p-card class="w-full scan-card">
+    <div class="flex flex-col gap-4">
+      <div class="flex flex-col items-center gap-4">
+        <video #remoteVideo autoplay playsinline controls class="video"></video>
+      </div>
+
+      <div class="recorded-streams-container">
+        <h2>Recorded Streams</h2>
+
+        <div *ngIf="isLoading" class="loading">Loading streams...</div>
+        <div *ngIf="errorMessage" class="error">{{ errorMessage }}</div>
+
+        <div class="stream-list" *ngIf="!isLoading && streams.length > 0">
+          <div
+            class="stream-card"
+            *ngFor="let stream of streams"
+            (click)="selectStream(stream.streamId)"
+            [class.active]="selectedStreamId === stream.streamId"
+          >
+            <div class="stream-info">
+              <div class="stream-title">{{ stream.streamId }}</div>
+              <div class="stream-meta">
+                <span>{{ stream.startTime | date: 'short' }}</span>
+                <span>{{ stream.totalChunks }} chunks</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="video-player" *ngIf="videoUrl">
+          <h3>Playing: {{ selectedStreamId }}</h3>
+          <video
+            controls
+            autoplay
+            playsinline
+            [src]="videoUrl"
+            type="video/webm"
+            class="video"
+          ></video>
+        </div>
+      </div>
+    </div>
+  </p-card>
+</div>
+

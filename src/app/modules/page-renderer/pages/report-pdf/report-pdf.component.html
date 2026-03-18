@@ -1,0 +1,20 @@
+<div class="reports-main">
+
+    <!-- Right Panel - 80% Preview -->
+    <div class="reports-right">
+        @if (selectedMapping?.mappingId || selectedMapping?.templateId) {
+        <div class="reports-preview-wrapper">
+            <app-global-renderer [pageType]="'Report'" [embedded]="true"
+                [mappingId]="selectedMapping.mappingId || selectedMapping.templateId"
+                [isTemplate]="!selectedMapping.mappingId && !!selectedMapping.templateId" [type]="'Generate PDF'"
+                [date]="date1.toISOString()">
+            </app-global-renderer>
+        </div>
+        } @else {
+        <div class="reports-preview-empty">
+            <i class="pi pi-eye"></i>
+            <span>Select a report to preview</span>
+        </div>
+        }
+    </div>
+</div>

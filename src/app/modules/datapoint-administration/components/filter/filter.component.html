@@ -1,0 +1,8 @@
+<div class="flex flex-wrap gap-[25px]">
+    <p-select [options]="apps" [(ngModel)]="selectedApp" optionLabel="appName" filterBy="appName"
+        (onChange)="onAppChange($event.value)" [filter]="true" optionValue="appId" placeholder="Select an Application"
+        class="w-full md:w-[300px]" showClear="true" />
+    <p-select [options]="orgs" [(ngModel)]="selectedOrg" optionLabel="orgName" filterBy="orgName" [filter]="true"
+        optionValue="orgId" placeholder="Select an Organization" class="w-full md:w-[300px]" showClear="true"
+        (onChange)="onOrgChange()" />
+</div>

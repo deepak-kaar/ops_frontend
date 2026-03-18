@@ -1,0 +1,16 @@
+<div class="flex flex-col h-full">
+  <div class="flex items-center justify-between mb-2 p-2 border-b">
+    <label class="text-sm font-medium">Editor Mode:</label>
+    <div class="flex items-center gap-2">
+      <span class="text-xs" [ngClass]="{'font-semibold': isNormalMode, 'text-gray-500': !isNormalMode}">Normal</span>
+      <p-inputSwitch [(ngModel)]="isNormalMode" (ngModelChange)="toggleMode()"></p-inputSwitch>
+      <span class="text-xs" [ngClass]="{'font-semibold': !isNormalMode, 'text-gray-500': isNormalMode}">Empty</span>
+    </div>
+  </div>
+  <div class="flex-1">
+    <ngx-monaco-editor style="height: calc(100% - 60px)" [options]="editorOptions" [(ngModel)]="code"></ngx-monaco-editor>
+  </div>
+  <div class="w-full mt-2">
+    <p-button styleClass="w-full" label="Save" (click)="save()"></p-button>
+  </div>
+</div>

@@ -1,0 +1,41 @@
+.mapping-row {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 10px;
+  border-radius: 6px;
+  border: 1px solid var(--p-surface-200);
+  background: var(--p-surface-0);
+  margin-bottom: 10px;
+}
+
+.mapping-row-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 4px;
+}
+
+.mapping-summary {
+  font-size: 11px;
+  color: var(--p-primary-500);
+  background: var(--p-primary-50);
+  padding: 2px 8px;
+  border-radius: 100px;
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 130px;
+}
+
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 32px 16px;
+  color: var(--p-text-muted-color);
+  text-align: center;
+}

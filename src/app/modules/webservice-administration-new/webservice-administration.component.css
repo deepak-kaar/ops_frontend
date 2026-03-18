@@ -1,0 +1,7 @@
+/* Note: Global CSS variables are imported in styles.css for use across all components */
+
+.webservice-admin-container {
+  width: 100%;
+  min-height: 100vh;
+  box-sizing: border-box;
+}

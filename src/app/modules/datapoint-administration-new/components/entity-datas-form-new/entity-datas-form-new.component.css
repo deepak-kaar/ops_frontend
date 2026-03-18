@@ -1,0 +1,66 @@
+/* Form Field Styles */
+.form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+.form-field label {
+  font-size: 13px;
+  font-weight: 500;
+  color: #475569;
+}
+
+.required {
+  color: #ef4444;
+}
+
+.form-field input,
+.form-field p-select,
+.form-field textarea {
+  width: 100%;
+}
+
+.error-text {
+  color: #ef4444;
+  font-size: 12px;
+}
+
+/* ===== PRIMENG COMPONENT OVERRIDES ===== */
+:host ::ng-deep .p-inputtext,
+:host ::ng-deep .p-select,
+:host ::ng-deep .p-textarea {
+  border-radius: 8px;
+  border: 1px solid #cbd5e1;
+  width: 100%;
+}
+
+:host ::ng-deep .p-inputtext:focus,
+:host ::ng-deep .p-select:focus {
+  border-color: #0064ea;
+  box-shadow: 0 0 0 2px rgba(0, 100, 234, 0.1);
+}
+
+:host ::ng-deep .p-selectbutton .p-button {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  color: #64748b;
+  transition: all 0.2s;
+}
+
+:host ::ng-deep .p-selectbutton .p-button.p-highlight {
+  background-color: #0064ea !important;
+  border-color: #0064ea !important;
+  color: #ffffff !important;
+}
+
+:host ::ng-deep .p-selectbutton .p-button.p-highlight:hover {
+  background-color: #0056cc !important;
+  border-color: #0056cc !important;
+  color: #ffffff !important;
+}
+
+:host ::ng-deep .p-selectbutton .p-button.p-highlight .p-button-label {
+  color: #ffffff !important;
+}

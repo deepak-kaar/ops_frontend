@@ -1,0 +1,8 @@
+:host ::ng-deep .accordion-label {
+    font-weight: 400 !important;
+    color: #334155 !important; /* Specific text color */
+}
+
+:host ::ng-deep .p-accordion-header-link {
+    text-decoration: none !important;
+}

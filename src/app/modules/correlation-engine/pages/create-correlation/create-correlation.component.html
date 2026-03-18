@@ -1,0 +1,198 @@
+<div class="p-4">
+    <div class="flex justify-end gap-3">
+        <p-button label="Create Correlation Template" (onClick)="createCorrelation()"
+            [style]="{'border-radius':'12px','height':'37px'}" />
+
+        <p-button label="Back" routerLink="/correlationEngine/home/main"
+            [style]="{'border-radius':'12px','height':'37px'}" />
+    </div>
+    <form [formGroup]="correlationForm">
+        <div class="flex flex-col gap-10 pb-5">
+            <div class="flex flex-col gap-2">
+                <label for="correlationName">Correlation Name</label>
+                <input pInputText id="correlationName" formControlName="correlationName" />
+            </div>
+            <div class="flex flex-col gap-2">
+                <label for="correlationDescription">Correlation Description</label>
+                <textarea pTextarea rows="3" formControlName="correlationDescription"></textarea>
+            </div>
+            <div class="flex w-full">
+                <p-accordion [value]="['0']" [multiple]="true"
+                    class="w-full border-1 border-[var(--p-content-border-color)]">
+                    <p-accordion-panel value="0">
+                        <p-accordion-header>
+                            <ng-template #toggleicon let-active="active">
+                                @if (active) {
+                                <i class="pi pi-angle-down"></i>
+                                } @else {
+                                <i class="pi pi-angle-right"></i>
+                                }
+                            </ng-template>
+                            <span class="flex items-center gap-2 w-full">
+                                <span class="font-bold whitespace-nowrap">Input Params</span>
+                            </span>
+                        </p-accordion-header>
+                        <p-accordion-content>
+                            <div formArrayName="inputParams">
+                                <div class="flex justify-end w-full pb-5">
+                                    <p-button label="Add Input Parameter" (onClick)="addInputParams()"></p-button>
+                                </div>
+                                @for(input of inputParams.controls;track input;let idx =
+                                $index){
+                                <div class="flex justify-between pb-5" [formGroupName]="idx">
+                                    <div class="flex flex-col gap-2">
+                                        <label for="inputParamName">Input Param Name</label>
+                                        <input pInputText id="ipName" class="w-full" formControlName="ipName" />
+                                    </div>
+                                    <div class="flex flex-col gap-2">
+                                        <label for="">Input Data Type</label>
+                                        <p-select appendTo="body" [options]="dataTypes" formControlName="type"
+                                            placeholder="Select a data type" class="w-[220px]" />
+                                    </div>
+                                    <div class="flex flex-col gap-2">
+                                        <label for="inputParamName">Sample Value</label>
+                                        <input pInputText id="simulateName" class="w-full"
+                                            formControlName="simulateField" />
+                                        <small id="username-help">This is for preview purpose only.</small>
+                                    </div>
+                                    <div class="pt-8">
+                                        <p-checkbox formControlName="isRequired" [binary]="true" />
+                                    </div>
+                                    <div class="pt-6">
+                                        <p-button icon="pi pi-trash" [rounded]="true" [text]="true" [raised]="true"
+                                            [style]="{ color: '#F97316', background: '#FFEADC' }"
+                                            (onClick)="inputParams.removeAt(idx)" />
+                                    </div>
+                                </div>
+                                }
+                            </div>
+                        </p-accordion-content>
+                    </p-accordion-panel>
+                    <p-accordion-panel value="1">
+                        <p-accordion-header>
+                            <ng-template #toggleicon let-active="active">
+                                @if (active) {
+                                <i class="pi pi-angle-down"></i>
+                                } @else {
+                                <i class="pi pi-angle-right"></i>
+                                }
+                            </ng-template>
+                            <span class="flex items-center gap-2 w-full">
+                                <span class="font-bold whitespace-nowrap">Output Params</span>
+                            </span>
+                        </p-accordion-header>
+                        <p-accordion-content>
+                            <div formArrayName="outputParams">
+                                <div class="flex justify-end w-full pb-5">
+                                    <p-button label="Add Output Parameter" (onClick)="addOutputParams()"></p-button>
+                                </div>
+                                @for(input of outputParams.controls;track input;let idx =
+                                $index){
+                                <div class="flex justify-between pb-5" [formGroupName]="idx">
+                                    <div class="flex flex-col gap-2">
+                                        <label for="inputParamName">Output Parameter Name</label>
+                                        <input pInputText id="opName" class="w-full" formControlName="opName" />
+                                    </div>
+                                    <div class="flex flex-col gap-2">
+                                        <label for="">Output Data Type</label>
+                                        <p-select appendTo="body" [options]="dataTypes" formControlName="type"
+                                            placeholder="Select a data type" class="w-[220px]" />
+                                    </div>
+                                    <div class="pt-8">
+                                        <p-checkbox formControlName="isRequired" [binary]="true" />
+                                    </div>
+                                    <div class="pt-6">
+                                        <p-button icon="pi pi-trash" [rounded]="true" [text]="true" [raised]="true"
+                                            [style]="{ color: '#F97316', background: '#FFEADC' }"
+                                            (onClick)="outputParams.removeAt(idx)" />
+                                    </div>
+                                </div>
+                                }
+                            </div>
+                        </p-accordion-content>
+                    </p-accordion-panel>
+                </p-accordion>
+            </div>
+            <p-card>
+                <div class="flex gap-5 items-center">
+                    <span>Pipeline Stages</span>
+                    <p-button icon="pi pi-plus" label="Add Pipeline" (onClick)="addPipeline()"></p-button>
+                </div>
+                <div formArrayName="correlationPipelines">
+                    @for(pipeline of correlationPipelines.controls; track pipeline; let pIndex = $index) {
+                    <div class="card surface-border border-round mt-4" [formGroupName]="pIndex">
+                        <p-panel [header]="'Pipeline - ' + (pIndex + 1)" [toggleable]="true" [collapsed]="false"
+                            [collapseIcon]="'pi pi-chevron-up'" [expandIcon]="'pi pi-chevron-down'">
+                            <ng-template #header>
+                                <div class="flex items-center gap-2">
+                                    <div class="flex w-full items-center gap-3">
+                                        <label class="font-semibold">Pipeline Statement</label>
+                                        <input type="text" pInputText formControlName="pipelineName"
+                                            placeholder="Enter pipeline name" />
+                                    </div>
+                                </div>
+                            </ng-template>
+
+                            <div class="flex flex-col gap-3">
+                                <!-- Correlation Stages inside this pipeline -->
+                                <div formArrayName="correlationStages" class="pt-4">
+                                    @for(stage of getCorrelationStages(pIndex).controls; track stage; let sIndex =
+                                    $index) {
+                                    <div class="card surface-border border-round mt-2" [formGroupName]="sIndex">
+                                        <p-panel [header]="'Stage - ' + (sIndex + 1)" [toggleable]="true"
+                                            [collapsed]="getCorrelationStages(pIndex).controls.length !== sIndex + 1"
+                                            [collapseIcon]="'pi pi-chevron-up'" [expandIcon]="'pi pi-chevron-down'">
+                                            <ng-template #header>
+                                                <div class="flex items-center gap-2">
+                                                    <p-select [options]="operations$ | async" formControlName="type"
+                                                        [style]="{'width':'200px'}"></p-select>
+                                                </div>
+                                            </ng-template>
+
+                                            <div class="h-[25rem]">
+                                                <p-splitter [style]="{ height: '100%' }" styleClass="mb-8">
+                                                    <ng-template #panel>
+                                                        <div class="w-full flex flex-col gap-2">
+                                                            <label class="font-semibold">Pipeline Logic</label>
+                                                            <ngx-monaco-editor style="width:100%; height: 100%"
+                                                                [options]="editorOptions"
+                                                                formControlName="correlationLogic"></ngx-monaco-editor>
+                                                        </div>
+                                                    </ng-template>
+                                                    <ng-template #panel>
+                                                        <div class="w-full flex flex-col gap-2">
+                                                            <label class="font-semibold">Preview Result</label>
+                                                            <ngx-monaco-editor style="width:100%; height: 95%"
+                                                                [options]="previewEditorOptions"
+                                                                formControlName="preview"></ngx-monaco-editor>
+                                                        </div>
+                                                    </ng-template>
+                                                </p-splitter>
+                                            </div>
+                                        </p-panel>
+                                    </div>
+                                    }
+
+                                    <!-- Add Stage Button -->
+                                    <div class="flex justify-center pt-3">
+                                        <p-button icon="pi pi-plus" rounded="true"
+                                            (onClick)="addStage(pIndex)"></p-button>
+                                    </div>
+                                </div>
+                            </div>
+                        </p-panel>
+                    </div>
+                    }
+                </div>
+
+            </p-card>
+            <p-card>
+                <div class="w-full flex flex-col gap-2 h-[15rem]">
+                    <label class="font-semibold">Correlation Logic</label>
+                    <ngx-monaco-editor style="width:100%; height: 100%" [options]="correlationLogicEditorOptions"
+                        formControlName="jsLogic"></ngx-monaco-editor>
+                </div>
+            </p-card>
+        </div>
+    </form>
+</div>

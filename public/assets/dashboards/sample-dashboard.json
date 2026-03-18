@@ -1,0 +1,1218 @@
+{
+  "appId": "68fdb13b0329d6b5ce9a3d27",
+  "orgId": "683413058b4898a3f19e6fcf",
+  "dataObject": {
+    "w-1765883571226-401": {
+      "w-1765883642640-25": {
+        "label": "Manifa Morning Report"
+      },
+      "w-1765883680187-423": {
+        "label": "Crude Oil Operation Details"
+      },
+      "w-1765884178507-211": {
+        "label": "Target (Entered by Production Engineering)"
+      },
+      "w-1765884245680-360": {
+        "label": "(MBCD)"
+      },
+      "w-1765884319218-648": {
+        "label": "(MBCD)"
+      },
+      "w-1765884322485-216": {
+        "label": "(PSIG)"
+      },
+      "w-1765884325767-677": {
+        "label": "(MBCD)"
+      },
+      "w-1765884517951-575": {
+        "label": "Mnj-1 Flow (MBD)"
+      },
+      "w-1765884537118-737": {
+        "label": "MNJ-1 Press(PSIG)"
+      },
+      "w-1765884566664-579": {
+        "label": "API"
+      },
+      "w-1765884601237-817": {
+        "label": "Salt(PTB)"
+      },
+      "w-1765884928169-198": {
+        "label": "24 Hours Average"
+      },
+      "w-1765885110742-811": {
+        "label": "@05:00AM"
+      },
+      "w-1765885135833-522": {
+        "label": "CPF Inlet Pressure"
+      }
+    }
+  },
+  "displayComponent": {
+    "w-1765883642640-25": "label",
+    "w-1765883680187-423": "label",
+    "w-1765884178507-211": "label",
+    "w-1765884245680-360": "label",
+    "w-1765884285965-527": "input-field",
+    "w-1765884319218-648": "label",
+    "w-1765884322485-216": "label",
+    "w-1765884325767-677": "label",
+    "w-1765884420325-425": "input-field",
+    "w-1765884441666-763": "input-field",
+    "w-1765884478546-916": "input-field",
+    "w-1765884517951-575": "label",
+    "w-1765884537118-737": "label",
+    "w-1765884553991-991": "input-field",
+    "w-1765884566664-579": "label",
+    "w-1765884579254-660": "input-field",
+    "w-1765884601237-817": "label",
+    "w-1765884624073-309": "input-field",
+    "w-1765884928169-198": "label",
+    "w-1765885101071-307": "input-field",
+    "w-1765885110742-811": "label",
+    "w-1765885135833-522": "label"
+  },
+  "designObject": {
+    "version": "1.0.0",
+    "timestamp": "2025-12-17T17:32:37.711Z",
+    "canvas": {
+      "width": 1200,
+      "heightPx": 920.55,
+      "minHeightPx": 920.55,
+      "styles": {
+        "backgroundColor": "",
+        "backgroundMode": "color",
+        "backgroundImageUrl": "",
+        "backgroundSize": "cover",
+        "backgroundPosition": "center center",
+        "backgroundRepeat": "no-repeat",
+        "gradientType": "linear",
+        "gradientAngle": 90,
+        "gradientStartColor": "#2196F3",
+        "gradientEndColor": "#4CAF50"
+      }
+    },
+    "widgets": [
+      {
+        "id": "w-1765883571226-401",
+        "label": "Section",
+        "type": "section",
+        "selector": "app-designer-section-container",
+        "position": {
+          "x": 0,
+          "y": 0.004382826475849737,
+          "w": 1,
+          "h": 0.29490161001788906,
+          "zIndex": 2
+        },
+        "input": {
+          "style": {
+            "backgroundMode": "color",
+            "backgroundColor": "#ddeaf5",
+            "backgroundImageUrl": "",
+            "backgroundSize": "cover",
+            "backgroundPosition": "center center",
+            "backgroundRepeat": "no-repeat",
+            "gradientType": "linear",
+            "gradientAngle": 90,
+            "gradientStartColor": "#2196F3",
+            "gradientEndColor": "#4CAF50",
+            "fontFamily": "",
+            "fontSize": 14,
+            "fontWeight": "",
+            "color": "",
+            "textAlign": "left",
+            "textDecoration": "",
+            "paddingLeft": 0,
+            "paddingRight": 0,
+            "paddingTop": 0,
+            "paddingBottom": 0,
+            "borderTopRightRadius": 0,
+            "borderTopLeftRadius": 0,
+            "borderBottomLeftRadius": 0,
+            "borderBottomRightRadius": 0,
+            "borderTopStyle": "solid",
+            "borderBottomStyle": "solid",
+            "borderLeftStyle": "solid",
+            "borderRightStyle": "solid",
+            "borderTopWidth": 0,
+            "borderBottomWidth": 0,
+            "borderLeftWidth": 0,
+            "borderRightWidth": 0,
+            "borderTopColor": "#000000",
+            "borderBottomColor": "#000000",
+            "borderLeftColor": "#000000",
+            "borderRightColor": "#000000",
+            "borderColors": [
+              "#FF9F40",
+              "#4BC0C0",
+              "#36A2EB"
+            ],
+            "backgroundColors": [
+              "#4CAF50",
+              "#2196F3",
+              "#FFEB3B"
+            ],
+            "tooltipColor": "#ffffff",
+            "tooltipBgColor": "#000000",
+            "gridColor": "#dfe7ef",
+            "bgColor": "#2196F3",
+            "borderColor": "#2196F3",
+            "pBorderColor": "#2196F3",
+            "phBgColor": "#2196F3",
+            "phBorderColor": "#2196F3",
+            "bg1": "#2196F3",
+            "bg2": "#4CAF50",
+            "backgroundImage": "none"
+          }
+        },
+        "children": [
+          {
+            "id": "w-1765883642640-25",
+            "label": "Label",
+            "type": "label",
+            "selector": "app-label",
+            "position": {
+              "x": 0.0034482758620689655,
+              "y": 0,
+              "w": 0.9866148531951641,
+              "h": 0.11204481792717087,
+              "zIndex": 1
+            },
+            "input": {
+              "style": {
+                "backgroundMode": "transparent",
+                "backgroundColor": "transparent",
+                "backgroundImageUrl": "",
+                "backgroundSize": "cover",
+                "backgroundPosition": "center center",
+                "backgroundRepeat": "no-repeat",
+                "gradientType": "linear",
+                "gradientAngle": 90,
+                "gradientStartColor": "#2196F3",
+                "gradientEndColor": "#4CAF50",
+                "fontFamily": "",
+                "fontSize": 20,
+                "fontWeight": "",
+                "color": "",
+                "textAlign": "left",
+                "textDecoration": "",
+                "paddingLeft": 0,
+                "paddingRight": 0,
+                "paddingTop": 0,
+                "paddingBottom": 0,
+                "borderTopRightRadius": 0,
+                "borderTopLeftRadius": 0,
+                "borderBottomLeftRadius": 0,
+                "borderBottomRightRadius": 0,
+                "borderTopStyle": "solid",
+                "borderBottomStyle": "solid",
+                "borderLeftStyle": "solid",
+                "borderRightStyle": "solid",
+                "borderTopWidth": 0,
+                "borderBottomWidth": 0,
+                "borderLeftWidth": 0,
+                "borderRightWidth": 0,
+                "borderTopColor": "#000000",
+                "borderBottomColor": "#000000",
+                "borderLeftColor": "#000000",
+                "borderRightColor": "#000000",
+                "borderColors": [
+                  "#FF9F40",
+                  "#4BC0C0",
+                  "#36A2EB"
+                ],
+                "backgroundColors": [
+                  "#4CAF50",
+                  "#2196F3",
+                  "#FFEB3B"
+                ],
+                "tooltipColor": "#ffffff",
+                "tooltipBgColor": "#000000",
+                "gridColor": "#dfe7ef",
+                "bgColor": "#2196F3",
+                "borderColor": "#2196F3",
+                "pBorderColor": "#2196F3",
+                "phBgColor": "#2196F3",
+                "phBorderColor": "#2196F3",
+                "bg1": "#2196F3",
+                "bg2": "#4CAF50",
+                "backgroundImage": "none"
+              },
+              "label": "Manifa Morning Report"
+            },
+            "parentId": "w-1765883571226-401"
+          },
+          {
+            "id": "w-1765883680187-423",
+            "label": "Label",
+            "type": "label",
+            "selector": "app-label",
+            "position": {
+              "x": 0.005,
+              "y": 0.12024329967339503,
+              "w": 0.9900690846286702,
+              "h": 0.12422360248447205,
+              "zIndex": 2
+            },
+            "input": {
+              "style": {
+                "backgroundMode": "color",
+                "backgroundColor": "#bfd3e7",
+                "backgroundImageUrl": "",
+                "backgroundSize": "cover",
+                "backgroundPosition": "center center",
+                "backgroundRepeat": "no-repeat",
+                "gradientType": "linear",
+                "gradientAngle": 90,
+                "gradientStartColor": "#2196F3",
+                "gradientEndColor": "#4CAF50",
+                "fontFamily": "",
+                "fontSize": 14,
+                "fontWeight": "",
+                "color": "",
+                "textAlign": "left",
+                "textDecoration": "",
+                "paddingLeft": 5,
+                "paddingRight": 0,
+                "paddingTop": 5,
+                "paddingBottom": 0,
+                "borderTopRightRadius": 0,
+                "borderTopLeftRadius": 0,
+                "borderBottomLeftRadius": 0,
+                "borderBottomRightRadius": 0,
+                "borderTopStyle": "solid",
+                "borderBottomStyle": "solid",
+                "borderLeftStyle": "solid",
+                "borderRightStyle": "solid",
+                "borderTopWidth": 0,
+                "borderBottomWidth": 0,
+                "borderLeftWidth": 0,
+                "borderRightWidth": 0,
+                "borderTopColor": "#000000",
+                "borderBottomColor": "#000000",
+                "borderLeftColor": "#000000",
+                "borderRightColor": "#000000",
+                "borderColors": [
+                  "#FF9F40",
+                  "#4BC0C0",
+                  "#36A2EB"
+                ],
+                "backgroundColors": [
+                  "#4CAF50",
+                  "#2196F3",
+                  "#FFEB3B"
+                ],
+                "tooltipColor": "#ffffff",
+                "tooltipBgColor": "#000000",
+                "gridColor": "#dfe7ef",
+                "bgColor": "#2196F3",
+                "borderColor": "#2196F3",
+                "pBorderColor": "#2196F3",
+                "phBgColor": "#2196F3",
+                "phBorderColor": "#2196F3",
+                "bg1": "#2196F3",
+                "bg2": "#4CAF50",
+                "backgroundImage": "none"
+              },
+              "label": "Crude Oil Operation Details"
+            },
+            "parentId": "w-1765883571226-401"
+          },
+          {
+            "id": "w-1765884178507-211",
+            "label": "Label",
+            "type": "label",
+            "selector": "app-label",
+            "position": {
+              "x": 0.005,
+              "y": 0.255,
+              "w": 0.26,
+              "h": 0.12,
+              "zIndex": 3
+            },
+            "input": {
+              "style": {
+                "backgroundMode": "transparent",
+                "backgroundColor": "transparent"
+              },
+              "label": "Target (Entered by Production Engineering)"
+            },
+            "parentId": "w-1765883571226-401"
+          },
+          {
+            "id": "w-1765884245680-360",
+            "label": "Label",
+            "type": "label",
+            "selector": "app-label",
+            "position": {
+              "x": 0.005,
+              "y": 0.36,
+              "w": 0.14,
+              "h": 0.12,
+              "zIndex": 4
+            },
+            "input": {
+              "style": {
+                "backgroundMode": "transparent",
+                "backgroundColor": "transparent"
+              },
+              "label": "(MBCD)"
+            },
+            "parentId": "w-1765883571226-401"
+          },
+          {
+            "id": "w-1765884285965-527",
+            "label": "Input",
+            "type": "input-text",
+            "selector": "app-input-text",
+            "position": {
+              "x": 0.005,
+              "y": 0.47,
+              "w": 0.14,
+              "h": 0.12,
+              "zIndex": 5
+            },
+            "input": {
+              "style": {
+                "backgroundMode": "transparent",
+                "backgroundColor": "transparent"
+              }
+            },
+            "parentId": "w-1765883571226-401"
+          },
+          {
+            "id": "w-1765884319218-648",
+            "label": "Label",
+            "type": "label",
+            "selector": "app-label",
+            "position": {
+              "x": 0.35,
+              "y": 0.36,
+              "w": 0.14,
+              "h": 0.12,
+              "zIndex": 6
+            },
+            "input": {
+              "style": {
+                "backgroundMode": "transparent",
+                "backgroundColor": "transparent"
+              },
+              "label": "(MBCD)"
+            },
+            "parentId": "w-1765883571226-401"
+          },
+          {
+            "id": "w-1765884322485-216",
+            "label": "Label",
+            "type": "label",
+            "selector": "app-label",
+            "position": {
+              "x": 0.7,
+              "y": 0.36,
+              "w": 0.14,
+              "h": 0.12,
+              "zIndex": 7
+            },
+            "input": {
+              "style": {
+                "backgroundMode": "transparent",
+                "backgroundColor": "transparent"
+              },
+              "label": "(PSIG)"
+            },
+            "parentId": "w-1765883571226-401"
+          },
+          {
+            "id": "w-1765884325767-677",
+            "label": "Label",
+            "type": "label",
+            "selector": "app-label",
+            "position": {
+              "x": 0.52,
+              "y": 0.36,
+              "w": 0.14,
+              "h": 0.12,
+              "zIndex": 9
+            },
+            "input": {
+              "style": {
+                "backgroundMode": "transparent",
+                "backgroundColor": "transparent"
+              },
+              "label": "(MBCD)"
+            },
+            "parentId": "w-1765883571226-401"
+          },
+          {
+            "id": "w-1765884420325-425",
+            "label": "Input",
+            "type": "input-text",
+            "selector": "app-input-text",
+            "position": {
+              "x": 0.35,
+              "y": 0.47,
+              "w": 0.14,
+              "h": 0.12,
+              "zIndex": 9
+            },
+            "input": {
+              "style": {
+                "backgroundMode": "transparent",
+                "backgroundColor": "transparent"
+              }
+            },
+            "parentId": "w-1765883571226-401"
+          },
+          {
+            "id": "w-1765884441666-763",
+            "label": "Input",
+            "type": "input-text",
+            "selector": "app-input-text",
+            "position": {
+              "x": 0.52,
+              "y": 0.47,
+              "w": 0.14,
+              "h": 0.12,
+              "zIndex": 10
+            },
+            "input": {
+              "style": {
+                "backgroundMode": "transparent",
+                "backgroundColor": "transparent"
+              }
+            },
+            "parentId": "w-1765883571226-401"
+          },
+          {
+            "id": "w-1765884478546-916",
+            "label": "Input",
+            "type": "input-text",
+            "selector": "app-input-text",
+            "position": {
+              "x": 0.7,
+              "y": 0.47,
+              "w": 0.14,
+              "h": 0.12,
+              "zIndex": 11
+            },
+            "input": {
+              "style": {
+                "backgroundMode": "transparent",
+                "backgroundColor": "transparent"
+              }
+            },
+            "parentId": "w-1765883571226-401"
+          },
+          {
+            "id": "w-1765884517951-575",
+            "label": "Label",
+            "type": "label",
+            "selector": "app-label",
+            "position": {
+              "x": 0.005,
+              "y": 0.6,
+              "w": 0.14,
+              "h": 0.12,
+              "zIndex": 12
+            },
+            "input": {
+              "style": {
+                "backgroundMode": "transparent",
+                "backgroundColor": "transparent"
+              },
+              "label": "Mnj-1 Flow (MBD)"
+            },
+            "parentId": "w-1765883571226-401"
+          },
+          {
+            "id": "w-1765884537118-737",
+            "label": "Label",
+            "type": "label",
+            "selector": "app-label",
+            "position": {
+              "x": 0.35,
+              "y": 0.6,
+              "w": 0.14,
+              "h": 0.12,
+              "zIndex": 13
+            },
+            "input": {
+              "style": {
+                "backgroundMode": "transparent",
+                "backgroundColor": "transparent"
+              },
+              "label": "MNJ-1 Press(PSIG)"
+            },
+            "parentId": "w-1765883571226-401"
+          },
+          {
+            "id": "w-1765884553991-991",
+            "label": "Input",
+            "type": "input-text",
+            "selector": "app-input-text",
+            "position": {
+              "x": 0.35,
+              "y": 0.715,
+              "w": 0.14,
+              "h": 0.12,
+              "zIndex": 14
+            },
+            "input": {
+              "style": {
+                "backgroundMode": "transparent",
+                "backgroundColor": "transparent"
+              }
+            },
+            "parentId": "w-1765883571226-401"
+          },
+          {
+            "id": "w-1765884566664-579",
+            "label": "Label",
+            "type": "label",
+            "selector": "app-label",
+            "position": {
+              "x": 0.52,
+              "y": 0.6,
+              "w": 0.14,
+              "h": 0.12,
+              "zIndex": 15
+            },
+            "input": {
+              "style": {
+                "backgroundMode": "transparent",
+                "backgroundColor": "transparent"
+              },
+              "label": "API"
+            },
+            "parentId": "w-1765883571226-401"
+          },
+          {
+            "id": "w-1765884579254-660",
+            "label": "Input",
+            "type": "input-text",
+            "selector": "app-input-text",
+            "position": {
+              "x": 0.52,
+              "y": 0.715,
+              "w": 0.14,
+              "h": 0.12,
+              "zIndex": 16
+            },
+            "input": {
+              "style": {
+                "backgroundMode": "transparent",
+                "backgroundColor": "transparent"
+              }
+            },
+            "parentId": "w-1765883571226-401"
+          },
+          {
+            "id": "w-1765884601237-817",
+            "label": "Label",
+            "type": "label",
+            "selector": "app-label",
+            "position": {
+              "x": 0.7,
+              "y": 0.6,
+              "w": 0.14,
+              "h": 0.12,
+              "zIndex": 17
+            },
+            "input": {
+              "style": {
+                "backgroundMode": "transparent",
+                "backgroundColor": "transparent"
+              },
+              "label": "Salt(PTB)"
+            },
+            "parentId": "w-1765883571226-401"
+          },
+          {
+            "id": "w-1765884624073-309",
+            "label": "Input",
+            "type": "input-text",
+            "selector": "app-input-text",
+            "position": {
+              "x": 0.7,
+              "y": 0.715,
+              "w": 0.14,
+              "h": 0.12,
+              "zIndex": 18
+            },
+            "input": {
+              "style": {
+                "backgroundMode": "transparent",
+                "backgroundColor": "transparent"
+              }
+            },
+            "parentId": "w-1765883571226-401"
+          },
+          {
+            "id": "w-1765884928169-198",
+            "label": "Label",
+            "type": "label",
+            "selector": "app-label",
+            "position": {
+              "x": 0.35,
+              "y": 0.255,
+              "w": 0.14,
+              "h": 0.12,
+              "zIndex": 19
+            },
+            "input": {
+              "style": {
+                "backgroundMode": "transparent",
+                "backgroundColor": "transparent"
+              },
+              "label": "24 Hours Average"
+            },
+            "parentId": "w-1765883571226-401"
+          },
+          {
+            "id": "w-1765885101071-307",
+            "label": "Input",
+            "type": "input-text",
+            "selector": "app-input-text",
+            "position": {
+              "x": 0.005,
+              "y": 0.71,
+              "w": 0.14,
+              "h": 0.12,
+              "zIndex": 20
+            },
+            "input": {
+              "style": {
+                "backgroundMode": "transparent",
+                "backgroundColor": "transparent"
+              }
+            },
+            "parentId": "w-1765883571226-401"
+          },
+          {
+            "id": "w-1765885110742-811",
+            "label": "Label",
+            "type": "label",
+            "selector": "app-label",
+            "position": {
+              "x": 0.52,
+              "y": 0.255,
+              "w": 0.14,
+              "h": 0.12,
+              "zIndex": 21
+            },
+            "input": {
+              "style": {
+                "backgroundMode": "transparent",
+                "backgroundColor": "transparent"
+              },
+              "label": "@05:00AM"
+            },
+            "parentId": "w-1765883571226-401"
+          },
+          {
+            "id": "w-1765885135833-522",
+            "label": "Label",
+            "type": "label",
+            "selector": "app-label",
+            "position": {
+              "x": 0.7,
+              "y": 0.255,
+              "w": 0.14,
+              "h": 0.12,
+              "zIndex": 22
+            },
+            "input": {
+              "style": {
+                "backgroundMode": "transparent",
+                "backgroundColor": "transparent"
+              },
+              "label": "CPF Inlet Pressure"
+            },
+            "parentId": "w-1765883571226-401"
+          }
+        ]
+      }
+    ]
+  },
+  "inputSchema": {
+    "w-1765883642640-25.label": {
+      "label": {
+        "type": "string",
+        "required": true,
+        "description": "The label text",
+        "mapping": {
+          "type": null,
+          "attributeId": null,
+          "attributeName": null,
+          "rawValue": null,
+          "dataPath": null
+        }
+      }
+    },
+    "w-1765883680187-423.label": {
+      "label": {
+        "type": "string",
+        "required": true,
+        "description": "The label text",
+        "mapping": {
+          "type": null,
+          "attributeId": null,
+          "attributeName": null,
+          "rawValue": null,
+          "dataPath": null
+        }
+      }
+    },
+    "w-1765884178507-211.label": {
+      "label": {
+        "type": "string",
+        "required": true,
+        "description": "The label text",
+        "mapping": {
+          "type": null,
+          "attributeId": null,
+          "attributeName": null,
+          "rawValue": null,
+          "dataPath": null
+        }
+      }
+    },
+    "w-1765884245680-360.label": {
+      "label": {
+        "type": "string",
+        "required": true,
+        "description": "The label text",
+        "mapping": {
+          "type": null,
+          "attributeId": null,
+          "attributeName": null,
+          "rawValue": null,
+          "dataPath": null
+        }
+      }
+    },
+    "w-1765884285965-527.input-text": {
+      "value": {
+        "type": "string | number",
+        "required": true,
+        "description": "The input field value",
+        "mapping": {
+          "type": null,
+          "attributeId": null,
+          "attributeName": null,
+          "rawValue": null,
+          "dataPath": null
+        }
+      }
+    },
+    "w-1765884319218-648.label": {
+      "label": {
+        "type": "string",
+        "required": true,
+        "description": "The label text",
+        "mapping": {
+          "type": null,
+          "attributeId": null,
+          "attributeName": null,
+          "rawValue": null,
+          "dataPath": null
+        }
+      }
+    },
+    "w-1765884322485-216.label": {
+      "label": {
+        "type": "string",
+        "required": true,
+        "description": "The label text",
+        "mapping": {
+          "type": null,
+          "attributeId": null,
+          "attributeName": null,
+          "rawValue": null,
+          "dataPath": null
+        }
+      }
+    },
+    "w-1765884325767-677.label": {
+      "label": {
+        "type": "string",
+        "required": true,
+        "description": "The label text",
+        "mapping": {
+          "type": null,
+          "attributeId": null,
+          "attributeName": null,
+          "rawValue": null,
+          "dataPath": null
+        }
+      }
+    },
+    "w-1765884420325-425.input-text": {
+      "value": {
+        "type": "string | number",
+        "required": true,
+        "description": "The input field value",
+        "mapping": {
+          "type": null,
+          "attributeId": null,
+          "attributeName": null,
+          "rawValue": null,
+          "dataPath": null
+        }
+      }
+    },
+    "w-1765884441666-763.input-text": {
+      "value": {
+        "type": "string | number",
+        "required": true,
+        "description": "The input field value",
+        "mapping": {
+          "type": null,
+          "attributeId": null,
+          "attributeName": null,
+          "rawValue": null,
+          "dataPath": null
+        }
+      }
+    },
+    "w-1765884478546-916.input-text": {
+      "value": {
+        "type": "string | number",
+        "required": true,
+        "description": "The input field value",
+        "mapping": {
+          "type": null,
+          "attributeId": null,
+          "attributeName": null,
+          "rawValue": null,
+          "dataPath": null
+        }
+      }
+    },
+    "w-1765884517951-575.label": {
+      "label": {
+        "type": "string",
+        "required": true,
+        "description": "The label text",
+        "mapping": {
+          "type": null,
+          "attributeId": null,
+          "attributeName": null,
+          "rawValue": null,
+          "dataPath": null
+        }
+      }
+    },
+    "w-1765884537118-737.label": {
+      "label": {
+        "type": "string",
+        "required": true,
+        "description": "The label text",
+        "mapping": {
+          "type": null,
+          "attributeId": null,
+          "attributeName": null,
+          "rawValue": null,
+          "dataPath": null
+        }
+      }
+    },
+    "w-1765884553991-991.input-text": {
+      "value": {
+        "type": "string | number",
+        "required": true,
+        "description": "The input field value",
+        "mapping": {
+          "type": null,
+          "attributeId": null,
+          "attributeName": null,
+          "rawValue": null,
+          "dataPath": null
+        }
+      }
+    },
+    "w-1765884566664-579.label": {
+      "label": {
+        "type": "string",
+        "required": true,
+        "description": "The label text",
+        "mapping": {
+          "type": null,
+          "attributeId": null,
+          "attributeName": null,
+          "rawValue": null,
+          "dataPath": null
+        }
+      }
+    },
+    "w-1765884579254-660.input-text": {
+      "value": {
+        "type": "string | number",
+        "required": true,
+        "description": "The input field value",
+        "mapping": {
+          "type": null,
+          "attributeId": null,
+          "attributeName": null,
+          "rawValue": null,
+          "dataPath": null
+        }
+      }
+    },
+    "w-1765884601237-817.label": {
+      "label": {
+        "type": "string",
+        "required": true,
+        "description": "The label text",
+        "mapping": {
+          "type": null,
+          "attributeId": null,
+          "attributeName": null,
+          "rawValue": null,
+          "dataPath": null
+        }
+      }
+    },
+    "w-1765884624073-309.input-text": {
+      "value": {
+        "type": "string | number",
+        "required": true,
+        "description": "The input field value",
+        "mapping": {
+          "type": null,
+          "attributeId": null,
+          "attributeName": null,
+          "rawValue": null,
+          "dataPath": null
+        }
+      }
+    },
+    "w-1765884928169-198.label": {
+      "label": {
+        "type": "string",
+        "required": true,
+        "description": "The label text",
+        "mapping": {
+          "type": null,
+          "attributeId": null,
+          "attributeName": null,
+          "rawValue": null,
+          "dataPath": null
+        }
+      }
+    },
+    "w-1765885101071-307.input-text": {
+      "value": {
+        "type": "string | number",
+        "required": true,
+        "description": "The input field value",
+        "mapping": {
+          "type": null,
+          "attributeId": null,
+          "attributeName": null,
+          "rawValue": null,
+          "dataPath": null
+        }
+      }
+    },
+    "w-1765885110742-811.label": {
+      "label": {
+        "type": "string",
+        "required": true,
+        "description": "The label text",
+        "mapping": {
+          "type": null,
+          "attributeId": null,
+          "attributeName": null,
+          "rawValue": null,
+          "dataPath": null
+        }
+      }
+    },
+    "w-1765885135833-522.label": {
+      "label": {
+        "type": "string",
+        "required": true,
+        "description": "The label text",
+        "mapping": {
+          "type": null,
+          "attributeId": null,
+          "attributeName": null,
+          "rawValue": null,
+          "dataPath": null
+        }
+      }
+    }
+  },
+  "widgetInputs": [
+    {
+      "id": "w-1765883571226-401",
+      "type": "section",
+      "selector": "app-designer-section-container",
+      "input": {},
+      "children": [
+        {
+          "id": "w-1765883642640-25",
+          "type": "label",
+          "selector": "app-label",
+          "input": {
+            "label": "Manifa Morning Report"
+          }
+        },
+        {
+          "id": "w-1765883680187-423",
+          "type": "label",
+          "selector": "app-label",
+          "input": {
+            "label": "Crude Oil Operation Details"
+          }
+        },
+        {
+          "id": "w-1765884178507-211",
+          "type": "label",
+          "selector": "app-label",
+          "input": {
+            "label": "Target (Entered by Production Engineering)"
+          }
+        },
+        {
+          "id": "w-1765884245680-360",
+          "type": "label",
+          "selector": "app-label",
+          "input": {
+            "label": "(MBCD)"
+          }
+        },
+        {
+          "id": "w-1765884285965-527",
+          "type": "input-text",
+          "selector": "app-input-text",
+          "input": {}
+        },
+        {
+          "id": "w-1765884319218-648",
+          "type": "label",
+          "selector": "app-label",
+          "input": {
+            "label": "(MBCD)"
+          }
+        },
+        {
+          "id": "w-1765884322485-216",
+          "type": "label",
+          "selector": "app-label",
+          "input": {
+            "label": "(PSIG)"
+          }
+        },
+        {
+          "id": "w-1765884325767-677",
+          "type": "label",
+          "selector": "app-label",
+          "input": {
+            "label": "(MBCD)"
+          }
+        },
+        {
+          "id": "w-1765884420325-425",
+          "type": "input-text",
+          "selector": "app-input-text",
+          "input": {}
+        },
+        {
+          "id": "w-1765884441666-763",
+          "type": "input-text",
+          "selector": "app-input-text",
+          "input": {}
+        },
+        {
+          "id": "w-1765884478546-916",
+          "type": "input-text",
+          "selector": "app-input-text",
+          "input": {}
+        },
+        {
+          "id": "w-1765884517951-575",
+          "type": "label",
+          "selector": "app-label",
+          "input": {
+            "label": "Mnj-1 Flow (MBD)"
+          }
+        },
+        {
+          "id": "w-1765884537118-737",
+          "type": "label",
+          "selector": "app-label",
+          "input": {
+            "label": "MNJ-1 Press(PSIG)"
+          }
+        },
+        {
+          "id": "w-1765884553991-991",
+          "type": "input-text",
+          "selector": "app-input-text",
+          "input": {}
+        },
+        {
+          "id": "w-1765884566664-579",
+          "type": "label",
+          "selector": "app-label",
+          "input": {
+            "label": "API"
+          }
+        },
+        {
+          "id": "w-1765884579254-660",
+          "type": "input-text",
+          "selector": "app-input-text",
+          "input": {}
+        },
+        {
+          "id": "w-1765884601237-817",
+          "type": "label",
+          "selector": "app-label",
+          "input": {
+            "label": "Salt(PTB)"
+          }
+        },
+        {
+          "id": "w-1765884624073-309",
+          "type": "input-text",
+          "selector": "app-input-text",
+          "input": {}
+        },
+        {
+          "id": "w-1765884928169-198",
+          "type": "label",
+          "selector": "app-label",
+          "input": {
+            "label": "24 Hours Average"
+          }
+        },
+        {
+          "id": "w-1765885101071-307",
+          "type": "input-text",
+          "selector": "app-input-text",
+          "input": {}
+        },
+        {
+          "id": "w-1765885110742-811",
+          "type": "label",
+          "selector": "app-label",
+          "input": {
+            "label": "@05:00AM"
+          }
+        },
+        {
+          "id": "w-1765885135833-522",
+          "type": "label",
+          "selector": "app-label",
+          "input": {
+            "label": "CPF Inlet Pressure"
+          }
+        }
+      ]
+    }
+  ],
+  "dataMapping": null
+}

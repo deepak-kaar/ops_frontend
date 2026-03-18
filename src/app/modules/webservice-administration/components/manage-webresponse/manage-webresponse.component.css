@@ -1,0 +1,48 @@
+:host ::ng-deep .p-tree {
+  border: 1px solid #3c3c3c;
+  border-radius: 8px;
+  padding: 0.5rem;
+  height: 400px;
+  overflow-y: auto;
+  color: #dcdcdc;
+  --tree-node-padding-left: 0.75rem;
+}
+
+h3 {
+  color: #00aaff;
+  margin: 0;
+}
+
+button {
+  min-width: 80px;
+}
+
+/* ensure tree node content is a positioned element so the absolute dot aligns */
+:host ::ng-deep .p-tree .p-treenode-content {
+  position: relative; 
+  align-items: center;
+}
+
+
+input {
+  outline: none;
+}
+
+:host {
+  position: relative;
+}
+
+/* keep leader-line above everything */
+.leader-line {
+  z-index: 99999 !important;
+  pointer-events: none;
+}
+
+:host ::ng-deep .p-tree .p-tree-node-label{
+  width: 100%;
+}
+
+::ng-deep .p-popover{
+  width: 30% !important;
+  z-index: 999999 !important;
+}

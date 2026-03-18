@@ -1,0 +1,12 @@
+@media (max-width: 1024px) {
+    .customizePaginator .p-paginator.p-component{
+        flex-wrap: nowrap!important;
+    }
+    }
+
+    /* Table header color */
+:host ::ng-deep  th {
+    background-color: #7dd3fc !important;
+    font-weight: 600;
+    color: #333;
+}

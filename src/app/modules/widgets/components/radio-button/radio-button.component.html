@@ -1,0 +1,11 @@
+<div class="flex items-center flex-wrap gap-3">
+    <p-radioButton [style]="{ height: '100%', width: '100%' }" name="yesNoGroup" value="Yes" [(ngModel)]="checked"
+        inputId="yesOption" (ngModelChange)="onInputValueChange($event)">
+    </p-radioButton>
+    <label [for]="label1">{{ label1 }}</label>
+
+    <p-radioButton [style]="{ height: '100%', width: '100%' }" name="yesNoGroup" value="No" [(ngModel)]="checked"
+        inputId="noOption" (ngModelChange)="onInputValueChange($event)">
+    </p-radioButton>
+    <label [for]="label2">{{ label2 }}</label>
+</div>

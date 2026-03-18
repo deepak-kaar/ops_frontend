@@ -1,0 +1,166 @@
+/* Note: Global CSS variables are imported in styles.css for use across all components */
+
+/* Card container */
+p-card.w-full {
+  border-radius: var(--card-container-border-radius);
+  box-shadow: var(--card-container-box-shadow);
+  border: var(--card-container-border);
+}
+
+/* TABLE CONTAINER */
+:host ::ng-deep .p-datatable {
+  border-radius: var(--table-container-border-radius);
+  background: var(--table-container-background);
+}
+
+:host ::ng-deep .p-datatable-header {
+  border: none !important;
+}
+
+/* HEADER */
+:host ::ng-deep .p-datatable-thead>tr {
+  border: var(--table-header-border) !important;
+}
+
+:host ::ng-deep .p-datatable-thead>tr>th {
+  font-weight: var(--table-header-font-weight);
+  font-size: var(--table-header-font-size) !important;
+  padding: var(--table-header-padding);
+  color: var(--table-header-color);
+  border: none !important;
+  background: var(--table-header-background) !important;
+}
+
+:host ::ng-deep .p-datatable-thead>tr>th div {
+  font-size: var(--table-header-font-size) !important;
+}
+
+/* BODY CELLS */
+:host ::ng-deep .p-datatable-tbody>tr {
+  border: var(--table-cell-border) !important;
+}
+
+:host ::ng-deep .p-datatable-tbody>tr>td {
+  padding: var(--table-cell-padding);
+  font-size: var(--table-cell-font-size) !important;
+  font-weight: var(--table-cell-font-weight);
+  color: var(--table-cell-color);
+  border-top: var(--table-cell-border-top) !important;
+  border-bottom: var(--table-cell-border-bottom) !important;
+}
+
+/* HOVER */
+:host ::ng-deep .p-datatable-tbody>tr:hover {
+  background: var(--table-row-hover-background);
+}
+
+:host ::ng-deep .p-paginator {
+  justify-content: var(--paginator-justify-content);
+}
+
+.create-button {
+  border-radius: var(--create-button-border-radius);
+  border: none;
+  box-shadow: var(--create-button-box-shadow);
+}
+
+/* Cell Styles */
+.page-name {
+  /* font-weight: 600;
+  color: #2b6cb0; */
+}
+
+.path-text {
+  font-family: 'Consolas', 'Monaco', monospace;
+  font-size: 0.75rem;
+  color: #4a5568;
+  background: #f7fafc;
+  padding: 0.2rem 0.4rem;
+  border-radius: 4px;
+}
+
+.time-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  background: #ebf8ff;
+  color: #2b6cb0;
+  padding: 0.2rem 0.5rem;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+.time-badge i {
+  font-size: 0.65rem;
+}
+
+.status-indicator {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.2rem 0.5rem;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.status-indicator.active {
+  background: #c6f6d5;
+  color: #22543d;
+}
+
+.status-indicator.inactive {
+  background: #fed7d7;
+  color: #742a2a;
+}
+
+.status-indicator i {
+  font-size: 0.65rem;
+}
+
+/* Tags */
+:host ::ng-deep .p-tag {
+  font-size: 0.7rem;
+  padding: 0.2rem 0.5rem;
+  font-weight: 500;
+}
+
+/* Action Buttons */
+:host ::ng-deep .action-buttons .p-button {
+  width: 28px;
+  height: 28px;
+}
+
+/* Dialog Styles */
+:host ::ng-deep .report-dialog {
+  border-radius: var(--dialog-border-radius);
+  overflow: hidden;
+}
+
+:host ::ng-deep .report-dialog .p-dialog-content {
+  padding: var(--dialog-content-padding);
+  border-radius: var(--dialog-border-radius);
+  overflow: hidden;
+}
+
+:host ::ng-deep .report-dialog .p-dialog-header {
+  display: none; /* Header is handled by manage-reportpublish component */
+}
+
+:host ::ng-deep .p-dialog-mask {
+  background: var(--dialog-mask-background);
+  backdrop-filter: blur(2px);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .content-section {
+    padding: 1rem;
+  }
+
+  :host ::ng-deep .report-dialog {
+    width: 95vw !important;
+    max-width: 95vw !important;
+  }
+}

@@ -1,0 +1,52 @@
+@if(isshowUi){
+<div class="pt-[10px] pl-[20px] pr-[20px] w-full">
+    <div class="card">
+        <div class="pt-[10px]">
+            <app-table-wrapper 
+                [data]="instances" 
+                [columns]="columns" 
+                [actions]="actions"
+                [config]="tableConfig"
+                [isMobile]="(isMobile$ | async) || false"
+                (onRowClick)="onRowClick($event)"
+                (onAction)="onAction($event)"
+                (onCreate)="createInstance()">
+                
+                <!-- Custom body template for instance fields (row and pSelectableRow handled by default template) -->
+                <ng-template #bodyTemplate let-row let-columns="columns">
+                    @for(col of columns; track col.field; let first = $first; let last = $last) {
+                    <td [class.border-round-left-2xl]="first && col.field === 'entityName'"
+                        [class.border-round-right-2xl]="last && actions.length === 0"
+                        [class.cursor-pointer]="col.clickable !== false"
+                        class="text-left"
+                        (click)="col.clickable !== false ? onRowClick(row) : null">
+                        @if(col.field === 'entityName' || col.field === 'instanceDesc') {
+                        <span class="ml-1 vertical-align-middle desc">{{ row[col.field] }}</span>
+                        } @else if(col.field === 'appName') {
+                        <span class="ml-1 vertical-align-middle level-chip">
+                            {{ row.appName ? row.appName + (row.orgName ? ' ' + row.orgName : '') : 'OpsInsight' }}
+                        </span>
+                        } @else {
+                        <span class="ml-1 vertical-align-middle">{{ row[col.field] }}</span>
+                        }
+                    </td>
+                    }
+                    @if(actions.length > 0) {
+                    <td class="border-round-right-2xl text-left">
+                        <div class="flex gap-2">
+                            @for(action of actions; track action.action) {
+                            <p-button [icon]="action.icon" [text]="true" [severity]="$any(action.severity)"
+                                [style]="{'color':'#000000'}"
+                                (onClick)="onAction({action: action.action, row: row})" [pTooltip]="action.tooltip" />
+                            }
+                        </div>
+                    </td>
+                    }
+                </ng-template>
+            </app-table-wrapper>
+        </div>
+    </div>
+    <p-toast [breakpoints]="breakPointForToastComponent"></p-toast>
+</div>
+}
+<p-confirmDialog></p-confirmDialog>

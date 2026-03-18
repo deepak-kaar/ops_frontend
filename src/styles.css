@@ -1,0 +1,123 @@
+/* You can add global styles to this file, and also import other style files */
+@import './fonts.css';
+@import "tailwindcss-primeui";
+@import "tailwindcss";
+@import "primeicons/primeicons.css";
+/* Global Table Wrapper CSS Variables - Reusable across all components */
+@import './app/core/components/table-wrapper/table-wrapper.variables.css';
+
+/* Grid Stack Css */
+@import "gridstack/dist/gridstack.min.css";
+/* @import "gridstack/dist/gridstack-extra.min.css"; */
+/* @import "gridstack/dist/gridstack-extra.css"; */
+@import "gridstack/dist/gridstack.css";
+@import "./grid.css";
+
+::-webkit-scrollbar {
+    width: 5px;
+    height: 5px;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: #FFFFFF;
+    /* background-color: var(--p-surface-300);; */
+    border-radius: 3px;
+}
+
+::-webkit-scrollbar-track {
+    background-color: transparent;
+
+}
+
+body {
+    background: #FFFFFF;
+    font-family: ghawar;
+    font-weight: 300;
+}
+
+
+
+
+@media (prefers-color-scheme: dark) {
+    body {
+        background: var(--p-surface-800);
+    }
+
+    ::-webkit-scrollbar {
+        width: 5px;
+        height: 5px;
+    }
+
+    ::-webkit-scrollbar-thumb {
+        background-color: var(--p-surface-500);
+        border-radius: 3px;
+    }
+
+    ::-webkit-scrollbar-track {
+        background-color: transparent;
+
+    }
+}
+
+@media screen and (min-width: 1539px) {
+    body {
+        font-size: 18px !important;
+    }
+
+    .p-toast-summary {
+        font-size: 18px !important;
+    }
+
+    .p-toast-detail {
+        font-size: 18px !important;
+    }
+
+    .pi {
+        font-size: 18px !important;
+    }
+
+    .p-tag-icon {
+        font-size: 18px !important;
+        height: 18px !important;
+        width: 18px !important;
+
+    }
+
+    .p-checkbox,
+    .p-checkbox-box {
+        height: 25px !important;
+        width: 25px !important;
+    }
+
+    .p-tag {
+        font-size: 18px !important;
+    }
+
+    .p-icon {
+        height: 18px !important;
+        width: 18px !important;
+    }
+
+    input,
+    input::placeholder {
+        font-size: 18px !important;
+    }
+
+    textarea,
+    textarea::placeholder {
+        font-size: 18px !important;
+    }
+}
+
+.p-overlay-mask {
+    background: var(--p-mask-background) !important;
+    color: var(--p-mask-color) !important;
+}
+
+.p-error {
+    color: var(--p-red-500);
+}
+
+.p-button-label {
+    font-weight: 350 !important;
+}

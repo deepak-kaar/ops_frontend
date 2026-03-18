@@ -1,0 +1,63 @@
+/* Root layout pattern (same as other "new sidebar" modules) */
+.surface {
+  background-color: #f7fafc;
+}
+
+.layout-root {
+  display: flex;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.sidebar-wrapper {
+  width: 260px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  background-color: #f7fafc;
+  overflow-y: auto;
+  z-index: 1000;
+  transition: transform 0.3s ease;
+}
+
+.right-pane {
+  margin-left: 260px;
+  width: calc(100% - 260px);
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.right-scroll {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+@media (max-width: 1024px) {
+  .sidebar-wrapper {
+    transform: translateX(-100%);
+  }
+
+  .sidebar-wrapper.mobile-open {
+    transform: translateX(0);
+  }
+
+  .right-pane {
+    margin-left: 0;
+    width: 100%;
+  }
+}
+
+.mobile-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 999;
+  display: none;
+}
+
+.mobile-overlay.active {
+  display: block;
+}

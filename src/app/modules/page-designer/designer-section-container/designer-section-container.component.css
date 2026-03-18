@@ -1,0 +1,15 @@
+.designer-section-container {
+  min-height: 100px;
+}
+
+/* Selected widget styling for nested widgets - matching page builder */
+.designer-widget-root {
+  border: 1px solid #e5e7eb;
+  padding: 2px;
+}
+
+.designer-widget-root.selected {
+  border: 2px solid var(--p-primary-color);
+  box-shadow: 0 0 5px #888;
+}
+

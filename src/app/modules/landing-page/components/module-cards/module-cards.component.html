@@ -1,0 +1,61 @@
+<div class="bg-[#FFFFFF33] md:min-h-[400px] mt-[30px] md:m-[30px] backdrop-blur-[40px] rounded-[12px]">
+    <div class="p-4 md:p-10 h-full grid grid-flow-col auto-cols-[180px] max-sm:overflow-x-auto [scrollbar-width:none] gap-[35px] md:grid-flow-row md:[grid-template-columns:repeat(3,310px)] md:justify-center md:items-center">
+
+        <!-- Static card (keep as-is) -->
+        <div class="bg-white w-[180px] md:w-[310px] h-[200px] md:h-[320px] rounded-[12px] flex-shrink-0 active-card cursor-pointer"
+            [routerLink]="['/datapointAdminV2/home/entityNew']" [queryParams]="{ app: '0' }">
+            <div class="flex flex-col justify-center items-center h-full">
+                <div>
+                    <svg [attr.width]="(isMobile$ | async) ? 48 : 150" [attr.height]="(isMobile$ | async) ? 49 : 151"
+                        viewBox="0 0 150 151" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path
+                            d="M75 143.77C40.2687 136.051 12.5 103.282 12.5 68.7695V31.2695L75 6.26953L137.5 31.2695V68.7695C137.5 103.295 109.731 136.051 75 143.77ZM25 37.5195V68.7695C25.3572 83.2203 30.4398 97.156 39.4699 108.444C48.5 119.731 60.9801 127.749 75 131.27C89.0199 127.749 101.5 119.731 110.53 108.444C119.56 97.156 124.643 83.2203 125 68.7695V37.5195L75 18.7695L25 37.5195Z"
+                            fill="var(--p-primary-color)" />
+                        <path
+                            d="M75 68.7695C83.6294 68.7695 90.625 61.774 90.625 53.1445C90.625 44.5151 83.6294 37.5195 75 37.5195C66.3706 37.5195 59.375 44.5151 59.375 53.1445C59.375 61.774 66.3706 68.7695 75 68.7695Z"
+                            fill="var(--p-primary-color)" />
+                        <path
+                            d="M43.75 93.7695C46.8295 99.3841 51.3462 104.079 56.8373 107.374C62.3285 110.669 68.5967 112.444 75 112.52C81.4033 112.444 87.6715 110.669 93.1626 107.374C98.6538 104.079 103.17 99.3841 106.25 93.7695C106.094 81.9195 85.3625 75.0195 75 75.0195C64.5812 75.0195 43.9062 81.9195 43.75 93.7695Z"
+                            fill="var(--p-primary-color)" />
+                    </svg>
+                </div>
+                <div class="w-[100px] md:w-[220px]">
+                    <p class="text-center text-[#526179] md:text-[24px] font-[350]">OpsInsight Administration</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Dynamic application cards -->
+        <div
+            *ngFor="let app of activeApps; trackBy: trackByAppId"
+            class="bg-white w-[180px] md:w-[310px] h-[200px] md:h-[320px] rounded-[12px] flex-shrink-0 active-card cursor-pointer"
+            [routerLink]="getCardRoute(app)"
+            [queryParams]="getCardQueryParams(app)">
+
+            <div class="flex flex-col justify-center items-center h-full">
+                <div class="w-[48px] h-[49px] md:w-[150px] md:h-[151px] flex items-center justify-center">
+                    <img
+                        *ngIf="getAppImage(app) as appImg; else defaultIcon"
+                        [src]="appImg"
+                        [alt]="app.appName || 'Application'"
+                        class="max-w-full max-h-full object-contain" />
+                    <ng-template #defaultIcon>
+                        <!-- optional: keep same existing svg fallback -->
+                        <svg [attr.width]="(isMobile$ | async) ? 48 : 150" [attr.height]="(isMobile$ | async) ? 49 : 151"
+                            viewBox="0 0 150 151" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M75 143.77C40.2687 136.051 12.5 103.282 12.5 68.7695V31.2695L75 6.26953L137.5 31.2695V68.7695C137.5 103.295 109.731 136.051 75 143.77Z" fill="var(--p-primary-color)" />
+                        </svg>
+                    </ng-template>
+                </div>
+
+                <div class="w-[100px] md:w-[220px]">
+                    <p class="text-center text-[#526179] md:text-[24px] font-[350]">
+                        {{ app.appName || 'Application' }}
+                    </p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+

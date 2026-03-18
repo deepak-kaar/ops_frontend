@@ -1,0 +1,281 @@
+/* Note: Global CSS variables are imported in styles.css for use across all components */
+
+/* Mobile paginator nowrap */
+@media (max-width: 1024px) {
+  .customizePaginator .p-paginator.p-component {
+    flex-wrap: nowrap !important;
+  }
+}
+
+/* Card container */
+p-card.w-full {
+  border-radius: var(--card-container-border-radius);
+  box-shadow: var(--card-container-box-shadow);
+  border: var(--card-container-border);
+}
+
+/* TABLE CONTAINER */
+:host ::ng-deep .p-datatable {
+  border-radius: var(--table-container-border-radius);
+  background: var(--table-container-background);
+}
+
+:host ::ng-deep .p-datatable-header {
+  border: none !important;
+}
+
+/* HEADER */
+:host ::ng-deep .p-datatable-thead>tr {
+  border: var(--table-header-border) !important;
+}
+
+:host ::ng-deep .p-datatable-thead>tr>th {
+  font-weight: var(--table-header-font-weight);
+  font-size: var(--table-header-font-size) !important;
+  padding: var(--table-header-padding);
+  color: var(--table-header-color);
+  border: none !important;
+  background: var(--table-header-background) !important;
+}
+
+:host ::ng-deep .p-datatable-thead>tr>th div {
+  font-size: var(--table-header-font-size) !important;
+}
+
+/* BODY CELLS */
+:host ::ng-deep .p-datatable-tbody>tr {
+  border: var(--table-cell-border) !important;
+}
+
+:host ::ng-deep .p-datatable-tbody>tr>td {
+  padding: var(--table-cell-padding);
+  font-size: var(--table-cell-font-size) !important;
+  font-weight: var(--table-cell-font-weight);
+  color: var(--table-cell-color);
+  border-top: var(--table-cell-border-top) !important;
+  border-bottom: var(--table-cell-border-bottom) !important;
+}
+
+/* HOVER */
+:host ::ng-deep .p-datatable-tbody>tr:hover {
+  background: var(--table-row-hover-background);
+}
+
+:host ::ng-deep .p-paginator {
+  justify-content: var(--paginator-justify-content);
+}
+
+.create-button {
+  border-radius: var(--create-button-border-radius);
+  border: none;
+  box-shadow: var(--create-button-box-shadow);
+}
+
+.count-pill {
+  display: inline-block;
+  padding: var(--count-pill-padding);
+  border-radius: var(--count-pill-border-radius);
+  background: var(--count-pill-background);
+  color: var(--count-pill-color);
+  font-size: var(--count-pill-font-size);
+  font-weight: var(--count-pill-font-weight);
+}
+
+.level-chip {
+  display: inline-block;
+  padding: var(--level-chip-padding);
+  border-radius: var(--level-chip-border-radius);
+  border: var(--level-chip-border);
+  background: var(--level-chip-background);
+  color: var(--level-chip-color);
+  font-size: var(--level-chip-font-size);
+  font-weight: var(--level-chip-font-weight);
+}
+
+/* ================================
+   MOBILE CARD LAYOUT STYLES
+   ================================ */
+
+.mobile-entity-container {
+  padding: 0;
+}
+
+.mobile-search-row {
+  display: flex;
+  gap: var(--mobile-search-row-gap);
+  align-items: center;
+  margin-bottom: var(--mobile-search-row-margin-bottom);
+}
+
+.search-wrapper {
+  flex: 1;
+}
+
+.mobile-search-input {
+  width: 100%;
+  border-radius: var(--mobile-search-input-border-radius);
+  border: var(--mobile-search-input-border);
+  padding: var(--mobile-search-input-padding);
+  font-size: var(--mobile-search-input-font-size);
+  background: var(--mobile-search-input-background);
+}
+
+.filter-btn {
+  width: 44px;
+  height: 44px;
+  border-radius: var(--mobile-filter-btn-border-radius);
+  border: var(--mobile-filter-btn-border);
+  background: var(--mobile-filter-btn-background);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: var(--mobile-filter-btn-color);
+  transition: all 0.2s ease;
+}
+
+.filter-btn:hover {
+  background: var(--mobile-filter-btn-hover-background);
+  border-color: var(--mobile-filter-btn-hover-border-color);
+  color: var(--mobile-filter-btn-hover-color);
+}
+
+.mobile-create-btn {
+  width: 100%;
+  padding: var(--mobile-create-btn-padding);
+  background: var(--mobile-create-btn-background);
+  color: var(--mobile-create-btn-color);
+  border: none;
+  border-radius: var(--mobile-create-btn-border-radius);
+  font-size: var(--mobile-create-btn-font-size);
+  font-weight: var(--mobile-create-btn-font-weight);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--mobile-create-btn-gap);
+  cursor: pointer;
+  margin-bottom: var(--mobile-create-btn-margin-bottom);
+  transition: background 0.2s ease;
+}
+
+.mobile-create-btn:hover {
+  background: var(--mobile-create-btn-hover-background);
+}
+
+.mobile-create-btn i {
+  font-size: var(--text-sm-font-size);
+}
+
+.entity-cards-container {
+  display: flex;
+  flex-direction: column;
+  gap: var(--mobile-cards-container-gap);
+}
+
+.entity-card {
+  background: var(--mobile-card-background);
+  border: var(--mobile-card-border);
+  border-radius: var(--mobile-card-border-radius);
+  padding: var(--mobile-card-padding);
+  transition: box-shadow 0.2s ease;
+}
+
+.entity-card:hover {
+  box-shadow: var(--mobile-card-hover-box-shadow);
+  border-color: var(--mobile-card-hover-border-color);
+}
+
+.entity-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: var(--mobile-card-header-margin-bottom);
+}
+
+.entity-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex: 1;
+}
+
+.entity-name {
+  font-size: var(--mobile-card-title-font-size);
+  font-weight: var(--mobile-card-title-font-weight);
+  color: var(--mobile-card-title-color);
+}
+
+.entity-desc {
+  font-size: var(--mobile-card-subtitle-font-size);
+  color: var(--mobile-card-subtitle-color);
+}
+
+.entity-actions {
+  display: flex;
+  gap: var(--mobile-card-actions-gap);
+}
+
+.action-icon {
+  width: var(--mobile-action-icon-size);
+  height: var(--mobile-action-icon-size);
+  border-radius: var(--mobile-action-icon-border-radius);
+  border: none;
+  background: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: var(--mobile-action-icon-color);
+  transition: all 0.2s ease;
+}
+
+.action-icon:hover {
+  background: var(--mobile-action-icon-hover-background);
+  color: var(--mobile-action-icon-hover-color);
+}
+
+.action-icon.delete:hover {
+  background: var(--mobile-action-icon-delete-hover-background);
+  color: var(--mobile-action-icon-delete-hover-color);
+}
+
+.action-icon i {
+  font-size: var(--text-base-font-size);
+}
+
+.entity-card-footer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+}
+
+.entity-stat {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.stat-label {
+  font-size: var(--mobile-card-stat-label-font-size);
+  color: var(--mobile-card-stat-label-color);
+}
+
+.stat-value {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 6px;
+  background: #f3f4f6;
+  color: var(--mobile-card-stat-value-color);
+  font-size: var(--mobile-card-stat-label-font-size);
+  font-weight: var(--mobile-card-stat-value-font-weight);
+}
+
+.level-chip {
+  font-size: var(--text-xs-font-size);
+  padding: var(--level-chip-padding);
+  max-width: 100px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}

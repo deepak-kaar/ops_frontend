@@ -1,0 +1,341 @@
+<div class="create-event-container">
+    <!-- Header Section -->
+    <div class="header-section">
+        <div class="header-left">
+            <button class="back-btn" (click)="goBack()">
+                <i class="pi pi-arrow-left"></i>
+                <span>Back</span>
+            </button>
+            <div class="header-title">
+                <h1>{{this.appData?.eventId ? 'Update' : 'Create'}} Events</h1>
+                <p>Configure events</p>
+            </div>
+        </div>
+        <div class="header-actions">
+            <p-button label="Cancel" [outlined]="true" severity="secondary" (onClick)="onCancel()" />
+            <p-button label="Save" (onClick)="onSubmit()" />
+        </div>
+    </div>
+
+    <form [formGroup]="eventForm" class="main-form-card">
+        <!-- Event Details Card -->
+        <div class="form-card">
+            <div class="card-header">
+                <h2>Event Details</h2>
+                <p>Define the basic details of events</p>
+            </div>
+            <div class="card-content">
+                <div class="form-field full-width">
+                    <label for="eventName">Event Name<span class="required">*</span></label>
+                    <input type="text" pInputText formControlName="eventName" placeholder="Enter event name"
+                        id="eventName" />
+                    <small *ngIf="eventForm.get('eventName')?.invalid && eventForm.get('eventName')?.touched"
+                        class="error-text">
+                        Event Name is required
+                    </small>
+                </div>
+
+                <div class="form-field full-width">
+                    <label for="eventDesc">Event Description<span class="required">*</span></label>
+                    <textarea pTextarea formControlName="eventDesc" rows="4"
+                        placeholder="Enter a detailed description of the event..." id="eventDesc"></textarea>
+                    <small *ngIf="eventForm.get('eventDesc')?.invalid && eventForm.get('eventDesc')?.touched"
+                        class="error-text">
+                        Event Description is required
+                    </small>
+                </div>
+                <div class="form-field full-width mt-3">
+                    <label for="flagID">Linked Flag<span class="required">*</span></label>
+                    <p-select [options]="flags" formControlName="flagID" placeholder="Select a flag..."
+                        [style]="{'width':'100%'}" appendTo="body" (onChange)="onFlagSelect($event)" />
+                </div>
+
+                <!-- Flag Info Panel (shown when flag is selected) -->
+                <div *ngIf="selectedFlag" class="flag-info-panel mt-3 p-4 surface-50 border-round">
+                    <div class="flag-info-header flex align-items-center mb-3">
+                        <i class="pi pi-flag mr-2 text-primary text-xl"></i>
+                        <span class="font-bold text-lg">Flag Details</span>
+                    </div>
+                    <div class="flag-info-content text-sm">
+                        <div class="flag-info-row mb-2">
+                            <span class="font-semibold mr-2 text-600">Name:</span>
+                            <span class="text-900">{{ selectedFlag.flagName || selectedFlag.label }}</span>
+                        </div>
+                        <div class="flag-info-row mb-2" *ngIf="selectedFlag.flagSeverity">
+                            <span class="font-semibold mr-2 text-600">Severity:</span>
+                            <p-tag [value]="selectedFlag.flagSeverity"
+                                [severity]="selectedFlag.flagSeverity === 'Red' ? 'danger' : selectedFlag.flagSeverity === 'Orange' ? 'warning' : 'info'" />
+                        </div>
+                        <div class="flag-info-row mb-2" *ngIf="selectedFlag.flagDesc">
+                            <span class="font-semibold mr-2 text-600">Description:</span>
+                            <span class="text-900">{{ selectedFlag.flagDesc }}</span>
+                        </div>
+                        <div class="flag-info-row" *ngIf="selectedFlag.flagVariables?.length">
+                            <span class="font-semibold mr-2 text-600">Variables:</span>
+                            <span class="text-900">
+                                <span *ngFor="let v of selectedFlag.flagVariables; let last = last">
+                                    {{ v.variableName }}{{ last ? '' : ', ' }}
+                                </span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Phases horizontal container -->
+        <div class="phases-row flex gap-4 w-full">
+            <!-- Event Start -->
+            <div class="form-card phase-card flex-1">
+                <div class="card-header-with-action">
+                    <div class="card-header-info">
+                        <h2>Event Start</h2>
+                        <p>Define the start of event</p>
+                    </div>
+                    <p-button icon="pi pi-plus" label="Add Task" [outlined]="true" size="small"
+                        (onClick)="addTask('start')"></p-button>
+                </div>
+                <div formArrayName="eventStartTasks">
+                    <div *ngFor="let task of getTasks('start').controls; let i = index" [formGroupName]="i"
+                        class="task-item mt-3 p-3 surface-50 border-round">
+                        <div class="form-field full-width mb-3">
+                            <label>Select Activity Type<span class="required">*</span></label>
+                            <p-select [options]="activityTypes" formControlName="activityType" optionLabel="label"
+                                optionValue="value" placeholder="Select Activity..." [style]="{'width':'100%'}"
+                                appendTo="body"></p-select>
+                        </div>
+                        <div class="form-field full-width mb-3">
+                            <label>Select Target Roles<span class="required">*</span></label>
+                            <p-multiSelect [options]="roles" formControlName="role" optionLabel="label"
+                                optionValue="value" placeholder="Select roles to notify..." [style]="{'width':'100%'}"
+                                appendTo="body" display="chip"></p-multiSelect>
+                        </div>
+                        <div class="form-field full-width mb-3">
+                            <label>Select Template<span class="required">*</span></label>
+                            <div class="flex gap-2">
+                                <p-select class="flex-1" [options]="templates" formControlName="template"
+                                    optionLabel="label" optionValue="value" placeholder="Select Template..."
+                                    [style]="{'width':'100%'}" appendTo="body"></p-select>
+                                <p-button icon="pi pi-eye" [outlined]="true" severity="info" pTooltip="Preview Template"
+                                    tooltipPosition="top" [disabled]="!task.get('template')?.value"
+                                    (onClick)="showTemplatePreview(task.get('template')?.value)">
+                                </p-button>
+                            </div>
+                        </div>
+                        <div class="flex justify-content-end mt-2">
+                            <p-button icon="pi pi-trash" [text]="true" [rounded]="true"
+                                [style]="{ color: '#ef4444', background: '#fee2e2' }"
+                                (onClick)="removeTask('start', i)"></p-button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Event On Going -->
+            <div class="form-card phase-card flex-1">
+                <div class="card-header-with-action">
+                    <div class="card-header-info">
+                        <h2>Event On Going</h2>
+                        <p>Define the on going of event</p>
+                    </div>
+                    <p-button icon="pi pi-plus" label="Add Task" [outlined]="true" size="small"
+                        (onClick)="addTask('ongoing')"></p-button>
+                </div>
+
+                <div formArrayName="eventOngoingTasks">
+                    <div *ngFor="let task of getTasks('ongoing').controls; let i = index" [formGroupName]="i"
+                        class="task-item mt-3 p-3 surface-50 border-round">
+                        <div class="form-field full-width mb-3">
+                            <label>Select Activity Type<span class="required">*</span></label>
+                            <p-select [options]="activityTypes" formControlName="activityType" optionLabel="label"
+                                optionValue="value" placeholder="Select Activity..." [style]="{'width':'100%'}"
+                                appendTo="body"></p-select>
+                        </div>
+                        <div class="form-field full-width mb-3">
+                            <label>Select Target Roles<span class="required">*</span></label>
+                            <p-multiSelect [options]="roles" formControlName="role" optionLabel="label"
+                                optionValue="value" placeholder="Select roles to notify..." [style]="{'width':'100%'}"
+                                appendTo="body" display="chip"></p-multiSelect>
+                        </div>
+                        <div class="form-field full-width mb-3">
+                            <label>Select Template<span class="required">*</span></label>
+                            <div class="flex gap-2">
+                                <p-select class="flex-1" [options]="templates" formControlName="template"
+                                    optionLabel="label" optionValue="value" placeholder="Select Template..."
+                                    [style]="{'width':'100%'}" appendTo="body"></p-select>
+                                <p-button icon="pi pi-eye" [outlined]="true" severity="info" pTooltip="Preview Template"
+                                    tooltipPosition="top" [disabled]="!task.get('template')?.value"
+                                    (onClick)="showTemplatePreview(task.get('template')?.value)">
+                                </p-button>
+                            </div>
+                        </div>
+                        <div class="flex justify-content-end mt-2">
+                            <p-button icon="pi pi-trash" [text]="true" [rounded]="true"
+                                [style]="{ color: '#ef4444', background: '#fee2e2' }"
+                                (onClick)="removeTask('ongoing', i)"></p-button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="execute-after-section mt-3 p-3 items-center surface-50 border-round">
+                    <div class="flex align-items-center gap-2 mb-2">
+                        <p-checkbox formControlName="isEffectiveAfter" [binary]="true"
+                            inputId="executeAfter"></p-checkbox>
+                        <label for="executeAfter" class="cursor-pointer">Execute After</label>
+                    </div>
+                    <div *ngIf="eventForm.get('isEffectiveAfter')?.value"
+                        class="flex gap-2 align-items-start animation-duration-200">
+                        <div class="flex flex-row gap-1">
+                            <input type="text" pInputText formControlName="effectiveAfterHours" placeholder="HH"
+                                style="width: 60px" maxlength="2" class="p-inputtext-sm text-center" />
+                            <label class="font-normal text-sm mt-4">Hours</label>
+                        </div>
+                        <div class="flex align-items-center" style="height: 55px; padding-top: 13px;">
+                            <span class="font-normal">:</span>
+                        </div>
+                        <div class="flex flex-row gap-1">
+                            <input type="text" pInputText formControlName="effectiveAfterMinutes" placeholder="MM"
+                                style="width: 60px" maxlength="2" class="p-inputtext-sm text-center" />
+                            <label class="font-normal text-sm mt-4">Minutes</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Event End -->
+            <div class="form-card phase-card flex-1">
+                <div class="card-header-with-action">
+                    <div class="card-header-info">
+                        <h2>Event End</h2>
+                        <p>Define the end of event</p>
+                    </div>
+                    <p-button icon="pi pi-plus" label="Add Task" [outlined]="true" size="small"
+                        (onClick)="addTask('end')"></p-button>
+                </div>
+                <div formArrayName="eventEndTasks">
+                    <div *ngFor="let task of getTasks('end').controls; let i = index" [formGroupName]="i"
+                        class="task-item mt-3 p-3 surface-50 border-round">
+                        <div class="form-field full-width mb-3">
+                            <label>Select Activity Type<span class="required">*</span></label>
+                            <p-select [options]="activityTypes" formControlName="activityType" optionLabel="label"
+                                optionValue="value" placeholder="Select Activity..." [style]="{'width':'100%'}"
+                                appendTo="body"></p-select>
+                        </div>
+                        <div class="form-field full-width mb-3">
+                            <label>Select Target Roles<span class="required">*</span></label>
+                            <p-multiSelect [options]="roles" formControlName="role" optionLabel="label"
+                                optionValue="value" placeholder="Select roles to notify..." [style]="{'width':'100%'}"
+                                appendTo="body" display="chip"></p-multiSelect>
+                        </div>
+                        <div class="form-field full-width mb-3">
+                            <label>Select Template<span class="required">*</span></label>
+                            <div class="flex gap-2">
+                                <p-select class="flex-1" [options]="templates" formControlName="template"
+                                    optionLabel="label" optionValue="value" placeholder="Select Template..."
+                                    [style]="{'width':'100%'}" appendTo="body"></p-select>
+                                <p-button icon="pi pi-eye" [outlined]="true" severity="info" pTooltip="Preview Template"
+                                    tooltipPosition="top" [disabled]="!task.get('template')?.value"
+                                    (onClick)="showTemplatePreview(task.get('template')?.value)">
+                                </p-button>
+                            </div>
+                        </div>
+                        <div class="flex justify-content-end mt-2">
+                            <p-button icon="pi pi-trash" [text]="true" [rounded]="true"
+                                [style]="{ color: '#ef4444', background: '#fee2e2' }"
+                                (onClick)="removeTask('end', i)"></p-button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="threshold-time-section mt-3 p-3 items-center surface-50 border-round">
+                    <div class="flex align-items-center gap-2 mb-2">
+                        <p-checkbox formControlName="isThresholdTime" [binary]="true"
+                            inputId="thresholdTime"></p-checkbox>
+                        <label for="thresholdTime" class="cursor-pointer">Threshold time</label>
+                    </div>
+                    <div *ngIf="eventForm.get('isThresholdTime')?.value"
+                        class="flex gap-2 align-items-start animation-duration-200">
+                        <div class="flex flex-row gap-1">
+                            <input type="text" pInputText formControlName="thresholdHours" placeholder="HH"
+                                style="width: 60px" maxlength="2" class="p-inputtext-sm text-center" />
+                            <label class="font-normal text-sm mt-4">Hours</label>
+                        </div>
+                        <div class="flex align-items-center" style="height: 55px; padding-top: 13px;">
+                            <span class="font-normal">:</span>
+                        </div>
+                        <div class="flex flex-row gap-1">
+                            <input type="text" pInputText formControlName="thresholdMinutes" placeholder="MM"
+                                style="width: 60px" maxlength="2" class="p-inputtext-sm text-center" />
+                            <label class="font-normal text-sm mt-4">Minutes</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </form>
+</div>
+
+<!-- Template Preview Dialog -->
+<p-dialog [(visible)]="showPreviewDialog" [modal]="true" [style]="{ width: '40rem' }" [draggable]="false"
+    [resizable]="false">
+
+    <ng-template pTemplate="header">
+        <span class="font-normal text-xl">Template Preview</span>
+    </ng-template>
+
+    <div *ngIf="previewTemplateData" class="template-preview-container font-normal">
+        <!-- Metadata -->
+        <div class="conditional-section mb-4">
+            <div class="text-xl mb-2">{{ previewTemplateData.notificationName }}</div>
+            <div class="text-sm text-600 mb-2">{{ previewTemplateData.templateDesc }}</div>
+            <div class="flex gap-3 text-sm mt-3">
+                <div class="flex align-items-center gap-2">
+                    <span class="text-700">Type:</span>
+                    <p-tag [value]="previewTemplateData.notificationMedium || 'Email'" severity="info"></p-tag>
+                </div>
+                <div class="flex align-items-center gap-2" *ngIf="previewTemplateData.notificationVariables?.length">
+                    <span class="text-700">Variables:</span>
+                    <span class="text-600">{{ previewTemplateData.notificationVariables.length }} configured</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Subject/Title (if email/sms) -->
+        <div class="form-field full-width mb-3" *ngIf="previewTemplateData.notificationSubject">
+            <label class="block mb-2">Subject</label>
+            <div class="p-3 surface-50 border-round border-1 surface-border">
+                {{ previewTemplateData.notificationSubject }}
+            </div>
+        </div>
+
+        <!-- Body ContentPreview -->
+        <div class="form-field full-width mb-0">
+            <label class="block mb-2">Message Body</label>
+            <div class="template-preview">
+                <div class="preview-header">
+                    <i class="pi pi-envelope"></i>
+                    <span>Body Content</span>
+                </div>
+                <div class="preview-body"
+                    *ngIf="(previewTemplateData.notificationMedium || 'Email').toLowerCase() === 'email'; else plainTextTpl"
+                    [innerHTML]="previewTemplateData.notificationBody"></div>
+                <ng-template #plainTextTpl>
+                    <div class="preview-body" style="white-space: pre-wrap;">{{ previewTemplateData.notificationBody }}
+                    </div>
+                </ng-template>
+            </div>
+        </div>
+    </div>
+
+    <!-- Fallback if data not loaded properly in dialog -->
+    <div *ngIf="!previewTemplateData" class="flex justify-content-center p-4">
+        <p-progressSpinner styleClass="w-2rem h-2rem" strokeWidth="4"></p-progressSpinner>
+    </div>
+
+    <ng-template pTemplate="footer">
+        <p-button label="Close" [outlined]="true" severity="secondary" (onClick)="showPreviewDialog = false"></p-button>
+    </ng-template>
+</p-dialog>
+
+<p-toast [breakpoints]="breakPointForToastComponent"></p-toast>

@@ -1,0 +1,507 @@
+<main [ngClass]="{ 'w-[315px]': !collapsed, 'w-[65px]': collapsed }"
+  class="pt-[60px] md:pt-[0] h-screen bg-[var(--p-primary-color)] fixed transition-all duration-300 z-1000">
+  <div class="flex flex-col h-full gap-[20px] pl-[20px] text-white overflow-auto" [ngClass]="{
+      'pl-[20px] pr-[20px]': !collapsed,
+      'pl-[13px] pr-[12px]': collapsed
+    }">
+    <p class="font-semibold text-[24px] md:font-extrabold md:text-[30px]" [ngClass]="{ 'header-display': collapsed }">
+      {{ collapsed ? "OI" : "Operations Insights" }}
+
+      <!--     <p class="font-extrabold text-[30px]" [ngClass]="{'header-display': collapsed}">{{collapsed ? 'OI' : 'Operations
+      Insight'}}
+
+    </p> -->
+    </p>
+
+    <div [ngClass]="{ 'pt-[0px]': !collapsed, 'pt-[20px]': collapsed }"
+      class="flex items-center gap-[10px] cursor-pointer" routerLink="/home" routerLinkActive="active-link" [routerLinkActiveOptions]="{ exact: true }">
+      <div class="p-2">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path
+            d="M14.2495 19.4992V14.9991C14.2495 14.8001 14.1704 14.6094 14.0298 14.4687C13.8891 14.3281 13.6984 14.2491 13.4995 14.2491H10.4995C10.3005 14.2491 10.1098 14.3281 9.96912 14.4687C9.82847 14.6094 9.74945 14.8001 9.74945 14.9991V19.4992C9.74945 19.698 9.67045 19.8888 9.52981 20.0294C9.38918 20.1701 9.19844 20.2491 8.99954 20.2492L4.50009 20.2497C4.40159 20.2498 4.30406 20.2304 4.21305 20.1927C4.12205 20.155 4.03936 20.0998 3.9697 20.0301C3.90005 19.9605 3.8448 19.8778 3.8071 19.7868C3.7694 19.6958 3.75 19.5982 3.75 19.4997V10.8316C3.75 10.7271 3.77183 10.6238 3.8141 10.5282C3.85637 10.4326 3.91814 10.347 3.99545 10.2767L11.4949 3.45778C11.633 3.33226 11.8129 3.2627 11.9995 3.2627C12.186 3.26269 12.3659 3.33223 12.504 3.45775L20.0045 10.2767C20.0818 10.347 20.1436 10.4326 20.1859 10.5282C20.2282 10.6238 20.25 10.7271 20.25 10.8316V19.4997C20.25 19.5982 20.2306 19.6958 20.1929 19.7868C20.1552 19.8778 20.1 19.9605 20.0303 20.0301C19.9606 20.0998 19.878 20.155 19.7869 20.1927C19.6959 20.2304 19.5984 20.2498 19.4999 20.2497L14.9994 20.2492C14.8005 20.2491 14.6097 20.1701 14.4691 20.0295C14.3285 19.8888 14.2494 19.698 14.2495 19.4992V19.4992Z"
+            stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+      </div>
+      <div [ngClass]="{ invisible: collapsed, visible: !collapsed }">
+        <span>Home</span>
+      </div>
+    </div>
+    <div class="flex items-center gap-[10px] cursor-pointer">
+      <div class="p-2">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path
+            d="M19.5 3H17.25V2.25C17.25 2.05109 17.171 1.86032 17.0303 1.71967C16.8897 1.57902 16.6989 1.5 16.5 1.5C16.3011 1.5 16.1103 1.57902 15.9697 1.71967C15.829 1.86032 15.75 2.05109 15.75 2.25V3H8.25V2.25C8.25 2.05109 8.17098 1.86032 8.03033 1.71967C7.88968 1.57902 7.69891 1.5 7.5 1.5C7.30109 1.5 7.11032 1.57902 6.96967 1.71967C6.82902 1.86032 6.75 2.05109 6.75 2.25V3H4.5C4.10218 3 3.72064 3.15804 3.43934 3.43934C3.15804 3.72064 3 4.10218 3 4.5V19.5C3 19.8978 3.15804 20.2794 3.43934 20.5607C3.72064 20.842 4.10218 21 4.5 21H19.5C19.8978 21 20.2794 20.842 20.5607 20.5607C20.842 20.2794 21 19.8978 21 19.5V4.5C21 4.10218 20.842 3.72064 20.5607 3.43934C20.2794 3.15804 19.8978 3 19.5 3ZM6.75 4.5V5.25C6.75 5.44891 6.82902 5.63968 6.96967 5.78033C7.11032 5.92098 7.30109 6 7.5 6C7.69891 6 7.88968 5.92098 8.03033 5.78033C8.17098 5.63968 8.25 5.44891 8.25 5.25V4.5H15.75V5.25C15.75 5.44891 15.829 5.63968 15.9697 5.78033C16.1103 5.92098 16.3011 6 16.5 6C16.6989 6 16.8897 5.92098 17.0303 5.78033C17.171 5.63968 17.25 5.44891 17.25 5.25V4.5H19.5V7.5H4.5V4.5H6.75ZM19.5 19.5H4.5V9H19.5V19.5ZM10.5 11.25V17.25C10.5 17.4489 10.421 17.6397 10.2803 17.7803C10.1397 17.921 9.94891 18 9.75 18C9.55109 18 9.36032 17.921 9.21967 17.7803C9.07902 17.6397 9 17.4489 9 17.25V12.4631L8.58563 12.6713C8.4076 12.7603 8.2015 12.7749 8.01268 12.712C7.82385 12.649 7.66776 12.5137 7.57875 12.3356C7.48974 12.1576 7.47509 11.9515 7.53803 11.7627C7.60097 11.5739 7.73635 11.4178 7.91437 11.3287L9.41437 10.5787C9.52876 10.5215 9.65589 10.4945 9.78367 10.5002C9.91145 10.506 10.0356 10.5443 10.1444 10.6116C10.2532 10.6788 10.343 10.7728 10.4052 10.8845C10.4675 10.9963 10.5001 11.1221 10.5 11.25ZM16.0463 14.1047L14.25 16.5H15.75C15.9489 16.5 16.1397 16.579 16.2803 16.7197C16.421 16.8603 16.5 17.0511 16.5 17.25C16.5 17.4489 16.421 17.6397 16.2803 17.7803C16.1397 17.921 15.9489 18 15.75 18H12.75C12.6107 18 12.4742 17.9612 12.3557 17.888C12.2372 17.8148 12.1415 17.71 12.0792 17.5854C12.0169 17.4608 11.9905 17.3214 12.003 17.1826C12.0155 17.0439 12.0664 16.9114 12.15 16.8L14.8481 13.2028C14.9095 13.1211 14.9535 13.0277 14.9775 12.9284C15.0015 12.8291 15.0049 12.7259 14.9876 12.6252C14.9703 12.5245 14.9325 12.4284 14.8767 12.3428C14.8209 12.2572 14.7482 12.1839 14.6631 12.1274C14.5779 12.0709 14.4821 12.0324 14.3816 12.0143C14.281 11.9961 14.1778 11.9987 14.0783 12.0219C13.9788 12.0451 13.885 12.0884 13.8028 12.1491C13.7206 12.2098 13.6517 12.2867 13.6003 12.375C13.5525 12.463 13.4876 12.5406 13.4093 12.6031C13.3311 12.6656 13.2411 12.7118 13.1447 12.739C13.0483 12.7661 12.9474 12.7737 12.8481 12.7613C12.7487 12.7489 12.6528 12.7166 12.5661 12.6665C12.4794 12.6165 12.4035 12.5495 12.3431 12.4696C12.2827 12.3898 12.2389 12.2986 12.2142 12.2015C12.1896 12.1044 12.1847 12.0034 12.1997 11.9044C12.2148 11.8054 12.2495 11.7104 12.3019 11.625C12.5496 11.1963 12.9319 10.8612 13.3894 10.6718C13.8469 10.4824 14.3541 10.4493 14.8324 10.5774C15.3107 10.7056 15.7333 10.988 16.0348 11.3808C16.3363 11.7736 16.4998 12.2548 16.5 12.75C16.5016 13.2391 16.3421 13.7152 16.0463 14.1047Z"
+            fill="white" />
+        </svg>
+      </div>
+      <div [ngClass]="{ invisible: collapsed, visible: !collapsed }">
+        <span>Event</span>
+      </div>
+    </div>
+    <div class="flex items-center gap-[10px] cursor-pointer">
+      <div class="p-2">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path
+            d="M11.875 15C14.5674 15 16.75 12.8174 16.75 10.125C16.75 7.43261 14.5674 5.25 11.875 5.25C9.18261 5.25 7 7.43261 7 10.125C7 12.8174 9.18261 15 11.875 15Z"
+            stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+          <path
+            d="M5 18.5059C5.76138 17.4229 6.77215 16.539 7.94698 15.9288C9.12182 15.3186 10.4262 15.0001 11.7501 15C13.0739 14.9999 14.3784 15.3184 15.5532 15.9285C16.7281 16.5386 17.739 17.4225 18.5004 18.5054"
+            stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+      </div>
+      <div [ngClass]="{ invisible: collapsed, visible: !collapsed }">
+        <span>Admin</span>
+      </div>
+    </div>
+
+    <div class="flex items-center gap-[10px] cursor-pointer">
+      <div class="p-2">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path 
+            d="M13.5 3.14087C17.6534 3.63391 20.8661 6.84661 21.3591 11M21.3591 13C20.8661 17.1534 17.6534 20.3661 13.5 20.8591M10.5 20.8591C6.34661 20.3661 3.13391 17.1534 2.64087 13M2.64087 11C3.13391 6.84661 6.34661 3.63391 10.5 3.14087" 
+            stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <path 
+            d="M12 12L12 3" 
+            stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <path 
+            d="M12 12L19.5 7.5" 
+            stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <div [ngClass]="{ invisible: collapsed, visible: !collapsed }">
+        <span>Reports</span>
+      </div>
+    </div>
+
+    <div class="flex items-center gap-[10px] cursor-pointer" routerLink="/pages/mde" routerLinkActive="active-link">
+      <div class="p-2">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path 
+            d="M13.5 6.5L17.5 10.5" 
+            stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <path 
+            d="M5 20L4 16L16.7279 3.27208C17.5089 2.49103 18.7753 2.49103 19.5563 3.27208L20.7279 4.44365C21.5089 5.2247 21.5089 6.49103 20.7279 7.27208L8 20L5 20Z" 
+            stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <path 
+            d="M3 22H21" 
+            stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <div [ngClass]="{ invisible: collapsed, visible: !collapsed }">
+        <span>MDE</span>
+      </div>
+    </div>
+    @if((isMobile$|async)==false){
+    <!-- <div class="flex items-center gap-[10px] cursor-pointer" routerLink="/pageAdmin/pageBuilder"
+      routerLinkActive="active-link">
+      <div class="p-2">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path
+            d="M19.5 3H4.5C3.67157 3 3 3.67157 3 4.5V19.5C3 20.3284 3.67157 21 4.5 21H19.5C20.3284 21 21 20.3284 21 19.5V4.5C21 3.67157 20.3284 3 19.5 3Z"
+            stroke="white" stroke-width="2" stroke-linejoin="round" />
+          <path d="M3 8.5H21" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+          <path d="M8.5 21V8.5" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+      </div>
+      <div [ngClass]="{'invisible': collapsed, 'visible': !collapsed}">
+        <span>Page Builder</span>
+      </div>
+    </div> -->
+    }
+    <div class="flex items-center gap-[10px] cursor-pointer" routerLink="/pageAdmin/pageManager"
+      routerLinkActive="active-link">
+      <div class="p-2">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path
+            d="M7.125 9C7.02554 9 6.93016 9.03951 6.85983 9.10983C6.78951 9.18016 6.75 9.27554 6.75 9.375C6.75 9.47446 6.78951 9.56984 6.85983 9.64017C6.93016 9.71049 7.02554 9.75 7.125 9.75H16.875C16.9745 9.75 17.0698 9.71049 17.1402 9.64017C17.2105 9.56984 17.25 9.47446 17.25 9.375C17.25 9.27554 17.2105 9.18016 17.1402 9.10983C17.0698 9.03951 16.9745 9 16.875 9H7.125ZM7.125 11.25C7.02554 11.25 6.93016 11.2895 6.85983 11.3598C6.78951 11.4302 6.75 11.5255 6.75 11.625C6.75 11.7245 6.78951 11.8198 6.85983 11.8902C6.93016 11.9605 7.02554 12 7.125 12H16.875C16.9745 12 17.0698 11.9605 17.1402 11.8902C17.2105 11.8198 17.25 11.7245 17.25 11.625C17.25 11.5255 17.2105 11.4302 17.1402 11.3598C17.0698 11.2895 16.9745 11.25 16.875 11.25H7.125ZM6.75 13.875C6.75 13.7755 6.78951 13.6802 6.85983 13.6098C6.93016 13.5395 7.02554 13.5 7.125 13.5H16.875C16.9745 13.5 17.0698 13.5395 17.1402 13.6098C17.2105 13.6802 17.25 13.7755 17.25 13.875C17.25 13.9745 17.2105 14.0698 17.1402 14.1402C17.0698 14.2105 16.9745 14.25 16.875 14.25H7.125C7.02554 14.25 6.93016 14.2105 6.85983 14.1402C6.78951 14.0698 6.75 13.9745 6.75 13.875ZM7.125 15.75C7.02554 15.75 6.93016 15.7895 6.85983 15.8598C6.78951 15.9302 6.75 16.0255 6.75 16.125C6.75 16.2245 6.78951 16.3198 6.85983 16.3902C6.93016 16.4605 7.02554 16.5 7.125 16.5H13.125C13.2245 16.5 13.3198 16.4605 13.3902 16.3902C13.4605 16.3198 13.5 16.2245 13.5 16.125C13.5 16.0255 13.4605 15.9302 13.3902 15.8598C13.3198 15.7895 13.2245 15.75 13.125 15.75H7.125Z"
+            fill="white" />
+          <path
+            d="M3 3C3 2.40326 3.23705 1.83097 3.65901 1.40901C4.08097 0.987053 4.65326 0.75 5.25 0.75H15.0375C15.2364 0.750042 15.4271 0.829088 15.5677 0.96975L20.7803 6.18225C20.9209 6.32287 21 6.5136 21 6.7125V21C21 21.5967 20.7629 22.169 20.341 22.591C19.919 23.0129 19.3467 23.25 18.75 23.25H5.25C4.65326 23.25 4.08097 23.0129 3.65901 22.591C3.23705 22.169 3 21.5967 3 21V3ZM5.25 2.25C5.05109 2.25 4.86032 2.32902 4.71967 2.46967C4.57902 2.61032 4.5 2.80109 4.5 3V21C4.5 21.1989 4.57902 21.3897 4.71967 21.5303C4.86032 21.671 5.05109 21.75 5.25 21.75H18.75C18.9489 21.75 19.1397 21.671 19.2803 21.5303C19.421 21.3897 19.5 21.1989 19.5 21V7.023L19.227 6.75H15.7448C15.5466 6.74921 15.3568 6.66977 15.2172 6.52913C15.0775 6.3885 14.9994 6.19819 15 6V2.523L14.727 2.25H5.25Z"
+            fill="white" />
+        </svg>
+      </div>
+      <div [ngClass]="{ invisible: collapsed, visible: !collapsed }">
+        <span>Page Administration</span>
+      </div>
+    </div>
+
+    <div class="flex items-center gap-[10px] cursor-pointer" routerLink="/datapointAdmin"
+      routerLinkActive="active-link">
+      <div class="p-2">
+        <svg width="24" height="24" viewBox="0 0 48 49" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path
+            d="M11.25 5C9.45979 5 7.7429 5.71116 6.47703 6.97703C5.21116 8.2429 4.5 9.95979 4.5 11.75V37.25C4.5 39.0402 5.21116 40.7571 6.47703 42.023C7.7429 43.2888 9.45979 44 11.25 44H36.75C38.5402 44 40.2571 43.2888 41.523 42.023C42.7888 40.7571 43.5 39.0402 43.5 37.25V11.75C43.5 9.95979 42.7888 8.2429 41.523 6.97703C40.2571 5.71116 38.5402 5 36.75 5H11.25ZM7.5 11.75C7.5 10.7554 7.89509 9.80161 8.59835 9.09835C9.30161 8.39509 10.2554 8 11.25 8H36.75C37.7446 8 38.6984 8.39509 39.4016 9.09835C40.1049 9.80161 40.5 10.7554 40.5 11.75V37.25C40.5 38.2446 40.1049 39.1984 39.4016 39.9016C38.6984 40.6049 37.7446 41 36.75 41H11.25C10.2554 41 9.30161 40.6049 8.59835 39.9016C7.89509 39.1984 7.5 38.2446 7.5 37.25V11.75ZM34.5 15.5C34.5 15.1022 34.342 14.7206 34.0607 14.4393C33.7794 14.158 33.3978 14 33 14C32.6022 14 32.2206 14.158 31.9393 14.4393C31.658 14.7206 31.5 15.1022 31.5 15.5V33.5C31.5 33.8978 31.658 34.2794 31.9393 34.5607C32.2206 34.842 32.6022 35 33 35C33.3978 35 33.7794 34.842 34.0607 34.5607C34.342 34.2794 34.5 33.8978 34.5 33.5V15.5ZM24 24.5C24.3978 24.5 24.7794 24.658 25.0607 24.9393C25.342 25.2206 25.5 25.6022 25.5 26V33.5C25.5 33.8978 25.342 34.2794 25.0607 34.5607C24.7794 34.842 24.3978 35 24 35C23.6022 35 23.2206 34.842 22.9393 34.5607C22.658 34.2794 22.5 33.8978 22.5 33.5V26C22.5 25.6022 22.658 25.2206 22.9393 24.9393C23.2206 24.658 23.6022 24.5 24 24.5ZM16.5 20C16.5 19.6022 16.342 19.2206 16.0607 18.9393C15.7794 18.658 15.3978 18.5 15 18.5C14.6022 18.5 14.2206 18.658 13.9393 18.9393C13.658 19.2206 13.5 19.6022 13.5 20V33.5C13.5 33.8978 13.658 34.2794 13.9393 34.5607C14.2206 34.842 14.6022 35 15 35C15.3978 35 15.7794 34.842 16.0607 34.5607C16.342 34.2794 16.5 33.8978 16.5 33.5V20Z"
+            fill="white" stroke="white" />
+        </svg>
+      </div>
+      <div [ngClass]="{ invisible: collapsed, visible: !collapsed }">
+        <span>Datapoint Administration</span>
+      </div>
+    </div>
+
+        <div class="flex items-center gap-[10px] cursor-pointer" routerLink="/datapointAdminV2"
+      routerLinkActive="active-link">
+      <div class="p-2">
+        <svg width="24" height="24" viewBox="0 0 48 49" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path
+            d="M11.25 5C9.45979 5 7.7429 5.71116 6.47703 6.97703C5.21116 8.2429 4.5 9.95979 4.5 11.75V37.25C4.5 39.0402 5.21116 40.7571 6.47703 42.023C7.7429 43.2888 9.45979 44 11.25 44H36.75C38.5402 44 40.2571 43.2888 41.523 42.023C42.7888 40.7571 43.5 39.0402 43.5 37.25V11.75C43.5 9.95979 42.7888 8.2429 41.523 6.97703C40.2571 5.71116 38.5402 5 36.75 5H11.25ZM7.5 11.75C7.5 10.7554 7.89509 9.80161 8.59835 9.09835C9.30161 8.39509 10.2554 8 11.25 8H36.75C37.7446 8 38.6984 8.39509 39.4016 9.09835C40.1049 9.80161 40.5 10.7554 40.5 11.75V37.25C40.5 38.2446 40.1049 39.1984 39.4016 39.9016C38.6984 40.6049 37.7446 41 36.75 41H11.25C10.2554 41 9.30161 40.6049 8.59835 39.9016C7.89509 39.1984 7.5 38.2446 7.5 37.25V11.75ZM34.5 15.5C34.5 15.1022 34.342 14.7206 34.0607 14.4393C33.7794 14.158 33.3978 14 33 14C32.6022 14 32.2206 14.158 31.9393 14.4393C31.658 14.7206 31.5 15.1022 31.5 15.5V33.5C31.5 33.8978 31.658 34.2794 31.9393 34.5607C32.2206 34.842 32.6022 35 33 35C33.3978 35 33.7794 34.842 34.0607 34.5607C34.342 34.2794 34.5 33.8978 34.5 33.5V15.5ZM24 24.5C24.3978 24.5 24.7794 24.658 25.0607 24.9393C25.342 25.2206 25.5 25.6022 25.5 26V33.5C25.5 33.8978 25.342 34.2794 25.0607 34.5607C24.7794 34.842 24.3978 35 24 35C23.6022 35 23.2206 34.842 22.9393 34.5607C22.658 34.2794 22.5 33.8978 22.5 33.5V26C22.5 25.6022 22.658 25.2206 22.9393 24.9393C23.2206 24.658 23.6022 24.5 24 24.5ZM16.5 20C16.5 19.6022 16.342 19.2206 16.0607 18.9393C15.7794 18.658 15.3978 18.5 15 18.5C14.6022 18.5 14.2206 18.658 13.9393 18.9393C13.658 19.2206 13.5 19.6022 13.5 20V33.5C13.5 33.8978 13.658 34.2794 13.9393 34.5607C14.2206 34.842 14.6022 35 15 35C15.3978 35 15.7794 34.842 16.0607 34.5607C16.342 34.2794 16.5 33.8978 16.5 33.5V20Z"
+            fill="white" stroke="white" />
+        </svg>
+      </div>
+      <div [ngClass]="{ invisible: collapsed, visible: !collapsed }">
+        <span>Datapoint Admin V2</span>
+      </div>
+    </div>
+
+<!-- 
+    <div class="flex items-center gap-[10px] cursor-pointer" routerLink="/orgAdmin/opsAdmin"
+      routerLinkActive="active-link">
+      <div class="p-2">
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path
+            d="M15.6 12H18V18H12V12H14.4V9.6H3.6V12H6V18H0V12H2.4V8.4H8.4V6H6V0H12V6H9.6V8.4H15.6V12ZM7.2 1.2V4.8H10.8V1.2H7.2ZM4.8 16.8V13.2H1.2V16.8H4.8ZM16.8 16.8V13.2H13.2V16.8H16.8Z"
+            fill="white" />
+        </svg>
+      </div>
+      <div [ngClass]="{ invisible: collapsed, visible: !collapsed }">
+        <span>OpsInsight Administration</span>
+      </div>
+    </div> -->
+
+    <div class="flex items-center gap-[10px] cursor-pointer" routerLink="/orgAdmin/appAdmin"
+      routerLinkActive="active-link">
+      <div class="p-2">
+        <svg width="21" height="21" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48">
+          <path fill="none" stroke="white" stroke-linejoin="round" stroke-width="3"
+            d="M3.135 6.597c.104-1.723 1.226-3.058 2.937-3.28C7.394 3.143 9.304 3 12 3s4.606.144 5.928.316c1.712.224 2.833 1.558 2.937 3.281C20.94 7.83 21 9.573 21 12s-.06 4.17-.135 5.403c-.104 1.723-1.225 3.058-2.937 3.28c-1.322.173-3.232.317-5.928.317s-4.606-.144-5.928-.316c-1.711-.224-2.833-1.558-2.937-3.281C3.06 16.17 3 14.427 3 12s.06-4.17.135-5.403Zm0 34.806c.104 1.723 1.226 3.058 2.937 3.28C7.394 44.857 9.304 45 12 45s4.606-.144 5.928-.316c1.712-.223 2.833-1.558 2.937-3.281C20.94 40.17 21 38.427 21 36s-.06-4.17-.135-5.403c-.104-1.723-1.225-3.058-2.937-3.28C16.606 27.143 14.696 27 12 27s-4.606.144-5.928.316c-1.711.224-2.833 1.558-2.937 3.281C3.06 31.83 3 33.573 3 36s.06 4.17.135 5.403ZM41.403 3.135c1.723.104 3.058 1.226 3.28 2.937C44.857 7.394 45 9.304 45 12s-.144 4.606-.316 5.928c-.223 1.712-1.558 2.833-3.281 2.937C40.17 20.94 38.427 21 36 21s-4.17-.06-5.403-.135c-1.723-.104-3.058-1.225-3.28-2.937C27.143 16.606 27 14.696 27 12s.144-4.606.316-5.928c.224-1.711 1.558-2.833 3.281-2.937C31.83 3.06 33.573 3 36 3s4.17.06 5.403.135Zm-6.617 41.808c-1.017-.102-1.647-.966-1.686-1.988c-.033-.874-.067-2.154-.086-3.97a145 145 0 0 1-3.969-.085c-1.022-.04-1.886-.669-1.988-1.686A12 12 0 0 1 27 36c0-.468.022-.871.057-1.214c.102-1.017.966-1.647 1.988-1.686c.874-.033 2.154-.067 3.97-.086c.018-1.815.052-3.095.085-3.969c.04-1.022.669-1.886 1.686-1.988c.343-.035.746-.057 1.214-.057s.871.022 1.214.057c1.017.102 1.647.966 1.686 1.988c.033.874.067 2.154.086 3.97c1.815.018 3.095.052 3.969.085c1.022.04 1.886.669 1.988 1.686c.035.343.057.746.057 1.214s-.022.871-.057 1.214c-.102 1.017-.966 1.647-1.988 1.686c-.874.033-2.154.067-3.97.086a145 145 0 0 1-.085 3.969c-.04 1.022-.669 1.886-1.686 1.988c-.343.035-.746.057-1.214.057s-.871-.022-1.214-.057Z" />
+        </svg>
+      </div>
+      <div [ngClass]="{ invisible: collapsed, visible: !collapsed }">
+        <span>App Administration</span>
+      </div>
+    </div>
+
+    <div class="flex items-center gap-[10px] cursor-pointer" routerLink="/configAdmin" routerLinkActive="active-link">
+      <div class="py-2 pl-2 pr-1">
+        <svg xmlns="http://www.w3.org/2000/svg" width="21" height="21" viewBox="0 0 512 512">
+          <path fill="white"
+            d="M36.571 475.429h73.143V365.714H36.571V475.43zM109.714 36.57H36.571v182.86h73.143V36.57zm182.857 0H219.43v73.143h73.142V36.571zM0 329.143h146.286V256H0v73.143zm219.429 146.286h73.142V256H219.43v219.429zm-36.572-256h146.286v-73.143H182.857v73.143zM475.43 36.57h-73.143V256h73.143V36.571zm-109.715 256v73.143H512V292.57H365.714zm36.572 182.858h73.143v-73.143h-73.143v73.143z" />
+        </svg>
+      </div>
+      <div [ngClass]="{ invisible: collapsed, visible: !collapsed }">
+        <span>Config Administration</span>
+      </div>
+    </div>
+
+    <div class="flex items-center gap-[10px] cursor-pointer" routerLink="/emailAdmin" routerLinkActive="active-link">
+      <div class="py-2 pl-2 pr-1">
+        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24">
+          <path fill="white"
+            d="m16.484 11.976l6.151-5.344v10.627zm-7.926.905l2.16 1.875c.339.288.781.462 1.264.462h.017h-.001h.014c.484 0 .926-.175 1.269-.465l-.003.002l2.16-1.875l6.566 5.639H1.995zM1.986 5.365h20.03l-9.621 8.356a.612.612 0 0 1-.38.132h-.014h.001h-.014a.61.61 0 0 1-.381-.133l.001.001zm-.621 1.266l6.15 5.344l-6.15 5.28zm21.6-2.441c-.24-.12-.522-.19-.821-.19H1.859a1.87 1.87 0 0 0-.835.197l.011-.005A1.856 1.856 0 0 0 0 5.855v12.172a1.86 1.86 0 0 0 1.858 1.858h20.283a1.86 1.86 0 0 0 1.858-1.858V5.855c0-.727-.419-1.357-1.029-1.66l-.011-.005z" />
+        </svg>
+      </div>
+      <div [ngClass]="{ invisible: collapsed, visible: !collapsed }">
+        <span>Email Administration</span>
+      </div>
+    </div>
+
+    <div class="flex items-center gap-[10px] cursor-pointer" routerLink="/reportimageAdmin"
+      routerLinkActive="active-link">
+      <div class="py-2 pl-2 pr-1">
+        <svg xmlns="http://www.w3.org/2000/svg" width="21" height="21" viewBox="0 0 2048 2048">
+          <path fill="white"
+            d="M608 128q45 0 77 9t58 24t46 31t40 31t44 23t55 10h992q27 0 50 10t40 27t28 41t10 50v384h-128V384H928q-31 0-54 9t-44 24t-41 31t-45 31t-58 23t-78 10H128v1152h128v128H0V256q0-27 10-50t27-40t41-28t50-10h480zm0 256q24 0 42-4t33-13t29-20t32-27q-17-15-31-26t-30-20t-33-13t-42-5H128v128h480zm1440 512v1152H384V896h1664zm-128 128H512v896h1408v-896zm-128 256h-384v-128h384v128zm-128 256h-256v-128h256v128zm0 256h-256v-128h256v128zm-384 0H640v-640h640v640zm-128-512H768v384h384v-384z" />
+        </svg>
+      </div>
+      <div [ngClass]="{ invisible: collapsed, visible: !collapsed }">
+        <span>Report Image Administration</span>
+      </div>
+    </div>
+
+    <div class="flex items-center gap-[10px] cursor-pointer" routerLink="/schedulerJobAdmin"
+      routerLinkActive="active-link">
+      <div class="py-2 pl-2 pr-1">
+        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="white">
+          <g fill="none" stroke="white" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+            <path d="M9 20H6a4 4 0 0 1-4-4V7a4 4 0 0 1 4-4h11a4 4 0 0 1 4 4v3M8 2v2m7-2v2M2 8h19m-2.5 7.643l-1.5 1.5" />
+            <circle cx="17" cy="17" r="5" />
+          </g>
+        </svg>
+      </div>
+      <div [ngClass]="{ invisible: collapsed, visible: !collapsed }">
+        <span>SchedulerJob Administration</span>
+      </div>
+    </div>
+
+    <div class="flex items-center gap-[10px] cursor-pointer" routerLink="/piadmin" routerLinkActive="active-link">
+      <div class="p-2">
+        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24">
+          <path fill="white"
+            d="m21.07 10.3l-6-6a.75.75 0 0 0-.53-.22H3c-.41 0-.75.34-.75.75v7.88c0 .2.08.39.22.53l6 5.99a2.3 2.3 0 0 0 1.64.68c.62 0 1.21-.24 1.64-.68l.22-.22c.04.08.08.16.15.22a2.326 2.326 0 0 0 3.29 0l5.65-5.65c.9-.9.9-2.37 0-3.28ZM10.7 18.17c-.16.16-.36.24-.58.24s-.43-.09-.58-.24L3.75 12.4V5.58h6.82l5.78 5.78c.32.32.32.84 0 1.16l-5.65 5.65Zm9.31-5.65l-5.65 5.65c-.32.32-.85.32-1.17 0a.704.704 0 0 0-.23-.15l4.44-4.44c.9-.91.9-2.38 0-3.28l-4.72-4.72h1.54L20 11.36c.32.32.32.84 0 1.16ZM8.25 8.5a1.25 1.25 0 1 1-2.5 0a1.25 1.25 0 0 1 2.5 0Z" />
+        </svg>
+      </div>
+      <div [ngClass]="{ invisible: collapsed, visible: !collapsed }">
+        <span>PI Administration</span>
+      </div>
+    </div>
+    <div class="flex items-center gap-[10px] cursor-pointer" routerLink="/datasourceAdmin"
+      routerLinkActive="active-link">
+      <div class="p-2">
+        <svg xmlns="http://www.w3.org/2000/svg" width="21" height="21" viewBox="0 0 24 24">
+          <path fill="white"
+            d="M1 1h22v17H1V1Zm2 2v13h18V3H3Zm7.406 3.844L8.28 9.5l2.125 2.656l-1.562 1.25L5.719 9.5l3.125-3.906l1.562 1.25Zm4.75-1.25L18.281 9.5l-3.125 3.906l-1.562-1.25L15.72 9.5l-2.125-2.656l1.562-1.25ZM3.222 21h17.556v2H3.222v-2Z" />
+        </svg>
+      </div>
+      <div [ngClass]="{ invisible: collapsed, visible: !collapsed }">
+        <span>Datasource Administration</span>
+      </div>
+    </div>
+    <div class="flex items-center gap-[10px] cursor-pointer" routerLink="/databaseAdmin" routerLinkActive="active-link">
+      <div class="p-2">
+        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24">
+          <path fill="white"
+            d="m9.1 19.7l-.3-.7l.2-.4c-1.9-.5-3-1.3-3-1.6v-2.2c1.3.6 2.8 1 4.6 1.2c.7-.8 1.6-1.5 2.5-2H12c-2.4 0-4.7-.6-6-1.5V9.6c1.5.8 3.6 1.4 6 1.4s4.5-.5 6-1.4v2.8c-.3.2-.6.4-1 .6c1 0 2 .2 3 .6V7c0-2.2-3.6-4-8-4S4 4.8 4 7v10c0 1.8 2.4 3.3 5.7 3.8c-.2-.3-.4-.7-.6-1.1M12 5c3.9 0 6 1.5 6 2s-2.1 2-6 2s-6-1.5-6-2s2.1-2 6-2m5 13c.6 0 1 .4 1 1s-.4 1-1 1s-1-.4-1-1s.4-1 1-1m0-3c-2.7 0-5.1 1.7-6 4c.9 2.3 3.3 4 6 4s5.1-1.7 6-4c-.9-2.3-3.3-4-6-4m0 6.5c-1.4 0-2.5-1.1-2.5-2.5s1.1-2.5 2.5-2.5s2.5 1.1 2.5 2.5s-1.1 2.5-2.5 2.5Z" />
+        </svg>
+      </div>
+      <div [ngClass]="{ invisible: collapsed, visible: !collapsed }">
+        <span>Database Administration</span>
+      </div>
+    </div>
+    <div class="flex items-center gap-[10px] cursor-pointer" routerLink="/tagAdmin" routerLinkActive="active-link">
+      <div class="p-2">
+        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24">
+          <path fill="white"
+            d="M21.41 11.58L12.41 2.58A2 2 0 0 0 11 2H4A2 2 0 0 0 2 4V11A2 2 0 0 0 2.59 12.42L11.59 21.42A2 2 0 0 0 13 22A2 2 0 0 0 14.41 21.41L21.41 14.41A2 2 0 0 0 22 13A2 2 0 0 0 21.41 11.58M13 20L4 11V4H11L20 13M6.5 5A1.5 1.5 0 1 1 5 6.5A1.5 1.5 0 0 1 6.5 5Z" />
+        </svg>
+      </div>
+      <div [ngClass]="{ invisible: collapsed, visible: !collapsed }">
+        <span>Attribute Search</span>
+      </div>
+    </div>
+    <div class="flex items-center gap-[10px] cursor-pointer" routerLink="/tagUtil" routerLinkActive="active-link">
+      <div class="p-2">
+        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24">
+          <path fill="white"
+            d="M21.7 18.6V17.6L22.8 16.8C22.9 16.7 23 16.6 22.9 16.5L21.9 14.8C21.9 14.7 21.7 14.7 21.6 14.7L20.4 15.2C20.1 15 19.8 14.8 19.5 14.7L19.3 13.4C19.3 13.3 19.2 13.2 19.1 13.2H17.1C16.9 13.2 16.8 13.3 16.8 13.4L16.6 14.7C16.3 14.9 16.1 15 15.8 15.2L14.6 14.7C14.5 14.7 14.4 14.7 14.3 14.8L13.3 16.5C13.3 16.6 13.3 16.7 13.4 16.8L14.5 17.6V18.6L13.4 19.4C13.3 19.5 13.2 19.6 13.3 19.7L14.3 21.4C14.4 21.5 14.5 21.5 14.6 21.5L15.8 21C16 21.2 16.3 21.4 16.6 21.5L16.8 22.8C16.9 22.9 17 23 17.1 23H19.1C19.2 23 19.3 22.9 19.3 22.8L19.5 21.5C19.8 21.3 20 21.2 20.3 21L21.5 21.4C21.6 21.4 21.7 21.4 21.8 21.3L22.8 19.6C22.9 19.5 22.9 19.4 22.8 19.4L21.7 18.6M18 19.5C17.2 19.5 16.5 18.8 16.5 18S17.2 16.5 18 16.5 19.5 17.2 19.5 18 18.8 19.5 18 19.5M12.3 22H3C1.9 22 1 21.1 1 20V4C1 2.9 1.9 2 3 2H21C22.1 2 23 2.9 23 4V13.1C22.4 12.5 21.7 12 21 11.7V6H3V20H11.3C11.5 20.7 11.8 21.4 12.3 22Z" />
+        </svg>
+      </div>
+      <div [ngClass]="{ invisible: collapsed, visible: !collapsed }">
+        <span>App Utilization</span>
+      </div>
+    </div>
+    @if(hasManagerAccess) {
+    <div class="flex items-center gap-[10px] cursor-pointer" routerLink="/mongoDBAdmin" routerLinkActive="active-link">
+      <div class="p-2">
+        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 15 15">
+          <path fill="white"
+            d="m7.5.5l.369-.338a.5.5 0 0 0-.738 0L7.5.5Zm0 13l-.393.309a.5.5 0 0 0 .786 0L7.5 13.5ZM4.623 9.838l-.393.31l.393-.31Zm.246-6.467L4.5 3.032l.369.337Zm5.262 0l.369-.338l-.369.337Zm.246 6.467l.393.31l-.393-.31ZM8 15V.5H7V15h1Zm-.107-1.809L5.016 9.53l-.786.618l2.877 3.662l.786-.618ZM5.237 3.708L7.87.838L7.13.162L4.5 3.032l.736.676ZM7.131.838l2.632 2.87l.737-.675L7.869.163L7.13.837Zm2.853 8.691l-2.877 3.662l.786.618l2.877-3.662l-.786-.618Zm-.221-5.82a4.5 4.5 0 0 1 .22 5.82l.787.618a5.5 5.5 0 0 0-.27-7.114l-.737.675Zm-4.747 5.82a4.5 4.5 0 0 1 .221-5.82L4.5 3.032a5.5 5.5 0 0 0-.27 7.114l.786-.618Z" />
+        </svg>
+      </div>
+      <div [ngClass]="{ invisible: collapsed, visible: !collapsed }">
+        <span>MongoDB Administration</span>
+      </div>
+    </div>
+    }
+
+    <!-- logging component -->
+
+    <div class="flex items-center gap-[10px] cursor-pointer" routerLink="/logging" routerLinkActive="active-link">
+      <div class="p-2">
+        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="white">
+          <path
+            d="M14 2H6a2 2 0 0 0-2 2v16c0 1.103.897 2 2 2h12a2 2 0 0 0 2-2V8zm5 18H6V4h7v5h6zm-9-7h6v2H10zm0-4h4v2h-4zm9.707 8.293l-2.264-2.264A4.948 4.948 0 0 0 18 14a5 5 0 1 0-5 5 4.948 4.948 0 0 0 2.029-.443l2.264 2.264 1.414-1.414zM13 17a3 3 0 1 1 3-3 3.003 3.003 0 0 1-3 3z" />
+        </svg>
+
+      </div>
+      <div [ngClass]="{ invisible: collapsed, visible: !collapsed }">
+        <span>Logging</span>
+      </div>
+    </div>
+
+
+
+    <div class="flex items-center gap-[10px] cursor-pointer" routerLink="/webserviceAdmin"
+      routerLinkActive="active-link">
+      <div class="p-2">
+        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24">
+          <path fill="white"
+            d="M3.53 21.53a.75.75 0 0 1-1.06-1.06l2.01-2.011c-.774-1.073-.908-2.265-.753-3.29c.178-1.172.743-2.2 1.243-2.7l1.5-1.5a.75.75 0 0 1 1.06 0l5.5 5.5a.75.75 0 0 1 0 1.061l-1.5 1.5c-.5.5-1.527 1.065-2.699 1.243c-1.025.155-2.217.02-3.29-.754zm7.5-11a.75.75 0 1 1-1.06-1.06L11.44 8l-.47-.47a.75.75 0 0 1 0-1.06l1.5-1.5c.5-.5 1.527-1.065 2.699-1.243c1.025-.155 2.217-.02 3.29.754l2.01-2.011a.75.75 0 1 1 1.061 1.06l-2.01 2.012c.774 1.072.91 2.264.754 3.29c-.178 1.171-.743 2.198-1.243 2.698l-1.5 1.5a.75.75 0 0 1-1.06 0l-.47-.47l-1.47 1.47a.75.75 0 1 1-1.06-1.06l1.47-1.47l-2.44-2.44z" />
+        </svg>
+      </div>
+      <div [ngClass]="{ invisible: collapsed, visible: !collapsed }">
+        <span>Webservice Administration</span>
+      </div>
+    </div>
+
+    <div class="flex items-center gap-[10px] cursor-pointer" routerLink="/calculationEngine"
+      routerLinkActive="active-link">
+      <div class="p-2">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="12" cy="12" r="10" stroke="white" stroke-width="2" fill="none" />
+          <text x="8" y="10" font-size="6" fill="white" font-family="Arial, sans-serif">
+            +
+          </text>
+          <text x="13" y="10" font-size="6" fill="white" font-family="Arial, sans-serif">
+            −
+          </text>
+          <text x="8" y="17" font-size="6" fill="white" font-family="Arial, sans-serif">
+            ×
+          </text>
+          <text x="13" y="17" font-size="6" fill="white" font-family="Arial, sans-serif">
+            ÷
+          </text>
+        </svg>
+      </div>
+      <div [ngClass]="{ invisible: collapsed, visible: !collapsed }">
+        <span>Calculation Engine</span>
+      </div>
+    </div>
+
+    <div class="flex items-center gap-[10px] cursor-pointer" routerLink="/correlationEngine"
+      routerLinkActive="active-link">
+      <div class="p-2">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <!-- Outer circle -->
+          <circle cx="12" cy="12" r="10" stroke="white" stroke-width="2" fill="none" />
+
+          <!-- Central node -->
+          <circle cx="12" cy="12" r="2" fill="white" />
+
+          <!-- Outer nodes -->
+          <circle cx="8" cy="9" r="1.5" fill="white" />
+          <circle cx="16" cy="9" r="1.5" fill="white" />
+          <circle cx="12" cy="16" r="1.5" fill="white" />
+
+          <!-- Connecting lines -->
+          <line x1="12" y1="12" x2="8" y2="9" stroke="white" stroke-width="1.5" />
+          <line x1="12" y1="12" x2="16" y2="9" stroke="white" stroke-width="1.5" />
+          <line x1="12" y1="12" x2="12" y2="16" stroke="white" stroke-width="1.5" />
+        </svg>
+      </div>
+      <div [ngClass]="{ invisible: collapsed, visible: !collapsed }">
+        <span>Correlation Engine</span>
+      </div>
+    </div>
+
+    <div class="flex items-center gap-[10px] cursor-pointer" routerLink="/activityEngine"
+      routerLinkActive="active-link">
+      <div class="p-2">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="12" cy="12" r="10" stroke="white" stroke-width="2" fill="none" />
+
+          <path d="M9 8 L12 5 L15 8" stroke="white" stroke-width="1.5" fill="none" />
+          <path d="M15 16 L12 19 L9 16" stroke="white" stroke-width="1.5" fill="none" />
+
+          <path d="M12 5 A7 7 0 0 1 19 12" stroke="white" stroke-width="1.5" fill="none" />
+          <path d="M5 12 A7 7 0 0 1 12 19" stroke="white" stroke-width="1.5" fill="none" />
+        </svg>
+      </div>
+      <div [ngClass]="{ invisible: collapsed, visible: !collapsed }">
+        <span>Activity Engine</span>
+      </div>
+    </div>
+
+
+
+    <!-- user enabler -->
+    <div class="flex items-center gap-[10px] cursor-pointer" routerLink="/accountEnabler"
+      routerLinkActive="active-link">
+      <div class="p-2">
+        <!-- Use this cleaner user-enable icon -->
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M12 12a5 5 0 1 0-5-5 5 5 0 0 0 5 5Z" fill="white" />
+          <path d="M12 14c-4 0-8 2-8 4v2h8.26a6.5 6.5 0 0 1 11.24-4.52A9.54 9.54 0 0 0 12 14Z" fill="white" />
+          <path d="M18.5 16a2.5 2.5 0 1 1-2.5 2.5A2.5 2.5 0 0 1 18.5 16Z" fill="#00CFFF" />
+        </svg>
+      </div>
+
+      <div [ngClass]="{ invisible: collapsed, visible: !collapsed }">
+        <span>Account Enabler</span>
+      </div>
+    </div>
+
+    <div class="flex items-center gap-[10px] cursor-pointer" routerLink="/rolloutManagement"
+      routerLinkActive="active-link">
+      <div class="p-2">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M12 2L15 8L22 9L17 14L18 21L12 18L6 21L7 14L2 9L9 8L12 2Z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+          <circle cx="12" cy="12" r="2" fill="white"/>
+        </svg>
+      </div>
+      <div [ngClass]="{ invisible: collapsed, visible: !collapsed }">
+        <span>Rollout Management</span>
+      </div>
+    </div>
+
+    <div class="flex items-center gap-[10px] cursor-pointer" routerLink="/reportPublishAdmin"
+      routerLinkActive="active-link">
+      <div class="p-2">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M22 2L11 13" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M22 2L15 22L11 13L2 9L22 2Z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <div [ngClass]="{ invisible: collapsed, visible: !collapsed }">
+        <span>Report Publish Admin</span>
+      </div>
+    </div>
+
+    <!-- added by av -->
+    <div class="flex items-center gap-[10px] cursor-pointer sidebar-item" routerLink="/actDirectory"
+      routerLinkActive="active-link">
+      <div class="p-2">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 2048 2048">
+          <path fill="white"
+            d="M1920 0v2048H256v-254H128v-128h128v-257H128v-128h128V769H128V641h128V385H128V257h128V0h1664zm-128 128H384v1792h1408V128zm-128 384h-640V384h640v128zm0 256h-640V640h640v128zm-960 892q-39 0-73-14t-60-40t-40-60t-15-74q0-39 14-73t40-59t60-41t74-15q39 0 73 15t59 40t41 60t15 73q0 39-15 73t-40 60t-60 40t-73 15zm0-256q-29 0-48 19t-20 49q0 29 19 48t49 20q29 0 48-19t20-49q0-29-19-48t-49-20zm0-640q-39 0-73-14t-60-40t-40-60t-15-74q0-39 14-73t40-59t60-41t74-15q39 0 73 15t59 40t41 60t15 73q0 39-15 73t-40 60t-60 40t-73 15zm0-256q-29 0-48 19t-20 49q0 29 19 48t49 20q29 0 48-19t20-49q0-29-19-48t-49-20zm960 900h-640v-128h640v128zm0 256h-640v-128h640v128z" />
+        </svg>
+      </div>
+
+      <div [ngClass]="{ invisible: collapsed, visible: !collapsed }">
+        <span>Active Directory</span>
+      </div>
+    </div>
+
+
+
+    <div class="flex items-center gap-[10px] cursor-pointer" (click)="op.toggle($event)">
+      <div class="p-2">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path
+            d="M12 22C6.49 22 2 17.51 2 12C2 6.49 6.49 2 12 2C17.51 2 22 6.04 22 11C22 14.31 19.31 17 16 17H14.23C13.95 17 13.73 17.22 13.73 17.5C13.73 17.62 13.78 17.73 13.86 17.83C14.27 18.3 14.5 18.89 14.5 19.5C14.5 20.163 14.2366 20.7989 13.7678 21.2678C13.2989 21.7366 12.663 22 12 22ZM12 4C7.59 4 4 7.59 4 12C4 16.41 7.59 20 12 20C12.28 20 12.5 19.78 12.5 19.5C12.4969 19.3703 12.4472 19.2461 12.36 19.15C11.95 18.69 11.73 18.1 11.73 17.5C11.73 16.837 11.9934 16.2011 12.4622 15.7322C12.9311 15.2634 13.567 15 14.23 15H16C18.21 15 20 13.21 20 11C20 7.14 16.41 4 12 4Z"
+            fill="white" />
+          <path
+            d="M6.5 13C7.32843 13 8 12.3284 8 11.5C8 10.6716 7.32843 10 6.5 10C5.67157 10 5 10.6716 5 11.5C5 12.3284 5.67157 13 6.5 13Z"
+            fill="white" />
+          <path
+            d="M9.5 9C10.3284 9 11 8.32843 11 7.5C11 6.67157 10.3284 6 9.5 6C8.67157 6 8 6.67157 8 7.5C8 8.32843 8.67157 9 9.5 9Z"
+            fill="white" />
+          <path
+            d="M14.5 9C15.3284 9 16 8.32843 16 7.5C16 6.67157 15.3284 6 14.5 6C13.6716 6 13 6.67157 13 7.5C13 8.32843 13.6716 9 14.5 9Z"
+            fill="white" />
+          <path
+            d="M17.5 13C18.3284 13 19 12.3284 19 11.5C19 10.6716 18.3284 10 17.5 10C16.6716 10 16 10.6716 16 11.5C16 12.3284 16.6716 13 17.5 13Z"
+            fill="white" />
+        </svg>
+      </div>
+      <div [ngClass]="{ invisible: collapsed, visible: !collapsed }">
+        <span>Customizing Theme</span>
+      </div>
+    </div>
+    <div class="card flex justify-center" [ngClass]="{ invisible: collapsed, visible: !collapsed }">
+      <p-popover #op>
+        <app-theme-config></app-theme-config>
+      </p-popover>
+    </div>
+
+    <!-- <div class="mt-auto flex justify-center mb-4 cursor-pointer" (click)="toggleCollapsed()">
+      <div class="p-2 rounded-full hover:bg-white/10">
+        <svg *ngIf="!collapsed" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M15 19L8 12L15 5" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <svg *ngIf="collapsed" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M9 5L16 12L9 19" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+    </div> -->
+  </div>
+</main>

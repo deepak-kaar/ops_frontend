@@ -1,0 +1,17 @@
+<p-button [label]="buttonLabel" [style]="{
+    background: style?.backgroundColor,
+    border: style?.border,
+    height:'100%',
+    width:'100%',
+    color:style?.color,
+    'font-family':style?.fontFamily,
+    'font-size':style?.fontSize + 'px',
+    'font-weight':style?.fontWeight,
+    'text-align':style?.textAlign,
+    'text-decoration':style?.textDecoration,
+    'padding':style?.padding ,
+    'border-top-left-radius':style?.borderTopLeftRadius + 'px',
+    'border-top-right-radius':style?.borderTopRightRadius + 'px',
+    'border-bottom-left-radius':style?.borderBottomLeftRadius + 'px',
+    'border-bottom-right-radius':style?.borderBottomRightRadius + 'px'
+     }" [raised]="style?.raised" [rounded]="style.rounded" [outlined]="style.outlined" [text]="style?.text" (onClick)="handleClick()" />

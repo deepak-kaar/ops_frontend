@@ -1,0 +1,32 @@
+@media (max-width: 1024px) {
+    .customizePaginator .p-paginator.p-component{
+        flex-wrap: nowrap!important;
+    }
+    }
+
+
+    /* ...existing code... */
+
+:host ::ng-deep .toolbar-btn.p-button {
+  height: 2rem;
+  padding: 0.5rem 0.9rem;
+  border-radius: 10px;
+  border: 1px solid #0b63f6;
+  background: #0b63f6;
+  color: #ffffff;
+  font-weight: 500;
+  box-shadow: none;
+}
+
+:host ::ng-deep .toolbar-btn.p-button:hover {
+  background: #0057dc;
+  border-color: #0057dc;
+}
+
+:host ::ng-deep .toolbar-btn .p-button-icon {
+  font-size: 0.9rem;
+}
+
+:host ::ng-deep .create-btn.p-button {
+  padding-inline: 1rem;
+}

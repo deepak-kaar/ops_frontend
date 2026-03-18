@@ -1,0 +1,146 @@
+<div class="create-entity-container">
+    <!-- Header Section -->
+    <div class="header-section">
+        <div class="header-left">
+            <button class="back-btn" (click)="goBack()">
+                <i class="pi pi-arrow-left"></i>
+                <span>Back</span>
+            </button>
+            <div class="header-title">
+                <h1>Edit Entity</h1>
+                <p>Update your entity configuration</p>
+            </div>
+        </div>
+        <div class="header-actions">
+            <p-button label="Cancel" [outlined]="true" severity="secondary" (onClick)="onCancel()" />
+            <p-button label="Update" (onClick)="onSubmit()" />
+        </div>
+    </div>
+
+    <form [formGroup]="entityForm">
+        <!-- Entity Details Card -->
+        <div class="form-card">
+            <div class="card-header">
+                <h2>Entity Details</h2>
+                <p>Update the basic properties of your entity</p>
+            </div>
+            <div class="card-content">
+                <div class="form-row">
+                    <div class="form-field">
+                        <label for="entityName">Entity Name<span class="required">*</span></label>
+                        <input type="text" pInputText formControlName="entityOrInstanceName"
+                            placeholder="Enter entity name" id="entityName" />
+                        <small
+                            *ngIf="entityForm.get('entityOrInstanceName')?.invalid && entityForm.get('entityOrInstanceName')?.touched"
+                            class="error-text">
+                            Entity Name is required
+                        </small>
+                    </div>
+                    <div class="form-field">
+                        <label for="entityLevel">Entity Level<span class="required">*</span></label>
+                        <p-select [style]="{ width:'100%' }" appendTo="body" [options]="entityLevel"
+                            formControlName="entityLevel" placeholder="Select entity level..."
+                            (onChange)="onEntityLevelChange($event)" (onClear)="clearEntity()" [showClear]="true">
+                        </p-select>
+                        <small *ngIf="entityForm.get('entityLevel')?.invalid && entityForm.get('entityLevel')?.touched"
+                            class="error-text">
+                            Entity Level is required
+                        </small>
+                    </div>
+                </div>
+
+                @if(isShowApp){
+                <div class="form-row">
+                    <div class="form-field">
+                        <label for="appSelect">{{subEntityLabel}}</label>
+                        <p-select [style]="{ width: '100%' }" appendTo="body" [options]="filteredOptions"
+                            formControlName="entityLevelName" (onChange)="onAppChange($event.value)" optionValue="id"
+                            optionLabel="name" [filter]="true" [showClear]="true">
+                        </p-select>
+                    </div>
+                    <div class="form-field">
+                        <label for="orgSelect">Choose Org Level</label>
+                        <p-select [style]="{ width: '100%' }" appendTo="body" [options]="orgs"
+                            formControlName="entityOrgLevel" optionValue="orgId" optionLabel="orgName" [filter]="true"
+                            [showClear]="true">
+                        </p-select>
+                    </div>
+                </div>
+                }
+
+                <div class="form-field full-width">
+                    <label for="entityDesc">Entity Description<span class="required">*</span></label>
+                    <textarea pTextarea formControlName="entityOrInstanceDesc" rows="4"
+                        placeholder="Enter a detailed description of the entity..." id="entityDesc"></textarea>
+                    <small
+                        *ngIf="entityForm.get('entityOrInstanceDesc')?.invalid && entityForm.get('entityOrInstanceDesc')?.touched"
+                        class="error-text">
+                        Entity Description is required
+                    </small>
+                </div>
+            </div>
+
+            <!-- Is Entity Checkbox Section -->
+            <div class="is-entity-section">
+                <p-checkbox formControlName="isEntityOrInstance" [binary]="true" inputId="isEntity" />
+                <label for="isEntity">Is Entity</label>
+            </div>
+        </div>
+
+        <!-- Attribute Creation Card -->
+        <div class="form-card">
+            <div class="card-header-with-action">
+                <div class="card-header-info">
+                    <h2>Attribute Management</h2>
+                    <p>Update attributes and their properties</p>
+                </div>
+                <p-button icon="pi pi-plus" label="Add Attributes" (onClick)="addAttribute()" />
+            </div>
+
+            <div formArrayName="entityOrInstanceAttribute" cdkDropList (cdkDropListDropped)="drop($event)">
+                <div *ngFor="let attribute of attributes.controls; let i = index" [formGroupName]="i" cdkDrag
+                    class="attribute-item">
+                    <div class="attribute-content">
+                        <div class="attribute-header">
+                            <div class="form-field attribute-name-field">
+                                <label>Attribute Name<span class="required">*</span></label>
+                                <input type="text" pInputText formControlName="attributeName"
+                                    placeholder="Enter attribute name..." />
+                            </div>
+                            <div class="attribute-actions-top">
+                                <p-button icon="pi pi-sliders-h" [rounded]="true" [text]="true"
+                                    (onClick)="moreActions(i)" pTooltip="More Options" />
+                                <p-button icon="pi pi-trash" [rounded]="true" [text]="true" severity="danger"
+                                    (onClick)="removeAttribute(i)" pTooltip="Remove" />
+                            </div>
+                        </div>
+
+                        <div class="attribute-options">
+                            <div class="checkbox-group">
+                                <p-checkbox formControlName="nullable" [binary]="true" inputId="nullable{{i}}" />
+                                <label for="nullable{{i}}">Not Null</label>
+                            </div>
+                            <div class="checkbox-group">
+                                <p-checkbox formControlName="unique" [binary]="true" inputId="unique{{i}}" />
+                                <label for="unique{{i}}">Unique Value</label>
+                            </div>
+                            <div class="checkbox-group">
+                                <p-checkbox formControlName="isLookup" [binary]="true" inputId="alias{{i}}"
+                                    (onChange)="onLookup(attribute)" />
+                                <label for="alias{{i}}">Alias Name</label>
+                            </div>
+                        </div>
+
+                        <div class="form-field full-width">
+                            <label>Description</label>
+                            <textarea pTextarea formControlName="comments" rows="3"
+                                placeholder="Enter attribute description..."></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+<p-toast [breakpoints]="breakPointForToastComponent"></p-toast>

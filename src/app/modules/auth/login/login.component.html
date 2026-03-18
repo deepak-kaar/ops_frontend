@@ -1,0 +1,109 @@
+<div class="login-container">
+    <!-- Left Panel - Branding -->
+    <div class="branding-panel">
+        <div class="branding-content">
+            <div class="brand-logo">
+                <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
+                    <rect width="40" height="40" rx="8" fill="white" fill-opacity="0.15"/>
+                    <path d="M12 20L18 14L24 20L18 26L12 20Z" fill="white"/>
+                    <path d="M18 14L24 20L30 14L24 8L18 14Z" fill="white" fill-opacity="0.6"/>
+                    <path d="M18 26L24 20L30 26L24 32L18 26Z" fill="white" fill-opacity="0.6"/>
+                </svg>
+                <span class="brand-name">OpsInsights</span>
+            </div>
+            <h2 class="branding-headline">Unified Operations<br/>Management Platform</h2>
+            <p class="branding-description">Gain complete visibility into your enterprise operations with centralized dashboards, intelligent alerts, and actionable insights.</p>
+            <div class="branding-features">
+                <div class="feature-item">
+                    <i class="pi pi-shield"></i>
+                    <span>Enterprise-grade Security</span>
+                </div>
+                <div class="feature-item">
+                    <i class="pi pi-chart-line"></i>
+                    <span>Real-time Dashboards</span>
+                </div>
+                <div class="feature-item">
+                    <i class="pi pi-cog"></i>
+                    <span>Intelligent Automation</span>
+                </div>
+            </div>
+        </div>
+        <div class="branding-footer">
+            <!-- <p>Powered by Kaar Technologies</p> -->
+        </div>
+    </div>
+
+    <!-- Right Panel - Login Form -->
+    <div class="form-panel">
+        <div class="form-wrapper">
+            <div class="form-header">
+                <h1 class="form-title">Sign In</h1>
+                <p class="form-subtitle">Enter your credentials to access the platform</p>
+            </div>
+
+            <form class="login-form" (ngSubmit)="onLogin()">
+                <!-- Username Field -->
+                <div class="form-field">
+                    <label for="userName" class="field-label">Username</label>
+                    <div class="input-wrapper">
+                        <input
+                            pInputText
+                            id="userName"
+                            type="text"
+                            [(ngModel)]="userName"
+                            name="userName"
+                            placeholder="Enter your username"
+                            class="login-input"
+                            [disabled]="isLoading"
+                            autocomplete="username" />
+                    </div>
+                </div>
+
+                <!-- Password Field -->
+                <div class="form-field">
+                    <label for="password" class="field-label">Password</label>
+                    <div class="input-wrapper">
+                        <input
+                            pInputText
+                            id="password"
+                            [type]="showPassword ? 'text' : 'password'"
+                            [(ngModel)]="password"
+                            name="password"
+                            placeholder="Enter your password"
+                            class="login-input"
+                            [disabled]="isLoading"
+                            autocomplete="current-password" />
+                        <button
+                            type="button"
+                            class="toggle-password"
+                            (click)="togglePasswordVisibility()"
+                            [disabled]="isLoading"
+                            tabindex="-1">
+                            <i [class]="showPassword ? 'pi pi-eye-slash' : 'pi pi-eye'"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Login Button -->
+                <button
+                    type="submit"
+                    class="login-button"
+                    [disabled]="isLoading">
+                    @if (isLoading) {
+                        <i class="pi pi-spin pi-spinner"></i>
+                        <span>Authenticating...</span>
+                    } @else {
+                        <span>Sign In</span>
+                        <i class="pi pi-arrow-right"></i>
+                    }
+                </button>
+            </form>
+
+            <div class="form-footer">
+                <p class="copyright">&copy; 2026 OpsInsights &middot; All rights reserved</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<p-toast position="top-right"></p-toast>

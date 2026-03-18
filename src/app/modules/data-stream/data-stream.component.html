@@ -1,0 +1,15 @@
+<div class="layout-root surface">
+  <div class="mobile-overlay" [class.active]="mobileSidebarOpen" (click)="toggleSidebar()"></div>
+
+  <aside class="sidebar-wrapper" [class.mobile-open]="mobileSidebarOpen">
+    <app-sidebar-new></app-sidebar-new>
+  </aside>
+
+  <div class="right-pane surface-ground">
+    <app-topbar-new (menuToggle)="toggleSidebar()"></app-topbar-new>
+
+    <div class="right-scroll">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+</div>

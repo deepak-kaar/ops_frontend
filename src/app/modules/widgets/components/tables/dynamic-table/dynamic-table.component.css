@@ -1,0 +1,19 @@
+.p-datatable-table {
+    width: 100%;
+    /* // border-spacing: 0 7px !important; */
+}
+
+.p-datatable .p-datatable-thead>tr>th {
+    background-color: rgb(217, 229, 242) !important;
+    /* // color: #333333 !important; */
+    padding: 0.5rem 1rem !important;
+}
+
+.p-datatable .p-datatable-tbody>tr>td {
+    padding: 0.5rem 1rem !important;
+    border-top: 1px solid #dadada;
+}
+
+.p-datatable>.p-datatable-wrapper {
+    overflow: visible;
+}

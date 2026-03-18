@@ -1,0 +1,4 @@
+<div class="flex gap-[25px]">
+    <p-select [options]="systems" [(ngModel)]="selectedSystem" optionLabel="sysName" filterBy="sysName" [filter]="true"
+        placeholder="Select an System" class="w-[300px]" showClear="true" (onChange)="onSystemChange($event)" />
+</div>

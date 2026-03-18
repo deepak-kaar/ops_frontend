@@ -1,0 +1,222 @@
+/* Card container */
+:host ::ng-deep p-card {
+  display: block;
+  height: 100%;
+}
+
+:host ::ng-deep p-card .p-card {
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  border: 1px solid #e9eef5;
+  height: 100%;
+}
+
+:host ::ng-deep p-card .p-card-body {
+  padding: 16px;
+}
+
+:host ::ng-deep p-card .p-card-content {
+  padding: 0;
+}
+
+/* TABLE CONTAINER */
+:host ::ng-deep .p-datatable {
+  border-radius: 8px;
+  background: white;
+}
+
+:host ::ng-deep .p-datatable-header {
+  border: none !important;
+  background: transparent !important;
+  padding: 0 0 12px 0 !important;
+}
+
+/* Search Input Styling */
+:host ::ng-deep .p-input-icon-left,
+:host ::ng-deep .p-iconfield {
+  display: block;
+  width: 100%;
+  position: relative;
+}
+
+:host ::ng-deep .p-input-icon-left > i,
+:host ::ng-deep .p-iconfield > .p-input-icon,
+:host ::ng-deep .p-iconfield > p-inputicon {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #9ca3af;
+  font-size: 14px;
+  z-index: 1;
+  pointer-events: none;
+}
+
+:host ::ng-deep .p-iconfield > p-inputicon i {
+  color: #9ca3af;
+  font-size: 14px;
+}
+
+:host ::ng-deep .p-input-icon-left > input,
+:host ::ng-deep .p-iconfield > input {
+  padding-left: 36px !important;
+  width: 100% !important;
+  border-radius: 8px;
+  border: 1px solid #e5e7eb;
+  font-size: 13px;
+  height: 36px;
+}
+
+:host ::ng-deep .p-input-icon-left > input:focus,
+:host ::ng-deep .p-iconfield > input:focus {
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.1);
+}
+
+:host ::ng-deep .p-input-icon-left > input::placeholder,
+:host ::ng-deep .p-iconfield > input::placeholder {
+  color: #9ca3af;
+}
+
+/* Search wrapper for proper icon positioning */
+.search-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.search-wrapper i {
+  position: absolute;
+  left: 12px;
+  color: #9ca3af;
+  font-size: 14px;
+  z-index: 1;
+}
+
+.search-wrapper input {
+  padding-left: 36px !important;
+}
+
+/* HEADER */
+:host ::ng-deep .p-datatable-thead > tr {
+  border: 1px solid #ebeef0 !important;
+}
+
+:host ::ng-deep .p-datatable-thead > tr > th {
+  font-weight: 500;
+  font-size: 13px;
+  padding: 10px 12px;
+  color: #6b7280;
+  border: none !important;
+  background: #f9fafb !important;
+}
+
+:host ::ng-deep .p-datatable-thead > tr > th:first-child {
+  border-radius: 8px 0 0 0;
+}
+
+:host ::ng-deep .p-datatable-thead > tr > th:last-child {
+  border-radius: 0 8px 0 0;
+}
+
+/* BODY CELLS */
+:host ::ng-deep .p-datatable-tbody > tr {
+  border: 1px solid #ebeef0 !important;
+}
+
+:host ::ng-deep .p-datatable-tbody > tr > td {
+  padding: 10px 12px;
+  font-size: 13px;
+  font-weight: 400;
+  color: #374151;
+  border-top: 1px solid #f3f4f6 !important;
+  border-bottom: none !important;
+}
+
+/* HOVER */
+:host ::ng-deep .p-datatable-tbody > tr:hover {
+  background: #f8fafc;
+}
+
+/* Selected row */
+:host ::ng-deep .p-datatable-tbody > tr.p-highlight {
+  background: #eff6ff !important;
+}
+
+/* Paginator */
+:host ::ng-deep .p-paginator {
+  padding: 12px 0 0 0;
+  border: none;
+  background: transparent;
+}
+
+:host ::ng-deep .p-paginator .p-paginator-current {
+  font-size: 12px;
+  color: #6b7280;
+}
+
+/* Button sizes */
+:host ::ng-deep p-button.p-button-sm .p-button {
+  padding: 6px 12px;
+  font-size: 13px;
+}
+
+:host ::ng-deep p-button .p-button.p-button-icon-only {
+  width: 32px;
+  height: 32px;
+  padding: 0;
+}
+
+/* Tag styling */
+:host ::ng-deep .p-tag {
+  font-size: 11px;
+  padding: 4px 8px;
+  font-weight: 500;
+}
+
+/* Checkbox alignment */
+:host ::ng-deep .p-checkbox {
+  width: 18px;
+  height: 18px;
+}
+
+:host ::ng-deep .p-checkbox .p-checkbox-box {
+  width: 18px;
+  height: 18px;
+}
+
+/* Role chip styling */
+:host ::ng-deep .role-chip {
+  font-size: 11px !important;
+  padding: 4px 8px !important;
+  background: #e0e7ff !important;
+  color: #4338ca !important;
+  border-radius: 6px !important;
+}
+
+:host ::ng-deep .role-chip .p-chip-remove-icon {
+  font-size: 10px;
+  margin-left: 6px;
+  color: #6366f1;
+  cursor: pointer;
+}
+
+:host ::ng-deep .role-chip .p-chip-remove-icon:hover {
+  color: #dc2626;
+}
+
+/* Dialog styling */
+:host ::ng-deep .p-dialog .p-dialog-header {
+  padding: 16px 20px;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+:host ::ng-deep .p-dialog .p-dialog-header .p-dialog-title {
+  font-size: 16px;
+  font-weight: 600;
+}
+
+:host ::ng-deep .p-dialog .p-dialog-footer {
+  padding: 16px 20px;
+  border-top: 1px solid #e5e7eb;
+}

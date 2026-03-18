@@ -1,0 +1,127 @@
+<div class="create-entity-container">
+    <!-- Header Section -->
+    <div class="header-section">
+        <div class="header-left">
+            <button class="back-btn" (click)="goBack()">
+                <i class="pi pi-arrow-left"></i>
+                <span>Back</span>
+            </button>
+            <div class="header-title">
+                <h1>{{ isEditMode ? 'Edit Instance' : 'Create Instance' }}</h1>
+                <p>{{ isEditMode ? 'Update your data instance details' : 'Configure your new data instance' }}</p>
+            </div>
+        </div>
+        <div class="header-actions">
+            <p-button label="Cancel" [outlined]="true" severity="secondary" (onClick)="onCancel()" />
+            <p-button [label]="isEditMode ? 'Update' : 'Save'" (onClick)="onSubmit()" />
+        </div>
+    </div>
+
+    <form [formGroup]="instanceForm">
+        <!-- Instance Details Card -->
+        <div class="form-card">
+            <div class="card-header">
+                <h2>Instance Details</h2>
+                <p>Define the basic properties of your instance</p>
+            </div>
+            <div class="card-content">
+                <div class="form-row">
+                    <div class="form-field">
+                        <label for="entitySelect">Select Entity<span class="required">*</span></label>
+                        <p-select [style]="{ width:'100%' }" appendTo="body" [options]="entityList"
+                            formControlName="entityId" placeholder="Select entity..." optionLabel="entityName"
+                            [filter]="true" filterBy="entityName" [showClear]="true"
+                            (onChange)="getEntityData($event)" (onClear)="clearEntity()">
+                        </p-select>
+                        <small *ngIf="instanceForm.get('entityId')?.invalid && instanceForm.get('entityId')?.touched"
+                            class="error-text">
+                            Entity is required
+                        </small>
+                    </div>
+                    <div class="form-field">
+                        <label for="instanceName">Instance Name<span class="required">*</span></label>
+                        <input type="text" pInputText formControlName="instanceName" placeholder="Enter instance name"
+                            id="instanceName" />
+                        <small
+                            *ngIf="instanceForm.get('instanceName')?.invalid && instanceForm.get('instanceName')?.touched"
+                            class="error-text">
+                            Instance Name is required
+                        </small>
+                    </div>
+                </div>
+
+                <div class="form-field full-width">
+                    <label for="instanceDesc">Instance Description<span class="required">*</span></label>
+                    <textarea pTextarea formControlName="instanceDesc" rows="4"
+                        placeholder="Enter a detailed description of the instance..." id="instanceDesc"></textarea>
+                    <small
+                        *ngIf="instanceForm.get('instanceDesc')?.invalid && instanceForm.get('instanceDesc')?.touched"
+                        class="error-text">
+                        Description is required
+                    </small>
+                </div>
+
+                <div class="form-field">
+                    <label for="instanceLocation">Instance Location</label>
+                    <input type="text" pInputText formControlName="instanceLocation"
+                        placeholder="Enter instance location" id="instanceLocation" />
+                </div>
+            </div>
+        </div>
+
+        <!-- Attribute Creation Card -->
+        <div class="form-card">
+            <div class="card-header-with-action">
+                <div class="card-header-info">
+                    <h2>Attribute Creation</h2>
+                    <p>Define attributes and their properties</p>
+                </div>
+                <p-button icon="pi pi-plus" label="Add Attributes" (onClick)="addAttribute()" />
+            </div>
+
+            <div formArrayName="instanceAttribute" cdkDropList (cdkDropListDropped)="drop($event)">
+                <div *ngFor="let attribute of attributes.controls; let i = index" [formGroupName]="i" cdkDrag
+                    class="attribute-item">
+                    <div class="attribute-content">
+                        <div class="attribute-header">
+                            <div class="form-field attribute-name-field">
+                                <label>Attribute Name<span class="required">*</span></label>
+                                <input type="text" pInputText formControlName="attributeName"
+                                    placeholder="Enter attribute name..." />
+                            </div>
+                            <div class="attribute-actions-top">
+                                <p-button icon="pi pi-sliders-h" [rounded]="true" [text]="true"
+                                    (onClick)="moreActions(i)" pTooltip="More Options" />
+                                <p-button icon="pi pi-trash" [rounded]="true" [text]="true" severity="danger"
+                                    (onClick)="removeAttribute(i)" pTooltip="Remove" />
+                            </div>
+                        </div>
+
+                        <div class="attribute-options">
+                            <div class="checkbox-group">
+                                <p-checkbox formControlName="nullable" [binary]="true" inputId="nullable{{i}}" />
+                                <label for="nullable{{i}}">Not Null</label>
+                            </div>
+                            <div class="checkbox-group">
+                                <p-checkbox formControlName="unique" [binary]="true" inputId="unique{{i}}" />
+                                <label for="unique{{i}}">Unique Value</label>
+                            </div>
+                            <div class="checkbox-group">
+                                <p-checkbox [binary]="true" inputId="alias{{i}}" />
+                                <label for="alias{{i}}">Alias Name</label>
+                            </div>
+                        </div>
+
+                        <div class="form-field full-width">
+                            <label>Description</label>
+                            <textarea pTextarea formControlName="comments" rows="3"
+                                placeholder="Enter attribute description..."></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+<p-toast [breakpoints]="breakPointForToastComponent"></p-toast>

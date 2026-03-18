@@ -1,0 +1,1829 @@
+{
+  "version": "1.0.0",
+  "timestamp": "2025-12-17T06:41:47.367Z",
+  "canvas": {
+    "width": 1200,
+    "heightPx": 759.7820894294573,
+    "minHeightPx": 755.65,
+    "styles": {
+      "backgroundColor": "",
+      "backgroundMode": "color",
+      "backgroundImageUrl": "",
+      "backgroundSize": "cover",
+      "backgroundPosition": "center center",
+      "backgroundRepeat": "no-repeat",
+      "gradientType": "linear",
+      "gradientAngle": 90,
+      "gradientStartColor": "#2196F3",
+      "gradientEndColor": "#4CAF50"
+    }
+  },
+  "widgets": [
+    {
+      "id": "w-1765883571226-401",
+      "label": "Section",
+      "type": "section",
+      "selector": "app-designer-section-container",
+      "position": {
+        "x": 0,
+        "y": 0.004382826475849737,
+        "w": 1,
+        "h": 0.29490161001788906,
+        "zIndex": 2
+      },
+      "input": {
+        "style": {
+          "backgroundMode": "color",
+          "backgroundColor": "#ddeaf5",
+          "backgroundImageUrl": "",
+          "backgroundSize": "cover",
+          "backgroundPosition": "center center",
+          "backgroundRepeat": "no-repeat",
+          "gradientType": "linear",
+          "gradientAngle": 90,
+          "gradientStartColor": "#2196F3",
+          "gradientEndColor": "#4CAF50",
+          "fontFamily": "",
+          "fontSize": 14,
+          "fontWeight": "",
+          "color": "",
+          "textAlign": "left",
+          "textDecoration": "",
+          "paddingLeft": 0,
+          "paddingRight": 0,
+          "paddingTop": 0,
+          "paddingBottom": 0,
+          "borderTopRightRadius": 0,
+          "borderTopLeftRadius": 0,
+          "borderBottomLeftRadius": 0,
+          "borderBottomRightRadius": 0,
+          "borderTopStyle": "solid",
+          "borderBottomStyle": "solid",
+          "borderLeftStyle": "solid",
+          "borderRightStyle": "solid",
+          "borderTopWidth": 0,
+          "borderBottomWidth": 0,
+          "borderLeftWidth": 0,
+          "borderRightWidth": 0,
+          "borderTopColor": "#000000",
+          "borderBottomColor": "#000000",
+          "borderLeftColor": "#000000",
+          "borderRightColor": "#000000",
+          "borderColors": [
+            "#FF9F40",
+            "#4BC0C0",
+            "#36A2EB"
+          ],
+          "backgroundColors": [
+            "#4CAF50",
+            "#2196F3",
+            "#FFEB3B"
+          ],
+          "tooltipColor": "#ffffff",
+          "tooltipBgColor": "#000000",
+          "gridColor": "#dfe7ef",
+          "bgColor": "#2196F3",
+          "borderColor": "#2196F3",
+          "pBorderColor": "#2196F3",
+          "phBgColor": "#2196F3",
+          "phBorderColor": "#2196F3",
+          "bg1": "#2196F3",
+          "bg2": "#4CAF50",
+          "backgroundImage": "none"
+        }
+      },
+      "children": [
+        {
+          "id": "w-1765883642640-25",
+          "label": "Label",
+          "type": "label",
+          "selector": "app-label",
+          "position": {
+            "x": 0.0034482758620689655,
+            "y": 0,
+            "w": 0.9866148531951641,
+            "h": 0.11204481792717087,
+            "zIndex": 1
+          },
+          "input": {
+            "style": {
+              "backgroundMode": "transparent",
+              "backgroundColor": "transparent",
+              "backgroundImageUrl": "",
+              "backgroundSize": "cover",
+              "backgroundPosition": "center center",
+              "backgroundRepeat": "no-repeat",
+              "gradientType": "linear",
+              "gradientAngle": 90,
+              "gradientStartColor": "#2196F3",
+              "gradientEndColor": "#4CAF50",
+              "fontFamily": "",
+              "fontSize": 20,
+              "fontWeight": "",
+              "color": "",
+              "textAlign": "left",
+              "textDecoration": "",
+              "paddingLeft": 0,
+              "paddingRight": 0,
+              "paddingTop": 0,
+              "paddingBottom": 0,
+              "borderTopRightRadius": 0,
+              "borderTopLeftRadius": 0,
+              "borderBottomLeftRadius": 0,
+              "borderBottomRightRadius": 0,
+              "borderTopStyle": "solid",
+              "borderBottomStyle": "solid",
+              "borderLeftStyle": "solid",
+              "borderRightStyle": "solid",
+              "borderTopWidth": 0,
+              "borderBottomWidth": 0,
+              "borderLeftWidth": 0,
+              "borderRightWidth": 0,
+              "borderTopColor": "#000000",
+              "borderBottomColor": "#000000",
+              "borderLeftColor": "#000000",
+              "borderRightColor": "#000000",
+              "borderColors": [
+                "#FF9F40",
+                "#4BC0C0",
+                "#36A2EB"
+              ],
+              "backgroundColors": [
+                "#4CAF50",
+                "#2196F3",
+                "#FFEB3B"
+              ],
+              "tooltipColor": "#ffffff",
+              "tooltipBgColor": "#000000",
+              "gridColor": "#dfe7ef",
+              "bgColor": "#2196F3",
+              "borderColor": "#2196F3",
+              "pBorderColor": "#2196F3",
+              "phBgColor": "#2196F3",
+              "phBorderColor": "#2196F3",
+              "bg1": "#2196F3",
+              "bg2": "#4CAF50",
+              "backgroundImage": "none"
+            },
+            "label": "Manifa Morning Report"
+          },
+          "parentId": "w-1765883571226-401"
+        },
+        {
+          "id": "w-1765883680187-423",
+          "label": "Label",
+          "type": "label",
+          "selector": "app-label",
+          "position": {
+            "x": 0.005,
+            "y": 0.12024329967339503,
+            "w": 0.9900690846286702,
+            "h": 0.12422360248447205,
+            "zIndex": 2
+          },
+          "input": {
+            "style": {
+              "backgroundMode": "color",
+              "backgroundColor": "#bfd3e7",
+              "backgroundImageUrl": "",
+              "backgroundSize": "cover",
+              "backgroundPosition": "center center",
+              "backgroundRepeat": "no-repeat",
+              "gradientType": "linear",
+              "gradientAngle": 90,
+              "gradientStartColor": "#2196F3",
+              "gradientEndColor": "#4CAF50",
+              "fontFamily": "",
+              "fontSize": 14,
+              "fontWeight": "",
+              "color": "",
+              "textAlign": "left",
+              "textDecoration": "",
+              "paddingLeft": 5,
+              "paddingRight": 0,
+              "paddingTop": 5,
+              "paddingBottom": 0,
+              "borderTopRightRadius": 0,
+              "borderTopLeftRadius": 0,
+              "borderBottomLeftRadius": 0,
+              "borderBottomRightRadius": 0,
+              "borderTopStyle": "solid",
+              "borderBottomStyle": "solid",
+              "borderLeftStyle": "solid",
+              "borderRightStyle": "solid",
+              "borderTopWidth": 0,
+              "borderBottomWidth": 0,
+              "borderLeftWidth": 0,
+              "borderRightWidth": 0,
+              "borderTopColor": "#000000",
+              "borderBottomColor": "#000000",
+              "borderLeftColor": "#000000",
+              "borderRightColor": "#000000",
+              "borderColors": [
+                "#FF9F40",
+                "#4BC0C0",
+                "#36A2EB"
+              ],
+              "backgroundColors": [
+                "#4CAF50",
+                "#2196F3",
+                "#FFEB3B"
+              ],
+              "tooltipColor": "#ffffff",
+              "tooltipBgColor": "#000000",
+              "gridColor": "#dfe7ef",
+              "bgColor": "#2196F3",
+              "borderColor": "#2196F3",
+              "pBorderColor": "#2196F3",
+              "phBgColor": "#2196F3",
+              "phBorderColor": "#2196F3",
+              "bg1": "#2196F3",
+              "bg2": "#4CAF50",
+              "backgroundImage": "none"
+            },
+            "label": "Crude Oil Operation Details"
+          },
+          "parentId": "w-1765883571226-401"
+        },
+        {
+          "id": "w-1765884178507-211",
+          "label": "Label",
+          "type": "label",
+          "selector": "app-label",
+          "position": {
+            "x": 0.005,
+            "y": 0.255,
+            "w": 0.26,
+            "h": 0.12,
+            "zIndex": 3
+          },
+          "input": {
+            "style": {
+              "backgroundMode": "transparent",
+              "backgroundColor": "transparent"
+            },
+            "label": "Target (Entered by Production Engineering)"
+          },
+          "parentId": "w-1765883571226-401"
+        },
+        {
+          "id": "w-1765884245680-360",
+          "label": "Label",
+          "type": "label",
+          "selector": "app-label",
+          "position": {
+            "x": 0.005,
+            "y": 0.36,
+            "w": 0.14,
+            "h": 0.12,
+            "zIndex": 4
+          },
+          "input": {
+            "style": {
+              "backgroundMode": "transparent",
+              "backgroundColor": "transparent"
+            },
+            "label": "(MBCD)"
+          },
+          "parentId": "w-1765883571226-401"
+        },
+        {
+          "id": "w-1765884285965-527",
+          "label": "Input",
+          "type": "input-text",
+          "selector": "app-input-text",
+          "position": {
+            "x": 0.005,
+            "y": 0.47,
+            "w": 0.14,
+            "h": 0.12,
+            "zIndex": 5
+          },
+          "input": {
+            "style": {
+              "backgroundMode": "transparent",
+              "backgroundColor": "transparent"
+            }
+          },
+          "parentId": "w-1765883571226-401"
+        },
+        {
+          "id": "w-1765884319218-648",
+          "label": "Label",
+          "type": "label",
+          "selector": "app-label",
+          "position": {
+            "x": 0.35,
+            "y": 0.36,
+            "w": 0.14,
+            "h": 0.12,
+            "zIndex": 6
+          },
+          "input": {
+            "style": {
+              "backgroundMode": "transparent",
+              "backgroundColor": "transparent"
+            },
+            "label": "(MBCD)"
+          },
+          "parentId": "w-1765883571226-401"
+        },
+        {
+          "id": "w-1765884322485-216",
+          "label": "Label",
+          "type": "label",
+          "selector": "app-label",
+          "position": {
+            "x": 0.7,
+            "y": 0.36,
+            "w": 0.14,
+            "h": 0.12,
+            "zIndex": 7
+          },
+          "input": {
+            "style": {
+              "backgroundMode": "transparent",
+              "backgroundColor": "transparent"
+            },
+            "label": "(PSIG)"
+          },
+          "parentId": "w-1765883571226-401"
+        },
+        {
+          "id": "w-1765884325767-677",
+          "label": "Label",
+          "type": "label",
+          "selector": "app-label",
+          "position": {
+            "x": 0.52,
+            "y": 0.36,
+            "w": 0.14,
+            "h": 0.12,
+            "zIndex": 9
+          },
+          "input": {
+            "style": {
+              "backgroundMode": "transparent",
+              "backgroundColor": "transparent"
+            },
+            "label": "(MBCD)"
+          },
+          "parentId": "w-1765883571226-401"
+        },
+        {
+          "id": "w-1765884420325-425",
+          "label": "Input",
+          "type": "input-text",
+          "selector": "app-input-text",
+          "position": {
+            "x": 0.35,
+            "y": 0.47,
+            "w": 0.14,
+            "h": 0.12,
+            "zIndex": 9
+          },
+          "input": {
+            "style": {
+              "backgroundMode": "transparent",
+              "backgroundColor": "transparent"
+            }
+          },
+          "parentId": "w-1765883571226-401"
+        },
+        {
+          "id": "w-1765884441666-763",
+          "label": "Input",
+          "type": "input-text",
+          "selector": "app-input-text",
+          "position": {
+            "x": 0.52,
+            "y": 0.47,
+            "w": 0.14,
+            "h": 0.12,
+            "zIndex": 10
+          },
+          "input": {
+            "style": {
+              "backgroundMode": "transparent",
+              "backgroundColor": "transparent"
+            }
+          },
+          "parentId": "w-1765883571226-401"
+        },
+        {
+          "id": "w-1765884478546-916",
+          "label": "Input",
+          "type": "input-text",
+          "selector": "app-input-text",
+          "position": {
+            "x": 0.7,
+            "y": 0.47,
+            "w": 0.14,
+            "h": 0.12,
+            "zIndex": 11
+          },
+          "input": {
+            "style": {
+              "backgroundMode": "transparent",
+              "backgroundColor": "transparent"
+            }
+          },
+          "parentId": "w-1765883571226-401"
+        },
+        {
+          "id": "w-1765884517951-575",
+          "label": "Label",
+          "type": "label",
+          "selector": "app-label",
+          "position": {
+            "x": 0.005,
+            "y": 0.6,
+            "w": 0.14,
+            "h": 0.12,
+            "zIndex": 12
+          },
+          "input": {
+            "style": {
+              "backgroundMode": "transparent",
+              "backgroundColor": "transparent"
+            },
+            "label": "Mnj-1 Flow (MBD)"
+          },
+          "parentId": "w-1765883571226-401"
+        },
+        {
+          "id": "w-1765884537118-737",
+          "label": "Label",
+          "type": "label",
+          "selector": "app-label",
+          "position": {
+            "x": 0.35,
+            "y": 0.6,
+            "w": 0.14,
+            "h": 0.12,
+            "zIndex": 13
+          },
+          "input": {
+            "style": {
+              "backgroundMode": "transparent",
+              "backgroundColor": "transparent"
+            },
+            "label": "MNJ-1 Press(PSIG)"
+          },
+          "parentId": "w-1765883571226-401"
+        },
+        {
+          "id": "w-1765884553991-991",
+          "label": "Input",
+          "type": "input-text",
+          "selector": "app-input-text",
+          "position": {
+            "x": 0.35,
+            "y": 0.715,
+            "w": 0.14,
+            "h": 0.12,
+            "zIndex": 14
+          },
+          "input": {
+            "style": {
+              "backgroundMode": "transparent",
+              "backgroundColor": "transparent"
+            }
+          },
+          "parentId": "w-1765883571226-401"
+        },
+        {
+          "id": "w-1765884566664-579",
+          "label": "Label",
+          "type": "label",
+          "selector": "app-label",
+          "position": {
+            "x": 0.52,
+            "y": 0.6,
+            "w": 0.14,
+            "h": 0.12,
+            "zIndex": 15
+          },
+          "input": {
+            "style": {
+              "backgroundMode": "transparent",
+              "backgroundColor": "transparent"
+            },
+            "label": "API"
+          },
+          "parentId": "w-1765883571226-401"
+        },
+        {
+          "id": "w-1765884579254-660",
+          "label": "Input",
+          "type": "input-text",
+          "selector": "app-input-text",
+          "position": {
+            "x": 0.52,
+            "y": 0.715,
+            "w": 0.14,
+            "h": 0.12,
+            "zIndex": 16
+          },
+          "input": {
+            "style": {
+              "backgroundMode": "transparent",
+              "backgroundColor": "transparent"
+            }
+          },
+          "parentId": "w-1765883571226-401"
+        },
+        {
+          "id": "w-1765884601237-817",
+          "label": "Label",
+          "type": "label",
+          "selector": "app-label",
+          "position": {
+            "x": 0.7,
+            "y": 0.6,
+            "w": 0.14,
+            "h": 0.12,
+            "zIndex": 17
+          },
+          "input": {
+            "style": {
+              "backgroundMode": "transparent",
+              "backgroundColor": "transparent"
+            },
+            "label": "Salt(PTB)"
+          },
+          "parentId": "w-1765883571226-401"
+        },
+        {
+          "id": "w-1765884624073-309",
+          "label": "Input",
+          "type": "input-text",
+          "selector": "app-input-text",
+          "position": {
+            "x": 0.7,
+            "y": 0.715,
+            "w": 0.14,
+            "h": 0.12,
+            "zIndex": 18
+          },
+          "input": {
+            "style": {
+              "backgroundMode": "transparent",
+              "backgroundColor": "transparent"
+            }
+          },
+          "parentId": "w-1765883571226-401"
+        },
+        {
+          "id": "w-1765884928169-198",
+          "label": "Label",
+          "type": "label",
+          "selector": "app-label",
+          "position": {
+            "x": 0.35,
+            "y": 0.255,
+            "w": 0.14,
+            "h": 0.12,
+            "zIndex": 19
+          },
+          "input": {
+            "style": {
+              "backgroundMode": "transparent",
+              "backgroundColor": "transparent"
+            },
+            "label": "24 Hours Average"
+          },
+          "parentId": "w-1765883571226-401"
+        },
+        {
+          "id": "w-1765885101071-307",
+          "label": "Input",
+          "type": "input-text",
+          "selector": "app-input-text",
+          "position": {
+            "x": 0.005,
+            "y": 0.71,
+            "w": 0.14,
+            "h": 0.12,
+            "zIndex": 20
+          },
+          "input": {
+            "style": {
+              "backgroundMode": "transparent",
+              "backgroundColor": "transparent"
+            }
+          },
+          "parentId": "w-1765883571226-401"
+        },
+        {
+          "id": "w-1765885110742-811",
+          "label": "Label",
+          "type": "label",
+          "selector": "app-label",
+          "position": {
+            "x": 0.52,
+            "y": 0.255,
+            "w": 0.14,
+            "h": 0.12,
+            "zIndex": 21
+          },
+          "input": {
+            "style": {
+              "backgroundMode": "transparent",
+              "backgroundColor": "transparent"
+            },
+            "label": "@05:00AM"
+          },
+          "parentId": "w-1765883571226-401"
+        },
+        {
+          "id": "w-1765885135833-522",
+          "label": "Label",
+          "type": "label",
+          "selector": "app-label",
+          "position": {
+            "x": 0.7,
+            "y": 0.255,
+            "w": 0.14,
+            "h": 0.12,
+            "zIndex": 22
+          },
+          "input": {
+            "style": {
+              "backgroundMode": "transparent",
+              "backgroundColor": "transparent"
+            },
+            "label": "CPF Inlet Pressure"
+          },
+          "parentId": "w-1765883571226-401"
+        }
+      ]
+    },
+    {
+      "id": "w-1765884687818-232",
+      "label": "Section",
+      "type": "section",
+      "selector": "app-designer-section-container",
+      "position": {
+        "x": 0,
+        "y": 0.3135589799371718,
+        "w": 1,
+        "h": 0.29490161001788906,
+        "zIndex": 2
+      },
+      "input": {
+        "style": {
+          "backgroundMode": "color",
+          "backgroundColor": "#ddeaf5",
+          "backgroundImageUrl": "",
+          "backgroundSize": "cover",
+          "backgroundPosition": "center center",
+          "backgroundRepeat": "no-repeat",
+          "gradientType": "linear",
+          "gradientAngle": 90,
+          "gradientStartColor": "#2196F3",
+          "gradientEndColor": "#4CAF50",
+          "fontFamily": "",
+          "fontSize": 14,
+          "fontWeight": "",
+          "color": "",
+          "textAlign": "left",
+          "textDecoration": "",
+          "paddingLeft": 0,
+          "paddingRight": 0,
+          "paddingTop": 0,
+          "paddingBottom": 0,
+          "borderTopRightRadius": 0,
+          "borderTopLeftRadius": 0,
+          "borderBottomLeftRadius": 0,
+          "borderBottomRightRadius": 0,
+          "borderTopStyle": "solid",
+          "borderBottomStyle": "solid",
+          "borderLeftStyle": "solid",
+          "borderRightStyle": "solid",
+          "borderTopWidth": 0,
+          "borderBottomWidth": 0,
+          "borderLeftWidth": 0,
+          "borderRightWidth": 0,
+          "borderTopColor": "#000000",
+          "borderBottomColor": "#000000",
+          "borderLeftColor": "#000000",
+          "borderRightColor": "#000000",
+          "borderColors": [
+            "#FF9F40",
+            "#4BC0C0",
+            "#36A2EB"
+          ],
+          "backgroundColors": [
+            "#4CAF50",
+            "#2196F3",
+            "#FFEB3B"
+          ],
+          "tooltipColor": "#ffffff",
+          "tooltipBgColor": "#000000",
+          "gridColor": "#dfe7ef",
+          "bgColor": "#2196F3",
+          "borderColor": "#2196F3",
+          "pBorderColor": "#2196F3",
+          "phBgColor": "#2196F3",
+          "phBorderColor": "#2196F3",
+          "bg1": "#2196F3",
+          "bg2": "#4CAF50",
+          "backgroundImage": "none"
+        }
+      },
+      "children": [
+        {
+          "id": "w-1765884687818-403",
+          "label": "Label",
+          "type": "label",
+          "selector": "app-label",
+          "position": {
+            "x": 0.0021551724137931034,
+            "y": 0.005968615762575621,
+            "w": 0.9909326424870466,
+            "h": 0.12422360248447205,
+            "zIndex": 2
+          },
+          "input": {
+            "style": {
+              "backgroundMode": "color",
+              "backgroundColor": "#bfd3e7",
+              "backgroundImageUrl": "",
+              "backgroundSize": "cover",
+              "backgroundPosition": "center center",
+              "backgroundRepeat": "no-repeat",
+              "gradientType": "linear",
+              "gradientAngle": 90,
+              "gradientStartColor": "#2196F3",
+              "gradientEndColor": "#4CAF50",
+              "fontFamily": "",
+              "fontSize": 14,
+              "fontWeight": "",
+              "color": "",
+              "textAlign": "left",
+              "textDecoration": "",
+              "paddingLeft": 5,
+              "paddingRight": 0,
+              "paddingTop": 5,
+              "paddingBottom": 0,
+              "borderTopRightRadius": 0,
+              "borderTopLeftRadius": 0,
+              "borderBottomLeftRadius": 0,
+              "borderBottomRightRadius": 0,
+              "borderTopStyle": "solid",
+              "borderBottomStyle": "solid",
+              "borderLeftStyle": "solid",
+              "borderRightStyle": "solid",
+              "borderTopWidth": 0,
+              "borderBottomWidth": 0,
+              "borderLeftWidth": 0,
+              "borderRightWidth": 0,
+              "borderTopColor": "#000000",
+              "borderBottomColor": "#000000",
+              "borderLeftColor": "#000000",
+              "borderRightColor": "#000000",
+              "borderColors": [
+                "#FF9F40",
+                "#4BC0C0",
+                "#36A2EB"
+              ],
+              "backgroundColors": [
+                "#4CAF50",
+                "#2196F3",
+                "#FFEB3B"
+              ],
+              "tooltipColor": "#ffffff",
+              "tooltipBgColor": "#000000",
+              "gridColor": "#dfe7ef",
+              "bgColor": "#2196F3",
+              "borderColor": "#2196F3",
+              "pBorderColor": "#2196F3",
+              "phBgColor": "#2196F3",
+              "phBorderColor": "#2196F3",
+              "bg1": "#2196F3",
+              "bg2": "#4CAF50",
+              "backgroundImage": "none"
+            },
+            "label": "Production Detail"
+          },
+          "parentId": "w-1765884687818-232"
+        },
+        {
+          "id": "w-1765884687818-744",
+          "label": "Input",
+          "type": "input-text",
+          "selector": "app-input-text",
+          "position": {
+            "x": 0.15948275862068967,
+            "y": 0.30582094102574775,
+            "w": 0.14378238341968913,
+            "h": 0.12422360248447205,
+            "zIndex": 5
+          },
+          "input": {
+            "style": {
+              "backgroundMode": "transparent",
+              "backgroundColor": "transparent"
+            }
+          },
+          "parentId": "w-1765884687818-232"
+        },
+        {
+          "id": "w-1765884687818-444",
+          "label": "Label",
+          "type": "label",
+          "selector": "app-label",
+          "position": {
+            "x": 0.002586206896551724,
+            "y": 0.15267537354847724,
+            "w": 0.1489637305699482,
+            "h": 0.12422360248447205,
+            "zIndex": 6
+          },
+          "input": {
+            "style": {
+              "backgroundMode": "transparent",
+              "backgroundColor": "transparent"
+            },
+            "label": "Plant"
+          },
+          "parentId": "w-1765884687818-232"
+        },
+        {
+          "id": "w-1765884687818-218",
+          "label": "Label",
+          "type": "label",
+          "selector": "app-label",
+          "position": {
+            "x": 0.6646559323241261,
+            "y": 0.1765048251179916,
+            "w": 0.1800518134715026,
+            "h": 0.12422360248447205,
+            "zIndex": 7
+          },
+          "input": {
+            "style": {
+              "backgroundMode": "transparent",
+              "backgroundColor": "transparent"
+            },
+            "label": "Stabilizer Bottom Temperature"
+          },
+          "parentId": "w-1765884687818-232"
+        },
+        {
+          "id": "w-1765884687818-991",
+          "label": "Label",
+          "type": "label",
+          "selector": "app-label",
+          "position": {
+            "x": 0.4836206896551724,
+            "y": 0.1730129423870061,
+            "w": 0.15414507772020725,
+            "h": 0.12422360248447205,
+            "zIndex": 9
+          },
+          "input": {
+            "style": {
+              "backgroundMode": "transparent",
+              "backgroundColor": "transparent"
+            },
+            "label": "H2S(PPM)"
+          },
+          "parentId": "w-1765884687818-232"
+        },
+        {
+          "id": "w-1765884687818-148",
+          "label": "Input",
+          "type": "input-text",
+          "selector": "app-input-text",
+          "position": {
+            "x": 0.312359299624799,
+            "y": 0.3038022262528802,
+            "w": 0.15587219343696027,
+            "h": 0.12422360248447205,
+            "zIndex": 9
+          },
+          "input": {
+            "style": {
+              "backgroundMode": "transparent",
+              "backgroundColor": "transparent"
+            }
+          },
+          "parentId": "w-1765884687818-232"
+        },
+        {
+          "id": "w-1765884687818-910",
+          "label": "Input",
+          "type": "input-text",
+          "selector": "app-input-text",
+          "position": {
+            "x": 0.48706896551724127,
+            "y": 0.3065537602690087,
+            "w": 0.16018998272884283,
+            "h": 0.12422360248447205,
+            "zIndex": 10
+          },
+          "input": {
+            "style": {
+              "backgroundMode": "transparent",
+              "backgroundColor": "transparent"
+            }
+          },
+          "parentId": "w-1765884687818-232"
+        },
+        {
+          "id": "w-1765884687818-919",
+          "label": "Input",
+          "type": "input-text",
+          "selector": "app-input-text",
+          "position": {
+            "x": 0.6620689655172414,
+            "y": 0.3120897872324292,
+            "w": 0.17486897742838428,
+            "h": 0.125,
+            "zIndex": 11
+          },
+          "input": {
+            "style": {
+              "backgroundMode": "transparent",
+              "backgroundColor": "transparent"
+            }
+          },
+          "parentId": "w-1765884687818-232"
+        },
+        {
+          "id": "w-1765884687818-49",
+          "label": "Label",
+          "type": "label",
+          "selector": "app-label",
+          "position": {
+            "x": 0.16379310344827586,
+            "y": 0.16173358549331418,
+            "w": 0.1429188255613126,
+            "h": 0.12422360248447205,
+            "zIndex": 13
+          },
+          "input": {
+            "style": {
+              "backgroundMode": "transparent",
+              "backgroundColor": "transparent"
+            },
+            "label": "At 0500 AM(MB0D)"
+          },
+          "parentId": "w-1765884687818-232"
+        },
+        {
+          "id": "w-1765884687818-698",
+          "label": "Input",
+          "type": "input-text",
+          "selector": "app-input-text",
+          "position": {
+            "x": 0.1620689655172413,
+            "y": 0.48263788715902206,
+            "w": 0.14119170984455956,
+            "h": 0.12422360248447205,
+            "zIndex": 14
+          },
+          "input": {
+            "style": {
+              "backgroundMode": "transparent",
+              "backgroundColor": "transparent"
+            }
+          },
+          "parentId": "w-1765884687818-232"
+        },
+        {
+          "id": "w-1765884687818-299",
+          "label": "Label",
+          "type": "label",
+          "selector": "app-label",
+          "position": {
+            "x": 0.31551800128964314,
+            "y": 0.16143861561626344,
+            "w": 0.1515544041450777,
+            "h": 0.12422360248447205,
+            "zIndex": 15
+          },
+          "input": {
+            "style": {
+              "backgroundMode": "transparent",
+              "backgroundColor": "transparent"
+            },
+            "label": "Average(MB0D)"
+          },
+          "parentId": "w-1765884687818-232"
+        },
+        {
+          "id": "w-1765884687818-857",
+          "label": "Input",
+          "type": "input-text",
+          "selector": "app-input-text",
+          "position": {
+            "x": 0.3129310344827586,
+            "y": 0.47903984469172595,
+            "w": 0.1558721934369603,
+            "h": 0.12422360248447205,
+            "zIndex": 16
+          },
+          "input": {
+            "style": {
+              "backgroundMode": "transparent",
+              "backgroundColor": "transparent"
+            }
+          },
+          "parentId": "w-1765884687818-232"
+        },
+        {
+          "id": "w-1765884687818-904",
+          "label": "Label",
+          "type": "label",
+          "selector": "app-label",
+          "position": {
+            "x": 0.0008620689655173394,
+            "y": 0.3141428399586361,
+            "w": 0.15155440414507773,
+            "h": 0.12422360248447205,
+            "zIndex": 17
+          },
+          "input": {
+            "style": {
+              "backgroundMode": "transparent",
+              "backgroundColor": "transparent"
+            },
+            "label": "GOSP-1"
+          },
+          "parentId": "w-1765884687818-232"
+        },
+        {
+          "id": "w-1765884687818-109",
+          "label": "Input",
+          "type": "input-text",
+          "selector": "app-input-text",
+          "position": {
+            "x": 0.4879310344827586,
+            "y": 0.4852168546328513,
+            "w": 0.15759930915371329,
+            "h": 0.12422360248447205,
+            "zIndex": 18
+          },
+          "input": {
+            "style": {
+              "backgroundMode": "transparent",
+              "backgroundColor": "transparent"
+            }
+          },
+          "parentId": "w-1765884687818-232"
+        },
+        {
+          "id": "w-1765885435177-300",
+          "label": "Input",
+          "type": "input-text",
+          "selector": "app-input-text",
+          "position": {
+            "x": 0.6629310344827587,
+            "y": 0.4870620596467522,
+            "w": 0.1731388839259127,
+            "h": 0.12422360248447205,
+            "zIndex": 15
+          },
+          "input": {
+            "style": {
+              "backgroundMode": "transparent",
+              "backgroundColor": "transparent"
+            }
+          },
+          "parentId": "w-1765884687818-232"
+        },
+        {
+          "id": "w-1765885464923-792",
+          "label": "Label",
+          "type": "label",
+          "selector": "app-label",
+          "position": {
+            "x": 0.0008620689655172414,
+            "y": 0.48939774153074034,
+            "w": 0.1506908462867012,
+            "h": 0.12422360248447205,
+            "zIndex": 16
+          },
+          "input": {
+            "style": {
+              "backgroundMode": "transparent",
+              "backgroundColor": "transparent"
+            },
+            "label": "GOSP-2"
+          },
+          "parentId": "w-1765884687818-232"
+        },
+        {
+          "id": "w-1765885569380-246",
+          "label": "Label",
+          "type": "label",
+          "selector": "app-label",
+          "position": {
+            "x": 0,
+            "y": 0.6592655149116882,
+            "w": 0.1506908462867012,
+            "h": 0.12422360248447205,
+            "zIndex": 17
+          },
+          "input": {
+            "style": {
+              "backgroundMode": "transparent",
+              "backgroundColor": "transparent"
+            },
+            "label": "GOSP-3"
+          },
+          "parentId": "w-1765884687818-232"
+        },
+        {
+          "id": "w-1765885639650-899",
+          "label": "Input",
+          "type": "input-text",
+          "selector": "app-input-text",
+          "position": {
+            "x": 0.16120689655172413,
+            "y": 0.6530885049705627,
+            "w": 0.1411917098445596,
+            "h": 0.12422360248447205,
+            "zIndex": 18
+          },
+          "input": {
+            "style": {
+              "backgroundMode": "transparent",
+              "backgroundColor": "transparent"
+            }
+          },
+          "parentId": "w-1765884687818-232"
+        },
+        {
+          "id": "w-1765885645748-279",
+          "label": "Input",
+          "type": "input-text",
+          "selector": "app-input-text",
+          "position": {
+            "x": 0.31551724137931025,
+            "y": 0.6530885049705627,
+            "w": 0.15414507772020725,
+            "h": 0.12422360248447205,
+            "zIndex": 19
+          },
+          "input": {
+            "style": {
+              "backgroundMode": "transparent",
+              "backgroundColor": "transparent"
+            }
+          },
+          "parentId": "w-1765884687818-232"
+        },
+        {
+          "id": "w-1765885679468-730",
+          "label": "Input",
+          "type": "input-text",
+          "selector": "app-input-text",
+          "position": {
+            "x": 0.489655172413793,
+            "y": 0.6592655149116882,
+            "w": 0.15673575129533676,
+            "h": 0.12422360248447205,
+            "zIndex": 20
+          },
+          "input": {
+            "style": {
+              "backgroundMode": "transparent",
+              "backgroundColor": "transparent"
+            }
+          },
+          "parentId": "w-1765884687818-232"
+        },
+        {
+          "id": "w-1765885715017-732",
+          "label": "Input",
+          "type": "input-text",
+          "selector": "app-input-text",
+          "position": {
+            "x": 0.6612068965517242,
+            "y": 0.6654741320336387,
+            "w": 0.17486748853552495,
+            "h": 0.12422360248447205,
+            "zIndex": 21
+          },
+          "input": {
+            "style": {
+              "backgroundMode": "transparent",
+              "backgroundColor": "transparent"
+            }
+          },
+          "parentId": "w-1765884687818-232"
+        }
+      ]
+    },
+    {
+      "id": "w-1765884694393-278",
+      "label": "Section",
+      "type": "section",
+      "selector": "app-designer-section-container",
+      "position": {
+        "x": 0,
+        "y": 0.6221564558958927,
+        "w": 1,
+        "h": 0.31714360290045135,
+        "zIndex": 3
+      },
+      "input": {
+        "style": {
+          "backgroundMode": "color",
+          "backgroundColor": "#ddeaf5",
+          "backgroundImageUrl": "",
+          "backgroundSize": "cover",
+          "backgroundPosition": "center center",
+          "backgroundRepeat": "no-repeat",
+          "gradientType": "linear",
+          "gradientAngle": 90,
+          "gradientStartColor": "#2196F3",
+          "gradientEndColor": "#4CAF50",
+          "fontFamily": "",
+          "fontSize": 14,
+          "fontWeight": "",
+          "color": "",
+          "textAlign": "left",
+          "textDecoration": "",
+          "paddingLeft": 0,
+          "paddingRight": 0,
+          "paddingTop": 0,
+          "paddingBottom": 0,
+          "borderTopRightRadius": 0,
+          "borderTopLeftRadius": 0,
+          "borderBottomLeftRadius": 0,
+          "borderBottomRightRadius": 0,
+          "borderTopStyle": "solid",
+          "borderBottomStyle": "solid",
+          "borderLeftStyle": "solid",
+          "borderRightStyle": "solid",
+          "borderTopWidth": 0,
+          "borderBottomWidth": 0,
+          "borderLeftWidth": 0,
+          "borderRightWidth": 0,
+          "borderTopColor": "#000000",
+          "borderBottomColor": "#000000",
+          "borderLeftColor": "#000000",
+          "borderRightColor": "#000000",
+          "borderColors": [
+            "#FF9F40",
+            "#4BC0C0",
+            "#36A2EB"
+          ],
+          "backgroundColors": [
+            "#4CAF50",
+            "#2196F3",
+            "#FFEB3B"
+          ],
+          "tooltipColor": "#ffffff",
+          "tooltipBgColor": "#000000",
+          "gridColor": "#dfe7ef",
+          "bgColor": "#2196F3",
+          "borderColor": "#2196F3",
+          "pBorderColor": "#2196F3",
+          "phBgColor": "#2196F3",
+          "phBorderColor": "#2196F3",
+          "bg1": "#2196F3",
+          "bg2": "#4CAF50",
+          "backgroundImage": "none"
+        }
+      },
+      "children": [
+        {
+          "id": "w-1765884694393-214",
+          "label": "Label",
+          "type": "label",
+          "selector": "app-label",
+          "position": {
+            "x": 0.000433314213757324,
+            "y": 0.044599788760766125,
+            "w": 0.9926612470966589,
+            "h": 0.11527377521613832,
+            "zIndex": 2
+          },
+          "input": {
+            "style": {
+              "backgroundMode": "color",
+              "backgroundColor": "#bfd3e7",
+              "backgroundImageUrl": "",
+              "backgroundSize": "cover",
+              "backgroundPosition": "center center",
+              "backgroundRepeat": "no-repeat",
+              "gradientType": "linear",
+              "gradientAngle": 90,
+              "gradientStartColor": "#2196F3",
+              "gradientEndColor": "#4CAF50",
+              "fontFamily": "",
+              "fontSize": 14,
+              "fontWeight": "",
+              "color": "",
+              "textAlign": "left",
+              "textDecoration": "",
+              "paddingLeft": 5,
+              "paddingRight": 0,
+              "paddingTop": 5,
+              "paddingBottom": 0,
+              "borderTopRightRadius": 0,
+              "borderTopLeftRadius": 0,
+              "borderBottomLeftRadius": 0,
+              "borderBottomRightRadius": 0,
+              "borderTopStyle": "solid",
+              "borderBottomStyle": "solid",
+              "borderLeftStyle": "solid",
+              "borderRightStyle": "solid",
+              "borderTopWidth": 0,
+              "borderBottomWidth": 0,
+              "borderLeftWidth": 0,
+              "borderRightWidth": 0,
+              "borderTopColor": "#000000",
+              "borderBottomColor": "#000000",
+              "borderLeftColor": "#000000",
+              "borderRightColor": "#000000",
+              "borderColors": [
+                "#FF9F40",
+                "#4BC0C0",
+                "#36A2EB"
+              ],
+              "backgroundColors": [
+                "#4CAF50",
+                "#2196F3",
+                "#FFEB3B"
+              ],
+              "tooltipColor": "#ffffff",
+              "tooltipBgColor": "#000000",
+              "gridColor": "#dfe7ef",
+              "bgColor": "#2196F3",
+              "borderColor": "#2196F3",
+              "pBorderColor": "#2196F3",
+              "phBgColor": "#2196F3",
+              "phBorderColor": "#2196F3",
+              "bg1": "#2196F3",
+              "bg2": "#4CAF50",
+              "backgroundImage": "none"
+            },
+            "label": "Mp Steam Boiler Status"
+          },
+          "parentId": "w-1765884694393-278"
+        },
+        {
+          "id": "w-1765884694393-945",
+          "label": "Label",
+          "type": "label",
+          "selector": "app-label",
+          "position": {
+            "x": 0.011203856910392532,
+            "y": 0.24275823783762215,
+            "w": 0.1739428860699184,
+            "h": 0.1238390092879257,
+            "zIndex": 4
+          },
+          "input": {
+            "style": {
+              "backgroundMode": "transparent",
+              "backgroundColor": "transparent"
+            },
+            "label": "HR SG-1"
+          },
+          "parentId": "w-1765884694393-278"
+        },
+        {
+          "id": "w-1765884694393-60",
+          "label": "Label",
+          "type": "label",
+          "selector": "app-label",
+          "position": {
+            "x": 0.2569892607847519,
+            "y": 0.2382745217040052,
+            "w": 0.18344648919063783,
+            "h": 0.1238390092879257,
+            "zIndex": 6
+          },
+          "input": {
+            "style": {
+              "backgroundMode": "transparent",
+              "backgroundColor": "transparent"
+            },
+            "label": "HRSG-2"
+          },
+          "parentId": "w-1765884694393-278"
+        },
+        {
+          "id": "w-1765884694393-791",
+          "label": "Label",
+          "type": "label",
+          "selector": "app-label",
+          "position": {
+            "x": 0.722400114717456,
+            "y": 0.2444046107809313,
+            "w": 0.15414507772020725,
+            "h": 0.11204481792717087,
+            "zIndex": 7
+          },
+          "input": {
+            "style": {
+              "backgroundMode": "transparent",
+              "backgroundColor": "transparent"
+            },
+            "label": "Boiler - 805 Load(%)"
+          },
+          "parentId": "w-1765884694393-278"
+        },
+        {
+          "id": "w-1765884694393-383",
+          "label": "Label",
+          "type": "label",
+          "selector": "app-label",
+          "position": {
+            "x": 0.4905392787789644,
+            "y": 0.24955344618209702,
+            "w": 0.1567357512953368,
+            "h": 0.11527377521613832,
+            "zIndex": 9
+          },
+          "input": {
+            "style": {
+              "backgroundMode": "transparent",
+              "backgroundColor": "transparent"
+            },
+            "label": "Boiler-804 Load (%)"
+          },
+          "parentId": "w-1765884694393-278"
+        },
+        {
+          "id": "w-1765884694393-312",
+          "label": "Label",
+          "type": "label",
+          "selector": "app-label",
+          "position": {
+            "x": 0.0068973116344708315,
+            "y": 0.5636037373413296,
+            "w": 0.9868873205884103,
+            "h": 0.11527377521613832,
+            "zIndex": 12
+          },
+          "input": {
+            "style": {
+              "backgroundMode": "color",
+              "backgroundColor": "#bfd4e7",
+              "backgroundImageUrl": "",
+              "backgroundSize": "cover",
+              "backgroundPosition": "center center",
+              "backgroundRepeat": "no-repeat",
+              "gradientType": "linear",
+              "gradientAngle": 90,
+              "gradientStartColor": "#2196F3",
+              "gradientEndColor": "#4CAF50",
+              "fontFamily": "",
+              "fontSize": 14,
+              "fontWeight": "",
+              "color": "",
+              "textAlign": "left",
+              "textDecoration": "",
+              "paddingLeft": 5,
+              "paddingRight": 0,
+              "paddingTop": 5,
+              "paddingBottom": 0,
+              "borderTopRightRadius": 0,
+              "borderTopLeftRadius": 0,
+              "borderBottomLeftRadius": 0,
+              "borderBottomRightRadius": 0,
+              "borderTopStyle": "solid",
+              "borderBottomStyle": "solid",
+              "borderLeftStyle": "solid",
+              "borderRightStyle": "solid",
+              "borderTopWidth": 0,
+              "borderBottomWidth": 0,
+              "borderLeftWidth": 0,
+              "borderRightWidth": 0,
+              "borderTopColor": "#000000",
+              "borderBottomColor": "#000000",
+              "borderLeftColor": "#000000",
+              "borderRightColor": "#000000",
+              "borderColors": [
+                "#FF9F40",
+                "#4BC0C0",
+                "#36A2EB"
+              ],
+              "backgroundColors": [
+                "#4CAF50",
+                "#2196F3",
+                "#FFEB3B"
+              ],
+              "tooltipColor": "#ffffff",
+              "tooltipBgColor": "#000000",
+              "gridColor": "#dfe7ef",
+              "bgColor": "#2196F3",
+              "borderColor": "#2196F3",
+              "pBorderColor": "#2196F3",
+              "phBgColor": "#2196F3",
+              "phBorderColor": "#2196F3",
+              "bg1": "#2196F3",
+              "bg2": "#4CAF50",
+              "backgroundImage": "none"
+            },
+            "label": "GOSP 2"
+          },
+          "parentId": "w-1765884694393-278"
+        },
+        {
+          "id": "w-1765884694393-305",
+          "label": "Input",
+          "type": "input-text",
+          "selector": "app-input-text",
+          "position": {
+            "x": 0.4895358664915275,
+            "y": 0.3860453187727937,
+            "w": 0.15926984694181404,
+            "h": 0.12345679012345678,
+            "zIndex": 14
+          },
+          "input": {
+            "style": {
+              "backgroundMode": "transparent",
+              "backgroundColor": "transparent"
+            }
+          },
+          "parentId": "w-1765884694393-278"
+        },
+        {
+          "id": "w-1765886185228-543",
+          "label": "Dropdown",
+          "type": "dropdown",
+          "selector": "app-dropdown",
+          "position": {
+            "x": 0.006073238185598645,
+            "y": 0.3691781646560235,
+            "w": 0.1793103448275862,
+            "h": 0.1238390092879257,
+            "zIndex": 13
+          },
+          "input": {
+            "data": [
+              {
+                "name": "Value1",
+                "code": "V1"
+              },
+              {
+                "name": "Value2",
+                "code": "V2"
+              },
+              {
+                "name": "Value3",
+                "code": "V3"
+              },
+              {
+                "name": "Value4",
+                "code": "V4"
+              },
+              {
+                "name": "Value5",
+                "code": "V5"
+              }
+            ],
+            "optionValue": "",
+            "optionLabel": "",
+            "value": "",
+            "style": {
+              "backgroundMode": "transparent",
+              "backgroundColor": "transparent"
+            }
+          },
+          "parentId": "w-1765884694393-278"
+        },
+        {
+          "id": "w-1765886381139-166",
+          "label": "Label",
+          "type": "label",
+          "selector": "app-label",
+          "position": {
+            "x": 0.010379783461520348,
+            "y": 0.7057253402216334,
+            "w": 0.17327586206896553,
+            "h": 0.11494252873563218,
+            "zIndex": 11
+          },
+          "input": {
+            "style": {
+              "backgroundMode": "transparent",
+              "backgroundColor": "transparent"
+            },
+            "label": "Gas (MMSCFD)"
+          },
+          "parentId": "w-1765884694393-278"
+        },
+        {
+          "id": "w-1765886392473-212",
+          "label": "Input",
+          "type": "input-text",
+          "selector": "app-input-text",
+          "position": {
+            "x": 0.006205462583523432,
+            "y": 0.8202321446542992,
+            "w": 0.17758620689655172,
+            "h": 0.11494252873563218,
+            "zIndex": 12
+          },
+          "input": {
+            "style": {
+              "backgroundMode": "transparent",
+              "backgroundColor": "transparent"
+            }
+          },
+          "parentId": "w-1765884694393-278"
+        },
+        {
+          "id": "w-1765886403239-978",
+          "label": "Label",
+          "type": "label",
+          "selector": "app-label",
+          "position": {
+            "x": 0.2602916338629038,
+            "y": 0.7028626701108167,
+            "w": 0.175,
+            "h": 0.11781609195402298,
+            "zIndex": 13
+          },
+          "input": {
+            "style": {
+              "backgroundMode": "transparent",
+              "backgroundColor": "transparent"
+            },
+            "label": "Export Gas Pressure"
+          },
+          "parentId": "w-1765884694393-278"
+        },
+        {
+          "id": "w-1765886410923-410",
+          "label": "Input",
+          "type": "input-text",
+          "selector": "app-input-text",
+          "position": {
+            "x": 0.2579280806938921,
+            "y": 0.8230948147651158,
+            "w": 0.18017241379310345,
+            "h": 0.11781609195402298,
+            "zIndex": 14
+          },
+          "input": {
+            "style": {
+              "backgroundMode": "transparent",
+              "backgroundColor": "transparent"
+            }
+          },
+          "parentId": "w-1765884694393-278"
+        },
+        {
+          "id": "w-1765886544591-59",
+          "label": "Input",
+          "type": "input-text",
+          "selector": "app-input-text",
+          "position": {
+            "x": 0.7189047244147473,
+            "y": 0.3856647118018839,
+            "w": 0.16034482758620688,
+            "h": 0.11494252873563218,
+            "zIndex": 14
+          },
+          "input": {
+            "style": {
+              "backgroundMode": "transparent",
+              "backgroundColor": "transparent"
+            }
+          },
+          "parentId": "w-1765884694393-278"
+        },
+        {
+          "id": "w-1765886590292-569",
+          "label": "Dropdown",
+          "type": "dropdown",
+          "selector": "app-dropdown",
+          "position": {
+            "x": 0.25513061872479387,
+            "y": 0.37423596900265016,
+            "w": 0.1871032100530046,
+            "h": 0.12643678160919541,
+            "zIndex": 14
+          },
+          "input": {
+            "data": [
+              {
+                "name": "Value1",
+                "code": "V1"
+              },
+              {
+                "name": "Value2",
+                "code": "V2"
+              },
+              {
+                "name": "Value3",
+                "code": "V3"
+              },
+              {
+                "name": "Value4",
+                "code": "V4"
+              },
+              {
+                "name": "Value5",
+                "code": "V5"
+              }
+            ],
+            "optionValue": "",
+            "optionLabel": "",
+            "value": "",
+            "style": {
+              "backgroundMode": "transparent",
+              "backgroundColor": "transparent"
+            }
+          },
+          "parentId": "w-1765884694393-278"
+        },
+        {
+          "id": "w-1765886733309-105",
+          "label": "Label",
+          "type": "label",
+          "selector": "app-label",
+          "position": {
+            "x": 0.48962021653847965,
+            "y": 0.7000000000000001,
+            "w": 0.16034482758620688,
+            "h": 0.12988505747126436,
+            "zIndex": 15
+          },
+          "input": {
+            "style": {
+              "backgroundMode": "transparent",
+              "backgroundColor": "transparent"
+            },
+            "label": "Water Load (LB/MMSCF)"
+          },
+          "parentId": "w-1765884694393-278"
+        },
+        {
+          "id": "w-1765886793037-416",
+          "label": "Input",
+          "type": "input-text",
+          "selector": "app-input-text",
+          "position": {
+            "x": 0.4889352066805284,
+            "y": 0.816223189272387,
+            "w": 0.1620689655172414,
+            "h": 0.11494252873563218,
+            "zIndex": 16
+          },
+          "input": {
+            "style": {
+              "backgroundMode": "transparent",
+              "backgroundColor": "transparent"
+            }
+          },
+          "parentId": "w-1765884694393-278"
+        },
+        {
+          "id": "w-1765886842527-984",
+          "label": "Label",
+          "type": "label",
+          "selector": "app-label",
+          "position": {
+            "x": 0.7269889173748915,
+            "y": 0.6998065461214173,
+            "w": 0.1646551724137931,
+            "h": 0.11494252873563218,
+            "zIndex": 17
+          },
+          "input": {
+            "style": {
+              "backgroundMode": "transparent",
+              "backgroundColor": "transparent"
+            },
+            "label": "Condensate"
+          },
+          "parentId": "w-1765884694393-278"
+        },
+        {
+          "id": "w-1765886869484-775",
+          "label": "Input",
+          "type": "input-text",
+          "selector": "app-input-text",
+          "position": {
+            "x": 0.7226823720989698,
+            "y": 0.8229013608865331,
+            "w": 0.1646551724137931,
+            "h": 0.11494252873563218,
+            "zIndex": 18
+          },
+          "input": {
+            "style": {
+              "backgroundMode": "transparent",
+              "backgroundColor": "transparent"
+            }
+          },
+          "parentId": "w-1765884694393-278"
+        }
+      ]
+    }
+  ]
+}

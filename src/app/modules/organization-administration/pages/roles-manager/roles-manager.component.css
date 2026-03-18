@@ -1,0 +1,146 @@
+/* TABLE WRAPPER */
+.table-wrapper {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.roles-page {
+  background: #f7f8fb;
+}
+
+.roles-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 8px 4px 18px 4px;
+  border-bottom: 1px solid #eef1f6;
+}
+
+.roles-search {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex: 1;
+  min-width: 0;
+}
+
+.search-field {
+  width: 360px;
+  max-width: 100%;
+}
+
+.roles-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+@media screen and (max-width: 900px) {
+  .roles-toolbar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .roles-search {
+    width: 100%;
+  }
+
+  .roles-actions {
+    justify-content: flex-start;
+  }
+}
+
+/* Card styling */
+:host ::ng-deep .roles-table-card .p-card {
+  border-radius: 16px;
+  border: 1px solid #eef1f6;
+  box-shadow: 0 6px 20px rgba(16, 24, 40, 0.06);
+}
+
+:host ::ng-deep .roles-table-card .p-card-body {
+  padding: 18px 20px 20px 20px;
+}
+
+/* Search input */
+:host ::ng-deep .search-field .p-inputtext {
+  height: 44px;
+  border-radius: 12px;
+  border: 1px solid #e1e6ef;
+  background: #f9fbff;
+  padding-left: 38px;
+  font-size: 14px;
+}
+
+:host ::ng-deep .search-field .p-input-icon-left > i {
+  color: #94a3b8;
+}
+
+/* Buttons */
+:host ::ng-deep .btn-primary .p-button {
+  height: 40px;
+  border-radius: 12px;
+  background: #1f6fff;
+  border-color: #1f6fff;
+  font-weight: 600;
+}
+
+:host ::ng-deep .btn-filter .p-button {
+  height: 40px;
+  border-radius: 12px;
+  border: 1px solid #d9e1ee;
+  background: #ffffff;
+  color: #334155;
+  font-weight: 500;
+}
+
+/* TABLE STYLING */
+:host ::ng-deep .p-datatable {
+  border-radius: 16px;
+  background: white;
+}
+
+:host ::ng-deep .p-datatable-header {
+  border: none !important;
+}
+
+:host ::ng-deep .p-datatable-thead>tr>th {
+  font-weight: 300;
+  font-size: 16px !important;
+  padding: 8px 16px;
+  color: #808080;
+  border: none !important;
+  background: #f9fbfd !important;
+  font-family: inherit;
+}
+
+:host ::ng-deep .p-datatable-thead>tr>th div {
+  font-size: 16px !important;
+}
+
+:host ::ng-deep .p-datatable-tbody>tr>td {
+  padding: 14px 16px;
+  font-size: 16px !important;
+  font-weight: 300;
+  color: #263141;
+  border: none !important;
+  font-family: inherit;
+}
+
+:host ::ng-deep .p-datatable-tbody>tr:hover {
+  background: #f7f9ff;
+}
+
+:host ::ng-deep .p-paginator {
+  justify-content: end;
+  border: none !important;
+}
+
+/* Mobile paginator nowrap */
+@media (max-width: 1024px) {
+  :host ::ng-deep .p-paginator.p-component {
+    flex-wrap: nowrap !important;
+  }
+}

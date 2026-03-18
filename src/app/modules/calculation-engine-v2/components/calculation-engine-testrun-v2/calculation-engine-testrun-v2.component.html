@@ -1,0 +1,32 @@
+<p-card class="w-full">
+    <div class="calculation-testrun">
+        <div class="flex w-full justify-end pb-[20px]">
+            <p-button label="update" (onClick)="testRunCalculation()"></p-button>
+        </div>
+
+        <form [formGroup]="calculationForm">
+            <div class="grid grid-cols-3 gap-4">
+                @for(field of dynamicInputFields; track field; let idx = $index){
+                <div class="flex flex-col gap-2">
+                    <label [for]="field.name">{{field.name}}<span class="text-[var(--p-red-500)]"> *</span></label>
+                    <p-inputnumber inputId="integeronly" id="idx" mode="decimal" [minFractionDigits]="2" [maxFractionDigits]="5" [formControlName]="field.name"
+                        aria-describedby="username-help" [showButtons]="true" />
+                </div>
+                }
+            </div>
+        </form>
+
+        @if(response_status){
+        <div class="pt-4">
+            <label class="text-bold">Results</label>
+            @for(output of response_output;track output){
+            <div>
+                {{output.name}} - {{output.value}}
+            </div>
+
+            }
+
+        </div>
+        }
+    </div>
+</p-card>

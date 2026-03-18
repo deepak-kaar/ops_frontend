@@ -1,0 +1,100 @@
+.wf-status-container {
+  display: block;
+}
+
+.customized-timeline {
+  margin-top: 0.25rem;
+}
+
+.customized-timeline .p-timeline-event-opposite {
+  display: none;
+}
+
+.customized-timeline .p-timeline-event-content {
+  width: 100%;
+}
+
+.customized-timeline .p-timeline-event {
+  padding-bottom: 0.75rem;
+}
+
+.card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-bottom: 0.5rem;
+}
+
+.card-header .title {
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+.card-header .muted {
+  color: var(--text-color-secondary, #6b7280);
+  font-weight: 400;
+}
+
+.card-header .right-chips {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.step-meta {
+  display: grid;
+  gap: 0.5rem 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.meta-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.meta-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.meta-key {
+  font-weight: 600;
+  color: var(--text-color, #333);
+  width: 160px;
+  flex: 0 0 160px;
+}
+
+.meta-val {
+  word-break: break-all;
+}
+
+.meta-val.error {
+  color: var(--red-600, #dc2626);
+}
+
+.history-header {
+  font-weight: 600;
+  margin: 0.25rem 0 0.5rem 0;
+}
+
+.empty-state {
+  padding: 1rem;
+}
+
+.compact-table .message {
+  white-space: normal;
+  max-width: 520px;
+}
+
+.compact-table .nowrap {
+  white-space: nowrap;
+}
+
+.p-timeline {
+  display: flex;
+  flex-grow: 1;
+  flex-direction: column;
+  direction: ltr;
+  gap: 10px;
+}

@@ -1,0 +1,380 @@
+/* Note: Global CSS variables are imported in styles.css for use across all components */
+
+/* Details Card */
+.details-card {
+  background: white;
+  border-radius: var(--card-container-border-radius);
+  box-shadow: var(--card-container-box-shadow);
+  border: var(--card-container-border);
+  overflow: hidden;
+}
+
+/* Header */
+.details-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--dialog-header-padding);
+  background: var(--dialog-header-background);
+  color: var(--dialog-header-color);
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.header-icon {
+  font-size: var(--heading-h2-font-size);
+  background: rgba(255, 255, 255, 0.15);
+  padding: 0.6rem;
+  border-radius: 10px;
+}
+
+.header-left h3 {
+  margin: 0;
+  font-size: var(--heading-h3-font-size);
+  font-weight: var(--heading-h3-font-weight);
+  color: white;
+}
+
+.header-badge {
+  display: inline-block;
+  padding: 0.2rem 0.6rem;
+  border-radius: 20px;
+  font-size: var(--text-xs-font-size);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-top: 0.25rem;
+}
+
+.header-badge.create {
+  background: #38a169;
+  color: white;
+}
+
+.header-badge.edit {
+  background: #dd6b20;
+  color: white;
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+:host ::ng-deep .save-btn {
+  background: linear-gradient(135deg, #38a169 0%, #2f855a 100%) !important;
+  border: none !important;
+}
+
+/* Form Sections */
+.form-section {
+  padding: 1.25rem 1.5rem;
+  border-bottom: 1px solid var(--table-cell-border-top);
+}
+
+.form-section:last-child {
+  border-bottom: none;
+}
+
+.section-header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid var(--table-cell-border-top);
+}
+
+.section-header i {
+  color: var(--p-primary-color, #3182ce);
+  font-size: var(--heading-h4-font-size);
+}
+
+.section-header span {
+  font-weight: var(--heading-h4-font-weight);
+  color: var(--heading-h4-color);
+  font-size: var(--heading-h4-font-size);
+}
+
+/* Form Grid */
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+}
+
+.form-field {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-field.span-2 {
+  grid-column: span 2;
+}
+
+.form-field.span-3 {
+  grid-column: span 3;
+}
+
+.form-field label {
+  font-size: var(--body-text-font-size);
+  font-weight: 600;
+  color: var(--body-text-color);
+  margin-bottom: 0.4rem;
+}
+
+.required {
+  color: #e53e3e;
+}
+
+/* Input Styles */
+.form-field input,
+.form-field textarea,
+:host ::ng-deep .form-field .p-inputtext,
+:host ::ng-deep .form-field .p-calendar,
+:host ::ng-deep .form-field .p-select {
+  border-radius: 8px;
+  border: 1px solid var(--table-cell-border-top);
+  transition: all 0.2s ease;
+  font-size: var(--body-text-font-size);
+}
+
+.form-field input:focus,
+.form-field textarea:focus,
+:host ::ng-deep .form-field .p-inputtext:focus,
+:host ::ng-deep .form-field .p-calendar:focus,
+:host ::ng-deep .form-field .p-select:focus {
+  border-color: var(--p-primary-color, #3182ce);
+  box-shadow: 0 0 0 3px rgba(49, 130, 206, 0.15);
+}
+
+.form-field input.invalid,
+:host ::ng-deep .form-field .invalid {
+  border-color: #e53e3e !important;
+}
+
+/* Readonly Field */
+.readonly-field {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: var(--table-cell-padding);
+  background: var(--table-header-background);
+  border: 1px solid var(--table-cell-border-top);
+  border-radius: 8px;
+  font-family: 'Consolas', 'Monaco', monospace;
+  font-size: var(--body-text-font-size);
+  color: var(--body-text-color);
+}
+
+.readonly-field i {
+  color: #718096;
+}
+
+/* Input with Button */
+.input-with-button {
+  display: flex;
+  align-items: stretch;
+}
+
+.path-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 0.75rem;
+  background: var(--table-header-background);
+  border: 1px solid var(--table-cell-border-top);
+  border-right: none;
+  border-radius: 8px 0 0 8px;
+  color: #718096;
+}
+
+.path-input {
+  flex: 1;
+  border-radius: 0 !important;
+  font-family: 'Consolas', 'Monaco', monospace;
+  font-size: var(--body-text-font-size);
+}
+
+.browse-btn {
+  border-radius: 0 8px 8px 0 !important;
+  background: var(--p-primary-color, #3182ce) !important;
+  border-color: var(--p-primary-color, #3182ce) !important;
+}
+
+/* Help Text */
+.help-text {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  margin-top: 0.35rem;
+  font-size: var(--text-sm-font-size);
+  color: #718096;
+}
+
+.help-text i {
+  font-size: var(--text-xs-font-size);
+}
+
+/* Error Text */
+.error-text {
+  color: #e53e3e;
+  font-size: var(--text-sm-font-size);
+  margin-top: 0.35rem;
+}
+
+/* Checkbox Field */
+.checkbox-field {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem;
+  background: var(--table-header-background);
+  border-radius: 8px;
+  border: 1px solid var(--table-cell-border-top);
+}
+
+.checkbox-label {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-weight: 500;
+  color: var(--body-text-color);
+  cursor: pointer;
+  font-size: var(--body-text-font-size);
+}
+
+.checkbox-label i {
+  color: #38a169;
+}
+
+/* Audit Section */
+.audit-section {
+  background: var(--table-header-background);
+}
+
+.audit-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+}
+
+.audit-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.audit-label {
+  font-size: var(--text-xs-font-size);
+  font-weight: 600;
+  color: #718096;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.audit-value {
+  font-size: var(--body-text-font-size);
+  color: var(--body-text-color);
+  font-weight: 500;
+}
+
+.count-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  background: var(--p-primary-color, #3182ce);
+  color: white;
+  border-radius: 50%;
+  font-weight: 600;
+  font-size: var(--text-sm-font-size);
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .form-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .form-field.span-3 {
+    grid-column: span 2;
+  }
+
+  .audit-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 640px) {
+  .form-grid,
+  .audit-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .form-field.span-2,
+  .form-field.span-3 {
+    grid-column: span 1;
+  }
+
+  .details-header {
+    flex-direction: column;
+    gap: 1rem;
+    text-align: center;
+  }
+
+  .header-left {
+    flex-direction: column;
+  }
+}
+
+/* Report Selection Dialog */
+.report-selection-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.search-bar {
+  margin-bottom: 0.5rem;
+}
+
+.selection-info {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 0.5rem;
+}
+
+:host ::ng-deep .p-dialog .p-dialog-content {
+  padding: 1.5rem;
+}
+
+:host ::ng-deep .report-selection-container .p-datatable {
+  border: 1px solid var(--table-cell-border-top);
+  border-radius: 8px;
+}
+
+:host ::ng-deep .report-selection-container .p-datatable-thead > tr > th {
+  background: var(--table-header-background);
+  font-weight: 600;
+  padding: 0.75rem;
+}
+
+:host ::ng-deep .report-selection-container .p-datatable-tbody > tr > td {
+  padding: 0.75rem;
+}
+
+:host ::ng-deep .report-selection-container .p-datatable-tbody > tr:hover {
+  background: var(--table-header-background);
+}
+
+.readonly-input {
+  background: var(--table-header-background) !important;
+  cursor: default;
+}

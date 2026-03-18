@@ -1,0 +1,23 @@
+p-select {
+    width: 100%;
+}
+
+.static-form-field {
+    flex: 0.5;
+}
+
+input::placeholder {
+    color: white;
+}
+
+.input-field {
+    width: 100%;
+    /* color: white;
+    border-radius: 25px;
+    background-color: transparent; */
+}
+
+.form-fields {
+    height: 90vh;
+    overflow-y: auto;
+}

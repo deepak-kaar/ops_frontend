@@ -1,0 +1,52 @@
+@if (isDataLoaded) {
+<div class="idt-template">
+  <div class="flex flex-col gap-[10px]">
+    <!-- Template Name and Description -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div class="flex flex-col gap-2">
+        <label class="font-semibold">Template Name</label>
+        <div class="p-3 border rounded bg-gray-50">
+          {{ idtData?.templateName || '-' }}
+        </div>
+      </div>
+      <div class="flex flex-col gap-2">
+        <label class="font-semibold">Template Description</label>
+        <div class="p-3 border rounded bg-gray-50">
+          {{ idtData?.templateDesc || '-' }}
+        </div>
+      </div>
+    </div>
+
+    <!-- Additional Information -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+      <div class="flex flex-col gap-2">
+        <label class="font-semibold">Type</label>
+        <div class="p-3 border rounded bg-gray-50">
+          {{ idtData?.type || '-' }}
+        </div>
+      </div>
+      <div class="flex flex-col gap-2">
+        <label class="font-semibold">Template ID</label>
+        <div class="p-3 border rounded bg-gray-50">
+          {{ idtData?.templateId || '-' }}
+        </div>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div class="flex flex-col gap-2">
+        <label class="font-semibold">Created By</label>
+        <div class="p-3 border rounded bg-gray-50">
+          {{ idtData?.createdBy || '-' }}
+        </div>
+      </div>
+      <div class="flex flex-col gap-2">
+        <label class="font-semibold">Created On</label>
+        <div class="p-3 border rounded bg-gray-50">
+          {{ idtData?.createdOn | date: 'short' }}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+}

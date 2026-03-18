@@ -1,0 +1,29 @@
+<div>
+    <app-sidebar></app-sidebar>
+</div>
+<div class=" md:pl-[300px]  h-screen overflow-y-auto">
+    <div class="box-shadow flex w-full  justify-end h-[60px]">
+        <div class="p-2 ">
+            <p-iconfield>
+                <p-inputicon styleClass="pi pi-search" />
+                <input type="text" class="global-search" pInputText placeholder="Search" />
+            </p-iconfield>
+        </div>
+    </div>
+    <div class="pt-[20px] px-[20px] md:pt-[50px]">
+        <!-- <div class="flex gap-[20px] cursor-pointer"> -->
+        <div class="flex flex-nowrap overflow-x-auto  gap-[20px] cursor-pointer md:flex-wrap md:overflow-visible">
+            @for(card of cardList;track card;let idx = $index){
+            @if(isOpsAdmin || (card.name !== 'Roles' && card.name !== 'user')){
+                <p-card [styleClass]="getCardClass(idx)" (click)="change(idx)">
+                    <div class="flex gap-[16px] h-full items-center font-bold">
+                        <div [innerHTML]="sanitizer.bypassSecurityTrustHtml(card.svg)"></div>
+                        <span>{{card.name}}</span>
+                    </div>
+                </p-card>              
+            }
+            }
+        </div>
+    </div>
+    <router-outlet></router-outlet>
+</div>

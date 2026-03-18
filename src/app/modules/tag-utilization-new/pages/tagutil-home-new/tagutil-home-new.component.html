@@ -1,0 +1,406 @@
+<div class="layout-root surface">
+
+  <!-- MOBILE OVERLAY -->
+  <div class="mobile-overlay" [class.active]="mobileSidebarVisible" (click)="toggleMobileSidebar()"></div>
+
+  <!-- FIXED SIDEBAR -->
+  <aside class="sidebar-wrapper" [class.mobile-open]="mobileSidebarVisible">
+    <app-sidebar-new></app-sidebar-new>
+  </aside>
+
+  <!-- RIGHT SIDE -->
+  <div class="right-pane surface-ground">
+
+    <app-topbar-new (menuToggle)="toggleMobileSidebar()"
+      [showRolloutLabel]="true"
+      [labels]="labels"
+      [(selectedLabel)]="selectedLabel"
+      (labelChange)="onLabelChange()">
+    </app-topbar-new>
+
+    <!-- content that scrolls -->
+    <div class="right-scroll">
+
+      <!-- Filter Section -->
+      <div class="pt-[20px] px-[20px] md:pt-[50px] flex flex-wrap items-center gap-[15px] md:gap-[20px]">
+        <app-filter-new (filtersChanged)="onFiltersChanged($event)"></app-filter-new>
+        <p-button label="Search" icon="pi pi-search" (onClick)="onSearch()" class="sm:w-auto"></p-button>
+      </div>
+
+      <!-- Expand/Collapse All Controls -->
+      <div class="mt-[30px] px-[20px] flex flex-wrap gap-[10px] mb-3">
+        <p-button label="Expand All" icon="pi pi-angle-down" (onClick)="expandAll()" [outlined]="true" class="w-full sm:w-auto"></p-button>
+        <p-button label="Collapse All" icon="pi pi-angle-up" (onClick)="collapseAll()" [outlined]="true" class="w-full sm:w-auto"></p-button>
+        <p-button label="Import Excel" icon="pi pi-file-import" (onClick)="triggerImport()" severity="secondary" class="w-full sm:w-auto"></p-button>
+        <p-button label="Export Excel (Full Report)" icon="pi pi-file-excel" (onClick)="exportAllToExcel()" class="w-full sm:w-auto"></p-button>
+      </div>
+
+      <!-- Accordion Sections -->
+      <div class="mt-[10px] px-[20px] overflow-x-auto pb-[40px]">
+        <p-accordion [multiple]="true" [(activeIndex)]="activeAccordionIndices">
+
+          <!-- Business Transactions Accordion -->
+          <p-accordionTab>
+            <ng-template pTemplate="header">
+              <div class="flex justify-between items-center w-full pr-4">
+                <span class="font-semibold">Business Transactions</span>
+                <div class="flex items-center gap-3">
+                  <span class="text-sm">{{ filteredBusinessTrans.length }} Records</span>
+                  <p-button icon="pi pi-refresh" (onClick)="performSearch(); $event.stopPropagation()" [rounded]="true" [text]="true" size="small" />
+                  <p-button icon="pi pi-file-excel" (onClick)="exportTableExcel('Business Transactions', filteredBusinessTrans); $event.stopPropagation()" [rounded]="true" [text]="true" size="small" pTooltip="Export to Excel" />
+                </div>
+              </div>
+            </ng-template>
+
+            <div class="flex gap-4 mb-4">
+              <input type="text" pInputText placeholder="Filter by Application" [(ngModel)]="businessTransFilterApp" class="w-[200px]" />
+              <input type="text" pInputText placeholder="Filter by Organisation" [(ngModel)]="businessTransFilterOrg" class="w-[200px]" />
+            </div>
+
+            <div class="table-wrapper">
+              <p-table [value]="filteredBusinessTrans" styleClass="p-datatable-sm">
+                <ng-template pTemplate="header">
+                  <tr>
+                    <th class="border-round-left-2xl">Application Name</th>
+                    <th>Organisation Name</th>
+                    <th>Business Transaction</th>
+                    <th>Actual Transaction</th>
+                    <th class="border-round-right-2xl">Expected Transaction EOM</th>
+                  </tr>
+                </ng-template>
+
+                <ng-template pTemplate="body" let-row>
+                  <tr>
+                    <td class="border-round-left-2xl">{{ selectedApp?.appName || 'PIOS' }}</td>
+                    <td>{{ selectedOrg?.orgName || 'Manifa Org 1' }}</td>
+                    <td>{{ row.name }}</td>
+                    <td>{{ row.count }}</td>
+                    <td class="border-round-right-2xl">{{ (row.count * 1.2) | number:'1.0-0' }}</td>
+                  </tr>
+                </ng-template>
+
+                <ng-template pTemplate="footer">
+                  <tr>
+                    <td colspan="2"></td>
+                    <td class="font-semibold">Total</td>
+                    <td class="font-bold">{{ getActualTotal() }}</td>
+                    <td class="font-bold">{{ getExpectedTotal() | number: '1.0-0' }}</td>
+                  </tr>
+                </ng-template>
+
+                <ng-template pTemplate="emptymessage">
+                  <tr>
+                    <td colspan="5" class="text-center">No Summary Available</td>
+                  </tr>
+                </ng-template>
+              </p-table>
+            </div>
+          </p-accordionTab>
+
+          <!-- Active Department Accordion -->
+          <p-accordionTab>
+            <ng-template pTemplate="header">
+              <div class="flex justify-between items-center w-full pr-4">
+                <span class="font-semibold">Active Department</span>
+                <div class="flex items-center gap-3">
+                  <span class="text-sm">{{ filteredActiveDept.length }} Records</span>
+                  <p-button icon="pi pi-refresh" (onClick)="performSearch(); $event.stopPropagation()" [rounded]="true" [text]="true" size="small" />
+                  <p-button icon="pi pi-file-excel" (onClick)="exportTableExcel('Active Department', filteredActiveDept); $event.stopPropagation()" [rounded]="true" [text]="true" size="small" pTooltip="Export to Excel" />
+                </div>
+              </div>
+            </ng-template>
+
+            <div class="flex gap-4 mb-4">
+              <input type="text" pInputText placeholder="Filter by Application" [(ngModel)]="activeDeptFilterApp" class="w-[200px]" />
+              <input type="text" pInputText placeholder="Filter by Organisation" [(ngModel)]="activeDeptFilterOrg" class="w-[200px]" />
+            </div>
+
+            <div class="table-wrapper">
+              <p-table [value]="filteredActiveDept" [rows]="20" [paginator]="true" [rowsPerPageOptions]="[20,30,50]" [rowHover]="true" [loading]="isLoading" styleClass="p-datatable-sm">
+                <ng-template pTemplate="header">
+                  <tr>
+                    <th class="border-round-left-2xl">Application Name</th>
+                    <th>Organisation Name</th>
+                    <th>Configured On</th>
+                    <th>First Used</th>
+                    <th>Last Used</th>
+                    <th class="border-round-right-2xl">Total Days</th>
+                  </tr>
+                </ng-template>
+
+                <ng-template pTemplate="body" let-item>
+                  <tr>
+                    <td class="border-round-left-2xl">{{ item.appName }}</td>
+                    <td>{{ item.orgName }}</td>
+                    <td>{{ item.createdOn | date: 'short' }}</td>
+                    <td>{{ item.firstUsed | date: 'short' }}</td>
+                    <td>{{ item.lastUsed | date: 'short' }}</td>
+                    <td class="border-round-right-2xl">{{ item.totalDays }}</td>
+                  </tr>
+                </ng-template>
+
+                <ng-template pTemplate="emptymessage">
+                  <tr>
+                    <td colspan="6" class="text-center">No Active Departments found.</td>
+                  </tr>
+                </ng-template>
+              </p-table>
+            </div>
+          </p-accordionTab>
+
+          <!-- Report Generation Log Accordion -->
+          <p-accordionTab>
+            <ng-template pTemplate="header">
+              <div class="flex justify-between items-center w-full pr-4">
+                <span class="font-semibold">Report Generation Log</span>
+                <div class="flex items-center gap-3">
+                  <span class="text-sm">{{ filteredReportGenLog.length }} Records</span>
+                  <p-button icon="pi pi-refresh" (onClick)="performSearch(); $event.stopPropagation()" [rounded]="true" [text]="true" size="small" />
+                  <p-button icon="pi pi-file-excel" (onClick)="exportTableExcel('Report Generation Log', filteredReportGenLog); $event.stopPropagation()" [rounded]="true" [text]="true" size="small" pTooltip="Export to Excel" />
+                </div>
+              </div>
+            </ng-template>
+
+            <div class="flex gap-4 mb-4 flex-wrap">
+              <input type="text" pInputText placeholder="Filter by Application" [(ngModel)]="reportGenFilterApp" class="w-[200px]" />
+              <input type="text" pInputText placeholder="Filter by Organisation" [(ngModel)]="reportGenFilterOrg" class="w-[200px]" />
+              <input type="text" pInputText placeholder="Filter by Generated By" [(ngModel)]="reportGenFilterBy" class="w-[200px]" />
+              <p-calendar [(ngModel)]="reportGenFilterAt" placeholder="Filter by Generated At" [showIcon]="true" [showTime]="true" [showSeconds]="true" dateFormat="mm/dd/yy"></p-calendar>
+            </div>
+
+            <div class="table-wrapper">
+              <p-table [value]="filteredReportGenLog" [rows]="20" [paginator]="true" [rowsPerPageOptions]="[20,30,50]" [rowHover]="true" [loading]="isLoading" styleClass="p-datatable-sm">
+                <ng-template pTemplate="header">
+                  <tr>
+                    <th class="border-round-left-2xl">Application Name</th>
+                    <th>Organisation Name</th>
+                    <th>Generated By</th>
+                    <th class="border-round-right-2xl">Generated At</th>
+                  </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-item>
+                  <tr>
+                    <td class="border-round-left-2xl">{{ item.appName }}</td>
+                    <td>{{ item.orgName }}</td>
+                    <td>{{ item.generatedBy }}</td>
+                    <td class="border-round-right-2xl">{{ item.generatedAt | date: 'short' }}</td>
+                  </tr>
+                </ng-template>
+                <ng-template pTemplate="emptymessage">
+                  <tr>
+                    <td colspan="4" class="text-center">No Report Generation Log found.</td>
+                  </tr>
+                </ng-template>
+              </p-table>
+            </div>
+          </p-accordionTab>
+
+          <!-- Report Access Log Accordion -->
+          <p-accordionTab>
+            <ng-template pTemplate="header">
+              <div class="flex justify-between items-center w-full pr-4">
+                <span class="font-semibold">Report Access Log</span>
+                <div class="flex items-center gap-3">
+                  <span class="text-sm">{{ filteredReportAccessLog.length }} Records</span>
+                  <p-button icon="pi pi-refresh" (onClick)="performSearch(); $event.stopPropagation()" [rounded]="true" [text]="true" size="small" />
+                  <p-button icon="pi pi-file-excel" (onClick)="exportTableExcel('Report Access Log', filteredReportAccessLog); $event.stopPropagation()" [rounded]="true" [text]="true" size="small" pTooltip="Export to Excel" />
+                </div>
+              </div>
+            </ng-template>
+
+            <div class="flex gap-4 mb-4 flex-wrap">
+              <input type="text" pInputText placeholder="Filter by Application" [(ngModel)]="reportAccessFilterApp" class="w-[200px]" />
+              <input type="text" pInputText placeholder="Filter by Organisation" [(ngModel)]="reportAccessFilterOrg" class="w-[200px]" />
+              <input type="text" pInputText placeholder="Filter by Accessed By" [(ngModel)]="reportAccessFilterBy" class="w-[200px]" />
+              <p-calendar [(ngModel)]="reportAccessFilterAt" placeholder="Filter by Accessed At" [showIcon]="true" [showTime]="true" [showSeconds]="true" dateFormat="mm/dd/yy"></p-calendar>
+            </div>
+
+            <div class="table-wrapper">
+              <p-table [value]="filteredReportAccessLog" [rows]="20" [paginator]="true" [rowsPerPageOptions]="[20,30,50]" [rowHover]="true" [loading]="isLoading" styleClass="p-datatable-sm">
+                <ng-template pTemplate="header">
+                  <tr>
+                    <th class="border-round-left-2xl">Application Name</th>
+                    <th>Organisation Name</th>
+                    <th>Report Name</th>
+                    <th>Accessed By</th>
+                    <th class="border-round-right-2xl">Accessed At</th>
+                  </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-item>
+                  <tr>
+                    <td class="border-round-left-2xl">{{ item.appName }}</td>
+                    <td>{{ item.orgName }}</td>
+                    <td>{{ item.reportName }}</td>
+                    <td>{{ item.accessedBy }}</td>
+                    <td class="border-round-right-2xl">{{ item.accessedAt | date: 'short' }}</td>
+                  </tr>
+                </ng-template>
+                <ng-template pTemplate="emptymessage">
+                  <tr>
+                    <td colspan="5" class="text-center">No Report Access Log found.</td>
+                  </tr>
+                </ng-template>
+              </p-table>
+            </div>
+          </p-accordionTab>
+
+          <!-- Screen Access Log Accordion -->
+          <p-accordionTab>
+            <ng-template pTemplate="header">
+              <div class="flex justify-between items-center w-full pr-4">
+                <span class="font-semibold">Screen Access Log</span>
+                <div class="flex items-center gap-3">
+                  <span class="text-sm">{{ filteredScreenAccessLog.length }} Records</span>
+                  <p-button icon="pi pi-refresh" (onClick)="performSearch(); $event.stopPropagation()" [rounded]="true" [text]="true" size="small" />
+                  <p-button icon="pi pi-file-excel" (onClick)="exportTableExcel('Screen Access Log', filteredScreenAccessLog); $event.stopPropagation()" [rounded]="true" [text]="true" size="small" pTooltip="Export to Excel" />
+                </div>
+              </div>
+            </ng-template>
+
+            <div class="flex gap-4 mb-4 flex-wrap">
+              <input type="text" pInputText placeholder="Filter by Application" [(ngModel)]="screenAccessFilterApp" class="w-[200px]" />
+              <input type="text" pInputText placeholder="Filter by Organisation" [(ngModel)]="screenAccessFilterOrg" class="w-[200px]" />
+              <input type="text" pInputText placeholder="Filter by Accessed By" [(ngModel)]="screenAccessFilterBy" class="w-[200px]" />
+              <p-calendar [(ngModel)]="screenAccessFilterAt" placeholder="Filter by Accessed At" [showIcon]="true" [showTime]="true" [showSeconds]="true" dateFormat="mm/dd/yy"></p-calendar>
+            </div>
+
+            <div class="table-wrapper">
+              <p-table [value]="filteredScreenAccessLog" [rows]="20" [paginator]="true" [rowsPerPageOptions]="[20,30,50]" [rowHover]="true" [loading]="isLoading" styleClass="p-datatable-sm">
+                <ng-template pTemplate="header">
+                  <tr>
+                    <th class="border-round-left-2xl">Application Name</th>
+                    <th>Organisation Name</th>
+                    <th>Screen Name</th>
+                    <th>Accessed By</th>
+                    <th class="border-round-right-2xl">Accessed At</th>
+                  </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-item>
+                  <tr>
+                    <td class="border-round-left-2xl">{{ item.appName }}</td>
+                    <td>{{ item.orgName }}</td>
+                    <td>{{ item.screenName }}</td>
+                    <td>{{ item.accessedBy }}</td>
+                    <td class="border-round-right-2xl">{{ item.accessedAt | date: 'short' }}</td>
+                  </tr>
+                </ng-template>
+                <ng-template pTemplate="emptymessage">
+                  <tr>
+                    <td colspan="5" class="text-center">No Screen Access Log found.</td>
+                  </tr>
+                </ng-template>
+              </p-table>
+            </div>
+          </p-accordionTab>
+
+          <!-- Screen Update Log Accordion -->
+          <p-accordionTab>
+            <ng-template pTemplate="header">
+              <div class="flex justify-between items-center w-full pr-4">
+                <span class="font-semibold">Screen Update Log</span>
+                <div class="flex items-center gap-3">
+                  <span class="text-sm">{{ filteredScreenUpdateLog.length }} Records</span>
+                  <p-button icon="pi pi-refresh" (onClick)="performSearch(); $event.stopPropagation()" [rounded]="true" [text]="true" size="small" />
+                  <p-button icon="pi pi-file-excel" (onClick)="exportTableExcel('Screen Update Log', filteredScreenUpdateLog); $event.stopPropagation()" [rounded]="true" [text]="true" size="small" pTooltip="Export to Excel" />
+                </div>
+              </div>
+            </ng-template>
+
+            <div class="flex gap-4 mb-4 flex-wrap">
+              <input type="text" pInputText placeholder="Filter by Application" [(ngModel)]="screenUpdateFilterApp" class="w-[200px]" />
+              <input type="text" pInputText placeholder="Filter by Organisation" [(ngModel)]="screenUpdateFilterOrg" class="w-[200px]" />
+              <input type="text" pInputText placeholder="Filter by Updated By" [(ngModel)]="screenUpdateFilterBy" class="w-[200px]" />
+              <p-calendar [(ngModel)]="screenUpdateFilterAt" placeholder="Filter by Updated At" [showIcon]="true" [showTime]="true" [showSeconds]="true" dateFormat="mm/dd/yy"></p-calendar>
+            </div>
+
+            <div class="table-wrapper">
+              <p-table [value]="filteredScreenUpdateLog" [rows]="20" [paginator]="true" [rowsPerPageOptions]="[20,30,50]" [rowHover]="true" [loading]="isLoading" styleClass="p-datatable-sm">
+                <ng-template pTemplate="header">
+                  <tr>
+                    <th class="border-round-left-2xl">Application Name</th>
+                    <th>Organisation Name</th>
+                    <th>Screen Name</th>
+                    <th>Updated By</th>
+                    <th>Updated At</th>
+                    <th class="border-round-right-2xl">Changes Made</th>
+                  </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-item>
+                  <tr>
+                    <td class="border-round-left-2xl">{{ item.appName }}</td>
+                    <td>{{ item.orgName }}</td>
+                    <td>{{ item.screenName }}</td>
+                    <td>{{ item.updatedBy }}</td>
+                    <td>{{ item.updatedAt | date: 'short' }}</td>
+                    <td class="border-round-right-2xl">{{ item.changesMade }}</td>
+                  </tr>
+                </ng-template>
+                <ng-template pTemplate="emptymessage">
+                  <tr>
+                    <td colspan="6" class="text-center">No Screen Update Log found.</td>
+                  </tr>
+                </ng-template>
+              </p-table>
+            </div>
+          </p-accordionTab>
+
+          <!-- Active Pages Accordion -->
+          <p-accordionTab>
+            <ng-template pTemplate="header">
+              <div class="flex justify-between items-center w-full pr-4">
+                <span class="font-semibold">Active Pages</span>
+                <div class="flex items-center gap-3">
+                  <span class="text-sm">{{ filteredActivePages.length }} Records</span>
+                  <p-button icon="pi pi-refresh" (onClick)="performSearch(); $event.stopPropagation()" [rounded]="true" [text]="true" size="small" />
+                  <p-button icon="pi pi-file-excel" (onClick)="exportTableExcel('Active Pages', filteredActivePages); $event.stopPropagation()" [rounded]="true" [text]="true" size="small" pTooltip="Export to Excel" />
+                </div>
+              </div>
+            </ng-template>
+
+            <div class="flex gap-4 mb-4 flex-wrap">
+              <input type="text" pInputText placeholder="Filter by Application" [(ngModel)]="activePagesFilterApp" class="w-[200px]" />
+              <input type="text" pInputText placeholder="Filter by Organisation" [(ngModel)]="activePagesFilterOrg" class="w-[200px]" />
+              <input type="text" pInputText placeholder="Filter by Page Type" [(ngModel)]="activePagesFilterType" class="w-[200px]" />
+              <input type="text" pInputText placeholder="Filter by Accessed By" [(ngModel)]="activePagesFilterBy" class="w-[200px]" />
+              <p-calendar [(ngModel)]="activePagesFilterAt" placeholder="Filter by Accessed At" [showIcon]="true" [showTime]="true" [showSeconds]="true" dateFormat="mm/dd/yy"></p-calendar>
+            </div>
+
+            <div class="table-wrapper">
+              <p-table [value]="filteredActivePages" [rows]="20" [paginator]="true" [rowsPerPageOptions]="[20,30,50]" [rowHover]="true" [loading]="isLoading" styleClass="p-datatable-sm">
+                <ng-template pTemplate="header">
+                  <tr>
+                    <th class="border-round-left-2xl">Application Name</th>
+                    <th>Organisation Name</th>
+                    <th>Page Type</th>
+                    <th>Page Name</th>
+                    <th>Accessed By</th>
+                    <th class="border-round-right-2xl">Accessed At</th>
+                  </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-item>
+                  <tr>
+                    <td class="border-round-left-2xl">{{ item.appName }}</td>
+                    <td>{{ item.orgName }}</td>
+                    <td>{{ item.pageType }}</td>
+                    <td>{{ item.pageName }}</td>
+                    <td>{{ item.accessedBy }}</td>
+                    <td class="border-round-right-2xl">{{ item.accessedAt | date: 'short' }}</td>
+                  </tr>
+                </ng-template>
+                <ng-template pTemplate="emptymessage">
+                  <tr>
+                    <td colspan="6" class="text-center">No Active Pages found.</td>
+                  </tr>
+                </ng-template>
+              </p-table>
+            </div>
+          </p-accordionTab>
+
+        </p-accordion>
+      </div>
+
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+</div>
+<p-toast></p-toast>

@@ -1,0 +1,322 @@
+<div class="pt-[50px] pl-[20px] pr-[20px] w-full flex flex-col pb-[30px]">
+    <div class="w-full flex">
+        <div class="w-full">
+            <form [formGroup]="attributeForm">
+                <div class="w-full gap-3 pb-3 flex justify-between items-center">
+                    <span class="font-normal text-2xl">Create Tag</span>
+                    <div class="flex gap-[10px]">
+                        <p-button routerLink="/datapointAdmin/home/attribute" label="Back"></p-button>
+                        <button pButton pRipple (click)="submit()" label="Save"></button>
+                    </div>
+                </div>
+                <p-tabs value="0">
+                    <p-tablist>
+                        <p-tab value="0">Basic Details</p-tab>
+                        <p-tab value="1">Data Validation</p-tab>
+                        <p-tab value="2">Default</p-tab>
+                        <p-tab value="3">Data Source</p-tab>
+                        <p-tab value="4">Time Series</p-tab>
+                        <p-tab value="5">Display Component</p-tab>
+                        <p-tab value="6" [disabled]="true">Security</p-tab>
+                        <p-tab value="7" [disabled]="true">Dependencies</p-tab>
+                    </p-tablist>
+                    <p-tabpanels>
+                        <p-tabpanel value="0">
+                            <div class="pl-3 pt-3 flex flex-col gap-3">
+                                <span class="font-medium text-lg">Basic Details</span>
+                                <div class="flex w-full gap-2">
+                                    <div class="flex-1">
+                                        <div class="flex flex-col gap-2">
+                                            <label for="username">Tag name</label>
+                                            <input formControlName="attributeName" pInputText id="username"
+                                                aria-describedby="username-help" />
+                                        </div>
+                                    </div>
+                                    <div class="flex-1">
+                                        <div class="flex flex-col gap-2">
+                                            <label for="username">Data Type</label>
+                                            <p-select [options]="dataPoints" optionLabel="dataType"
+                                                [style]="{'width':'100%'}" placeholder="Select a datatype"
+                                                formControlName="dataType" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="w-full">
+                                    <div class="flex flex-col gap-2">
+                                        <label for="username">Alias Name</label>
+                                        <input formControlName="alias" pInputText id="username"
+                                            aria-describedby="username-help" />
+                                    </div>
+                                </div>
+                                <!-- <div class="w-full">
+                                    <div class="flex flex-col gap-2">
+                                        <label for="username">Attribute Level</label>
+                                        <p-select showClear="true" [options]="attributeLevel" formControlName="attrLevel"
+                                            (onChange)="onAttrChange($event.value)" [style]="{'width':'100%'}"
+                                            placeholder="Select a level" />
+                                    </div>
+                                </div> -->
+                                <!-- @if(this.attributeForm.get('attrLevel')?.value){
+                                <div class="w-full">
+                                    <div class="flex flex-col gap-2">
+                                        <label for="username">Choose
+                                            {{this.attributeForm.get('attrLevel')?.value}}</label>
+                                        <p-select (onChange)="onEntityChange($event)" [options]="entityList"
+                                            optionLabel="name" optionValue="id" formControlName="entityId"
+                                            [style]="{'width':'100%'}"/>
+                                    </div>
+                                </div>
+                                } -->
+                                <div class="w-full">
+                                    <div class="flex flex-col gap-2">
+                                        <label for="username">Description</label>
+                                        <textarea formControlName="comments" style="width: 100%;" rows="5" cols="30"
+                                            pTextarea></textarea>
+                                    </div>
+                                </div>
+                                <div class="flex w-full gap-2">
+                                    <div class="flex-1">
+                                        <div class="flex flex-col gap-2">
+                                            <label for="username">Decimal places</label>
+                                            <input pInputText formControlName="decimalPlaces" id="username"
+                                                aria-describedby="username-help" />
+                                        </div>
+                                    </div>
+                                    <div class="flex-1">
+                                        <div class="flex flex-col gap-2">
+                                            <label for="username">Engineering Unit</label>
+                                            <p-select formControlName="engineeringUnit" [style]="{'width':'100%'}"
+                                                optionLabel="name" placeholder="Select an Unit" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="flex gap-[20px] w-full">
+                                    <div class="flex items-center gap-1">
+                                        <p-checkbox formControlName="nullable" [binary]="true" inputId="unique" />
+                                        <label for="unique">Not Null</label>
+                                    </div>
+                                    <!-- <div class="flex items-center gap-1">
+                                        <p-checkbox formControlName="unique" [binary]="true" inputId="unique" />
+                                        <label for="unique">Unique value</label>
+                                    </div> -->
+                                    <!-- <div class="flex items-center gap-1">
+                                        <p-checkbox formControlName="timeSeries" [binary]="true" inputId="unique" />
+                                        <label for="unique">Time Series</label>
+                                    </div> -->
+                                    <div class="flex items-center gap-1">
+                                        <p-checkbox formControlName="collection" [binary]="true" inputId="unique" />
+                                        <label for="unique">Collection</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </p-tabpanel>
+                        <p-tabpanel value="1">
+                            <div class="pl-3 pt-3 flex flex-col gap-3">
+                                <span class="font-medium text-lg">Data Validation</span>
+                                <div class="flex w-full gap-2">
+                                    <div class="flex-1">
+                                        <div class="flex flex-col gap-2">
+                                            <label for="username">Min Value</label>
+                                            <input formControlName="minValue" pInputText id="username"
+                                                aria-describedby="username-help" />
+                                        </div>
+                                    </div>
+                                    <div class="flex-1">
+                                        <div class="flex flex-col gap-2">
+                                            <label for="username">Max Value</label>
+                                            <input formControlName="maxValue" pInputText id="username"
+                                                aria-describedby="username-help" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="flex w-full gap-2">
+                                    <div class="flex-1">
+                                        <div class="flex flex-col gap-2">
+                                            <label for="username">Validation Rule</label>
+                                            <input pInputText formControlName="validationRule" id="username"
+                                                aria-describedby="username-help" />
+                                        </div>
+                                    </div>
+                                    <div class="flex-1">
+                                        <div class="flex flex-col gap-2">
+                                            <label for="username">Accepted Quality</label>
+                                            <input pInputText formControlName="acceptedQuality" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </p-tabpanel>
+                        <p-tabpanel value="2">
+                            <div class="pl-3 pt-3 flex flex-col gap-3">
+                                <span class="font-medium text-lg">Default</span>
+                                <div class="flex justify-end">
+                                    <button pButton pRipple label="Add Default" (click)="createDefault()"
+                                        class="p-button-primary">
+                                    </button>
+                                </div>
+                                <p-card class="w-full">
+                                    <p-table [value]="defaultsArray" styleClass="p-datatable-sm"
+                                        [tableStyle]="{'min-width': '50rem'}" (onRowReorder)="onRowReorder($event)">
+                                        <ng-template pTemplate="header">
+                                            <tr class="text-sm">
+                                                <th></th>
+                                                <th>Apply Order</th>
+                                                <th>Default Algorithm</th>
+                                                <th>Default value</th>
+                                                <th>Max. Offset</th>
+                                                <th>Ref. Tag Data Source Type</th>
+                                                <th>Facility</th>
+                                                <th>Ref. Tag</th>
+                                                <th>Ref. Frequency</th>
+                                                <th>Cal Indicator</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </ng-template>
+                                        <ng-template pTemplate="body" let-default let-index="rowIndex">
+                                            <tr [pReorderableRow]="index">
+                                                <td>
+                                                    <span class="pi pi-bars" pReorderableRowHandle></span>
+                                                </td>
+                                                <td (click)="manageDefault(index,default)">{{ default.applyOrder }}</td>
+                                                <td (click)="manageDefault(index,default)">{{ default.algorithm}}</td>
+                                                <td (click)="manageDefault(index,default)">{{ default.defaultValue }}
+                                                </td>
+                                                <td (click)="manageDefault(index,default)">{{ default.maxOffset }}</td>
+                                                <td (click)="manageDefault(index,default)">{{
+                                                    default.facilityName.orgName
+                                                    }}</td>
+                                                <td (click)="manageDefault(index,default)">{{ default.refTag.attrName }}
+                                                </td>
+                                                <td (click)="manageDefault(index,default)">{{ default.refTagDs }}</td>
+                                                <td (click)="manageDefault(index,default)">{{ default.refTagFreq }}</td>
+                                                <td (click)="manageDefault(index,default)">{{default.calIndicator}}</td>
+                                                <td>
+                                                    <p-button icon="pi pi-trash" (click)="deleteDefalut(index)"
+                                                        severity="secondary" rounded />
+                                                </td>
+                                            </tr>
+                                        </ng-template>
+                                    </p-table>
+                                </p-card>
+                            </div>
+                        </p-tabpanel>
+                        <p-tabpanel value="3">
+                            <div class="pl-3 pt-3 flex flex-col gap-3">
+                                <span class="font-medium text-lg">Data Source</span>
+                                <div class="grid grid-cols-4">
+                                    <div class="col">
+                                        <div>
+                                            <p-select [style]="{'width':'100%'}" [options]="dataSource" appendTo="body"
+                                                placeholder="Select a datasource" formControlName="dataSource" />
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <div class="flex items-center gap-1 justify-center">
+                                            <p-checkbox formControlName="isLookup" [binary]="true" inputId="unique" />
+                                            <label for="unique">isLookup</label>
+                                        </div>
+                                    </div>
+                                    @if(attributeForm.get('isLookup')?.value){
+                                    <div class="col">
+                                        <div>
+                                            <p-floatLabel>
+                                                <p-select [style]="{ width: '200px' }" appendTo="body"
+                                                    [options]="entityList" formControlName="lookupId"
+                                                    optionLabel="entityName" [filter]="true" filterBy="entityName"
+                                                    [showClear]="true" (onChange)="getEntityData($event.value)">
+                                                </p-select>
+                                                <label for="dataType">Entity or Instance<span
+                                                        class="text-red-500">*</span></label>
+                                            </p-floatLabel>
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <div>
+                                            <p-floatLabel>
+                                                <p-select [style]="{ width: '200px' }" appendTo="body"
+                                                    [options]="this.attributeForm.get('attrList')?.value"
+                                                    formControlName="lookupAttribute" optionLabel="attributeName"
+                                                    [filter]="true" filterBy="attributeName" [showClear]="true">
+                                                </p-select>
+                                                <label for="dataType">Lookup Attribute<span
+                                                        class="text-red-500">*</span></label>
+                                            </p-floatLabel>
+                                        </div>
+                                    </div>
+                                    }
+                                </div>
+                            </div>
+                        </p-tabpanel>
+                        <p-tabpanel value="4">
+                            <div class="pl-3 pt-3 flex flex-col gap-3">
+                                <span class="font-medium text-lg">Time Series</span>
+                                <div class="flex">
+                                    <span class="font-bold white-space-nowrap m-0 tab-titl min-w-[100px]">
+                                        Savings :
+                                    </span>
+                                    <div class="flex flex-wrap gap-3">
+                                        @for(check of timeFrequencyCheckboxes;track check){
+                                        <p-checkbox (onChange)="onSavingChange(check, $event)" [value]="check.label"
+                                            [binary]="true" [(ngModel)]="check.selected"
+                                            [ngModelOptions]="{standalone: true}" />
+                                        <label for="unique">{{check.label}}</label>
+                                        }
+                                    </div>
+                                </div>
+                                <span class="font-bold white-space-nowrap m-0 tab-title">
+                                    Calculation for Time Series
+                                </span>
+                                <div class="flex">
+                                    <span class="font-bold white-space-nowrap m-0 tab-title min-w-[100px]">
+                                        Totals :
+                                    </span>
+                                    <div class="flex flex-wrap gap-3">
+                                        @for(check of calculationTotalCheckboxes;track check){
+                                        <p-checkbox (onChange)="onTotalChange(check, $event)" [value]="check.label"
+                                            [binary]="true" [(ngModel)]="check.selected"
+                                            [ngModelOptions]="{standalone: true}" />
+                                        <label for="unique">{{check.label}}</label>
+                                        }
+                                    </div>
+                                </div>
+                                <div class="flex">
+                                    <span class="font-bold white-space-nowrap m-0 tab-title min-w-[100px]">
+                                        Averages :
+                                    </span>
+                                    <div class="flex flex-wrap gap-3">
+                                        @for(check of calculationAverageCheckboxes;track check){
+                                        <p-checkbox (onChange)="onAverageChange(check, $event)" [value]="check.label"
+                                            [binary]="true" [(ngModel)]="check.selected"
+                                            [ngModelOptions]="{standalone: true}" />
+                                        <label for="unique">{{check.label}}</label>
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        </p-tabpanel>
+                        <p-tabpanel value="5">
+                            <div class="pl-3 pt-3 flex flex-col gap-3">
+                                <span class="font-medium text-lg">Basic Details</span>
+                                <div class="w-full">
+                                    <div class="flex flex-col gap-2">
+                                        <label for="username">Display Component</label>
+                                        <p-multiSelect formControlName="displayComponent" [options]="displayComponents"
+                                            [style]="{'width':'100%'}" filterBy="name" optionLabel="name" filter="true"
+                                            placeholder="Select a display component" />
+                                    </div>
+                                </div>
+                            </div>
+                        </p-tabpanel>
+                        <p-tabpanel value="6">
+
+                        </p-tabpanel>
+                        <p-tabpanel value="7">
+
+                        </p-tabpanel>
+                    </p-tabpanels>
+                </p-tabs>
+            </form>
+        </div>
+    </div>
+</div>
+<p-toast />

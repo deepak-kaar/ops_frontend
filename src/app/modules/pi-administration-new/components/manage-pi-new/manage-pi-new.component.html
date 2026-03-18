@@ -1,0 +1,70 @@
+<div class="flex flex-col gap-3 p-2 md:p-4">
+  <form [formGroup]="tagForm" class="flex flex-col gap-3">
+    <!-- Row 1: Entity/Instance Type and ID -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+      <div class="flex flex-col gap-2">
+        <label for="type">Entity or Instance<span class="text-[var(--p-red-500)]"> *</span></label>
+        <p-select [options]="type" [filter]="true" styleClass="w-full" (onChange)="onTypeChange()" appendTo="body"
+          formControlName="type"></p-select>
+      </div>
+
+      <div class="flex flex-col gap-2">
+        <label for="id">Entity or Instance Id<span class="text-[var(--p-red-500)]"> *</span></label>
+        <p-select [options]="listOptions" optionLabel="name" optionValue="id" [filter]="true" styleClass="w-full"
+          appendTo="body" formControlName="id" (onChange)="onTypeNameChange()"></p-select>
+      </div>
+    </div>
+
+    <!-- Row 2: Attribute Name and PI TagNumber -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+      <div class="flex flex-col gap-2">
+        <label for="attributeId">Attribute Name<span class="text-[var(--p-red-500)]"> *</span></label>
+        <p-select [options]="attributesOptions" optionLabel="name" [filter]="true" styleClass="w-full"
+          (onChange)="onAttributeChange($event)" appendTo="body"></p-select>
+      </div>
+
+      <div class="flex flex-col gap-2">
+        <label for="tagNumber">PI Tag Number<span class="text-[var(--p-red-500)]"> *</span></label>
+        <input pInputText formControlName="tagNumber" id="tagNumber" aria-describedby="username-help" class="w-full" />
+      </div>
+    </div>
+
+    <!-- Row 3: System Name and Description -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+      <div class="flex flex-col gap-2">
+        <label for="systemName">System Name<span class="text-[var(--p-red-500)]"> *</span></label>
+        <p-select [options]="sysNameDropDown$ | async" optionLabel="sysName" optionValue="sysName" [filter]="true"
+          styleClass="w-full" formControlName="systemName" appendTo="body"></p-select>
+      </div>
+
+      <div class="flex flex-col gap-2">
+        <label for="piDesc">Description<span class="text-[var(--p-red-500)]"> *</span></label>
+        <input pInputText formControlName="piDesc" id="piDesc" aria-describedby="username-help" class="w-full" />
+      </div>
+    </div>
+
+    <!-- Row 4: Ext Type and Freq Type (Only for Receive mode) -->
+    @if(isReceiveMode) {
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+      <div class="flex flex-col gap-2">
+        <label for="extType">Ext Type<span class="text-[var(--p-red-500)]"> *</span></label>
+        <p-select [options]="extTypes" [filter]="true" styleClass="w-full" formControlName="extType"
+          appendTo="body"></p-select>
+      </div>
+
+      <div class="flex flex-col gap-2">
+        <label for="freqType">Freq Type<span class="text-[var(--p-red-500)]"> *</span></label>
+        <p-select [options]="freqTypes" styleClass="w-full" formControlName="freqType"
+          appendTo="body"></p-select>
+      </div>
+    </div>
+    }
+  </form>
+
+  <!-- Action Buttons -->
+  <div class="flex flex-col sm:flex-row justify-center gap-2 sm:gap-3 mt-2">
+    <p-button styleClass="w-full sm:w-44" severity="danger" outlined="true" label="Cancel"
+      (onClick)="cancel()"></p-button>
+    <p-button styleClass="w-full sm:w-44" label="Save" (onClick)="createPITag()"></p-button>
+  </div>
+</div>

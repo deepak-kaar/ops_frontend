@@ -1,0 +1,93 @@
+<div class="flex flex-col gap-[10px] manage-calculation">
+    <form [formGroup]="fmForm" class="flex flex-col gap-[10px]">
+        <div class="grid grid-cols-2 gap-4">
+            <div class="flex flex-col gap-2">
+                <label for="calculationName">Activity Function Name<span class="text-[var(--p-red-500)]">
+                        *</span></label>
+                <input pInputText id="fmName" formControlName="fmName" aria-describedby="username-help" />
+            </div>
+            <div class="flex flex-col gap-2">
+                <label for="calculationDesc">Activity Function Description</label>
+                <input pInputText id="fmDesc" formControlName="fmDesc" aria-describedby="username-help" />
+            </div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-4">
+            <div class="flex flex-col gap-2">
+                <div class="flex items-center justify-between">
+                    <label for="outputAttributes">Input Attributes</label>
+                    <p-button label="Add Input" (onClick)="addinputAttr()"></p-button>
+                </div>
+                <div formArrayName="ipAttributes">
+                    @for(variable of inputAttr.controls;track variable;let idx =
+                    $index){
+                    <div class="flex items-center gap-5" [formGroupName]="idx">
+                        <div class="w-full">
+                            <label for="ipName">Attribute Name</label>
+                            <input id="ipName" type="text" pInputText style='width:100%' formControlName="ipName" />
+                        </div>
+                        <div class="w-full">
+                            <label for="ipName">Type</label>
+                            <p-select [options]="dataTypes" [filter]="true" styleClass="w-full"
+                                formControlName="type"></p-select>
+                        </div>
+                        <div class="pt-4">
+                            <p-checkbox formControlName="isRequired" [binary]="true" />
+                        </div>
+                        <div class="pt-4">
+                            <p-button icon="pi pi-trash" [rounded]="true" (onClick)="removeInputAttr(idx)" [text]="true"
+                                [raised]="true" [style]="{ color: '#F97316', background: '#FFEADC' }" />
+                        </div>
+                    </div>
+                    }
+                </div>
+            </div>
+
+            <div class="flex flex-col gap-2">
+                <div class="flex items-center justify-between">
+                    <label for="outputAttributes">Output Attributes</label>
+                    <p-button label="Add Output" (onClick)="addoutputAttr()"></p-button>
+                </div>
+                <div formArrayName="opAttributes">
+                    @for(variable of outputAttr.controls;track variable;let idx =
+                    $index){
+                    <div class="flex items-center gap-5" [formGroupName]="idx">
+                        <div class="w-full">
+                            <label for="ipName">Attribute Name</label>
+                            <input id="opName" type="text" pInputText style='width:100%' formControlName="opName" />
+                        </div>
+                        <div class="w-full">
+                            <label for="ipName">Type</label>
+                            <p-select [options]="dataTypes" [filter]="true" styleClass="w-full"
+                                formControlName="type"></p-select>
+                        </div>
+                        <div class="pt-4">
+                            <p-checkbox formControlName="isRequired" [binary]="true" />
+                        </div>
+                        <div class="pt-4">
+                            <p-button icon="pi pi-trash" (onClick)="removeOutputAttr(idx)" [rounded]="true"
+                                [text]="true" [raised]="true" [style]="{ color: '#F97316', background: '#FFEADC' }" />
+                        </div>
+                    </div>
+                    }
+                </div>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 gap-4">
+            <div class="flex flex-col gap-2">
+                <label for="calculationLogic">Function Logic</label>
+                <div class="h-[15rem]">
+                    <ngx-monaco-editor style="width:100%; height: 100%" [options]="editorOptions"
+                        formControlName="fmLogic"></ngx-monaco-editor>
+                </div>
+            </div>
+        </div>
+    </form>
+
+    <div class="flex justify-center gap-[10px]">
+        <p-button styleClass="w-[250px]" severity="danger" outlined="true" label="Cancel"
+            (onClick)="cancel()"></p-button>
+        <p-button styleClass="w-[250px]" label="Save" (onClick)="create()"></p-button>
+    </div>
+</div>

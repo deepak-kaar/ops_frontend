@@ -1,0 +1,14 @@
+<div class="renderer-iterator-container w-full h-full overflow-auto"
+  [style.background-color]="iteratorWidget.input?.style?.backgroundColor || 'var(--p-surface-50)'">
+  @for (row of rows; track $index) {
+    <div class="iterator-row-render border-b border-[var(--p-border-color)] p-2 relative" [style.min-height.px]="80" [style.height.px]="row.length ? 120 : 80">
+      @for (child of row; track child.id) {
+        <div class="absolute" [ngStyle]="getWidgetStyles(child)">
+          <div class="renderer-widget-root w-full h-full rounded overflow-hidden">
+            <app-renderer-widget-host [widget]="child"></app-renderer-widget-host>
+          </div>
+        </div>
+      }
+    </div>
+  }
+</div>

@@ -1,0 +1,4 @@
+:host ::ng-deep .manage-calculation .textarea {
+    resize: none !important;
+  }
+  

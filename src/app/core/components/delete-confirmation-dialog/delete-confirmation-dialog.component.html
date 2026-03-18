@@ -1,0 +1,52 @@
+<div class="delete-confirmation">
+  <div class="dc-header">
+    <div class="dc-header-left">
+      <div class="dc-icon-wrap">
+        <i class="pi pi-exclamation-triangle"></i>
+      </div>
+
+      <div class="dc-title-block">
+        <h2 class="dc-title">{{ title }}</h2>
+        <p class="dc-subtitle">{{ subtitle }}</p>
+      </div>
+    </div>
+
+    <button type="button" class="dc-close-btn" (click)="onCancel()" aria-label="Close dialog">
+      <i class="pi pi-times"></i>
+    </button>
+  </div>
+
+  <div class="dc-body">
+    <p class="dc-question">
+      <ng-container *ngIf="appendItemName && itemName; else fullQuestion">
+        {{ questionText }} <strong>"{{ itemName }}"</strong>?
+      </ng-container>
+      <ng-template #fullQuestion>{{ questionText }}</ng-template>
+    </p>
+
+    <p class="dc-description" *ngIf="descriptionText">{{ descriptionText }}</p>
+
+    <div class="dc-warning" *ngIf="warningMessage">
+      <i class="pi pi-exclamation-triangle"></i>
+      <span>{{ warningMessage }}</span>
+    </div>
+  </div>
+
+  <div class="dc-footer">
+    <button
+      pButton
+      type="button"
+      class="dc-btn-cancel"
+      [label]="cancelText"
+      (click)="onCancel()"
+    ></button>
+
+    <button
+      pButton
+      type="button"
+      class="dc-btn-delete"
+      [label]="confirmText"
+      (click)="onConfirm()"
+    ></button>
+  </div>
+</div>

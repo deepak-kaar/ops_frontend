@@ -1,0 +1,119 @@
+@if (isDataLoaded) {
+<div class="calculation-template">
+  <div class="flex flex-col gap-[10px]">
+      <!-- Calculation Name and Description -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div class="flex flex-col gap-2">
+          <label class="font-semibold">Calculation Name</label>
+          <div class="p-3 border rounded bg-gray-50">
+            {{ calculationData?.calculationName || '-' }}
+          </div>
+        </div>
+        <div class="flex flex-col gap-2">
+          <label class="font-semibold">Calculation Description</label>
+          <div class="p-3 border rounded bg-gray-50">
+            {{ calculationData?.calculationDesc || '-' }}
+          </div>
+        </div>
+      </div>
+
+      <!-- Input and Output Attributes -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <!-- Input Attributes -->
+        <div class="flex flex-col gap-2">
+          <label class="font-semibold">Input Attributes</label>
+          @if (inputAttributes.length > 0) {
+            @for (attr of inputAttributes; track attr.name) {
+              <div class="flex items-center gap-3 p-2 border rounded bg-gray-50">
+                <div class="flex-1">
+                  <span class="text-sm font-medium text-gray-600">Variable Name:</span>
+                  <span class="ml-2">{{ attr.name }}</span>
+                </div>
+                <div class="flex-1">
+                  <span class="text-sm font-medium text-gray-600">Type:</span>
+                  <span class="ml-2">{{ attr.type || '-' }}</span>
+                </div>
+                <div class="flex items-center gap-2">
+                  <span class="text-sm font-medium text-gray-600">Required:</span>
+                  <p-checkbox [(ngModel)]="attr.isrequired" [binary]="true" [disabled]="true" />
+                </div>
+              </div>
+            }
+          } @else {
+            <div class="text-gray-500 p-2">No input attributes</div>
+          }
+        </div>
+
+        <!-- Output Attributes -->
+        <div class="flex flex-col gap-2">
+          <label class="font-semibold">Output Attributes</label>
+          @if (outputAttributes.length > 0) {
+            @for (attr of outputAttributes; track attr.name) {
+              <div class="flex items-center gap-3 p-2 border rounded bg-gray-50">
+                <div class="flex-1">
+                  <span class="text-sm font-medium text-gray-600">Variable Name:</span>
+                  <span class="ml-2">{{ attr.name }}</span>
+                </div>
+                <div class="flex-1">
+                  <span class="text-sm font-medium text-gray-600">Type:</span>
+                  <span class="ml-2">{{ attr.type || '-' }}</span>
+                </div>
+                <div class="flex items-center gap-2">
+                  <span class="text-sm font-medium text-gray-600">Required:</span>
+                  <p-checkbox [(ngModel)]="attr.isrequired" [binary]="true" [disabled]="true" />
+                </div>
+              </div>
+            }
+          } @else {
+            <div class="text-gray-500 p-2">No output attributes</div>
+          }
+        </div>
+      </div>
+
+      <!-- Calculation Logic -->
+      <div class="grid grid-cols-1 gap-4">
+        <div class="flex flex-col gap-2">
+          <label class="font-semibold">Calculation Logic</label>
+          <div class="h-[15rem] border rounded">
+            <ngx-monaco-editor
+              style="width:100%; height: 100%"
+              [options]="editorOptions"
+              [(ngModel)]="calculationData.jsLogic"
+            ></ngx-monaco-editor>
+          </div>
+        </div>
+      </div>
+
+      <!-- Additional Information -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+        <div class="flex flex-col gap-2">
+          <label class="font-semibold">Application</label>
+          <div class="p-3 border rounded bg-gray-50">
+            {{ calculationData?.appName || '-' }}
+          </div>
+        </div>
+        <div class="flex flex-col gap-2">
+          <label class="font-semibold">Organization</label>
+          <div class="p-3 border rounded bg-gray-50">
+            {{ calculationData?.orgName || '-' }}
+          </div>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div class="flex flex-col gap-2">
+          <label class="font-semibold">Created By</label>
+          <div class="p-3 border rounded bg-gray-50">
+            {{ calculationData?.createdBy || '-' }}
+          </div>
+        </div>
+        <div class="flex flex-col gap-2">
+          <label class="font-semibold">Created On</label>
+          <div class="p-3 border rounded bg-gray-50">
+            {{ calculationData?.createdOn | date: 'short' }}
+          </div>
+        </div>
+      </div>
+    </div>
+</div>
+}

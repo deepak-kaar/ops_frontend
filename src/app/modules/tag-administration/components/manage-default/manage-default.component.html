@@ -1,0 +1,97 @@
+<form [formGroup]="deafultForm">
+    <div class="flex flex-col w-full gap-2">
+        <div>
+            <div class="flex flex-col gap-2">
+                <label for="username">Apply Order</label>
+                <p-inputNumber formControlName="applyOrder" [style]="{'width':'100%','height':'33px'}" [min]="min"
+                    [max]="100" [showButtons]="true" inputId="stacked" />
+            </div>
+        </div>
+        <div>
+            <div class="flex flex-col gap-2">
+                <label for="username">Default Algorithm</label>
+                <p-select (onChange)="onAlgoChange($event.value)" formControlName="algorithm" [style]="{'width':'100%'}"
+                    [options]="defaults" appendTo="body" placeholder="Select an algorithm" />
+            </div>
+        </div>
+        <div>
+            <div class="flex flex-col gap-2">
+                <label for="username">Default value</label>
+                <input formControlName="defaultValue" pInputText id="username" aria-describedby="username-help" />
+            </div>
+        </div>
+        <div>
+            <div class="flex flex-col gap-2">
+                <label for="username">Max offset</label>
+                <input pInputText formControlName="maxOffset" id="username" aria-describedby="username-help" />
+            </div>
+        </div>
+        <div>
+            <div class="flex flex-col gap-2">
+                <label for="username">Application Name</label>
+                <p-select formControlName="appId" showClear="true" [style]="{'width':'100%'}" appendTo="body" [options]="apps"
+                    optionLabel="appName" (onChange)="onAppChange($event.value)" optionValue="appId"
+                    placeholder="Choose an application" />
+            </div>
+        </div>
+        <div>
+            <div class="flex flex-col gap-2">
+                <label for="username">Organization Name</label>
+                <p-select formControlName="facilityName" [style]="{'width':'100%'}" appendTo="body" [options]="orgs"
+                    optionLabel="orgName" showClear="true" placeholder="Choose an Organization" />
+            </div>
+        </div>
+        <div>
+            <div class="flex flex-col gap-2">
+                <label for="username">Ref. Tag Data Source Type</label>
+                <p-select formControlName="refTagDs" showClear="true" [style]="{'width':'100%'}" [options]="dataSource" appendTo="body"
+                    placeholder="Select a datasource" />
+            </div>
+        </div>
+        <div>
+            <div class="flex flex-col gap-2">
+                <label for="username">Ref. Frequency</label>
+                <p-select formControlName="refTagFreq" showClear="true" [style]="{'width':'100%'}" [options]="refFrequency"
+                    appendTo="body" placeholder="Select a frequency" />
+            </div>
+        </div>
+        <div class="flex justify-center">
+            <p-selectbutton [options]="attrActions" [(ngModel)]="selectedAction" [ngModelOptions]="{standalone: true}" [allowEmpty]="false" />
+        </div>
+
+        @if(selectedAction === 'Alias Search'){
+        <div class="flex flex-col gap-2">
+            <label for="username">Ref. Tag</label>
+            <p-select filter="true" filterBy="attrAlias" formControlName="refTag" [style]="{'width':'100%'}"
+                [options]="attrList" appendTo="body" optionLabel="attrAlias" placeholder="Select an attribute" />
+        </div>
+        }
+        @else if (selectedAction === 'Entity/Instance Search') {
+            <div class="flex flex-col gap-2">
+                <label for="username">Choose Type</label>
+                <p-select  [style]="{'width':'100%'}" formControlName="type"
+                    [options]="types" appendTo="body" showClear="true" (onChange)="onAttrChange($event.value)" placeholder="Choose Type" />
+            </div>
+            <div class="flex flex-col gap-2">
+                <label for="username">Choose {{this.deafultForm.get('type')?.value}}</label>
+                <p-select filter="true" showClear="true" formControlName="entityId" [style]="{'width':'100%'}"
+                    [options]="entityList" appendTo="body" optionLabel="name" optionValue="id" placeholder="Select {{this.deafultForm.get('type')?.value}}" />
+            </div>
+            <div class="flex flex-col gap-2">
+                <label for="username">Ref. Tag</label>
+                <p-select filter="true" filterBy="attrAlias" showClear="true" formControlName="refTag" [style]="{'width':'100%'}"
+                    [options]="attrList" appendTo="body" optionLabel="attrName" placeholder="Select an attribute" />
+            </div>
+        }
+        <div>
+            <div class="flex flex-col gap-2">
+                <label for="username">Cal. Indicator</label>
+                <p-checkbox formControlName="calIndicator" [binary]="true" inputId="binary" />
+            </div>
+        </div>
+        <div class="flex">
+            <button style="width: 100%;" (click)="submit()" pButton pRipple label="Save" class="p-button-primary">
+            </button>
+        </div>
+    </div>
+</form>

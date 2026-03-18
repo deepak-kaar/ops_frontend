@@ -1,0 +1,14 @@
+:host ::ng-deep .p-togglebutton.p-togglebutton-checked::before {
+  box-shadow: var(--p-togglebutton-content-checked-shadow) !important;
+}
+
+:host ::ng-deep .p-togglebutton-checked .p-togglebutton-content {
+  background: var(--p-primary-color) !important;
+}
+:host ::ng-deep .p-togglebutton.p-togglebutton-checked {
+  color: #ffffff !important;
+}
+
+:host ::ng-deep .p-card {
+  margin-bottom: 20px;
+}

@@ -1,0 +1,13 @@
+.database-admin-container {
+  padding: 20px;
+}
+
+.database-admin-container.mobile {
+  padding: 10px;
+  font-size: 14px;
+}
+
+.database-admin-container.tablet {
+  padding: 15px;
+  font-size: 15px;
+}

@@ -1,0 +1,48 @@
+<!-- Desktop Sidebar -->
+@if ((isMobile$ | async) == false && (isTablet$ | async) == false) {
+<div><app-sidebar></app-sidebar></div>
+}
+
+<!-- Mobile/Tablet Sidebar -->
+@if (mobileSidebarVisible) {
+<div class="fixed inset-0 z-50 lg:hidden">
+  <div class="fixed inset-0 z-40 bg-opacity-50" (click)="toggleMobileSidebar()"></div>
+  <div class="absolute w-[300px] h-full bg-white shadow-lg z-50 transition-transform duration-300 ease-in-out">
+    <app-sidebar></app-sidebar>
+  </div>
+</div>
+}
+
+<!-- Main Layout -->
+<div class="pl-[0] lg:pl-[300px] h-screen flex flex-col">
+  <!-- Header -->
+  <div class="box-shadow w-full flex justify-between items-center h-[60px] flex-shrink-0">
+    <div class="p-2 flex justify-center lg:hidden">
+      <button class="block text-3xl" (click)="toggleMobileSidebar()" aria-label="Toggle sidebar">
+        &#9776;
+      </button>
+    </div>
+    <div class="p-2 flex items-center gap-2">
+      <label class="text-sm font-medium mr-2">Rollout Label:</label>
+      <p-select 
+        [options]="labels" 
+        [(ngModel)]="selectedLabel" 
+        placeholder="Select Label"
+        (onChange)="onLabelChange()"
+        styleClass="w-[200px]">
+      </p-select>
+    </div>
+  </div>
+
+  <!-- Scrollable Content Area -->
+  <div class="flex-1 overflow-y-auto">
+    <!-- Filter Section -->
+    <div class="pt-[50px] px-[20px]">
+      <app-filter></app-filter>
+    </div>
+
+    <router-outlet></router-outlet>
+  </div>
+</div>
+
+<p-toast></p-toast>

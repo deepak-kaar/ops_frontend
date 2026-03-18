@@ -1,0 +1,113 @@
+<div class="pt-[40px] pl-[20px] pr-[20px] w-full pb-[40px]">
+    <p-card class="w-full">
+        <div class="card">
+            <p-table #dt [value]="templatesData$ | async" selectionMode="multiple" [(selection)]="selectedTemplates"
+                dataKey="_id" [rowHover]="true" [rows]="20" [showCurrentPageReport]="true"
+                [rowsPerPageOptions]="[20, 30, 50]" [loading]="loading" [paginator]="true"
+                currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [filterDelay]="0"
+                (onRowSelect)="onCalculationSelect($event)" (onRowUnselect)="onCalculationUnSelect($event)"
+                [globalFilterFields]="['name', 'country.name', 'representative.name', 'status']">
+                <ng-template #caption>
+                    <div class="flex justify-between">
+                        <div>
+                            List of Activity Templates
+                        </div>
+                        <div class="flex gap-[10px]">
+                            <p-button [outlined]="true" icon="pi pi-filter-slash" (click)="clear(dt)" />
+                            <p-iconField iconPosition="left">
+                                <p-inputIcon>
+                                    <i class="pi pi-search"></i>
+                                </p-inputIcon>
+                                <input pInputText type="text" [(ngModel)]="searchValue" (input)="onGlobalFilter($event)"
+                                    placeholder="Search" />
+                            </p-iconField>
+                            <p-button (onClick)="createStep()">Create New Activity Template</p-button>
+                            <p-button (click)="exportExcel()" icon="pi pi-file-excel" label="Export Excel"
+                                pTooltip="Export to Excel" class="w-full sm:w-auto"></p-button>
+                        </div>
+                    </div>
+                </ng-template>
+                <ng-template #header>
+                    <tr>
+                        <th style="width: 4rem">
+                            <p-tableHeaderCheckbox />
+                        </th>
+                        <th pSortableColumn="calculationName" style="min-width: 14rem">
+                            <div class="flex justify-between items-center">
+                                Activity Template Name
+                                <p-sortIcon field="calculationName" />
+                            </div>
+                        </th>
+                        <th pSortableColumn="calculationDesc" style="min-width: 14rem">
+                            <div class="flex justify-between items-center">
+                                Activity Template Description
+                                <p-sortIcon field="calculationDesc" />
+                            </div>
+                        </th>
+
+
+                        <th pSortableColumn="createdOn" style="min-width: 10rem">
+                            <div class="flex justify-between items-center">
+                                Date
+                                <p-sortIcon field="createdOn" />
+                            </div>
+                        </th>
+
+                        <th style="width: 5rem">
+                            <div class="flex justify-between items-center">
+                                Action
+                                <p-sortIcon field="date" />
+                            </div>
+                        </th>
+                    </tr>
+                </ng-template>
+                <ng-template #body let-template>
+                    <tr [pSelectableRow]="template">
+                        <td>
+                            <p-tableCheckbox [value]="template"></p-tableCheckbox>
+                        </td>
+                        <td>
+                            {{ template.templateName }}
+                        </td>
+                        <td>
+                            {{ template.templateDesc }}
+                        </td>
+                        <td>
+                            {{ template.createdOn | date: 'MM/dd/yyyy' }}
+                        </td>
+                        <td class="flex gap-[5px]">
+                            <p-button icon="pi pi-trash" severity="danger" [rounded]="true" [outlined]="true"
+                                (click)="deleteApp($event,template.templateId)" />
+                        </td>
+                    </tr>
+                </ng-template>
+
+                <ng-template #emptymessage>
+                    <tr>
+                        <td colspan="9">No Activity Templates found.</td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+    </p-card>
+
+    @if(showSelections){
+    <div class="pt-8">
+        <p-selectbutton [options]="selectionOptions" [(ngModel)]="selectedOption" [allowEmpty]="false" />
+        <!-- <div class="my-10">
+            @switch (selectedOption) {
+            @case ('Calculation Details'){
+            <app-calculation-engine-detail [template]="activeTemplate"
+                (OnUpdateEmit)="OnUpdateEmit($event)"></app-calculation-engine-detail>
+            }
+            @case ('Calculation Mapping'){
+            <app-calculation-engine-mapping [template]="activeTemplate"></app-calculation-engine-mapping>
+            }
+            @case ('Calculation Test Run'){
+            <app-calculation-engine-testrun [template]="activeTemplate"></app-calculation-engine-testrun>
+            }
+            }
+        </div> -->
+    </div>
+    }
+</div>

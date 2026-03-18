@@ -1,0 +1,118 @@
+<div class="app-form-page">
+  <div class="app-form-header">
+    <button type="button" class="back-button" (click)="goBack()">
+      <i class="pi pi-arrow-left"></i>
+      <span>Back</span>
+    </button>
+
+    <div class="header-copy">
+      <div class="title">{{ mode === 'edit' ? 'Edit Application' : 'Create New Application' }}</div>
+      <div class="subtitle">Configure your application details</div>
+    </div>
+
+    <div class="header-actions">
+      <p-button label="Cancel" [outlined]="true" class="btn-outline" (onClick)="goBack()"></p-button>
+      <p-button [label]="mode === 'edit' ? 'Update' : 'Save'" class="btn-primary" (onClick)="saveApp()"
+        [disabled]="appForm.invalid"></p-button>
+    </div>
+  </div>
+
+  <p-card class="app-form-card">
+    <div class="section-head">
+      <div class="section-title">Application Info</div>
+      <div class="section-subtitle">Define the basic information of your application</div>
+    </div>
+
+    <form [formGroup]="appForm" class="app-form">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div class="flex flex-col gap-2">
+          <label for="appname">Application Name<span class="text-[var(--p-red-500)]"> *</span></label>
+          <input pInputText id="appname" formControlName="appName" class="w-full" />
+        </div>
+        <div class="flex flex-col gap-2">
+          <label for="appdesc">Application Description <span class="text-[var(--p-red-500)]"> *</span></label>
+          <textarea pInputTextarea id="appdesc" rows="4" class="w-full resize-y"
+            formControlName="appDescription"></textarea>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div class="flex flex-col gap-2">
+          <label for="approle">Select Admin Role</label>
+          <p-select formControlName="appAdminRole" [options]="adminRoles" optionLabel="roleName" optionValue="roleId"
+            placeholder="Select a Role" class="w-full"></p-select>
+        </div>
+        <div class="flex flex-col gap-2">
+          <label for="appclass">Application Classification</label>
+          <p-select formControlName="appClassification" [options]="classifications"
+            placeholder="Select a Classification" class="w-full"></p-select>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div class="flex flex-col gap-2">
+          <label for="appowner">Application Owner</label>
+          <input pInputText id="appowner" formControlName="appOwner" class="w-full" />
+        </div>
+        <div class="flex flex-col gap-2">
+          <label for="appcontact">Application Contact</label>
+          <input pInputText id="appcontact" formControlName="appContact" class="w-full" />
+        </div>
+      </div>
+
+      @if(mode === 'edit'){
+      <div class="grid grid-cols-1 gap-4">
+        <div class="flex flex-col gap-2">
+          <label for="appstatus">Active Status</label>
+          <p-select formControlName="appStatus" [options]="activeStatus" optionLabel="name" optionValue="value"
+            placeholder="Select Active status" class="w-full"></p-select>
+        </div>
+      </div>
+      }
+
+      <div class="flex flex-col gap-2">
+        <label class="text-sm font-medium">Application Image</label>
+
+        <div class="upload-card">
+          <div class="image-preview">
+            @if(imagePreviewUrl) {
+            <img [src]="imagePreviewUrl" alt="Application preview" />
+            } @else {
+            <div class="preview-placeholder">
+              <i class="pi pi-image"></i>
+              <span>No image</span>
+            </div>
+            }
+          </div>
+
+          <div class="upload-actions">
+            <input #fileInput id="appLogo" type="file" accept="image/png,image/jpeg,image/webp" class="hidden"
+              (change)="onImageChange($event)" />
+
+            <p-button label="Choose Image" icon="pi pi-upload" [outlined]="true" size="small" type="button"
+              (onClick)="fileInput.click()"></p-button>
+
+            @if(imagePreviewUrl) {
+            <p-button label="Remove" icon="pi pi-trash" severity="danger" [outlined]="true" size="small" type="button"
+              (onClick)="removeImage()"></p-button>
+            }
+
+            @if(selectedImageName) {
+            <div class="selected-file">
+              <i class="pi pi-file"></i>
+              <span>{{ selectedImageName }}</span>
+            </div>
+            }
+
+            <div class="upload-note">
+              <i class="pi pi-info-circle"></i>
+              PNG, JPG, WEBP • Max 1 MB
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+  </p-card>
+</div>
+
+<p-toast></p-toast>

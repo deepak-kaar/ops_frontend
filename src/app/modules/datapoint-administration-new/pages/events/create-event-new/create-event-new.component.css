@@ -1,0 +1,318 @@
+.create-event-container {
+  border-radius: 16px;
+  margin: 25px 25px 0px 25px;
+  background-color: #ffffff;
+}
+
+/* Header Section */
+.header-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 32px;
+  background-color: #ffffff;
+  border-bottom: 3px solid #e2e8f0;
+  padding: 25px;
+  border-top-left-radius: 16px;
+  border-top-right-radius: 16px;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  justify-items: center;
+  gap: 16px;
+}
+
+.back-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: none;
+  border: none;
+  color: #64748b;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  padding: 8px 0;
+  padding-right: 16px;
+  border-right: 1px solid #e2e8f0;
+}
+
+.back-btn:hover {
+  background: var(--surface-hover);
+  border-color: var(--primary-color);
+  color: var(--primary-color);
+  border-right: 1px solid #e2e8f0;
+}
+
+.header-title h1 {
+  font-size: 24px;
+  font-weight: 500;
+  color: #1e293b;
+  margin: 0;
+}
+
+.header-title p {
+  font-size: 14px;
+  color: #64748b;
+  margin: 4px 0 0 0;
+}
+
+.header-actions {
+  display: flex;
+  gap: 10px;
+}
+
+/* Main Form Card */
+.main-form-card {
+  background: #ffffff;
+  padding: 24px;
+}
+
+/* Inner Form Sections */
+.form-card {
+  background: #ffffff;
+  border: none;
+  border-radius: 12px;
+  padding: 0;
+  margin-bottom: 20px;
+  overflow: hidden;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+.card-header,
+.card-header-with-action {
+  background-color: #f8fafc;
+  margin-bottom: 0;
+  border-bottom: 1px solid var(--surface-border);
+  padding: 20px 24px;
+}
+
+.card-header-with-action {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.card-header h2,
+.card-header-info h2 {
+  font-size: 18px;
+  font-weight: normal;
+  margin: 0;
+  color: var(--text-color);
+}
+
+.card-header p,
+.card-header-info p {
+  font-size: 14px;
+  color: var(--text-color-secondary);
+  margin: 4px 0 0 0;
+  font-weight: 200;
+}
+
+.card-content {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 24px;
+}
+
+.form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex: 1;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.form-field label {
+  font-weight: normal;
+  font-size: 14px;
+  color: var(--text-color);
+}
+
+.required {
+  color: var(--red-500);
+  margin-left: 4px;
+}
+
+.error-text {
+  color: var(--red-500);
+  font-size: 12px;
+  margin-top: 4px;
+}
+
+/* Flag Info Panel */
+.flag-info-panel {
+  background: #f1f5f9;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 0;
+  overflow: hidden;
+}
+
+.flag-info-header {
+  background: #e2e8f0;
+  padding: 10px 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 500;
+  font-size: 14px;
+  color: #334155;
+}
+
+.flag-info-header i {
+  color: #6366f1;
+}
+
+.flag-info-content {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.flag-info-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.flag-info-label {
+  font-weight: 500;
+  font-size: 13px;
+  color: #64748b;
+  min-width: 100px;
+}
+
+.flag-info-value {
+  font-size: 14px;
+  color: #1e293b;
+}
+
+/* Phase Configuration */
+.phase-content {
+  padding: 16px 24px;
+}
+
+.phase-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.phase-header i {
+  font-size: 16px;
+}
+
+.phase-header span {
+  font-weight: 500;
+  font-size: 15px;
+}
+
+.phase-header small {
+  color: var(--text-color-secondary);
+  font-size: 12px;
+  margin-left: 8px;
+}
+
+.phase-config {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 16px 0;
+}
+
+/* Action Type Checkboxes */
+.action-type-group {
+  display: flex;
+  gap: 24px;
+  flex-wrap: wrap;
+  padding: 8px 0;
+}
+
+.action-type-checkbox {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Conditional Section (Notification / Workflow) */
+.conditional-section {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 16px;
+  background: #fafbfc;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+}
+
+/* Template Preview */
+.template-preview {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.preview-header {
+  background: #f1f5f9;
+  padding: 10px 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: #475569;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.preview-header i {
+  color: #6366f1;
+}
+
+.preview-body {
+  padding: 16px;
+  font-size: 14px;
+  color: #334155;
+  white-space: pre-wrap;
+  line-height: 1.6;
+  min-height: 60px;
+}
+
+/* Horizontal Layout for Event Phases */
+.phases-row {
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+  width: 100%;
+}
+
+.phase-card {
+  flex: 1;
+  min-width: 0; /* Prevent flex items from overflowing */
+  margin-bottom: 0;
+}
+
+.task-item {
+  border: none;
+}
+
+.task-row {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 16px 20px;
+}
+
+.task-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 8px;
+}

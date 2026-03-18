@@ -1,0 +1,48 @@
+@if ((isMobile$ | async) == false && (isTablet$ | async) == false) {
+  <div>
+    <app-sidebar></app-sidebar>
+  </div>
+}
+
+@if ((isMobile$ | async) || (isTablet$ | async)) {
+  <div class="fixed inset-0 z-50 transition-transform duration-300 ease-in-out" [ngClass]="{
+      'translate-x-0': mobileSidebarVisible,
+      '-translate-x-full': !mobileSidebarVisible
+    }">
+    <div class="absolute w-[300px] h-full bg-white shadow-lg z-50">
+      <app-sidebar></app-sidebar>
+    </div>
+    <div class="fixed inset-0 z-40" (click)="toggleMobileSidebar()"></div>
+  </div>
+}
+
+<div [ngClass]="(isMobile$ | async) || (isTablet$ | async) ? 'pl-[0px]' : 'pl-[300px]'" class="h-screen overflow-y-auto z-30">
+    <div class="box-shadow w-full h-[60px]" [ngClass]="(isMobile$ | async) || (isTablet$ | async) ? 'flex justify-between' : 'flex justify-end'">
+        @if ((isMobile$ | async) || (isTablet$ | async)) {
+          <div class="p-2 flex justify-center">
+            <button class="block text-3xl" (click)="toggleMobileSidebar()" aria-label="Toggle sidebar">&#9776;</button>
+          </div>
+        }
+        <div class="p-2 flex">
+            <p-iconfield>
+                <p-inputicon styleClass="pi pi-search" />
+                <input type="text" class="global-search" pInputText placeholder="Search" />
+            </p-iconfield>
+        </div>
+    </div>
+    <div class="pt-[50px] px-[20px]">
+        <app-filter></app-filter>
+        <div class="pt-[30px] grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-[15px] cursor-pointer">
+            @for(card of cardList;track card;let idx = $index){
+            <p-card [styleClass]="getCardClass(idx)" (click)="change(idx)">
+                <div
+                    class="flex flex-col items-center gap-[10px] h-full font-bold text-center justify-center min-h-[80px]">
+                    <div [innerHTML]="sanitizer.bypassSecurityTrustHtml(card.svg)" class="flex-shrink-0"></div>
+                    <span class="text-xs leading-tight">{{card.name}}</span>
+                </div>
+            </p-card>
+            }
+        </div>
+    </div>
+    <router-outlet></router-outlet>
+</div>

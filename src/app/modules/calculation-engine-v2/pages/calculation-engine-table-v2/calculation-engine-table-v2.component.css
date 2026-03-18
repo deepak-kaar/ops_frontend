@@ -1,0 +1,108 @@
+/* Section title - match datasource: standard weight, no bold */
+.section-title {
+  font-weight: 400 !important;
+  font-size: 1rem;
+  color: #263141;
+  font-family: inherit;
+}
+
+/* Table wrapper for horizontal scrolling - match datasource-administration-new */
+.table-wrapper {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* card container - match datasource-administration-new */
+app-calculation-engine-table-v2 p-card.w-full,
+:host p-card.w-full {
+  border-radius: 12px;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.04);
+  border: 1px solid #e9eef5;
+}
+
+/* TABLE CONTAINER */
+app-calculation-engine-table-v2 .p-datatable,
+:host ::ng-deep .p-datatable {
+  border-radius: 16px;
+  background: white;
+}
+
+app-calculation-engine-table-v2 .p-datatable-header,
+:host ::ng-deep .p-datatable-header {
+  border: none !important;
+}
+
+/* HEADER - match datasource: standard/normal weight, not bold */
+app-calculation-engine-table-v2 .p-datatable .p-datatable-thead > tr > th,
+:host ::ng-deep .p-datatable .p-datatable-thead > tr > th {
+  font-family: inherit !important;
+  font-weight: 400 !important;
+  font-size: 16px !important;
+  line-height: 1.5 !important;
+  padding: 8px 16px !important;
+  color: #808080 !important;
+  border: none !important;
+  background: #f9fbfd !important;
+}
+
+app-calculation-engine-table-v2 .p-datatable .p-datatable-thead > tr > th div,
+:host ::ng-deep .p-datatable .p-datatable-thead > tr > th div {
+  font-family: inherit !important;
+  font-size: 16px !important;
+  font-weight: 400 !important;
+  line-height: 1.5 !important;
+}
+
+/* BODY CELLS - match datasource */
+app-calculation-engine-table-v2 .p-datatable .p-datatable-tbody > tr > td,
+:host ::ng-deep .p-datatable .p-datatable-tbody > tr > td {
+  font-family: inherit !important;
+  font-size: 16px !important;
+  font-weight: 400 !important;
+  line-height: 1.5 !important;
+  padding: 14px 16px !important;
+  color: #263141 !important;
+  border: none !important;
+}
+
+/* Empty message - match datasource: same as table body, not bold */
+app-calculation-engine-table-v2 .p-datatable .p-datatable-emptymessage td,
+:host ::ng-deep .p-datatable .p-datatable-emptymessage td {
+  font-family: inherit !important;
+  font-size: 16px !important;
+  font-weight: 400 !important;
+  line-height: 1.5 !important;
+  color: #263141 !important;
+  text-align: center;
+  padding: 14px 16px !important;
+}
+
+/* HOVER */
+app-calculation-engine-table-v2 .p-datatable-tbody > tr:hover,
+:host ::ng-deep .p-datatable-tbody > tr:hover {
+  background: #f7f9ff !important;
+}
+
+app-calculation-engine-table-v2 .p-paginator,
+:host ::ng-deep .p-paginator {
+  justify-content: end;
+}
+
+/* Responsive Design */
+@media screen and (max-width: 640px) {
+  .pt-\[40px\] {
+    padding-top: 20px !important;
+  }
+
+  .pl-\[20px\],
+  .pr-\[20px\] {
+    padding-left: 10px !important;
+    padding-right: 10px !important;
+  }
+}
+
+@media (max-width: 1024px) {
+  .customizePaginator .p-paginator.p-component {
+    flex-wrap: nowrap !important;
+  }
+}

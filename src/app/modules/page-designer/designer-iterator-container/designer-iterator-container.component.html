@@ -1,0 +1,71 @@
+<!-- Same structure as section: single content area, same boundary pattern -->
+<div class="designer-iterator-container w-full h-full flex flex-col overflow-hidden relative"
+  [attr.data-iterator-id]="iteratorWidget.id"
+  [style.background-color]="iteratorWidget.input?.style?.backgroundColor || 'transparent'"
+  [style.background-image]="iteratorWidget.input?.style?.backgroundImage || 'none'"
+  [style.background-size]="iteratorWidget.input?.style?.backgroundSize || 'cover'"
+  [style.background-position]="iteratorWidget.input?.style?.backgroundPosition || 'center center'"
+  [style.background-repeat]="iteratorWidget.input?.style?.backgroundRepeat || 'no-repeat'"
+  [style.border-top-style]="iteratorWidget.input?.style?.borderTopStyle || 'solid'"
+  [style.border-bottom-style]="iteratorWidget.input?.style?.borderBottomStyle || 'solid'"
+  [style.border-left-style]="iteratorWidget.input?.style?.borderLeftStyle || 'solid'"
+  [style.border-right-style]="iteratorWidget.input?.style?.borderRightStyle || 'solid'"
+  [style.border-top-color]="iteratorWidget.input?.style?.borderTopColor || '#ccc'"
+  [style.border-bottom-color]="iteratorWidget.input?.style?.borderBottomColor || '#ccc'"
+  [style.border-left-color]="iteratorWidget.input?.style?.borderLeftColor || '#ccc'"
+  [style.border-right-color]="iteratorWidget.input?.style?.borderRightColor || '#ccc'"
+  [style.border-top-width]="(iteratorWidget.input?.style?.borderTopWidth ?? 1) + 'px'"
+  [style.border-bottom-width]="(iteratorWidget.input?.style?.borderBottomWidth ?? 1) + 'px'"
+  [style.border-left-width]="(iteratorWidget.input?.style?.borderLeftWidth ?? 1) + 'px'"
+  [style.border-right-width]="(iteratorWidget.input?.style?.borderRightWidth ?? 1) + 'px'"
+  [style.border-top-left-radius]="(iteratorWidget.input?.style?.borderTopLeftRadius ?? 0) + 'px'"
+  [style.border-top-right-radius]="(iteratorWidget.input?.style?.borderTopRightRadius ?? 0) + 'px'"
+  [style.border-bottom-left-radius]="(iteratorWidget.input?.style?.borderBottomLeftRadius ?? 0) + 'px'"
+  [style.border-bottom-right-radius]="(iteratorWidget.input?.style?.borderBottomRightRadius ?? 0) + 'px'"
+  [style.padding-top]="(iteratorWidget.input?.style?.paddingTop ?? 8) + 'px'"
+  [style.padding-right]="(iteratorWidget.input?.style?.paddingRight ?? 8) + 'px'"
+  [style.padding-bottom]="(iteratorWidget.input?.style?.paddingBottom ?? 8) + 'px'"
+  [style.padding-left]="(iteratorWidget.input?.style?.paddingLeft ?? 8) + 'px'"
+  [style.font-family]="iteratorWidget.input?.style?.fontFamily || ''"
+  [style.font-size]="(iteratorWidget.input?.style?.fontSize ?? 14) + 'px'"
+  [style.font-weight]="iteratorWidget.input?.style?.fontWeight || ''"
+  [style.color]="iteratorWidget.input?.style?.color || ''"
+  [style.text-align]="iteratorWidget.input?.style?.textAlign || 'left'" (click)="$event.stopPropagation()">
+
+  <!-- Content area: identical to section (single boundary, same layout) -->
+  <div class="designer-iterator-content flex-1 min-h-0 relative">
+    <div class="absolute w-full h-full" *ngIf="templateRow.length > 0">
+      <div class="absolute" *ngFor="let child of templateRow" cdkDrag [cdkDragBoundary]="'.designer-iterator-content'"
+        (cdkDragStarted)="onWidgetDragStart && onWidgetDragStart()"
+        (cdkDragEnded)="onWidgetDragEnd && onWidgetDragEnd($event, child, 0)" [ngStyle]="{
+          left: (child.position.x * 100) + '%',
+          top: (child.position.y * 100) + '%',
+          width: (child.position.w * 100) + '%',
+          height: (child.position.h * 100) + '%',
+          'z-index': child.position.zIndex || 1
+        }">
+        <div class="designer-widget-root w-full h-full rounded-[4px] cursor-move select-none overflow-hidden relative"
+          [ngClass]="{ 'selected': selectedWidgetId === child.id }"
+          [style.background-color]="child.input?.style?.backgroundColor || (child.input?.style?.backgroundMode === 'transparent' ? 'transparent' : 'var(--p-surface-0)')"
+          (click)="onWidgetClick && onWidgetClick(child); $event.stopPropagation()">
+          <app-designer-widget-host [widget]="child"></app-designer-widget-host>
+          <div class="absolute right-0 bottom-0 w-3 h-3 bg-[var(--p-primary-500)] rounded-tl cursor-se-resize"
+            (mousedown)="onWidgetResizeStart && onWidgetResizeStart(child, $event, 0)"></div>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="templateRow.length === 0"
+      class="w-full h-full flex items-center justify-center text-[var(--p-text-400)] text-xs">
+      Drop widgets here
+    </div>
+  </div>
+
+  <div class="iterator-footer flex-shrink-0 p-1.5 border-t border-[var(--p-border-color)]">
+    <button type="button"
+      class="w-full flex items-center justify-center gap-2 py-1.5 px-2 rounded text-sm bg-[var(--p-primary-500)] text-white hover:bg-[var(--p-primary-600)]"
+      (click)="onAddRow()">
+      <i class="pi pi-plus"></i>
+      <span>Duplicate iterator</span>
+    </button>
+  </div>
+</div>

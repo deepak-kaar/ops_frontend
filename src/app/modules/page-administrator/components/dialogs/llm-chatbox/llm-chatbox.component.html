@@ -1,0 +1,131 @@
+<div class="chat-container">
+    <!-- Header -->
+    <div class="chat-header">
+      <div class="flex align-items-center gap-3">
+        <p-avatar 
+          icon="pi pi-robot" 
+          size="large" 
+          shape="circle"
+          styleClass="ai-avatar">
+        </p-avatar>
+        <div>
+          <h3 class="m-0 text-black">AI Assistant</h3>
+          <small class="text-black">Always here to help</small>
+        </div>
+      </div>
+    </div>
+
+    <!-- Messages Area -->
+    <div class="messages-container" #messagesContainer>
+      <p-scrollPanel [style]="{ width: '100%', height: '100%' }">
+        <div class="messages-content p-3">
+          <div 
+            *ngFor="let message of messages; trackBy: trackByMessage"
+            class="message-wrapper"
+            [class.user-message]="message.isUser"
+            [class.ai-message]="!message.isUser">
+            
+            <div class="message-bubble" [class.fade-in]="true">
+              <div class="message-header mb-2">
+                <p-avatar 
+                  [icon]="message.isUser ? 'pi pi-user' : 'pi pi-robot'"
+                  [styleClass]="message.isUser ? 'user-avatar' : 'ai-avatar'">
+                </p-avatar>
+                <span class="message-sender">
+                  {{ message.isUser ? 'You' : 'AI Assistant' }}
+                </span>
+                <small class="message-time">
+                  {{ formatTime(message.timestamp) }}
+                </small>
+              </div>
+              <div class="message-content">
+                <div [innerHTML]="formatMessage(message.content)"></div>
+                <div *ngIf="message.codeBlocks && message.codeBlocks.length > 0">
+                  <div *ngFor="let codeBlock of message.codeBlocks; let i = index" >
+                    <div>
+                      <!-- <span class="code-language">{{ codeBlock.language || 'Code' }}</span> -->
+                      <div class="code-actions">
+                        <p-button 
+                          icon="pi pi-expand" 
+                          size="small"
+                          [text]="true"
+                          severity="secondary"
+                          (onClick)="toggleCodeExpansion(message.id, i)"
+                          [pTooltip]="codeBlock.expanded ? 'Collapse' : 'Expand'"
+                          class="mr-2">
+                        </p-button>
+                        <p-button 
+                          icon="pi pi-copy" 
+                          size="small"
+                          [text]="true"
+                          severity="secondary"
+                          (onClick)="copyCode(codeBlock.code)"
+                          pTooltip="Copy code">
+                        </p-button>
+                      </div>
+                    </div>
+                    <!-- <div class="monaco-container"> -->
+                      <div>
+                        <ngx-monaco-editor
+                        [options]="monacoOptions"
+                        [ngModel]="codeBlock.code" class="!h-[30rem]">
+                      </ngx-monaco-editor>
+                      </div>
+
+                    <!-- </div> -->
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Typing Indicator -->
+          <div 
+            *ngIf="isTyping" 
+            class="message-wrapper ai-message">
+            <div class="message-bubble typing-indicator">
+              <div class="message-header mb-2">
+                <p-avatar 
+                  icon="pi pi-robot"
+                  styleClass="ai-avatar">
+                </p-avatar>
+                <span class="message-sender">AI Assistant</span>
+              </div>
+              <div class="typing-dots">
+                <span></span>
+                <span></span>
+                <span></span>
+                <span class="ml-2 text-sm text-black">Thinking...</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </p-scrollPanel>
+    </div>
+
+    <!-- Input Area -->
+    <div class="input-container">
+      <div class="input-wrapper">
+        <textarea
+          pInputTextarea
+          [(ngModel)]="currentMessage"
+          (keydown)="onKeyDown($event)"
+          placeholder="Ask me anything..."
+          [rows]="1"
+          [disabled]="isTyping"
+          class="message-input"
+          #messageInput>
+        </textarea>
+        <p-button
+          icon="pi pi-send"
+          (onClick)="sendMessage()"
+          [disabled]="!currentMessage.trim() || isTyping"
+          styleClass="send-button"
+          [rounded]="true">
+        </p-button>
+      </div>
+      <small class="input-hint">
+        Press Shift+Enter for new line, Enter to send
+      </small>
+    </div>
+  </div>

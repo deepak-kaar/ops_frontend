@@ -1,0 +1,89 @@
+/* Note: Global CSS variables are imported in styles.css for use across all components */
+
+/* Mobile paginator nowrap */
+@media (max-width: 1024px) {
+  .customizePaginator .p-paginator.p-component {
+    flex-wrap: nowrap !important;
+  }
+}
+
+/* Card container */
+p-card.w-full {
+  border-radius: var(--card-container-border-radius);
+  box-shadow: var(--card-container-box-shadow);
+  border: var(--card-container-border);
+}
+
+/* TABLE CONTAINER */
+:host ::ng-deep .p-datatable {
+  border-radius: var(--table-container-border-radius);
+  background: var(--table-container-background);
+}
+
+:host ::ng-deep .p-datatable-header {
+  border: none !important;
+}
+
+/* HEADER */
+:host ::ng-deep .p-datatable-thead > tr {
+  border: var(--table-header-border) !important;
+}
+
+:host ::ng-deep .p-datatable-thead > tr > th {
+  font-weight: var(--table-header-font-weight);
+  font-size: var(--table-header-font-size) !important;
+  padding: var(--table-header-padding);
+  color: var(--table-header-color);
+  border: none !important;
+  background: var(--table-header-background) !important;
+}
+
+/* BODY CELLS */
+:host ::ng-deep .p-datatable-tbody > tr {
+  border: var(--table-cell-border) !important;
+}
+
+:host ::ng-deep .p-datatable-tbody > tr > td {
+  padding: var(--table-cell-padding);
+  font-size: var(--table-cell-font-size) !important;
+  font-weight: var(--table-cell-font-weight);
+  color: var(--table-cell-color);
+  border-top: var(--table-cell-border-top) !important;
+  border-bottom: var(--table-cell-border-bottom) !important;
+}
+
+/* HOVER */
+:host ::ng-deep .p-datatable-tbody > tr:hover {
+  background: var(--table-row-hover-background);
+}
+
+:host ::ng-deep .p-paginator {
+  justify-content: var(--paginator-justify-content);
+}
+
+.create-button {
+  border-radius: var(--create-button-border-radius);
+  border: none;
+  box-shadow: var(--create-button-box-shadow);
+}
+
+.count-pill {
+  display: inline-block;
+  padding: var(--count-pill-padding);
+  border-radius: var(--count-pill-border-radius);
+  background: var(--count-pill-background);
+  color: var(--count-pill-color);
+  font-size: var(--count-pill-font-size);
+  font-weight: var(--count-pill-font-weight);
+}
+
+.level-chip {
+  display: inline-block;
+  padding: var(--level-chip-padding);
+  border-radius: var(--level-chip-border-radius);
+  border: var(--level-chip-border);
+  background: var(--level-chip-background);
+  color: var(--level-chip-color);
+  font-size: var(--level-chip-font-size);
+  font-weight: var(--level-chip-font-weight);
+}

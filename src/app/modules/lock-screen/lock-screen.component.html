@@ -1,0 +1,295 @@
+<div class="lock-screen-layout">
+    <!-- MOBILE OVERLAY -->
+    @if (mobileSidebarOpen) {
+    <div class="mobile-overlay" (click)="toggleSidebar()"></div>
+    }
+
+    <!-- FIXED SIDEBAR -->
+    <aside class="sidebar-wrapper" [class.mobile-open]="mobileSidebarOpen">
+        <app-sidebar-new></app-sidebar-new>
+    </aside>
+
+    <!-- RIGHT SIDE -->
+    <div class="right-pane">
+        <app-topbar-new
+            (menuToggle)="toggleSidebar()"
+            [showRolloutLabel]="true"
+            [labels]="labels"
+            [selectedLabel]="selectedLabel"
+            (labelChange)="onLabelChange()">
+        </app-topbar-new>
+
+        <!-- Main Content Area -->
+        <main class="content-scroll">
+            <div class="px-6 pt-4 pb-1">
+                <app-filter-new></app-filter-new>
+            </div>
+            <div class="p-6 md:p-8">
+
+                <!-- Categories List Section -->
+                <div class="categories-section">
+                    <div class="section-header">
+                        <div class="toolbar-left">
+                            <p-iconField iconPosition="left" class="search-field">
+                                <p-inputIcon>
+                                    <i class="pi pi-search"></i>
+                                </p-inputIcon>
+                                <input type="text" pInputText placeholder="Search categories"
+                                    (input)="onSearchCategories($event)" />
+                            </p-iconField>
+                            <p-button label="Filter" icon="pi pi-filter" [outlined]="true" styleClass="btn-filter"
+                                (onClick)="clearCategoryTable()"></p-button>
+                        </div>
+
+                        <div class="action-buttons">
+                            <p-button label="Add Category" icon="pi pi-plus" (onClick)="openAddCategoryDialog()"
+                                styleClass="btn-primary"></p-button>
+                            <p-button label="Export" icon="pi pi-download" (onClick)="exportCategories()"
+                                styleClass="btn-primary"></p-button>
+                            <p-button label="Import" icon="pi pi-upload" (onClick)="importCategories()"
+                                 styleClass="btn-primary"></p-button>
+                        </div>
+                    </div>
+
+                    <div class="table-wrapper">
+                        @if (isLoading) {
+                        <div class="loading-state">
+                            <p-progressSpinner styleClass="w-12 h-12"></p-progressSpinner>
+                            <span>Loading categories...</span>
+                        </div>
+                        } @else if (error) {
+                        <div class="error-state">
+                            <i class="pi pi-exclamation-triangle text-red-500 text-4xl mb-4"></i>
+                            <h3 class="text-red-900 font-bold text-lg mb-2">Error Loading Data</h3>
+                            <p class="text-red-700 mb-6">{{ error }}</p>
+                            <p-button label="Retry" icon="pi pi-refresh" (onClick)="fetchCategories()" severity="danger"
+                                outlined="true"></p-button>
+                        </div>
+                        } @else {
+                        <p-table #categoriesTable [value]="categories" [paginator]="true"
+                            [rows]="10" [rowsPerPageOptions]="[10, 20, 50]" [globalFilterFields]="['categoryName', 'categoryDescription']"
+                            styleClass="p-datatable-striped" [loading]="isLoading" dataKey="_id" [rowHover]="true">
+                            <ng-template pTemplate="caption">
+                                <div class="table-header">
+                                    <span class="p-input-icon-left">
+                                        <i class="pi pi-search"></i>
+                                        <input type="text" pInputText placeholder="Search categories"
+                                            (input)="categoriesTable.filterGlobal($any($event.target).value, 'contains')" />
+                                    </span>
+                                    <p-button [outlined]="true" icon="pi pi-filter-slash" label="Clear" styleClass="clear-btn"
+                                        (onClick)="clearCategoryTable()" />
+                                </div>
+                            </ng-template>
+                            <ng-template pTemplate="header">
+                                <tr>
+                                    <th pSortableColumn="categoryName" class="border-round-left-2xl text-left">
+                                        Category Name
+                                        <p-sortIcon field="categoryName"></p-sortIcon>
+                                        <p-columnFilter type="text" field="categoryName" display="menu"></p-columnFilter>
+                                    </th>
+                                    <th pSortableColumn="categoryDescription">
+                                        Category Description
+                                        <p-sortIcon field="categoryDescription"></p-sortIcon>
+                                    </th>
+                                    <th pSortableColumn="isActive">
+                                        Is Active
+                                        <p-sortIcon field="isActive"></p-sortIcon>
+                                    </th>
+                                    <th class="border-round-right-2xl text-left">
+                                        Action
+                                    </th>
+                                </tr>
+                            </ng-template>
+                            <ng-template pTemplate="body" let-category>
+                                <tr class="p-selectable-row">
+                                    <td class="border-round-left-2xl text-left">{{ category.categoryName }}</td>
+                                    <td class="text-left">{{ category.categoryDescription || '-' }}</td>
+                                    <td class="text-left">
+                                        <span [class]="category.isActive ? 'status-badge active' : 'status-badge inactive'">
+                                            {{ category.isActive ? 'Active' : 'Inactive' }}
+                                        </span>
+                                    </td>
+                                    <td class="border-round-right-2xl text-left">
+                                        <div class="flex items-center gap-2">
+                                            <p-button icon="pi pi-pencil" [rounded]="true" [text]="true"
+                                                (onClick)="openEditCategoryDialog(category); $event.stopPropagation()"
+                                                pTooltip="Edit" />
+                                            <p-button icon="pi pi-trash" [rounded]="true" [text]="true" severity="danger"
+                                                (onClick)="deleteCategory(category, $event)" pTooltip="Delete" />
+                                        </div>
+                                    </td>
+                                </tr>
+                            </ng-template>
+                            <ng-template pTemplate="emptymessage">
+                                <tr>
+                                    <td colspan="4" class="text-center p-8">
+                                        <div class="empty-state">
+                                            <i class="pi pi-inbox text-4xl text-gray-400 mb-4"></i>
+                                            <p class="text-gray-500">No categories found</p>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </ng-template>
+                        </p-table>
+                        }
+                    </div>
+
+                    <!-- Category Details (shown when a row is selected) -->
+                    @if(isShowCategoryDetails){
+                    <p-card class="w-full mt-4">
+                        <div class="flex w-full justify-end pb-[20px]">
+                            <p-button label="Update" (onClick)="editCategory()" [loading]="isLoading"></p-button>
+                        </div>
+                        <form [formGroup]="categoryForm" class="flex flex-col gap-3">
+                            <div class="form-group">
+                                <label for="categoryName">Category Name <span class="required">*</span></label>
+                                <input pInputText id="categoryName" formControlName="categoryName" class="w-full"
+                                    [class.ng-invalid]="categoryForm.get('categoryName')?.invalid && categoryForm.get('categoryName')?.touched" />
+                                @if (categoryForm.get('categoryName')?.invalid && categoryForm.get('categoryName')?.touched) {
+                                <small class="p-error">Category name is required</small>
+                                }
+                            </div>
+
+                            <div class="form-group">
+                                <label for="categoryDescription">Category Description</label>
+                                <textarea pInputTextarea id="categoryDescription" formControlName="categoryDescription" rows="4"
+                                    class="w-full" [maxlength]="500"></textarea>
+                            </div>
+
+                            <div class="form-group">
+                                <p-checkbox formControlName="isActive" inputId="isActive" [binary]="true"></p-checkbox>
+                                <label for="isActive" class="ml-2">Is Active</label>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Roles</label>
+
+                                @if (selectedRoles.length > 0) {
+                                    <div class="flex flex-wrap gap-2 mb-3 p-3 bg-blue-50 border border-blue-200 rounded">
+                                        @for (role of selectedRoles; track role.roleId) {
+                                            <p-chip
+                                                [label]="role.roleName"
+                                                [removable]="true"
+                                                (onRemove)="removeRole(role)"
+                                                styleClass="bg-blue-100 text-blue-800">
+                                            </p-chip>
+                                        }
+                                    </div>
+                                }
+
+                                @if (isLoadingRoles) {
+                                    <div class="flex items-center gap-2 text-gray-500">
+                                        <i class="pi pi-spin pi-spinner"></i>
+                                        <span>Loading roles...</span>
+                                    </div>
+                                } @else if (allRoles.length === 0) {
+                                    <div class="p-3 bg-orange-50 border border-orange-200 rounded">
+                                        <small class="text-orange-600">
+                                            <i class="pi pi-info-circle mr-1"></i>
+                                            No roles available. Please create roles in the Role section first.
+                                        </small>
+                                    </div>
+                                } @else {
+                                    <div class="flex flex-wrap gap-2 p-3 border border-gray-200 rounded bg-gray-50">
+                                        <span class="text-sm text-gray-500 w-full mb-2">Click to add roles:</span>
+                                        @for (role of availableRoles; track role.roleId) {
+                                            <p-chip
+                                                [label]="role.roleName"
+                                                (click)="addRole(role)"
+                                                styleClass="cursor-pointer hover:bg-blue-100 transition-colors">
+                                                <ng-template pTemplate="content">
+                                                    <span class="flex items-center gap-1">
+                                                        <i class="pi pi-plus text-xs"></i>
+                                                        {{ role.roleName }}
+                                                    </span>
+                                                </ng-template>
+                                            </p-chip>
+                                        }
+                                        @if (availableRoles.length === 0 && selectedRoles.length > 0) {
+                                            <span class="text-sm text-gray-400 italic">All roles have been selected</span>
+                                        }
+                                    </div>
+                                }
+
+                                <small class="text-gray-500 mt-2 block">
+                                    Assign one or more roles to control access to this category
+                                </small>
+                            </div>
+
+                            <div class="form-group">
+                                <p-button
+                                    label="Map Attributes"
+                                    icon="pi pi-link"
+                                    [outlined]="true"
+                                    (onClick)="openAttributeMappingDialog()"
+                                    [disabled]="isLoading"
+                                    styleClass="w-full">
+                                </p-button>
+                                <small class="text-gray-500 mt-2 block">
+                                    Map attributes from dynamic pages to this category
+                                </small>
+                                @if (mappedAttributesCount > 0) {
+                                <div class="mt-2 p-3 bg-green-50 border border-green-200 rounded">
+                                    <div class="flex align-items-center justify-content-between mb-2">
+                                        <div class="flex align-items-center gap-2">
+                                            <i class="pi pi-check-circle text-green-600"></i>
+                                            <span class="text-sm font-semibold text-green-700">
+                                                <strong>{{ mappedAttributesCount }}</strong> attribute(s) mapped to this category
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="mapped-attributes-list">
+                                        <p-accordion [multiple]="true" styleClass="w-full">
+                                            @for (pageGroup of getMappedAttributesByPage(); track pageGroup.pageName) {
+                                            <p-accordionTab [header]="pageGroup.pageName + ' (' + pageGroup.attributes.length + ')'">
+                                                <div class="attribute-list">
+                                                    @for (mapping of pageGroup.attributes; track mapping.attributeId + mapping.propertyKey) {
+                                                    <div class="attribute-item p-2 mb-2 bg-white border border-gray-200 rounded">
+                                                        <div class="flex align-items-start justify-content-between">
+                                                            <div class="flex-1">
+                                                                <div class="font-semibold text-sm mb-1">
+                                                                    <i class="pi pi-tag mr-2 text-primary"></i>
+                                                                    {{ mapping.attributeName || 'N/A' }}
+                                                                </div>
+                                                                <div class="text-xs text-gray-600 space-y-1">
+                                                                    @if (mapping.entityOrInstanceName) {
+                                                                    <div>
+                                                                        <i class="pi pi-building mr-1"></i>
+                                                                        <span>Entity/Instance: {{ mapping.entityOrInstanceName }}</span>
+                                                                    </div>
+                                                                    }
+                                                                    @if (mapping.frequency) {
+                                                                    <div>
+                                                                        <i class="pi pi-clock mr-1"></i>
+                                                                        <span>Frequency: {{ mapping.frequency }}</span>
+                                                                    </div>
+                                                                    }
+                                                                    @if (mapping.propertyKey) {
+                                                                    <div>
+                                                                        <i class="pi pi-code mr-1"></i>
+                                                                        <span class="font-mono text-xs">Property: {{ mapping.propertyKey }}</span>
+                                                                    </div>
+                                                                    }
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    }
+                                                </div>
+                                            </p-accordionTab>
+                                            }
+                                        </p-accordion>
+                                    </div>
+                                </div>
+                                }
+                            </div>
+                        </form>
+                    </p-card>
+                    }
+                </div>
+            </div>
+        </main>
+    </div>
+</div>
+
+<p-toast></p-toast>

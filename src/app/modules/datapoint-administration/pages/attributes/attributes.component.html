@@ -1,0 +1,141 @@
+<div class="pt-[50px] pl-[20px] pr-[20px] w-full">
+    <div class="pt-[10px]">
+        <p-card class="w-full">
+            <div class="table-wrapper">
+                <p-table #dt [value]="attrList" dataKey="id" [rowHover]="true" [rows]="20"
+                    [showCurrentPageReport]="true" [rowsPerPageOptions]="[20, 30, 50]" [paginator]="true"
+                    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [filterDelay]="0"
+                    [globalFilterFields]="['attributeName','alias', 'entityOrInstanceName', 'createdOn', 'comments','dataPointID.dataType']">
+                    <ng-template pTemplate="caption">
+                        <div class="flex flex-col sm:flex-row justify-between gap-3">
+                            <div class="flex justify-between items-center sm:block">
+                                <p-button [outlined]="true" icon="pi pi-filter-slash" label="Clear"
+                                    (onClick)="clear(dt)" class="w-auto" />
+                                <div class="block sm:hidden">
+                                    <!-- Placeholder for mobile spacing -->
+                                </div>
+                            </div>
+                            <div class="flex flex-col sm:flex-row gap-[10px] items-stretch sm:items-center">
+                                @if(isAdmin || createAccess ){
+                                <p-iconField iconPosition="left" class="w-full sm:w-auto">
+                                    <p-inputIcon>
+                                        <i class="pi pi-search"></i>
+                                    </p-inputIcon>
+                                    <input pInputText type="text" [ngModel]="searchValue"
+                                        (keyup)="applyFilterGlobal($event, 'contains')" placeholder="Keyboard Search"
+                                        class="w-full" />
+                                </p-iconField>
+                                <p-button label="Create Tag" [style]="{'border-radius':'12px','height':'37px'}"
+                                    routerLink="/datapointAdmin/home/createAttribute" (onClick)="createAttribute()"
+                                    class="w-full sm:w-auto" />
+                                }
+                            </div>
+
+                        </div>
+                    </ng-template>
+                    <ng-template pTemplate="header">
+                        <tr>
+                            <th pSortableColumn="alias" style="min-width: 14rem"
+                                class="text-left border-round-left-2xl ">
+                                <div class="flex justify-content-between align-items-center">
+                                    Alias
+                                    <p-sortIcon field="alias" />
+                                    <p-columnFilter type="text" field="alias" display="menu" class="ml-auto" />
+                                </div>
+                            </th>
+                            <!-- <th pSortableColumn="entityOrInstanceName" style="min-width: 14rem" class="text-left">
+                            <div class="flex justify-content-between align-items-center">
+                                Entity/Instance
+                                <p-sortIcon field="entityOrInstanceName" />
+                                <p-columnFilter type="text" field="entityOrInstanceName" display="menu"
+                                    class="ml-auto" />
+                            </div>
+                        </th> -->
+                            <th pSortableColumn="attributeName" style="min-width: 14rem"
+                                class="text-left border-round-left-2xl ">
+                                <div class="flex justify-content-between align-items-center">
+                                    Tag
+                                    <p-sortIcon field="attributeName" />
+                                    <p-columnFilter type="text" field="attributeName" display="menu" class="ml-auto" />
+                                </div>
+                            </th>
+
+                            <th pSortableColumn="dataPointID.dataType" style="min-width: 14rem"
+                                class="text-left border-round-left-2xl ">
+                                <div class="flex justify-content-between align-items-center">
+                                    Datatype
+                                    <p-sortIcon field="dataPointID.dataType" />
+                                    <p-columnFilter type="text" field="dataPointID.dataType" display="menu"
+                                        class="ml-auto" />
+                                </div>
+                            </th>
+
+
+                            <th pSortableColumn="decimalPlaces" style="min-width: 14rem"
+                                class="text-left border-round-left-2xl ">
+                                <div class="flex justify-content-between align-items-center">
+                                    Decimal
+                                    <p-sortIcon field="decimalPlaces" />
+                                    <p-columnFilter type="text" field="decimalPlaces" display="menu" class="ml-auto" />
+                                </div>
+                            </th>
+                            <!-- 
+                        <th pSortableColumn="attrOrInstanceDesc" style="min-width: 14rem">
+                            <div class="flex justify-content-between align-items-center">
+                                Description
+                                <p-sortIcon field="attrOrInstanceDesc" />
+                                <p-columnFilter type="text" field="attrOrInstanceDesc" display="menu" class="ml-auto" />
+                            </div>
+                        </th> -->
+
+                            <th pSortableColumn="createdOn" style="min-width: 10rem" class="border-round-right-2xl ">
+                                <div class="flex justify-content-between align-items-center">
+                                    Created On
+                                    <p-sortIcon field="createdOn" />
+                                    <p-columnFilter type="numeric" field="createdOn" display="menu" currency="USD"
+                                        class="ml-auto" />
+                                </div>
+                            </th>
+
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-attr>
+                        <tr class="p-selectable-row">
+                            <td class="text-left cursor-pointer border-round-left-2xl"
+                                (click)="openAttr(attr.attributeId)">
+                                <span class="ml-1 vertical-align-middle desc">{{ attr.alias }}</span>
+                            </td>
+                            <!-- <td class="text-left cursor-pointer" (click)="openAttr(attr.attributeId)">
+                            <span class="ml-1 vertical-align-middle desc">{{attr.entityOrInstanceName}}</span>
+                        </td> -->
+                            <td class="text-left cursor-pointer border-round-left-2xl"
+                                (click)="openAttr(attr.attributeId)">
+                                <span class="ml-1 vertical-align-middle desc">{{ attr.attributeName }}</span>
+                            </td>
+
+                            <!-- <td class="text-left cursor-pointer" (click)="openAttr(attr.attributeId)">
+                            <span class="ml-1 vertical-align-middle">{{attr.comments}}</span>
+                        </td> -->
+
+                            <td class="text-left cursor-pointer" (click)="openAttr(attr.attributeId)">
+                                <span class="ml-1 vertical-align-middle">{{attr.dataPointID.dataType}}</span>
+                            </td>
+                            <td class="text-left cursor-pointer" (click)="openAttr(attr.attributeId)">
+                                <span class="ml-1 vertical-align-middle">{{attr.decimalPlaces}}</span>
+                            </td>
+                            <td class="text-left cursor-pointer" (click)="openAttr(attr.attributeId)">
+                                {{ attr.createdOn | date }}
+                            </td>
+                    </ng-template>
+                    <ng-template pTemplate="emptymessage">
+                        <tr>
+                            <td colspan="8">No Tags found.</td>
+                        </tr>
+                    </ng-template>
+                </p-table>
+            </div>
+        </p-card>
+    </div>
+
+</div>
+<p-toast [breakpoints]="breakPointForToastComponent"></p-toast>

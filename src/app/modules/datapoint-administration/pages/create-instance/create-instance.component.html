@@ -1,0 +1,182 @@
+<div class="flex flex-col h-full entity-form">
+    <div class="w-full flex justify-center pt-3">
+        <div class="min-w-[700px]">
+            <div class="mt-auto flex items-center justify-between">
+                <div class="pl-2">
+                    <span class="font-normal text-2xl">Create Instance</span>
+                </div>
+                <div class="flex justify-end gap-2 pr-2 pb-2 ">
+                    @if(isShowAttribute){
+                    <p-button icon="pi pi-plus" label="Add Attribute" (click)="addAttribute()"
+                        [style]="{'border-radius':'12px','height':'37px'}" />
+                    }
+                    @if(isAdmin || createAccess){
+                    <p-button label="Save" (onClick)="onSubmit()" [style]="{'border-radius':'12px','height':'37px'}" />
+                    }
+                    <p-button label="Back" (onClick)="closeCallback($event)"
+                        [style]="{'border-radius':'12px','height':'37px'}" />
+                </div>
+            </div>
+            <form [formGroup]="instanceForm">
+                <div class="pt-6 pl-2 flex flex-col gap-7 form-fields">
+                    <div class="static-form flex gap-4 items-center">
+                        <div class="flex-1">
+                            <p-floatLabel>
+                                <p-select [style]="{ height: '100%', width: '100%' }" formControlName="entityId"
+                                    appendTo="body" [options]="entityList" optionLabel="entityName" [filter]="true"
+                                    filterBy="entityName" [showClear]="true" (onChange)="getEntityData($event)"
+                                    (onClear)="clearEntity()">
+                                </p-select>
+                                <label for="entity">Select an Entity<span class="text-red-500">*</span></label>
+                            </p-floatLabel>
+                            <small
+                                *ngIf="instanceForm.get('entityId')?.invalid && instanceForm.get('entityId')?.touched"
+                                class="p-error pl-2">
+                                Entity is required.
+                            </small>
+                        </div>
+                    </div>
+
+                    <div class="static-form flex gap-4 items-center">
+                        <div class="flex-1">
+                            <p-floatLabel>
+                                <input type="text" pInputText formControlName="InstanceName"
+                                    class="input-field" />
+                                <label for="instanceName">Instance Name<span class="text-red-500">*</span></label>
+                            </p-floatLabel>
+                            <small
+                                *ngIf="instanceForm.get('InstanceName')?.invalid && instanceForm.get('InstanceName')?.touched"
+                                class="p-error pl-2">
+                                Instance Name is required.
+                            </small>
+                        </div>
+                    </div>
+                    <div class="static-form flex gap-4 items-center">
+                        <div class="flex-1">
+                            <p-floatLabel>
+                                <textarea rows="3" cols="30" pTextarea formControlName="InstanceDesc"
+                                    class="input-field"></textarea>
+                                <label for="instanceDesc">Instance Description<span
+                                        class="text-red-500">*</span></label>
+                            </p-floatLabel>
+                            <small
+                                *ngIf="instanceForm.get('InstanceDesc')?.invalid && instanceForm.get('InstanceDesc')?.touched"
+                                class="p-error pl-2">
+                                Description is required.
+                            </small>
+                        </div>
+                    </div>
+                    <div>
+                        <p-floatLabel>
+                            <input type="text" pInputText formControlName="InstanceLocation"
+                                class="input-field" />
+                            <label for="InstanceLocation">Instance Location</label>
+                        </p-floatLabel>
+                    </div>
+                    <div formArrayName="InstanceAttribute">
+                        <div>
+                            <span class="font-normal text-2xl">Attribute Creation</span>
+                        </div>
+                        <div cdkDropList (cdkDropListDropped)="drop($event)">
+                            <div *ngFor="let attribute of instanceAttributes.controls; let i = index"
+                                [formGroupName]="i">
+                                <div class="flex pt-5 gap-1 items-center">
+                                    <div>
+                                        <div>
+                                            <p-floatLabel>
+                                                <input type="text" pInputText formControlName="attributeName"
+                                                    class="input-field" />
+                                                <label for="attribute">Attribute name<span
+                                                        class="text-red-500">*</span></label>
+                                            </p-floatLabel>
+                                            <small
+                                                *ngIf="instanceForm.get('attributeName')?.invalid && instanceForm.get('attributeName')?.touched"
+                                                class="p-error pl-2">
+                                                Attribute name is required.
+                                            </small>
+                                        </div>
+                                    </div>
+                                    <div><p-divider layout="vertical" [style]="{'height':'163px'}" /></div>
+                                    <div>
+                                        <div class="flex gap-2">
+                                            <!-- <div>
+                                                <p-floatLabel>
+                                                    <p-select [style]="{width: '192px' }" appendTo="body"
+                                                        [options]="dataPoints" formControlName="dataType"
+                                                        optionLabel="dataType" [filter]="true" filterBy="dataType"
+                                                        [showClear]="true">
+                                                    </p-select>
+                                                    <label for="dataType">Datatype<span
+                                                            class="text-red-500">*</span></label>
+                                                </p-floatLabel>
+                                                <small
+                                                    *ngIf="instanceForm.get('dataType')?.invalid && instanceForm.get('dataType')?.touched"
+                                                    class="p-error pl-2">
+                                                    Datatype is required.
+                                                </small>
+                                            </div> -->
+                                            <div class="flex items-center gap-1">
+                                                <p-checkbox formControlName="nullable" [binary]="true"
+                                                    inputId="nullable" />
+                                                <label for="nullable">Not Null</label>
+                                            </div>
+
+                                            <div class="flex items-center gap-1">
+                                                <p-checkbox formControlName="unique" [binary]="true" inputId="unique" />
+                                                <label for="unique">Unique value</label>
+                                            </div>
+                                            <div>
+                                                <p-floatLabel>
+                                                    <input type="text" placeholder="alias" pInputText
+                                                        formControlName="alias" class="input-field" />
+                                                    <label for="attribute">Alias Name</label>
+                                                </p-floatLabel>
+                                            </div>
+
+                                        </div>
+
+                                        <div class="w-full pt-5">
+                                            <p-floatLabel>
+                                                <textarea style="width: 100%;" id="float-input" rows="3" cols="30"
+                                                    pTextarea formControlName="comments">
+                                            </textarea>
+                                                <label for="float-input">Comments</label>
+                                            </p-floatLabel>
+                                        </div>
+                                    </div>
+
+                                    <!-- @if(attribute.get('showRemoveButton')?.value)
+                                    { -->
+                                    <div>
+                                        <p-button icon="pi pi-th-large" [rounded]="true" [text]="true" class="flex ml-4"
+                                            [raised]="true" [style]="{ color: '#F97316', background: '#FFEADC' }"
+                                            (onClick)="moreActions(i)" pTooltip="More Action" />
+                                    </div>
+                                    <div>
+                                        <p-button icon="pi pi-trash" [rounded]="true" [text]="true" class="flex ml-4"
+                                            [raised]="true" [style]="{ color: '#F97316', background: '#FFEADC' }"
+                                            (onClick)="removeAttribute(i)" />
+                                    </div>
+                                    <div>
+                                        <div>
+                                            <p-button [style]="{'cursor':'move'}" cdkDragHandle [rounded]="true"
+                                                [text]="true" [raised]="true" class="flex ml-4">
+                                                <ng-template pTemplate="icon">
+                                                    <img src="assets/images/svgs/drag.svg">
+                                                </ng-template>
+                                            </p-button>
+                                        </div>
+                                    </div>
+                                    <!-- } -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="overflow-y-auto pt-3">
+    </div>
+</div>
+<p-toast [breakpoints]="breakPointForToastComponent"></p-toast>

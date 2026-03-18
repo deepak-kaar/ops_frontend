@@ -1,0 +1,71 @@
+<div class="pt-[40px] pl-[20px] pr-[20px] w-full pb-[40px]">
+    <p-card class="w-full">
+        <div class="role-hierarchy-header">
+            <div>
+                <div class="title">Role Hierarchy</div>
+                <div class="subtitle">Assign higher numbers to higher positions.</div>
+            </div>
+        </div>
+
+        <div class="role-hierarchy-main">
+            <!-- Left panel: roles list -->
+            <div class="role-hierarchy-left">
+                <div class="role-hierarchy-list-header">
+                    <span>Available Roles</span>
+                </div>
+                <div class="role-hierarchy-list-body">
+                    @if (!roles.length) {
+                    <div class="role-hierarchy-empty">
+                        <i class="pi pi-inbox"></i>
+                        <span>No roles found</span>
+                    </div>
+                    } @else {
+                    @for (role of roles; track role?._id) {
+                    <div class="role-hierarchy-list-item">
+                        <div class="role-name">{{ role?.roleName || 'N/A' }}</div>
+                        <div class="role-meta">{{ role?.roleId || '-' }}</div>
+                    </div>
+                    }
+                    }
+                </div>
+            </div>
+
+            <!-- Right panel: hierarchy editor -->
+            <div class="role-hierarchy-right">
+                <div class="role-hierarchy-grid-header">
+                    <span class="col-role">Role</span>
+                    <span class="col-current">Current</span>
+                    <span class="col-update">Update</span>
+                    <span class="col-action">Action</span>
+                </div>
+
+                <div class="role-hierarchy-grid-body">
+                    @if (!roles.length) {
+                    <div class="role-hierarchy-empty-inline">No roles to update.</div>
+                    } @else {
+                    @for (role of roles; track role?._id) {
+                    <div class="role-hierarchy-grid-row">
+                        <div class="col-role">
+                            <div class="role-name">{{ role?.roleName || 'N/A' }}</div>
+                            <div class="role-meta">{{ role?.roleId || '-' }}</div>
+                        </div>
+                        <div class="col-current">
+                            {{ role?.hierarchyLevel !== undefined && role?.hierarchyLevel !== null
+                            ? role.hierarchyLevel : '-' }}
+                        </div>
+                        <div class="col-update">
+                            <input pInputText type="number" [(ngModel)]="role.hierarchyLevel"
+                                placeholder="-" class="role-hierarchy-input" />
+                        </div>
+                        <div class="col-action">
+                            <p-button label="Update" size="small" [loading]="savingId === role?._id"
+                                (onClick)="updateRole(role)"></p-button>
+                        </div>
+                    </div>
+                    }
+                    }
+                </div>
+            </div>
+        </div>
+    </p-card>
+</div>

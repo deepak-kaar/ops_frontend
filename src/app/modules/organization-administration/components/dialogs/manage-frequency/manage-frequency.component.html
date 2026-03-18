@@ -1,0 +1,91 @@
+<div class="flex flex-col gap-[10px]">
+    <form [formGroup]="freqForm" class="flex flex-col gap-[10px]">
+        <div class="grid grid-cols-1  md:grid-cols-2 gap-4">
+            <div class="flex flex-col gap-2">
+                <label for="appname">Frequency Name<span class="text-[var(--p-red-500)]"> *</span></label>
+                <input pInputText id="frequencyname" formControlName="frequencyName" aria-describedby="username-help" />
+            </div>
+            <div class="flex flex-col gap-2">
+                <label for="appdesc">Frequency Description</label>
+                <input pInputText formControlName="frequencyDescription" id="frequencydesc"
+                    aria-describedby="username-help" />
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1  md:grid-cols-2 gap-4">
+
+            <!-- <div class="grid grid-cols-2 gap-4">
+                <div class="flex flex-col gap-2">
+                <label for="appowner">Frequency Type</label>
+                <input formControlName="frequencyType" pInputText id="frequencytype" aria-describedby="username-help" />
+            </div> -->
+
+                <div class="flex flex-col gap-2">
+                    <label for="appowner">Choose Super Type</label>
+                    <p-select [options]="superType" formControlName="superType" appendTo="body" optionValue="type"
+                        optionLabel="name"></p-select>
+                </div>
+                <div class="flex flex-col gap-2">
+                    <label for="appowner">Duration</label>
+                    <p-inputnumber inputId="integeronly" formControlName="duration" [showButtons]="true" min="1" />
+                </div>
+            </div>
+
+            <div class="grid grid-cols-2 gap-4">
+
+                <div class="flex flex-col gap-2">
+                    @switch (this.freqForm.get('superType')?.value) {
+                    @case ('H') {
+                    <label for="appowner">Starting Period</label>
+                    <p-datepicker styleClass="w-full" appendTo="body" inputId="calendar-timeonly"
+                        formControlName="startTime" [timeOnly]="true" />
+                    }
+                    @case ('D') {
+                    <label for="appowner">Starting Period</label>
+                    <p-datepicker styleClass="w-full" appendTo="body" inputId="calendar-timeonly"
+                        formControlName="startTime" [timeOnly]="true" />
+                    }
+                    @case ('W') {
+                    <label for="appowner">Starting Period</label>
+                    <p-select [options]="daysOfWeek" formControlName="startTime" appendTo="body"></p-select>
+                    }
+                    @case('M'){
+                    <label for="appowner">Starting Period</label>
+                    <p-datepicker formControlName="startTime" appendTo="body" styleClass="w-full" [showIcon]="true"
+                        inputId="buttondisplay" [showOnFocus]="false" />
+                    }
+                    @case ('Q') {
+                    <label for="appowner">Starting Period</label>
+                    <p-select [options]="months" formControlName="startTime" appendTo="body"></p-select>
+                    }
+
+                    @case ('S') {
+                    <label for="appowner">Starting Period</label>
+                    <p-select [options]="months" formControlName="startTime" appendTo="body"></p-select>
+                    }
+                    @case ('Y') {
+                    <label for="appowner">Starting Period</label>
+                    <p-select [options]="months" formControlName="startTime" appendTo="body"></p-select>
+                    }
+                    }
+                </div>
+            </div>
+    </form>
+
+    <div class="pt-[10px] md:pt-[0px] flex justify-center gap-[10px]">
+        <p-button
+            styleClass="md:w-[250px]"
+            severity="danger"
+            [outlined]="true"
+            label="Cancel"
+            (onClick)="onCancel()">
+        </p-button>
+
+        <p-button styleClass="md:w-[250px]" label="Save" (onClick)="createFrequency()"></p-button>
+
+        <!--     <div class="flex justify-center gap-[10px]">
+        <p-button styleClass="w-[250px]" severity="danger" outlined="true" label="Cancel"
+            (onClick)="ref.close()"></p-button>
+        <p-button styleClass="w-[250px]" label="Save" (onClick)="createFrequency()"></p-button> -->
+    </div>
+</div>

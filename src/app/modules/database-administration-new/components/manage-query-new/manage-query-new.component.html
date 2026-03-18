@@ -1,0 +1,37 @@
+<div class="flex flex-col gap-[10px]">
+    <form [formGroup]="dbQueryForm" class="flex flex-col gap-[10px]">
+        <div class="grid grid-cols-1 md:grid-cols-2 md:gap-4">
+            <div class="flex flex-col gap-2">
+                <label for="queryId">Query Id<span class="text-[var(--p-red-500)]"> *</span></label>
+                <input pInputText id="queryId" formControlName="queryId" aria-describedby="username-help" />
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 gap-4">
+            <div class="flex flex-col gap-2">
+                <label for="description">Description</label>
+                <textarea rows="3" cols="30" pTextarea formControlName="description" id="description"
+                    class="input-field"></textarea>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 gap-4">
+            <div class="flex flex-col gap-2">
+                <div class="flex items-center justify-between gap-[10px]">
+                    <label for="query">Query</label>
+                    <p-select [options]="languageOptions" appendTo="body" formControlName="queryLanguage"
+                        (onChange)="onLanguageChange()"></p-select>
+                </div>
+                <div class="h-[12rem]">
+                    <ngx-monaco-editor style="width:100%; height: 100%" [options]="editorOptions"
+                        formControlName="query"></ngx-monaco-editor>
+                </div>
+            </div>
+        </div>
+    </form>
+    <div class="pt-[10px] md:pt-[0px] flex justify-center gap-[10px]">
+        <p-button styleClass="md:w-[250px]" severity="danger" outlined="true" label="Cancel"
+            (onClick)="cancel()"></p-button>
+        <p-button styleClass="md:w-[250px]" label="Save" (onClick)="saveDBQuery()"></p-button>
+    </div>
+</div>

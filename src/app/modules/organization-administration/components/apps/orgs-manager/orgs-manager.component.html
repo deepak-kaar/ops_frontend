@@ -1,0 +1,238 @@
+<div class="pt-[30px] px-[0px] md:pt-[50px] md:pl-[20px] flex flex-col gap-[20px] md:pr-[20px] md:w-full">
+    @if((isMobile$|async)===true){
+    <div class="flex flex-wrap justify-end pb-[10px] gap-[10px]">
+        <p-select [options]="appActions" placeholder="Select Action" [(ngModel)]="selectedAction"
+            (onChange)="createOrg()" [checkmark]="true" class="w-full md:w-56" />
+    </div>
+    }
+    <!-- desktop top action buttons removed; moved into caption -->
+
+    <p-card class="w-full">
+        <div class="card">
+            <p-table #dt class="customizePaginator" [value]="orgs" selectionMode="single" [(selection)]="selectedOrg"
+                dataKey="orgId" [rowHover]="true" [rows]="20"
+                [showCurrentPageReport]="(isMobile$|async)===true? false: true" [rowsPerPageOptions]="[20, 30, 50]"
+                [loading]="loading" [paginator]="true"
+                currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [filterDelay]="0"
+                (onRowSelect)="onOrgSelect($event)" (onRowUnselect)="onOrgUnSelect($event)"
+                [globalFilterFields]="['name', 'country.name', 'representative.name', 'status']">
+
+                <ng-template #caption>
+                    @if((isMobile$|async)===true){
+                    <div class="flex w-full items-center gap-[10px]">
+                        <p-iconField iconPosition="left" class="w-full">
+                            <p-inputIcon>
+                                <i class="pi pi-search"></i>
+                            </p-inputIcon>
+                            <input class="w-full" pInputText type="text" [(ngModel)]="searchValue"
+                                (input)="dt.filterGlobal($any($event.target).value, 'contains')" placeholder="Search" />
+                        </p-iconField>
+                        <p-button [outlined]="true" icon="pi pi-filter-slash" (click)="clear(dt)" />
+                    </div>
+                    }
+                    @else{
+                    <div class="flex justify-between items-center gap-[10px] flex-wrap">
+                        <!-- left: search + filter -->
+                        <div class="flex gap-[10px] items-center flex-1 min-w-[280px]">
+                            <p-iconField iconPosition="left" class="w-full">
+                                <p-inputIcon>
+                                    <i class="pi pi-search"></i>
+                                </p-inputIcon>
+                                <input pInputText type="text" [(ngModel)]="searchValue"
+                                    (input)="dt.filterGlobal($any($event.target).value, 'contains')" placeholder="Search" class="w-full" />
+                            </p-iconField>
+                            <p-button [outlined]="true" icon="pi pi-filter-slash" (click)="clear(dt)" />
+                        </div>
+
+                        <!-- right: import/export/create -->
+                        <div class="flex gap-[10px] flex-wrap justify-end">
+                            <p-button icon="pi pi-file-import" label="Import" pTooltip="Import" styleClass="toolbar-btn"></p-button>
+                            <p-button icon="pi pi-upload" label="Export" pTooltip="Export" styleClass="toolbar-btn"></p-button>
+                            <p-button icon="pi pi-plus" label="Create New Organization" (onClick)="createOrg()"
+                                styleClass="toolbar-btn create-btn"></p-button>
+                        </div>
+                    </div>
+                    }
+                </ng-template>
+
+                <ng-template #header>
+                    <tr>
+                        <th pSortableColumn="templateName" style="min-width: 5rem">
+                            <div class="flex justify-between items-center">
+                                Orglication Name
+                                <p-sortIcon field="templateName" />
+                                <!-- <p-columnFilter type="text" field="name" display="menu" class="ml-auto" /> -->
+                            </div>
+                        </th>
+
+                        <th pSortableColumn="orgCode" style="min-width: 5rem">
+                            <div class="flex justify-between items-center">
+                                Orglication code
+                                <p-sortIcon field="orgCode" />
+                                <!-- <p-columnFilter type="text" field="name" display="menu" class="ml-auto" /> -->
+                            </div>
+                        </th>
+
+                        <th pSortableColumn="templateDescription" style="min-width: 14rem">
+                            <div class="flex justify-between items-center">
+                                Description
+                                <p-sortIcon field="templateDescription" />
+                                <!-- <p-columnFilter type="text" field="country.name" display="menu" class="ml-auto" /> -->
+                            </div>
+                        </th>
+
+
+                        <th pSortableColumn="createdOn" style="min-width: 10rem">
+                            <div class="flex justify-between items-center">
+                                Date
+                                <p-sortIcon field="createdOn" />
+                                <!-- <p-columnFilter type="date" field="date" display="menu" class="ml-auto" /> -->
+                            </div>
+                        </th>
+                        <th style="width: 5rem">
+                            <div class="flex justify-between items-center">
+                                Action
+                            </div>
+                        </th>
+                    </tr>
+                </ng-template>
+                <ng-template #body let-org>
+                    <tr [pSelectableRow]="org">
+                        <td>
+                            {{ org.orgName }}
+                        </td>
+                        <td>
+                            {{ org.orgCode }}
+                        </td>
+                        <td>
+                            {{ org.orgDescription }}
+                        </td>
+                        <td>
+                            {{ org.createdOn | date: 'MM/dd/yyyy' }}
+                        </td>
+                        <td class="flex gap-[5px]">
+                            <!-- <p-button icon="pi pi-pencil" [rounded]="true" [outlined]="true" (click)="editOrg(org)" /> -->
+                            <p-button icon="pi pi-trash" severity="danger" [rounded]="true" [outlined]="true"
+                                (click)="deleteOrg(org.orgId)" />
+                        </td>
+                    </tr>
+                </ng-template>
+                <ng-template #emptymessage>
+                    <tr>
+                        <td colspan="8">No Organizations found.</td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+    </p-card>
+
+    @if(isShowOrdDetails){
+        @if((isMobile$|async)===true ){
+            <p-select [options]="orgActions" placeholder="Select Action" [(ngModel)]="selectedOrgAction"
+            [checkmark]="true"  />
+        }
+        @else{
+    <p-selectbutton [options]="orgActions" [(ngModel)]="selectedOrgAction" [allowEmpty]="false" [size]="(isTablet$|async)==true?'small':'large'" />
+        }
+
+        @switch (selectedOrgAction) {
+        @case ('Operating Organization Details') {
+            <p-card class="w-full pb-[30px]">
+        <div class="flex w-full justify-end pb-[20px]">
+            <p-button label="update" (onClick)="updateOrg()"></p-button>
+        </div>
+        <form [formGroup]="orgForm" class="flex flex-col gap-[10px]">
+            <div class="grid md:grid-cols-2 gap-4">
+                <div class="flex flex-col gap-2">
+                    <label for="orgname">Organization Name<span class="text-[var(--p-red-500)]"> *</span></label>
+                    <input formControlName="orgName" pInputText id="orgname" aria-describedby="username-help" />
+                </div>
+                <div class="flex flex-col gap-2">
+                    <label for="created by">Created By</label>
+                    <input pInputText id="createdby" aria-describedby="username-help" />
+                </div>
+            </div>
+            <div class="grid md:grid-cols-2 gap-4">
+                <div class="flex flex-col gap-2">
+                    <label for="appowner">Organization Code<span class="text-[var(--p-red-500)]"> *</span></label>
+                    <input pInputText formControlName="orgCode" id="appowner" aria-describedby="username-help" />
+                </div>
+                <div class="flex flex-col gap-2">
+                    <label for="appcontact">Created Date</label>
+                    <input pInputText id="appcontact" formControlName="createdOn" aria-describedby="username-help" />
+                </div>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-4">
+                <div class="flex flex-col gap-2">
+                    <label for="Organization Description">Organization Description<span class="text-[var(--p-red-500)]">
+                            *</span></label>
+                    <input pInputText id="Orgdescription" formControlName="orgDescription"
+                        aria-describedby="username-help" />
+                </div>
+                <div class="flex flex-col gap-2">
+                    <label for="Modified By">Modified By</label>
+                    <input pInputText id="Modifiedby" aria-describedby="username-help" />
+                </div>
+            </div>
+            <div class="grid md:grid-cols-2 gap-4">
+                <div class="flex flex-col gap-2">
+                    <label for="Allow Edit for Past">Allow Edit for Past</label>
+                    <input pInputText id="aefp" formControlName="allowPast" aria-describedby="username-help" />
+                </div>
+                <div class="flex flex-col gap-2">
+                    <label for="Modified Date">Modified Date</label>
+                    <input pInputText id="Modifieddate" formControlName="modifiedOn" aria-describedby="username-help" />
+                </div>
+            </div>
+            <div class="grid md:grid-cols-2 gap-4">
+                <div class="flex flex-col gap-2">
+                    <label for="Allow Edit for Future">Allow Edit for Future</label>
+                    <input pInputText id="aeff" formControlName="allowFuture" aria-describedby="username-help" />
+                </div>
+                <div class="flex flex-col gap-2">
+                    <label for="Last Archive Date">Last Archive Date</label>
+                    <input pInputText id="Lastarchivedate" formControlName="lastArchieveDate"
+                        aria-describedby="username-help" />
+                </div>
+            </div>
+            <div class="grid md:grid-cols-2 gap-4">
+                <div class="flex flex-col gap-2">
+                    <label for="orgowner">Organization Owner<span class="text-[var(--p-red-500)]"> *</span></label>
+                    <input formControlName="orgOwner" pInputText id="orgowner" aria-describedby="username-help" />
+                </div>
+                <div class="flex flex-col gap-2">
+                    <label for="orgContact">Organization Owner Contact <span class="text-[var(--p-red-500)]">
+                            *</span></label>
+                    <input pInputText formControlName="orgContact" id="orgContact" aria-describedby="username-help" />
+                </div>
+            </div>
+            <div class="grid md:grid-cols-2 gap-4">
+                <div class="flex flex-col gap-2">
+                    <label for="Archive Days">Archive Days</label>
+                    <input pInputText id="Archivedays" formControlName="archieveDate"
+                        aria-describedby="username-help" />
+                </div>
+            </div>
+        </form>
+    </p-card>
+        }
+        @case ('Roles') {
+        <app-app-roles-manager [appId]="appId" [orgId]="orgId"></app-app-roles-manager>
+        }
+        @case ('Data Access') {
+        <app-data-access [orgs]="getFilteredOrgs()" [orgId]="orgId" [assignedOrgs]="dataAccess"></app-data-access>
+        }
+        @case ('Groups') {
+        <app-groups-manager [appId]="appId" [orgId]="orgId"></app-groups-manager>
+        }
+        @case ('Shifts') {
+        <app-shifts-manager [appId]="appId" [orgId]="orgId"></app-shifts-manager>
+        }
+        }
+
+    }
+
+</div>
+
+<p-toast>

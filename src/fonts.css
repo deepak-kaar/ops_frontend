@@ -1,0 +1,24 @@
+@font-face {
+    font-family: manifapro;
+    src: url('/assets/fonts/manifapro/ManifaPro2_2.224 Variable.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: manifapro-italic;
+    src: url('/assets/fonts/manifapro/ManifaPro2_2.224-RegularItalic.otf') format('opentype');
+}
+
+@font-face {
+    font-family: ghawar;
+    src: url('/assets/fonts/ghawar/Ghawar_1.311 VariableGX.ttf.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: segoe;
+    src: url('/assets/fonts/segoe/SegoeUI.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'trebuchet';
+    src: url('/assets/fonts/trebuchet/TrebuchetMS.ttf') format('truetype');
+}

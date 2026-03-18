@@ -1,0 +1,38 @@
+<div class="flex flex-col gap-[10px]">
+    <form [formGroup]="orgForm" class="flex flex-col gap-[10px]">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div class="flex flex-col gap-2">
+                <label for="orgname">Organization Name<span class="text-[var(--p-red-500)]"> *</span></label>
+                <input pInputText id="orgname" formControlName="orgName" aria-describedby="username-help" />
+            </div>
+            <div class="flex flex-col gap-2">
+                <label for="orgCode">Organization code <span class="text-[var(--p-red-500)]"> *</span></label>
+                <input pInputText formControlName="orgCode" id="orgCode" aria-describedby="username-help" />
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 gap-4">
+            <div class="flex flex-col gap-2">
+                <label for="orgDescription">Organization Description<span class="text-[var(--p-red-500)]">
+                        *</span></label>
+                <input formControlName="orgDescription" pInputText id="orgDescription"
+                    aria-describedby="username-help" />
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div class="flex flex-col gap-2">
+                <label for="orgowner">Organization Owner</label>
+                <input formControlName="orgOwner" pInputText id="orgowner" aria-describedby="username-help" />
+            </div>
+            <div class="flex flex-col gap-2">
+                <label for="orgContact">Organization Owner Contact </label>
+                <input pInputText formControlName="orgContact" id="orgContact" aria-describedby="username-help" />
+            </div>
+        </div>
+    </form>
+    <div class="flex justify-center gap-[10px] pt-[10px] md:pt-[0px]">
+        <p-button styleClass="w-[100px] md:w-[250px]" severity="danger" outlined="true" label="Cancel"></p-button>
+        <p-button styleClass="w-[100px] md:w-[250px]" label="Save" (onClick)="createOrg()"></p-button>
+    </div>
+</div>

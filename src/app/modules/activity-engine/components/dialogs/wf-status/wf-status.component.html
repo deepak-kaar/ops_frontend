@@ -1,0 +1,77 @@
+<div class="wf-status-container" *ngIf="workflowSteps?.length; else empty">
+  <p-timeline [value]="workflowSteps" align="left" styleClass="customized-timeline">
+    <ng-template pTemplate="marker" let-step>
+      <p-tag [value]="step.status" [severity]="getStatusSeverity(step.status)"></p-tag>
+    </ng-template>
+    <ng-template pTemplate="content" let-step>
+      <p-card>
+        <div class="card-header">
+          <div class="title">
+            {{ step.stepKey || step.stepId || 'Step' }}
+            <span class="muted">• {{ step.status || '-' }}</span>
+          </div>
+          <div class="right-chips">
+            <p-tag [value]="'Run: ' + (step.runMode || '-')" severity="secondary"></p-tag>
+            <p-tag [value]="'Order: ' + (step.order ?? '-')" severity="secondary"></p-tag>
+          </div>
+        </div>
+
+        <div class="step-meta meta-grid">
+          <div class="meta-row">
+            <span class="meta-key">Function</span>
+            <span class="meta-val">{{ step.functionName || '-' }}</span>
+          </div>
+          <div class="meta-row">
+            <span class="meta-key">Retries</span>
+            <span class="meta-val">{{ step.retryCount }}</span>
+          </div>
+          <div class="meta-row">
+            <span class="meta-key">Heartbeat Active</span>
+            <span class="meta-val">{{ step.heartbeatActive ? 'Yes' : 'No' }}</span>
+          </div>
+          <div class="meta-row" *ngIf="step.error">
+            <span class="meta-key">Error</span>
+            <span class="meta-val error">{{ step.error }}</span>
+          </div>
+        </div>
+
+        <p-divider></p-divider>
+
+        <div class="history-header">Status History</div>
+        <p-table [value]="step.statusHistory" [scrollable]="true" scrollHeight="220px" styleClass="p-datatable-sm compact-table">
+          <ng-template pTemplate="header">
+            <tr>
+              <th>Status</th>
+              <th>Message</th>
+              <th>Start</th>
+              <th>End</th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-h>
+            <tr>
+              <td>
+                <p-tag [value]="h.status" [severity]="getStatusSeverity(h.status)"></p-tag>
+              </td>
+              <td class="message">{{ h.message || '-' }}</td>
+              <td class="nowrap">{{ h.startTime | date:'medium' }}</td>
+              <td class="nowrap">{{ h.endTime   | date:'medium' }}</td>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="emptymessage">
+            <tr>
+              <td colspan="4">No history available.</td>
+            </tr>
+          </ng-template>
+        </p-table>
+      </p-card>
+    </ng-template>
+  </p-timeline>
+</div>
+
+<ng-template #empty>
+  <div class="empty-state">
+    <p-card header="No Data">
+      <p>There is no workflow data to display.</p>
+    </p-card>
+  </div>
+ </ng-template>

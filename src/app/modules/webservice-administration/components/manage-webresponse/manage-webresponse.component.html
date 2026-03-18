@@ -1,0 +1,88 @@
+<div class="flex flex-col gap-[10px]">
+    <div class="grid grid-cols-1 md:grid-cols-2 md:gap-x-[20vw]">
+        <!-- LEFT PANEL -->
+        <div  class="flex flex-col border border-surface-200 rounded-xl p-3">
+            <div class="flex justify-between items-center min-h-[48px] mb-2">
+                <h3 class="text-lg font-semibold mb-0 text-sky-600">External Response</h3>
+                <div class="flex gap-2">
+                    <p-button icon="pi pi-eye" [rounded]="true" [text]="true" [raised]="true" severity="success"
+                        (onClick)="op.toggle($event)" title="view response"></p-button>
+                    <!-- Popover -->
+                    <p-popover #op>
+                        <div class="flex flex-col gap-2">
+                            <div class="h-[30rem]">
+                                <ngx-monaco-editor style="width:100%; height:100%" [options]="responseOptions"
+                                    [(ngModel)]="wsResponse">
+                                </ngx-monaco-editor>
+                            </div>
+                        </div>
+                    </p-popover>
+                </div>
+            </div>
+            <div #cardContainer class="flex-1 overflow-auto">
+                <p-tree [value]="sourceTree" selectionMode="single" [(selection)]="selectedSourceNode" [filter]="true"
+                    class="h-full" (onNodeSelect)="onSelectSource($event.node)" [draggableNodes]="false"
+                    [droppableNodes]="false" (onNodeExpand)="onNodeExpand($event)"
+                    (onNodeCollapse)="onNodeCollapse($event)">
+                    <ng-template let-node pTemplate="default" let-last="last">
+                        <div class="flex items-center gap-2 relative w-full pb-1">
+                            <span class="pr-4 truncate">{{ node.label }}</span>
+                            <span class="absolute right-0 top-1/2 -translate-y-1/2 w-2 h-2 rounded-full bg-blue-400"
+                                [attr.id]="'source-' + node.key"></span>
+                        </div>
+                        <div *ngIf="!last" class="w-full border-b border-surface-300 opacity-40 mb-2"></div>
+                    </ng-template></p-tree>
+            </div>
+        </div>
+
+        <!-- RIGHT PANEL -->
+        <div class="flex flex-col border border-surface-200 rounded-xl p-3">
+            <div class="flex justify-between items-center min-h-[48px] mb-2">
+                <h3 class="text-lg font-semibold mb-0 text-sky-600">Internal Mapping</h3>
+                <div class="flex gap-2">
+                    <p-button icon="pi pi-plus" [rounded]="true" [text]="true" [raised]="true" severity="success"
+                        (onClick)="addChildNode()" title="add field"></p-button>
+                    <!-- <p-button icon="pi pi-pencil" [rounded]="true" [text]="true" [raised]="true" severity="info"
+                        (onClick)="renameNode()" title="rename field"></p-button> -->
+                    <p-button icon="pi pi-times" [rounded]="true" [text]="true" [raised]="true" severity="danger"
+                        (onClick)="deleteNode()" title="delete field"></p-button>
+                </div>
+            </div>
+
+            <div #targetPanel class="flex-1 overflow-auto">
+                <p-tree [value]="targetTree" selectionMode="single" [(selection)]="selectedTargetNode"
+                    [draggableNodes]="true" [droppableNodes]="true" (onNodeSelect)="onSelectTarget($event.node)"
+                    [filter]="true" class="h-full" (onNodeExpand)="onNodeExpand($event)"
+                    (onNodeCollapse)="onNodeCollapse($event)">
+
+                    <ng-template let-node pTemplate="default" let-last="last">
+                        <div class="flex items-center gap-2 relative w-full pb-1">
+                            <!-- Small left indicator dot -->
+                            <span class="absolute left-0 top-1/2 -translate-y-1/2 w-2 h-2 rounded-full bg-green-400"
+                                [attr.id]="'target-' + node.key"></span>
+
+                            <!-- If node is being edited -->
+                            <!-- <input *ngIf="editingNode === node" type="text" [(ngModel)]="editingLabel"
+                                class="border rounded px-2 py-1 text-sm w-full" (keyup.enter)="saveRename(node)"
+                                (keyup.escape)="cancelRename()" (blur)="saveRename(node)" autofocus /> -->
+
+                            <!-- Otherwise show static label -->
+                            <span *ngIf="editingNode !== node" class="pl-4 truncate">{{ node.label }}</span>
+                        </div>
+                        <div *ngIf="!last" class="w-full border-b border-surface-200 opacity-50 mb-2"></div>
+                    </ng-template>
+
+                </p-tree>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Footer -->
+    <div class="pt-4 flex justify-center gap-3">
+        <p-button styleClass="md:w-[250px]" severity="danger" outlined="true" label="Cancel"
+            (onClick)="onCancel()"></p-button>
+        <p-button styleClass="md:w-[250px]" label="Save" (onClick)="onSave()"></p-button>
+    </div>
+
+</div>

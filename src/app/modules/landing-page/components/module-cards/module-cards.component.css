@@ -1,0 +1,4 @@
+.active-card:hover {
+    transform: translateY(-20px);
+    z-index: 10;
+}

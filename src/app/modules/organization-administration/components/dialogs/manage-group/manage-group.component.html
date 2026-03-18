@@ -1,0 +1,18 @@
+<div class="flex flex-col gap-[10px]">
+    <form [formGroup]="groupForm" class="flex flex-col gap-[10px]">
+        <div class="grid grid-cols-1 gap-4">
+            <div class="flex flex-col gap-2">
+                <label for="appname">Group Name<span class="text-[var(--p-red-500)]"> *</span></label>
+                <input pInputText id="groupname" maxlength="7" formControlName="groupName" aria-describedby="username-help" />
+            </div>
+            <div class="flex flex-col gap-2">
+                <label for="appdesc">Group Description</label>
+                <input pInputText formControlName="groupDescription" id="appdesc" aria-describedby="username-help" />
+            </div>
+        </div>
+    </form>
+    <div class="flex justify-center gap-[10px]">
+        <p-button styleClass="w-[250px]" severity="danger" outlined="true" label="Cancel"></p-button>
+        <p-button styleClass="w-[250px]" label="Save" (onClick)="createRole()"></p-button>
+    </div>
+</div>

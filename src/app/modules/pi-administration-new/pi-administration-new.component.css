@@ -1,0 +1,26 @@
+.pi-admin-container {
+  width: 100%;
+  min-height: 100vh;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+/* Tablet Responsive */
+@media screen and (max-width: 1024px) {
+  .pi-admin-container {
+    padding: 15px;
+  }
+}
+
+/* Mobile Responsive */
+@media screen and (max-width: 768px) {
+  .pi-admin-container {
+    padding: 10px;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .pi-admin-container {
+    padding: 8px;
+  }
+}

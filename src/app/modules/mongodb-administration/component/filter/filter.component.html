@@ -1,0 +1,11 @@
+<div class="flex flex-wrap gap-[25px]">
+  <p-select
+    [options]="collections"
+    [(ngModel)]="selectedCollection"
+    placeholder="Select a Collection"
+    class="w-[300px]"
+    showClear="true"
+    [filter]="true"
+    (onChange)="onCollectionChange()"
+  ></p-select>
+</div>

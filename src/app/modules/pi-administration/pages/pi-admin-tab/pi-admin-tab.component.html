@@ -1,0 +1,448 @@
+<div class="pt-[50px] flex flex-col md:flex-row gap-[25px] pl-[20px] pr-[20px]">
+  <div class="flex justify-start items-center w-full">
+    <p-selectbutton [options]="tabActions" [(ngModel)]="selectedTab" (onOptionClick)="onTabClick($event)"
+      [allowEmpty]="false" [size]="(isMobile$ | async) == true ? 'small' : 'large'" styleClass="text-center" />
+  </div>
+</div>
+@if(selectedTab === PI_TABS.SEND){
+<div class="pt-[40px] pl-[20px] pr-[20px] w-full">
+  @if((isMobile$|async)===true){
+  <div class="flex flex-wrap justify-end pb-[10px] gap-[10px]">
+    <p-select [options]="tabButtonActions" placeholder="Select Action" [(ngModel)]="selectedButtonAction"
+      (onChange)="mobileTabButtonChange()" [checkmark]="true" class="w-full md:w-56" />
+  </div>
+  } @else{
+  <div class="flex justify-end pb-[10px] gap-[10px]">
+    <p-button (click)="triggerImport()" icon="pi pi-file-import" label="Import Excel" pTooltip="Import from Excel"
+      severity="secondary" class="w-full sm:w-auto"></p-button>
+    <p-button (click)="exportExcel(dt, selectedSends, 'pi_sends')" icon="pi pi-file-excel" label="Export Excel"
+      pTooltip="Export to Excel" class="w-full sm:w-auto"></p-button>
+    <p-button (onClick)="createSendTag()">Create</p-button>
+  </div>
+  }
+  <p-card class="w-full">
+    <div class="card">
+      <div class="flex flex-col md:flex-row md:justify-between gap-3 mb-4">
+        <div class="flex justify-between items-center md:block">
+          <div>List of PI Tag Send Administration</div>
+          <div class="block md:hidden">
+            <p-button [outlined]="true" icon="pi pi-filter-slash" (click)="clearSendTable(dt)" class="sm:w-auto" />
+          </div>
+        </div>
+
+        <div class="flex flex-col sm:flex-row md:items-center md:justify-end gap-2 w-full md:w-auto">
+          <div class="hidden md:block">
+            <p-button [outlined]="true" icon="pi pi-filter-slash" (click)="clearSendTable(dt)" class="sm:w-auto" />
+          </div>
+          <div class="w-full sm:w-auto">
+            <p-iconField iconPosition="left" class="w-full sm:w-auto">
+              <p-inputIcon>
+                <i class="pi pi-search"></i>
+              </p-inputIcon>
+              <input pInputText type="text" [(ngModel)]="searchPISendValue" (input)="onGlobalFilter($event)"
+                placeholder="Search" class="w-full" />
+            </p-iconField>
+          </div>
+        </div>
+      </div>
+
+      <div class="table-wrapper">
+        <p-table class="customizePaginator" #dt [value]="pi_send_data$ | async" selectionMode="multiple"
+          [(selection)]="selectedSends" dataKey="_id" [rowHover]="true" [rows]="20"
+          [showCurrentPageReport]="(isMobile$ | async) == true ? false : true" [rowsPerPageOptions]="[20, 30, 50]"
+          [loading]="iSPISendloading" [paginator]="true" [responsive]="true"
+          currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [filterDelay]="0"
+          (onRowSelect)="onPISendSelect($event)" [globalFilterFields]="[
+            'attributeName',
+            'tagNumber',
+            'piTagDesc',
+            'piSendStatus'
+          ]" styleClass="p-datatable-sm p-datatable-gridlines" [paginatorStyleClass]="'p-paginator-responsive'"
+          [paginatorDropdownAppendTo]="'body'">
+          <ng-template #header>
+            <tr>
+              <th style="width: 4rem">
+                <p-tableHeaderCheckbox />
+              </th>
+              <th pSortableColumn="attributeName">
+                <div class="flex justify-between items-center">
+                  Attribute Name
+                  <p-sortIcon field="attributeName" />
+                </div>
+              </th>
+              <th pSortableColumn="tagNumber">
+                <div class="flex justify-between items-center">
+                  PI Tag Number
+                  <p-sortIcon field="tagNumber" />
+                </div>
+              </th>
+              <th pSortableColumn="piTagDesc">
+                <div class="flex justify-between items-center">
+                  Attribute Description
+                  <p-sortIcon field="piTagDesc" />
+                </div>
+              </th>
+              <th pSortableColumn="piSendStatus">
+                <div class="flex justify-between items-center">
+                  Status
+                  <p-sortIcon field="piSendStatus" />
+                </div>
+              </th>
+              <th>
+                <div class="flex justify-center items-center">Actions</div>
+              </th>
+            </tr>
+          </ng-template>
+
+          <ng-template #body let-send>
+            <tr [pSelectableRow]="send">
+              <td>
+                <p-tableCheckbox [value]="send"></p-tableCheckbox>
+              </td>
+              <td>
+                <span class="font-medium">{{ send.attributeName }}</span>
+              </td>
+              <td>
+                <span class="font-medium">{{ send.tagNumber }}</span>
+              </td>
+              <td>
+                {{ send.piDesc }}
+              </td>
+              <td>
+                <p-tag [value]="getStatus(send.piSendStatus)" [severity]="getSeverity(send.piSendStatus)" />
+              </td>
+              <td>
+                <div class="flex justify-center gap-2">
+                  <p-button icon="pi pi-verified" severity="success" [rounded]="true" [outlined]="true" size="small"
+                    title="validate" (click)="validateSendTag(send)" />
+                  <p-button icon="pi pi-trash" severity="danger" [rounded]="true" [outlined]="true" size="small"
+                    title="delete" (click)="deletePISend(send)" />
+                </div>
+              </td>
+            </tr>
+          </ng-template>
+
+          <ng-template #emptymessage>
+            <tr>
+              <td colspan="6" class="text-center py-4">No PI Tag Send found.</td>
+            </tr>
+          </ng-template>
+
+          <!-- Custom paginator template -->
+          <ng-template pTemplate="paginatorleft">
+            <div class="hidden sm:block text-sm text-gray-600">
+              <!-- Showing {{dt.first + 1}} to {{dt.first + dt.rows > dt.totalRecords ? dt.totalRecords : dt.first + dt.rows}} of {{dt.totalRecords}} entries -->
+            </div>
+          </ng-template>
+        </p-table>
+      </div>
+    </div>
+  </p-card>
+
+  @if(isShowSendTagDetails){
+  <p-card class="w-full pb-[30px]">
+    <div class="flex w-full justify-end pb-[20px]">
+      <p-button label="update" (onClick)="editPISend(activeSend)"></p-button>
+    </div>
+    <form [formGroup]="updateSendForm" class="flex flex-col gap-[10px]">
+      <div class="grid md:grid-cols-2 gap-4">
+        <div class="flex flex-col gap-2">
+          <label for="attributeName">Attribute Name<span class="text-[var(--p-red-500)]">
+              *</span></label>
+          <!-- <input formControlName="attributeName" pInputText id="attributeName" aria-describedby="username-help" /> -->
+          <p-select [options]="attrDropDown$ | async" optionLabel="attributeName" optionValue="attributeId"
+            formControlName="attributeId" [filter]="true" styleClass="w-full" (onChange)="onAttributeSendChange($event)"
+            appendTo="body"></p-select>
+        </div>
+        <div class="flex flex-col gap-2">
+          <label for="createdBy">Created By</label>
+          <input pInputText id="createdBy" formControlName="createdBy" aria-describedby="username-help" />
+        </div>
+      </div>
+      <div class="grid md:grid-cols-2 gap-4">
+        <div class="flex flex-col gap-2">
+          <label for="tagNumber">PI Tag Number<span class="text-[var(--p-red-500)]"> *</span></label>
+          <input pInputText id="tagNumber" formControlName="tagNumber" aria-describedby="username-help" />
+        </div>
+
+        <div class="flex flex-col gap-2">
+          <label for="createdOn">Created Date</label>
+          <input pInputText id="createdOn" formControlName="createdOn" aria-describedby="username-help" />
+        </div>
+      </div>
+
+      <div class="grid md:grid-cols-2 gap-4">
+        <div class="flex flex-col gap-2">
+          <label for="piDesc">Description<span class="text-[var(--p-red-500)]">
+              *</span></label>
+          <input pInputText formControlName="piDesc" id="piDesc" aria-describedby="username-help" />
+        </div>
+        <div class="flex flex-col gap-2">
+          <label for="modifiedBy">Modified By</label>
+          <input pInputText formControlName="modifiedBy" id="modifiedBy" aria-describedby="username-help" />
+        </div>
+      </div>
+      <div class="grid md:grid-cols-2 gap-4">
+        <div class="flex flex-col gap-2">
+          <label for="Status">System Name</label>
+          <p-select formControlName="systemName" [options]="sysNameDropDown$ | async" optionLabel="sysName"
+            optionValue="sysName" placeholder="Select System" class="w-full" [filter]="true" appendTo="body" />
+        </div>
+
+        <div class="flex flex-col gap-2">
+          <label for="modifiedDate">Modified Date</label>
+          <input pInputText id="modifiedDate" formControlName="modifiedDate" aria-describedby="username-help" />
+        </div>
+      </div>
+      <div class="grid md:grid-cols-2 gap-4">
+        <div class="flex flex-col gap-2">
+          <label for="Status">Status</label>
+          <p-select formControlName="piSendStatus" optionLabel="name" optionValue="value" [options]="activeStatus"
+            placeholder="Select Active status" class="w-full" />
+        </div>
+      </div>
+    </form>
+  </p-card>
+  }
+</div>
+} @else if(selectedTab === PI_TABS.RECEIVE){
+<div class="pt-[40px] pl-[20px] pr-[20px] w-full">
+  @if((isMobile$|async)===true){
+  <div class="flex flex-wrap justify-end pb-[10px] gap-[10px]">
+    <p-select [options]="tabButtonActions" placeholder="Select Action" [(ngModel)]="selectedButtonAction"
+      (onChange)="mobileTabButtonChange()" [checkmark]="true" class="w-full md:w-56" />
+  </div>
+  } @else{
+  <div class="flex justify-end pb-[10px] gap-[10px]">
+    <p-button (click)="triggerImport()" icon="pi pi-file-import" label="Import Excel" pTooltip="Import from Excel"
+      severity="secondary" class="w-full sm:w-auto"></p-button>
+    <p-button (click)="exportExcel(dt, selectedReceives, 'pi_receives')" icon="pi pi-file-excel" label="Export Excel"
+      pTooltip="Export to Excel" class="w-full sm:w-auto"></p-button>
+    <p-button (onClick)="createReceiveTag()">Create</p-button>
+  </div>
+  }
+  <p-card class="w-full">
+    <div class="card">
+      <div class="flex flex-col md:flex-row md:justify-between gap-3 mb-4">
+        <div class="flex justify-between items-center md:block">
+          <div>List of PI Tag Receive Administration</div>
+          <div class="block md:hidden">
+            <p-button [outlined]="true" icon="pi pi-filter-slash" (click)="clearReceiveTable(dt)" class="sm:w-auto" />
+          </div>
+        </div>
+
+        <div class="flex flex-col sm:flex-row md:items-center md:justify-end gap-2 w-full md:w-auto">
+          <div class="hidden md:block">
+            <p-button [outlined]="true" icon="pi pi-filter-slash" (click)="clearReceiveTable(dt)" class="sm:w-auto" />
+          </div>
+          <div class="w-full sm:w-auto">
+            <p-iconField iconPosition="left" class="w-full sm:w-auto">
+              <p-inputIcon>
+                <i class="pi pi-search"></i>
+              </p-inputIcon>
+              <input pInputText type="text" [(ngModel)]="searchPIReceiveValue" (input)="onGlobalFilter($event)"
+                placeholder="Search" class="w-full" />
+            </p-iconField>
+          </div>
+        </div>
+      </div>
+
+      <div class="table-wrapper">
+        <p-table class="customizePaginator" #dt [value]="pi_receive_data$ | async" selectionMode="multiple"
+          [(selection)]="selectedReceives" dataKey="_id" [rowHover]="true" [rows]="20"
+          [showCurrentPageReport]="(isMobile$ | async) == true ? false : true" [rowsPerPageOptions]="[20, 30, 50]"
+          [loading]="iSPISendloading" [paginator]="true" [responsive]="true"
+          currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [filterDelay]="0"
+          (onRowSelect)="onPIReceiveSelect($event)" [globalFilterFields]="[
+            'tagNumber',
+            'piTagNumber',
+            'piExtType',
+            'piSystems',
+            'piReceiveStatus'
+          ]" styleClass="p-datatable-sm p-datatable-gridlines" [paginatorStyleClass]="'p-paginator-responsive'"
+          [paginatorDropdownAppendTo]="'body'">
+          <ng-template #header>
+            <tr>
+              <th style="width: 4rem">
+                <p-tableHeaderCheckbox />
+              </th>
+              <th pSortableColumn="attributeName">
+                <div class="flex justify-between items-center">
+                  Attribute Name
+                  <p-sortIcon field="attributeName" />
+                </div>
+              </th>
+              <th pSortableColumn="tagNumber">
+                <div class="flex justify-between items-center">
+                  PI Tag Number
+                  <p-sortIcon field="tagNumber" />
+                </div>
+              </th>
+              <th pSortableColumn="extType">
+                <div class="flex justify-between items-center">
+                  Ext Type
+                  <p-sortIcon field="extType" />
+                </div>
+              </th>
+              <th pSortableColumn="systemName">
+                <div class="flex justify-between items-center">
+                  System
+                  <p-sortIcon field="systemName" />
+                </div>
+              </th>
+              <th pSortableColumn="piReceiveStatus">
+                <div class="flex justify-between items-center">
+                  Status
+                  <p-sortIcon field="piReceiveStatus" />
+                </div>
+              </th>
+              <th>
+                <div class="flex justify-center items-center">Actions</div>
+              </th>
+            </tr>
+          </ng-template>
+
+          <ng-template #body let-receive>
+            <tr [pSelectableRow]="receive">
+              <td>
+                <p-tableCheckbox [value]="receive"></p-tableCheckbox>
+              </td>
+              <td>
+                <span class="font-medium">{{ receive.attributeName }}</span>
+              </td>
+              <td>
+                <span class="font-medium">{{ receive.tagNumber }}</span>
+              </td>
+              <td>
+                {{ receive.extType }}
+              </td>
+              <td>
+                {{ receive.systemName }}
+              </td>
+              <td>
+                <p-tag [value]="getStatus(receive.piReceiveStatus)" [severity]="getSeverity(receive.piReceiveStatus)" />
+              </td>
+              <td>
+                <div class="flex justify-center gap-2">
+                  <p-button icon="pi pi-verified" severity="success" [rounded]="true" [outlined]="true" size="small"
+                    title="validate" (click)="validateReceiveTag(receive)" />
+                  <p-button icon="pi pi-trash" severity="danger" [rounded]="true" [outlined]="true" size="small"
+                    title="delete" (click)="deletePIReceive(receive)" />
+                </div>
+              </td>
+            </tr>
+          </ng-template>
+
+          <ng-template #emptymessage>
+            <tr>
+              <td colspan="7" class="text-center py-4">
+                No PI Tag Receive found.
+              </td>
+            </tr>
+          </ng-template>
+
+          <!-- Custom paginator template -->
+          <ng-template pTemplate="paginatorleft">
+            <div class="hidden sm:block text-sm text-gray-600">
+              <!-- Showing {{dt.first + 1}} to {{dt.first + dt.rows > dt.totalRecords ? dt.totalRecords : dt.first + dt.rows}} of {{dt.totalRecords}} entries -->
+            </div>
+          </ng-template>
+        </p-table>
+      </div>
+    </div>
+  </p-card>
+
+  @if(isShowReceiveTagDetails){
+  <p-card class="w-full pb-[30px]">
+    <div class="flex w-full justify-end pb-[20px]">
+      <p-button label="update" (onClick)="editPIReceive(activeReceive)"></p-button>
+    </div>
+    <form [formGroup]="updateReceiveForm" class="flex flex-col gap-[10px]">
+      <div class="grid md:grid-cols-2 gap-4">
+        <div class="flex flex-col gap-2">
+          <label for="attributeName">Attribute Name<span class="text-[var(--p-red-500)]">
+              *</span></label>
+          <!-- <input formControlName="attributeName" pInputText id="attributeName" aria-describedby="username-help" /> -->
+          <p-select [options]="attrDropDown$ | async" optionLabel="attributeName" optionValue="attributeId"
+            formControlName="attributeId" [filter]="true" styleClass="w-full"
+            (onChange)="onAttributeReceiveChange($event)" appendTo="body"></p-select>
+        </div>
+        <div class="flex flex-col gap-2">
+          <label for="createdBy">Created By</label>
+          <input pInputText id="createdBy" formControlName="createdBy" aria-describedby="username-help" />
+        </div>
+      </div>
+      <div class="grid md:grid-cols-2 gap-4">
+        <div class="flex flex-col gap-2">
+          <label for="tagNumber">PI Tag Number<span class="text-[var(--p-red-500)]"> *</span></label>
+          <input pInputText id="tagNumber" formControlName="tagNumber" aria-describedby="username-help" />
+        </div>
+        <div class="flex flex-col gap-2">
+          <label for="createdOn">Created Date</label>
+          <input pInputText id="createdOn" formControlName="createdOn" aria-describedby="username-help" />
+        </div>
+      </div>
+
+      <div class="grid md:grid-cols-2 gap-4">
+        <div class="flex flex-col gap-2">
+          <label for="piDesc">Description<span class="text-[var(--p-red-500)]">
+              *</span></label>
+          <input pInputText formControlName="piDesc" id="piDesc" aria-describedby="username-help" />
+        </div>
+        <div class="flex flex-col gap-2">
+          <label for="modifiedBy">Modified By</label>
+          <input pInputText formControlName="modifiedBy" id="modifiedBy" aria-describedby="username-help" />
+        </div>
+      </div>
+      <div class="grid md:grid-cols-2 gap-4">
+        <div class="flex flex-col gap-2">
+          <label for="Status">System Name</label>
+          <p-select formControlName="systemName" [options]="sysNameDropDown$ | async" optionLabel="sysName"
+            optionValue="sysName" placeholder="Select System" class="w-full" [filter]="true" appendTo="body" />
+        </div>
+
+        <div class="flex flex-col gap-2">
+          <label for="modifiedDate">Modified Date</label>
+          <input pInputText id="modifiedDate" formControlName="modifiedDate" aria-describedby="username-help" />
+        </div>
+      </div>
+      <div class="grid md:grid-cols-2 gap-4">
+        <div class="flex flex-col gap-2">
+          <label for="Status">Freq. Type</label>
+          <p-select formControlName="freqType" [options]="freqTypes" placeholder="Select Freq. Type" class="w-full"
+            appendTo="body" />
+        </div>
+        <div class="flex flex-col gap-2">
+          <label for="value_status">Value Status</label>
+          <input pInputText id="value_status" formControlName="value_status" aria-describedby="username-help" />
+        </div>
+      </div>
+      <div class="grid md:grid-cols-2 gap-4">
+        <div class="flex flex-col gap-2">
+          <label for="Status">Ext Type</label>
+          <p-select formControlName="extType" [options]="extTypes" placeholder="Select Ext Type" class="w-full"
+            [filter]="true" appendTo="body" />
+        </div>
+        <div class="flex flex-col gap-2">
+          <label for="last_updated_date">Last Updated Date</label>
+          <input pInputText id="last_updated_date" formControlName="last_updated_date"
+            aria-describedby="username-help" />
+        </div>
+      </div>
+      <div class="grid md:grid-cols-2 gap-4">
+        <div class="flex flex-col gap-2">
+          <label for="Status">Status</label>
+          <p-select formControlName="piReceiveStatus" optionLabel="name" optionValue="value" [options]="activeStatus"
+            placeholder="Select Active status" class="w-full" />
+        </div>
+        <div class="flex flex-col gap-2">
+          <label for="record_ts">Record Ts</label>
+          <input pInputText id="record_ts" formControlName="record_ts" aria-describedby="username-help" />
+        </div>
+      </div>
+    </form>
+  </p-card>
+  }
+</div>
+}
+<p-toast [breakpoints]="breakPointForToastComponent"></p-toast>

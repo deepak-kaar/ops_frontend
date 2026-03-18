@@ -1,0 +1,70 @@
+<div class="flex flex-col gap-4">
+    <form [formGroup]="mappingForm">
+        <div class="flex flex-col gap-2">
+            <label for="categoryName">Category Name</label>
+            <input pInputText formControlName="categoryName" placeholder="Enter Mapping Category (e.g., Plant A)" />
+        </div>
+        
+        <div class="pt-3" formArrayName="inputMappings">
+            <div class="font-normal text-lg mb-3">
+                Input Variables Mapping
+            </div>
+            <p-table #dt [value]="inputMappings.controls" dataKey="index" [rows]="20" [showCurrentPageReport]="true"
+                [rowsPerPageOptions]="[20, 30, 50]" [paginator]="true" paginatorDropdownAppendTo="body"
+                [filterDelay]="0" [scrollable]="true" scrollHeight="400px" responsiveLayout="scroll">
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th style="min-width: 12rem">Variable Name</th>
+                        <th style="min-width: 10rem">Entity/Instance/Tag</th>
+                        <th style="min-width: 12rem">Entity/Instance Name</th>
+                        <th style="min-width: 12rem">Attributes</th>
+                        <th style="min-width: 10rem">Frequency</th>
+                        <th style="width: 15rem">Offset</th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-cal let-i="rowIndex">
+                    <tr [formGroupName]="i">
+                        <td>
+                            {{ inputMappings.at(i).get('variableName')?.value }}
+                        </td>
+                        <td>
+                            <p-select [options]="types" formControlName="type" placeholder="Select" class="w-full"
+                                showClear="true" appendTo="body" />
+                        </td>
+                        <td>
+                            <p-select [options]="getTypeOptions(i)" optionLabel="name" placeholder="Select"
+                                filterBy="name" [filter]="true" class="w-full" showClear="true" appendTo="body"
+                                formControlName="typeName" />
+                        </td>
+                        <td>
+                            <p-select [options]="getAttributeOptions(i)" optionLabel="name" placeholder="Select"
+                                filterBy="name" [filter]="true" class="w-full" showClear="true" appendTo="body"
+                                formControlName="attribute" />
+                        </td>
+                        <td>
+                            <p-select [options]="frequencyOptions" optionLabel="name" placeholder="Select"
+                                filterBy="name" [filter]="true" class="w-full" showClear="true" appendTo="body"
+                                formControlName="frequency" />
+                        </td>
+                        <td>
+                            <div class="overflow-hidden w-full">
+                                <p-inputnumber inputId="integeronly" [showButtons]="true" [style]="{width: '100%'}" class="w-full" placeholder="Input"
+                                    formControlName="offset" />
+                            </div>
+                        </td>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="emptymessage">
+                    <tr>
+                        <td colspan="6">No variables found.</td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+    </form>
+    <div class="flex justify-center gap-[10px]">
+        <p-button styleClass="w-[250px]" severity="danger" outlined="true" label="Cancel"
+            (onClick)="ref.close()"></p-button>
+        <p-button styleClass="w-[250px]" label="Save" (onClick)="createMapping()"></p-button>
+    </div>
+</div>

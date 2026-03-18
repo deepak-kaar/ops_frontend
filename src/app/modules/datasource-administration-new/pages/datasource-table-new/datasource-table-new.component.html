@@ -1,0 +1,242 @@
+<div class="pt-[40px] pl-[20px] pr-[20px] w-full pb-[40px]">
+  <!-- Mobile Layout -->
+  @if((isMobile$ | async) === true){
+  <div class="mobile-datasource-container">
+    <!-- Search Bar with Filter -->
+    <div class="mobile-search-row">
+      <div class="search-wrapper">
+        <p-iconField iconPosition="left" class="w-full">
+          <p-inputIcon>
+            <i class="pi pi-search"></i>
+          </p-inputIcon>
+          <input pInputText type="text" (keyup)="applyFilterGlobal($event, 'contains')"
+            [(ngModel)]="searchDatasourceValue" placeholder="Search datasources..."
+            class="w-full mobile-search-input" />
+        </p-iconField>
+      </div>
+      <button class="filter-btn" (click)="searchDatasourceValue = ''">
+        <i class="pi pi-filter-slash"></i>
+      </button>
+    </div>
+
+    <!-- Action Buttons -->
+    <div class="mobile-action-buttons">
+      <p-button (click)="triggerImport()" icon="pi pi-file-import" label="Import Excel"
+        severity="secondary" styleClass="w-full" [size]="'small'"></p-button>
+      <p-button (click)="exportExcel()" icon="pi pi-file-excel" label="Export Excel"
+        styleClass="w-full" [size]="'small'"></p-button>
+      <p-button (click)="createDatasource()" icon="pi pi-plus" label="Create"
+        styleClass="w-full" [size]="'small'"></p-button>
+    </div>
+
+    <!-- Datasource Cards -->
+    <div class="datasource-cards-container">
+      @for(data of datasource_data$ | async; track data._id){
+      <div class="datasource-card" (click)="onDataSourceSelectMobile(data)">
+        <div class="datasource-card-header">
+          <div class="datasource-info">
+            <span class="datasource-name">{{ data.sysName }}</span>
+            <span class="datasource-desc">{{ data.sysId }}</span>
+          </div>
+          <div class="datasource-actions">
+            <p-button icon="pi pi-trash" [rounded]="true" [outlined]="true" severity="danger"
+              [size]="'small'" (onClick)="deleteDatasource(data); $event.stopPropagation()"
+              pTooltip="Delete" />
+          </div>
+        </div>
+        <div class="datasource-card-footer">
+          <div class="datasource-stat">
+            <span class="stat-label">Type:</span>
+            <span class="stat-value">{{ data.sysType }}</span>
+          </div>
+          <div class="datasource-stat">
+            <span class="stat-label">Status:</span>
+            <p-tag [value]="getStatus(data.active)" [severity]="getSeverity(data.active)" />
+          </div>
+        </div>
+      </div>
+      }
+    </div>
+  </div>
+  } @else {
+  <!-- Desktop Layout - Table View -->
+  <div class="flex justify-end pb-[10px] gap-[10px]">
+    <p-button (click)="triggerImport()" icon="pi pi-file-import" label="Import Excel"
+      severity="secondary"></p-button>
+    <p-button (click)="exportExcel()" icon="pi pi-file-excel"
+      label="Export Excel"></p-button>
+    <p-button icon="pi pi-plus" label="Create" (onClick)="createDatasource()"></p-button>
+  </div>
+  <p-card class="w-full">
+    <div class="card">
+      <div class="flex flex-col md:flex-row md:justify-between gap-3 mb-4">
+        <div class="flex justify-between items-center md:block">
+          <div>List of Datasources</div>
+          <div class="block md:hidden">
+            <p-button [outlined]="true" icon="pi pi-filter-slash" (click)="clear(dt)" class="sm:w-auto" />
+          </div>
+        </div>
+        <div class="flex flex-col sm:flex-row md:items-center md:justify-end gap-2 w-full md:w-auto">
+          <div class="hidden md:block">
+            <p-button [outlined]="true" icon="pi pi-filter-slash" (click)="clear(dt)" class="sm:w-auto" />
+          </div>
+          <div class="w-full sm:w-auto">
+            <p-iconField iconPosition="left" class="w-full sm:w-auto">
+              <p-inputIcon>
+                <i class="pi pi-search"></i>
+              </p-inputIcon>
+              <input pInputText type="text" (keyup)="applyFilterGlobal($event, 'contains')"
+                [(ngModel)]="searchDatasourceValue" placeholder="Search" class="w-full" />
+            </p-iconField>
+          </div>
+        </div>
+      </div>
+      <div class="table-wrapper">
+        <p-table class="customizePaginator" #dt [value]="datasource_data$ | async" dataKey="_id" [rowHover]="true"
+          [rows]="20" [showCurrentPageReport]="true" [rowsPerPageOptions]="[20, 30, 50]" [paginator]="true"
+          currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [filterDelay]="0"
+          (onRowSelect)="onDataSourceSelect($event)"
+          [globalFilterFields]="['sysId', 'sysName', 'sysType', 'description']">
+          <ng-template pTemplate="header">
+            <tr>
+              <th pSortableColumn="sysId" style="min-width: 12rem" class="border-round-left-2xl text-left">
+                <div class="flex justify-between items-center">
+                  System Id
+                  <p-sortIcon field="sysId" />
+                  <p-columnFilter type="text" field="sysId" display="menu" class="ml-auto" />
+                </div>
+              </th>
+              <th pSortableColumn="sysName" style="min-width: 14rem">
+                <div class="flex justify-between items-center">
+                  System Name
+                  <p-sortIcon field="sysName" />
+                  <p-columnFilter type="text" field="sysName" display="menu" class="ml-auto" />
+                </div>
+              </th>
+              <th pSortableColumn="sysType" style="min-width: 10rem">
+                <div class="flex justify-between items-center">
+                  System Type
+                  <p-sortIcon field="sysType" />
+                  <p-columnFilter type="text" field="sysType" display="menu" class="ml-auto" />
+                </div>
+              </th>
+              <th pSortableColumn="active" style="min-width: 8rem">
+                <div class="flex justify-between items-center">
+                  Status
+                  <p-sortIcon field="active" />
+                </div>
+              </th>
+              <th style="min-width: 10rem" class="border-round-right-2xl text-left">
+                Action
+              </th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-data>
+            <tr class="p-selectable-row" (click)="onDataSourceSelectRow(data)">
+              <td class="border-round-left-2xl text-left">
+                {{ data.sysId }}
+              </td>
+              <td class="text-left">
+                <span class="ml-1 vertical-align-middle">{{ data.sysName }}</span>
+              </td>
+              <td class="text-left">
+                {{ data.sysType }}
+              </td>
+              <td class="text-left">
+                <p-tag [value]="getStatus(data.active)" [severity]="getSeverity(data.active)" />
+              </td>
+              <td class="border-round-right-2xl text-left">
+                <div class="flex gap-2">
+                  <p-button icon="pi pi-trash" [rounded]="true" [outlined]="true" severity="danger"
+                    [size]="(isMobile$ | async) ? 'small' : 'large'" (onClick)="deleteDatasource(data)"
+                    pTooltip="Delete" />
+                </div>
+              </td>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="emptymessage">
+            <tr>
+              <td colspan="5">No datasources found.</td>
+            </tr>
+          </ng-template>
+        </p-table>
+      </div>
+    </div>
+  </p-card>
+  }
+
+  <!-- Datasource Details (shown when a row is selected) -->
+  @if(isShowDetails){
+  <p-card class="w-full mt-4">
+    <div class="flex w-full justify-end pb-[20px]">
+      <p-button label="Update" (onClick)="editDatasource(editingDatasource)"></p-button>
+    </div>
+    <form [formGroup]="updateDataSourceForm" class="flex flex-col gap-3">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+        <div class="flex flex-col gap-2">
+          <label for="sysId">System Id<span class="text-[var(--p-red-500)]"> *</span></label>
+          <input formControlName="sysId" pInputText id="sysId" class="w-full" />
+        </div>
+        <div class="flex flex-col gap-2">
+          <label for="sysName">System Name<span class="text-[var(--p-red-500)]"> *</span></label>
+          <input formControlName="sysName" pInputText id="sysName" class="w-full" />
+        </div>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+        <div class="flex flex-col gap-2">
+          <label for="sysType">System Type</label>
+          <p-select formControlName="sysType" [options]="systemTypes" placeholder="Select System Type"
+            styleClass="w-full" [filter]="true" appendTo="body" />
+        </div>
+        <div class="flex flex-col gap-2">
+          <label for="operatingFacility">Operating Facility</label>
+          <input pInputText formControlName="operatingFacility" id="operatingFacility" class="w-full" />
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 gap-3">
+        <div class="flex flex-col gap-2">
+          <label for="description">System Description</label>
+          <textarea rows="3" cols="30" pTextarea formControlName="description" id="description"
+            class="w-full"></textarea>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 gap-3">
+        <div class="flex flex-col gap-2">
+          <label for="userJson">User JSON</label>
+          <div class="h-[12rem]">
+            <ngx-monaco-editor style="width: 100%; height: 100%" [options]="editorOptions"
+              formControlName="userJson"></ngx-monaco-editor>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+        <div class="flex flex-col gap-2">
+          <label for="active">Status</label>
+          <p-select formControlName="active" optionLabel="name" optionValue="value" [options]="activeStatus"
+            placeholder="Select Active status" styleClass="w-full" />
+        </div>
+        <div class="flex flex-col gap-2">
+          <label for="lastConnectionDate">Last Connection Date</label>
+          <input pInputText id="lastConnectionDate" formControlName="lastConnectionDate" class="w-full" />
+        </div>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+        <div class="flex flex-col gap-2">
+          <label for="lastRunDuration">Last Run Duration</label>
+          <input pInputText id="lastRunDuration" formControlName="lastRunDuration" class="w-full" />
+        </div>
+        <div class="flex flex-col gap-2">
+          <label for="lastConnectionSts">Last Connection Status</label>
+          <input pInputText id="lastConnectionSts" formControlName="lastConnectionSts" class="w-full" />
+        </div>
+      </div>
+    </form>
+  </p-card>
+  }
+</div>
+
+<p-toast [breakpoints]="breakPointForToastComponent"></p-toast>
+<p-confirmDialog></p-confirmDialog>

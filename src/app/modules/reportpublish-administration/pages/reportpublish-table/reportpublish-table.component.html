@@ -1,0 +1,59 @@
+<div class="pt-[40px] pl-[20px] pr-[20px] w-full pb-[40px]">
+  <div class="pt-[10px]">
+    <app-table-wrapper
+      [data]="(reportPublishData$ | async) ?? []"
+      [columns]="columns"
+      [actions]="actions"
+      [config]="tableConfig"
+      [selectedItem]="selectedReportPublish"
+      [loading]="isLoading"
+      [isMobile]="(isMobile$ | async) === true"
+      (onRowSelect)="onRowSelect($event)"
+      (onAction)="onAction($event)"
+      (onCreate)="openCreateDialog()">
+
+          <!-- Custom body template for special field rendering -->
+          <ng-template #bodyTemplate let-row let-columns="columns">
+            @for(col of columns; track col.field) {
+            <td>
+              @if(col.field === 'publishPath') {
+              <span class="path-text" [pTooltip]="row[col.field]" tooltipPosition="top">
+                {{ row[col.field] | slice:0:25 }}{{ row[col.field]?.length > 25 ? '...' : '' }}
+              </span>
+              } @else if(col.field === 'isActive') {
+              <span class="status-indicator" [ngClass]="row[col.field] ? 'active' : 'inactive'">
+                <i [class]="row[col.field] ? 'pi pi-check-circle' : 'pi pi-times-circle'"></i>
+                {{ row[col.field] ? 'Y' : 'N' }}
+              </span>
+              }  @else if(col.field === 'lastPublishedStatus') {
+              <p-tag
+                [value]="getPublishStatusLabel(row[col.field])"
+                [severity]="getPublishStatusSeverity(row[col.field])" />
+              } @else if(col.field === 'pageName') {
+              <span class="page-name">{{ row[col.field] }}</span>
+              } @else if(col.field === 'lastUpdatedBy') {
+              <span>{{ row['modifiedBy'] || row['createdBy'] || '-' }}</span>
+              } @else if(col.field === 'lastUpdatedAt') {
+              {{ (row['modifiedDate'] || row['createdDate']) ? ((row['modifiedDate'] || row['createdDate']) | date:'mediumDate') : '-' }}
+              } @else if(col.template === 'date') {
+              {{ row[col.field] ? (row[col.field] | date:'mediumDate') : '-' }}
+              } @else {
+              <span>{{ row[col.field] || '-' }}</span>
+              }
+            </td>
+            }
+            @if(actions.length > 0) {
+            <td>
+              <div class="flex justify-center gap-2">
+                @for(action of actions; track action.action) {
+                <p-button [icon]="action.icon" [severity]="$any(action.severity)" [rounded]="true"
+                  [outlined]="true" [size]="(isMobile$ | async) ? 'small' : 'large'"
+                  (onClick)="onAction({action: action.action, row: row})" [pTooltip]="action.tooltip" />
+                }
+              </div>
+            </td>
+            }
+          </ng-template>
+    </app-table-wrapper>
+  </div>
+</div>

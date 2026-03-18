@@ -1,0 +1,79 @@
+@if (isDataLoaded) {
+<div class="activity-template">
+  <div class="flex flex-col gap-[10px]">
+    <!-- Template Name and Description -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div class="flex flex-col gap-2">
+        <label class="font-semibold">Template Name</label>
+        <div class="p-3 border rounded bg-gray-50">
+          {{ activityData?.templateName || '-' }}
+        </div>
+      </div>
+      <div class="flex flex-col gap-2">
+        <label class="font-semibold">Template Description</label>
+        <div class="p-3 border rounded bg-gray-50">
+          {{ activityData?.templateDesc || '-' }}
+        </div>
+      </div>
+    </div>
+
+    <!-- Workflow Steps -->
+    <div class="grid grid-cols-1 gap-4">
+      <div class="flex flex-col gap-2">
+        <label class="font-semibold">Workflow Steps</label>
+        @if (workflowSteps.length > 0) {
+          @for (step of workflowSteps; track $index) {
+            <div class="p-3 border rounded bg-gray-50">
+              <div class="mb-2">
+                <span class="text-sm font-medium text-gray-600">Order:</span>
+                <span class="ml-2">{{ step.order }}</span>
+              </div>
+              <div>
+                <span class="text-sm font-medium text-gray-600">Step IDs:</span>
+                <div class="ml-4 mt-1">
+                  @for (stepId of getStepIds(step.stepId); track stepId) {
+                    <div class="text-sm">{{ stepId }}</div>
+                  }
+                </div>
+              </div>
+            </div>
+          }
+        } @else {
+          <div class="text-gray-500 p-2">No workflow steps</div>
+        }
+      </div>
+    </div>
+
+    <!-- Additional Information -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+      <div class="flex flex-col gap-2">
+        <label class="font-semibold">Type</label>
+        <div class="p-3 border rounded bg-gray-50">
+          {{ activityData?.type || '-' }}
+        </div>
+      </div>
+      <div class="flex flex-col gap-2">
+        <label class="font-semibold">Template ID</label>
+        <div class="p-3 border rounded bg-gray-50">
+          {{ activityData?.templateId || '-' }}
+        </div>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div class="flex flex-col gap-2">
+        <label class="font-semibold">Created By</label>
+        <div class="p-3 border rounded bg-gray-50">
+          {{ activityData?.createdBy || '-' }}
+        </div>
+      </div>
+      <div class="flex flex-col gap-2">
+        <label class="font-semibold">Created On</label>
+        <div class="p-3 border rounded bg-gray-50">
+          {{ activityData?.createdOn | date: 'short' }}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+}

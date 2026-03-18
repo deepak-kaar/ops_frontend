@@ -1,0 +1,78 @@
+<div class="designer-section-container w-full h-full relative overflow-hidden"
+  [attr.data-section-id]="sectionWidget.id"
+  [style.background-color]="sectionWidget.input?.style?.backgroundColor || 'transparent'"
+  [style.background-image]="sectionWidget.input?.style?.backgroundImage || 'none'"
+  [style.background-size]="sectionWidget.input?.style?.backgroundSize || 'cover'"
+  [style.background-position]="sectionWidget.input?.style?.backgroundPosition || 'center center'"
+  [style.background-repeat]="sectionWidget.input?.style?.backgroundRepeat || 'no-repeat'"
+  [style.border-top-style]="sectionWidget.input?.style?.borderTopStyle || 'solid'"
+  [style.border-bottom-style]="sectionWidget.input?.style?.borderBottomStyle || 'solid'"
+  [style.border-left-style]="sectionWidget.input?.style?.borderLeftStyle || 'solid'"
+  [style.border-right-style]="sectionWidget.input?.style?.borderRightStyle || 'solid'"
+  [style.border-top-color]="sectionWidget.input?.style?.borderTopColor || '#ccc'"
+  [style.border-bottom-color]="sectionWidget.input?.style?.borderBottomColor || '#ccc'"
+  [style.border-left-color]="sectionWidget.input?.style?.borderLeftColor || '#ccc'"
+  [style.border-right-color]="sectionWidget.input?.style?.borderRightColor || '#ccc'"
+  [style.border-top-width]="(sectionWidget.input?.style?.borderTopWidth || 1) + 'px'"
+  [style.border-bottom-width]="(sectionWidget.input?.style?.borderBottomWidth || 1) + 'px'"
+  [style.border-left-width]="(sectionWidget.input?.style?.borderLeftWidth || 1) + 'px'"
+  [style.border-right-width]="(sectionWidget.input?.style?.borderRightWidth || 1) + 'px'"
+  [style.border-top-left-radius]="(sectionWidget.input?.style?.borderTopLeftRadius || 0) + 'px'"
+  [style.border-top-right-radius]="(sectionWidget.input?.style?.borderTopRightRadius || 0) + 'px'"
+  [style.border-bottom-left-radius]="(sectionWidget.input?.style?.borderBottomLeftRadius || 0) + 'px'"
+  [style.border-bottom-right-radius]="(sectionWidget.input?.style?.borderBottomRightRadius || 0) + 'px'"
+  [style.padding-top]="(sectionWidget.input?.style?.paddingTop || 8) + 'px'"
+  [style.padding-right]="(sectionWidget.input?.style?.paddingRight || 8) + 'px'"
+  [style.padding-bottom]="(sectionWidget.input?.style?.paddingBottom || 8) + 'px'"
+  [style.padding-left]="(sectionWidget.input?.style?.paddingLeft || 8) + 'px'"
+  [style.font-family]="sectionWidget.input?.style?.fontFamily || ''"
+  [style.font-size]="(sectionWidget.input?.style?.fontSize || 14) + 'px'"
+  [style.font-weight]="sectionWidget.input?.style?.fontWeight || ''"
+  [style.color]="sectionWidget.input?.style?.color || ''"
+  [style.text-align]="sectionWidget.input?.style?.textAlign || 'left'">
+  
+  <!-- Nested widgets inside the section -->
+  <div class="absolute w-full h-full" *ngIf="sectionWidget.children && sectionWidget.children.length > 0">
+    <div 
+      class="absolute" 
+      *ngFor="let child of sectionWidget.children"
+      cdkDrag
+      [cdkDragBoundary]="'.designer-section-container'"
+      (cdkDragStarted)="onWidgetDragStart && onWidgetDragStart()"
+      (cdkDragEnded)="onWidgetDragEnd && onWidgetDragEnd($event, child)"
+      [ngStyle]="{
+        left: (child.position.x * 100) + '%',
+        top: (child.position.y * 100) + '%',
+        width: (child.position.w * 100) + '%',
+        height: (child.position.h * 100) + '%',
+        'z-index': child.position.zIndex || 1
+      }">
+      <div
+        class="designer-widget-root w-full h-full rounded-[4px] cursor-move select-none overflow-hidden relative"
+        [ngClass]="{
+          'selected': selectedWidgetId === child.id
+        }"
+        [style.background-color]="child.input?.style?.backgroundColor || (child.input?.style?.backgroundMode === 'transparent' ? 'transparent' : 'var(--p-surface-0)')"
+        [style.background-image]="child.input?.style?.backgroundImage || 'none'"
+        [style.background-size]="child.input?.style?.backgroundSize || 'cover'"
+        [style.background-position]="child.input?.style?.backgroundPosition || 'center center'"
+        [style.background-repeat]="child.input?.style?.backgroundRepeat || 'no-repeat'"
+        (click)="onWidgetClick && onWidgetClick(child); $event.stopPropagation()">
+        <app-designer-widget-host [widget]="child"></app-designer-widget-host>
+        
+        <!-- Resize handle (bottom-right) -->
+        <div 
+          class="absolute right-0 bottom-0 w-3 h-3 bg-[var(--p-primary-500)] rounded-tl cursor-se-resize"
+          (mousedown)="onWidgetResizeStart && onWidgetResizeStart(child, $event)">
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Empty state -->
+  <div *ngIf="!sectionWidget.children || sectionWidget.children.length === 0" 
+    class="w-full h-full flex items-center justify-center text-[var(--p-text-400)] text-xs">
+    Drop widgets here
+  </div>
+</div>
+

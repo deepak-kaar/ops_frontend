@@ -1,0 +1,68 @@
+<div class="flex flex-col gap-[20px]">
+    <!-- Filter Section -->
+    <div class="filter-section p-3 bg-surface-50 border border-surface-200 rounded">
+        <app-filter-new></app-filter-new>
+    </div>
+
+    <div class="flex flex-col gap-2">
+        <h3 class="text-lg font-semibold">Map Attributes to Consumer</h3>
+        <p class="text-sm text-gray-600">Consumer: <strong>{{ customerName }}</strong></p>
+        <p class="text-sm text-gray-600">Select one or more attributes to map to this consumer data.</p>
+    </div>
+
+    <div class="flex flex-col gap-4">
+        <div class="flex justify-between items-center">
+            <span class="font-medium">Available Attributes</span>
+            <span class="text-sm text-gray-500">
+                Selected: {{ selectedAttributes.length }}
+            </span>
+        </div>
+
+        <div class="table-container" style="max-height: 400px; overflow-y: auto;">
+            <p-table [value]="(attributes$ | async) || []" [loading]="false" [paginator]="true" [rows]="10"
+                styleClass="p-datatable-sm">
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th style="width: 50px;">
+                            <p-checkbox [(ngModel)]="selectAll" [binary]="true" (ngModelChange)="toggleSelectAll({checked: $event})"></p-checkbox>
+                        </th>
+                        <th>Attribute Name</th>
+                        <th>Frequency</th>
+                        <th>Min Value</th>
+                        <th>Max Value</th>
+                        <th>Description</th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-attribute>
+                    <tr>
+                        <td>
+                            <p-checkbox [ngModel]="isAttributeSelected(attribute)" [binary]="true"
+                                (ngModelChange)="onAttributeToggle(attribute, {checked: $event})"></p-checkbox>
+                        </td>
+                        <td>
+                            <span class="font-semibold">{{ attribute.attributeName || attribute.displayName || 'N/A' }}</span>
+                        </td>
+                        <td>{{ attribute.timeSeriesValue || 'N/A' }}</td>
+                        <td>{{ attribute.minValue || 'N/A' }}</td>
+                        <td>{{ attribute.maxValue || 'N/A' }}</td>
+                        <td>
+                            <span class="text-sm" [title]="attribute.comments || 'N/A'">
+                                {{ (attribute.comments && attribute.comments.length > 50) ? (attribute.comments.substring(0, 50) + '...') : (attribute.comments || 'N/A') }}
+                            </span>
+                        </td>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="emptymessage">
+                    <tr>
+                        <td colspan="5" class="text-center p-4">No attributes found</td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+    </div>
+
+    <div class="flex justify-end gap-[10px] pt-[10px]">
+        <p-button severity="danger" outlined="true" label="Cancel" (onClick)="cancel()"></p-button>
+        <p-button label="Save Mapping" (onClick)="saveMapping()"></p-button>
+    </div>
+</div>

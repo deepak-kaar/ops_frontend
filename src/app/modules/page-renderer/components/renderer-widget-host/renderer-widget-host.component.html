@@ -1,0 +1,207 @@
+@if (widget) {
+@switch (widget.type) {
+@case ('label') {
+<app-label [label]="widget.input?.label || widget.label || 'Label'" [style]="widget.input?.style">
+</app-label>
+}
+@case ('paragraph') {
+<app-paragraph [content]="widget.input?.content || 'Paragraph'" [style]="widget.input?.style">
+</app-paragraph>
+}
+@case ('text-area') {
+<app-text-area [value]="widget.input?.value || ''" [pageId]="pageId" [id]="widget.id" [style]="widget.input?.style">
+</app-text-area>
+}
+@case ('checkbox') {
+<app-checkbox [checked]="widget.input?.checked || false" [pageId]="pageId" [id]="widget.id"
+  [style]="widget.input?.style">
+</app-checkbox>
+}
+@case ('date-picker') {
+<app-date-picker [date]="widget.input?.date" [pageId]="pageId" [id]="widget.id" [style]="widget.input?.style">
+</app-date-picker>
+}
+@case ('dropdown') {
+<app-dropdown [data]="widget.input?.data || widget.input?.options || []" [value]="widget.input?.value" [pageId]="pageId"
+  [id]="widget.id" [frequency]="widget.input?.frequency" [attrId]="widget.attributeId ?? widget.input?.attributeId"
+  [attrName]="widget.input?.attrName" [style]="widget.input?.style" [updateDate]="date" [disabled]="isWidgetFrozen()">
+</app-dropdown>
+}
+@case ('input-text') {
+<app-input-text [value]="widget.input?.value || ''" [pageId]="pageId" [id]="widget.id"
+  [attrId]="widget.attributeId ?? widget.input?.attributeId" [frequency]="widget.frequency ?? widget.input?.frequency" [attrName]="widget.input?.attrName"
+  [style]="widget.input?.style" [updateDate]="date" [disabled]="isWidgetFrozen()">
+</app-input-text>
+}
+@case ('radio-button') {
+<app-radio-button [label1]="widget.input?.label1 || 'Option 1'" [label2]="widget.input?.label2 || 'Option 2'"
+  [pageId]="pageId" [id]="widget.id" [checked]="widget.input?.checked || false">
+</app-radio-button>
+}
+@case ('file-upload') {
+<app-file-upload [pageId]="pageId" [id]="widget.id" [style]="widget.input?.style">
+</app-file-upload>
+}
+
+@case ('progress-bar') {
+<app-progress-bar [value]="widget.input?.value ?? 50" [showValue]="widget.input?.showValue !== false"
+  [style]="widget.input?.style">
+</app-progress-bar>
+}
+@case ('rating') {
+<app-rating [value]="widget.input?.value ?? 3" [stars]="widget.input?.stars ?? 5" [readonly]="true"
+  [style]="widget.input?.style">
+</app-rating>
+}
+@case ('input-number') {
+<app-input-number [value]="widget.input?.value ?? 0" [min]="widget.input?.min ?? 0"
+  [max]="widget.input?.max ?? 100" [style]="widget.input?.style">
+</app-input-number>
+}
+@case ('input-otp') {
+<app-input-otp [value]="widget.input?.value ?? ''" [length]="widget.input?.length ?? 6"
+  [style]="widget.input?.style">
+</app-input-otp>
+}
+@case ('knob') {
+<app-knob [value]="widget.input?.value ?? 50" [min]="widget.input?.min ?? 0" [max]="widget.input?.max ?? 100"
+  [readonly]="true" [style]="widget.input?.style">
+</app-knob>
+}
+@case ('primeng-multiselect') {
+<app-primeng-multiselect [options]="widget.input?.options ?? []" [value]="widget.input?.value ?? []"
+  [optionLabel]="widget.input?.optionLabel ?? 'name'" [placeholder]="'Select'" [style]="widget.input?.style">
+</app-primeng-multiselect>
+}
+@case ('tree-select') {
+<app-tree-select [options]="widget.input?.options ?? []" [value]="widget.input?.value"
+  [placeholder]="'Select'" [style]="widget.input?.style">
+</app-tree-select>
+}
+@case ('toggle-switch') {
+<app-toggle-switch [checked]="widget.input?.checked ?? false" [style]="widget.input?.style">
+</app-toggle-switch>
+}
+@case ('toggle-button') {
+<app-toggle-button [onLabel]="widget.input?.onLabel ?? 'On'" [offLabel]="widget.input?.offLabel ?? 'Off'"
+  [checked]="widget.input?.checked ?? false" [style]="widget.input?.style">
+</app-toggle-button>
+}
+
+@case ('btn') {
+<app-button [buttonLabel]="widget.input?.buttonLabel || 'Button'" [id]="widget.id" [style]="widget.input?.style">
+</app-button>
+}
+@case ('btn-icon') {
+<app-icon-button [icon]="widget.input?.icon || 'pi pi-user'" [style]="widget.input?.style" [id]="widget.id">
+</app-icon-button>
+}
+
+@case ('primeng-dynamic-table') {
+<app-dynamic-table [dataSets]="widget.input?.dataSets" [style]="widget.input?.style"
+  [emitterId]="widget.input?.emitterId" [id]="widget.input?.id" [id]="widget.id">
+</app-dynamic-table>
+}
+@case ('static-table') {
+<app-static-table [style]="widget.input?.style">
+</app-static-table>
+}
+
+@case ('pie-chart') {
+<app-pie-chart [labels]="widget.input?.labels" [values]="widget.input?.values" [style]="widget.input?.style">
+</app-pie-chart>
+}
+@case ('donut-chart') {
+<app-donut [labels]="widget.input?.labels" [values]="widget.input?.values" [style]="widget.input?.style">
+</app-donut>
+}
+@case ('polar') {
+<app-polar-area [labels]="widget.input?.labels" [values]="widget.input?.values" [style]="widget.input?.style">
+</app-polar-area>
+}
+@case ('radar') {
+<app-radar [labels]="widget.input?.labels" [values]="widget.input?.values" [style]="widget.input?.style">
+</app-radar>
+}
+@case ('hbar') {
+<app-horizontal-bar [labels]="widget.input?.labels" [values]="widget.input?.values" [title]="widget.input?.title"
+  [style]="widget.input?.style">
+</app-horizontal-bar>
+}
+@case ('shbar') {
+<app-sh-bar [labels]="widget.input?.labels" [values1]="widget.input?.values1" [values2]="widget.input?.values2"
+  [title1]="widget.input?.title1" [title2]="widget.input?.title2" [style]="widget.input?.style">
+</app-sh-bar>
+}
+@case ('svbar') {
+<app-sv-bar [labels]="widget.input?.labels" [values1]="widget.input?.values1" [values2]="widget.input?.values2"
+  [title1]="widget.input?.title1" [title2]="widget.input?.title2" [style]="widget.input?.style">
+</app-sv-bar>
+}
+@case ('line') {
+<app-line [labels]="widget.input?.labels" [values]="widget.input?.values" [title]="widget.input?.title"
+  [style]="widget.input?.style">
+</app-line>
+}
+@case ('bar-chart') {
+<app-bar-chart [labels]="widget.input?.labels" [values]="widget.input?.values" [title]="widget.input?.title"
+  [style]="widget.input?.style">
+</app-bar-chart>
+}
+
+@case ('apex-line-chart') {
+<app-apexspline [labels]="widget.input?.labels" [values]="widget.input?.values" [style]="widget.input?.style">
+</app-apexspline>
+}
+
+@case ('image') {
+<app-image [src]="widget.input?.src" [alterateText]="widget.input?.alterateText || 'Image'"
+  [style]="widget.input?.style">
+</app-image>
+}
+@case ('video') {
+<app-video [videoSrc]="widget.input?.videoSrc" [thumbnail]="widget.input?.thumbnail" [style]="widget.input?.style">
+</app-video>
+}
+
+@case ('map') {
+<app-map></app-map>
+}
+@case ('tag') {
+<app-tag></app-tag>
+}
+@case ('date-tag') {
+<app-date-tag></app-date-tag>
+}
+@case ('location-tag') {
+<app-location-tag></app-location-tag>
+}
+@case ('spacer') {
+<app-spacer></app-spacer>
+}
+@case ('section') {
+<app-renderer-section-container
+  [sectionWidget]="widget"
+  [date]="date"
+  [frozenAttributeIds]="frozenAttributeIds"
+  [frozenFieldKeys]="frozenFieldKeys">
+</app-renderer-section-container>
+}
+@case ('iterator') {
+<app-renderer-iterator-container [iteratorWidget]="widget">
+</app-renderer-iterator-container>
+}
+@case ('divider') {
+<app-divider></app-divider>
+}
+@case ('guage') {
+<app-speed-guage></app-speed-guage>
+}
+
+@default {
+<div class="w-full h-full flex items-center justify-center text-xs">
+  {{ widget.label || widget.type }}
+</div>
+}
+}
+}

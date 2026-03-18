@@ -1,0 +1,128 @@
+<div class="create-container">
+    <!-- Header Section -->
+    <div class="header-section">
+        <div class="header-left">
+            <button *ngIf="!notificationId" class="back-btn" (click)="goBack()">
+                <i class="pi pi-arrow-left"></i>
+                <span>Back</span>
+            </button>
+            <div class="header-title">
+                <h1>{{ notificationId ? 'Manage Notification' : 'Create Notifications' }}</h1>
+                <p>Configure notification</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notification Creation Form -->
+    <div class="form-card mt-4">
+        <div class="card-header">
+            <h2>{{notificationId ? 'Update' : 'Add' }} Notification</h2>
+            <p>Define the basic information of your notification</p>
+        </div>
+        <div class="card-content">
+            <form [formGroup]="notificationForm">
+                <div class="form-field full-width mb-3">
+                    <label for="notificationName">Notification Name<span
+                            class="required">*</span></label>
+                    <input type="text" pInputText formControlName="notificationName"
+                        placeholder="Enter Notification name" id="notificationName" />
+                    <small
+                        *ngIf="notificationForm.get('notificationName')?.invalid && notificationForm.get('notificationName')?.touched"
+                        class="error-text">
+                        Notification Name is required
+                    </small>
+                </div>
+                <div class="form-field full-width mb-3">
+                    <label for="notificationDescription">Notification Description<span
+                            class="required">*</span></label>
+                    <textarea pTextarea formControlName="notificationDescription" rows="4"
+                        placeholder="Enter a detailed description of the notification..."
+                        id="notificationDescription"></textarea>
+                    <small
+                        *ngIf="notificationForm.get('notificationDescription')?.invalid && notificationForm.get('notificationDescription')?.touched"
+                        class="error-text">
+                        Notification Description is required
+                    </small>
+                </div>
+                <div class="form-field full-width mb-3">
+                    <label for="notificationType">Notification Type<span
+                            class="required">*</span></label>
+                    <p-select [options]="notifTypes" (onChange)="changeType($event.value)"
+                        formControlName="notificationType" class="w-full" appendTo="body" />
+
+                </div>
+                
+                <div class="form-field full-width mb-4">
+                    <label>Message Type<span class="required">*</span></label>
+                    <p-selectbutton [options]="messageTypeOptions" formControlName="messageType" optionLabel="label" optionValue="value"
+                        [allowEmpty]="false" class="w-full"></p-selectbutton>
+                </div>
+                
+                <!-- Static Message Type -->
+                <ng-container *ngIf="notificationForm.get('messageType')?.value === 'Static'">
+                @if(this.notificationForm.get('notificationType')?.value === 'SMS' ||
+                this.notificationForm.get('notificationType')?.value === 'APP'){
+                <div class="w-full form-field mb-3">
+                    <label for="notificationBody">Notification Body<span
+                            class="required">*</span></label>
+                    <textarea rows="3" class="w-full" pTextarea
+                        formControlName="notificationBody"></textarea>
+
+                </div>
+                }
+                @else if (this.notificationForm.get('notificationType')?.value === 'EMAIL') {
+                <div class="h-[25rem] w-full mb-3">
+                    <ngx-monaco-editor style="width:100%; height: 100%" [options]="editorOptions"
+                        formControlName="notificationBody"></ngx-monaco-editor>
+                </div>
+
+                <div class="w-full mt-3">
+                    <div
+                        [innerHTML]="sanitizer.bypassSecurityTrustHtml(this.notificationForm.get('notificationBody')?.value)">
+                    </div>
+                </div>
+                }
+                </ng-container>
+
+                <!-- Dynamic Message Type -->
+                <ng-container *ngIf="notificationForm.get('messageType')?.value === 'Dynamic'">
+                    <div class="w-full form-field mb-3">
+                        <label>Greetings</label>
+                        <ng-container *ngIf="notificationForm.get('notificationType')?.value === 'EMAIL'; else nonEmailGreeting">
+                            <div class="h-[15rem] w-full">
+                                <ngx-monaco-editor style="width:100%; height: 100%" [options]="editorOptions"
+                                    formControlName="greetings"></ngx-monaco-editor>
+                            </div>
+                        </ng-container>
+                        <ng-template #nonEmailGreeting>
+                            <textarea rows="3" class="w-full" pTextarea formControlName="greetings" placeholder="e.g. Hello Team,"></textarea>
+                        </ng-template>
+                    </div>
+
+                    <div class="w-full mb-3 p-4 border-round surface-100 flex align-items-center justify-content-center text-600 border-1 surface-border" style="border-style: dashed !important;">
+                        <i class="pi pi-bolt mr-2"></i> [ Dynamic Flag Message Will Appear Here ]
+                    </div>
+
+                    <div class="w-full form-field mb-3">
+                        <label>Footer</label>
+                        <ng-container *ngIf="notificationForm.get('notificationType')?.value === 'EMAIL'; else nonEmailFooter">
+                            <div class="h-[15rem] w-full">
+                                <ngx-monaco-editor style="width:100%; height: 100%" [options]="editorOptions"
+                                    formControlName="footer"></ngx-monaco-editor>
+                            </div>
+                        </ng-container>
+                        <ng-template #nonEmailFooter>
+                            <textarea rows="3" class="w-full" pTextarea formControlName="footer" placeholder="e.g. Thanks, Admin"></textarea>
+                        </ng-template>
+                    </div>
+                </ng-container>
+            </form>
+        </div>
+    </div>
+    
+    <div class="flex justify-content-end mt-4">
+        <p-button label="Save" (onClick)="onSubmit()" icon="pi pi-check" />
+    </div>
+</div>
+
+<p-toast [breakpoints]="breakPointForToastComponent"></p-toast>

@@ -1,0 +1,34 @@
+<div class="layout-root surface">
+
+  <!-- MOBILE OVERLAY -->
+  <div class="mobile-overlay" [class.active]="mobileSidebarVisible" (click)="toggleMobileSidebar()"></div>
+
+  <!-- FIXED SIDEBAR -->
+  <aside class="sidebar-wrapper" [class.mobile-open]="mobileSidebarVisible">
+    <app-sidebar-new></app-sidebar-new>
+  </aside>
+
+  <!-- RIGHT SIDE -->
+  <main class="right-pane">
+
+    <app-topbar-new
+      (menuToggle)="toggleMobileSidebar()"
+      [showRolloutLabel]="true"
+      [labels]="labels"
+      [(selectedLabel)]="selectedLabel"
+      (labelChange)="onLabelChange()">
+    </app-topbar-new>
+
+    <!-- content that scrolls -->
+    <section class="right-scroll">
+      <div class="pt-[10px] pl-[20px] pr-[20px] w-full pb-[40px]">
+        <div class="pt-[10px]">
+
+
+          <!-- Child Route Content -->
+          <router-outlet></router-outlet>
+        </div>
+      </div>
+    </section>
+  </main>
+</div>

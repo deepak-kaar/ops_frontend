@@ -1,0 +1,300 @@
+/* =========================================
+   Global Table Wrapper CSS Variables
+   Reusable CSS properties for uniform styling
+   ========================================= */
+
+:root {
+  /* =========================================
+     Table Container
+     ========================================= */
+  --table-container-border-radius: 16px;
+  --table-container-background: #ffffff;
+  --table-container-box-shadow: 0 10px 28px rgba(0, 0, 0, 0.04);
+  --table-container-border: 1px solid #e9eef5;
+
+  /* =========================================
+     Table Header
+     ========================================= */
+  --table-header-background: #f9fbfd;
+  --table-header-border: 1px solid #ebeef0;
+  --table-header-padding: 8px 16px;
+  --table-header-font-size: 16px;
+  --table-header-font-weight: 300;
+  --table-header-color: #808080;
+  --table-header-border-radius: 0.75rem;
+
+  /* =========================================
+     Table Body Cells
+     ========================================= */
+  --table-cell-padding: 14px 16px;
+  --table-cell-font-size: 16px;
+  --table-cell-font-weight: 300;
+  --table-cell-color: #263141;
+  --table-cell-border: 1px solid #ebeef0;
+  --table-cell-border-top: 1px solid #ebeef0;
+  --table-cell-border-bottom: 1px solid #ebeef0;
+
+  /* =========================================
+     Table Row Hover
+     ========================================= */
+  --table-row-hover-background: #f7f9ff;
+  --table-row-selected-background: #eff6ff;
+
+  /* =========================================
+     Table Border Radius
+     ========================================= */
+  --table-border-radius-left: 0.75rem;
+  --table-border-radius-right: 0.75rem;
+
+  /* =========================================
+     Card Container (Desktop)
+     ========================================= */
+  --card-container-border-radius: 12px;
+  --card-container-box-shadow: 0 10px 28px rgba(0, 0, 0, 0.04);
+  --card-container-border: 1px solid #e9eef5;
+
+  /* =========================================
+     Mobile Container
+     ========================================= */
+  --mobile-container-padding: 10px;
+
+  /* =========================================
+     Mobile Search
+     ========================================= */
+  --mobile-search-row-gap: 10px;
+  --mobile-search-row-margin-bottom: 15px;
+  --mobile-search-input-border-radius: 8px;
+  --mobile-search-input-border: 1px solid #e5e7eb;
+  --mobile-search-input-padding: 10px 12px 10px 36px;
+  --mobile-search-input-font-size: 14px;
+  --mobile-search-input-background: #ffffff;
+
+  /* =========================================
+     Mobile Filter Button
+     ========================================= */
+  --mobile-filter-btn-background: #ffffff;
+  --mobile-filter-btn-border: 1px solid #e5e7eb;
+  --mobile-filter-btn-border-radius: 8px;
+  --mobile-filter-btn-padding: 10px 15px;
+  --mobile-filter-btn-color: #64748b;
+  --mobile-filter-btn-hover-background: #f8fafc;
+  --mobile-filter-btn-hover-border-color: #0064EA;
+  --mobile-filter-btn-hover-color: #0064EA;
+
+  /* =========================================
+     Mobile Create Button
+     ========================================= */
+  --mobile-create-btn-background: #0064EA;
+  --mobile-create-btn-color: #ffffff;
+  --mobile-create-btn-border-radius: 12px;
+  --mobile-create-btn-padding: 12px 20px;
+  --mobile-create-btn-font-size: 15px;
+  --mobile-create-btn-font-weight: 500;
+  --mobile-create-btn-gap: 8px;
+  --mobile-create-btn-margin-bottom: 15px;
+  --mobile-create-btn-hover-background: #0052c4;
+
+  /* =========================================
+     Mobile Cards Container
+     ========================================= */
+  --mobile-cards-container-gap: 12px;
+
+  /* =========================================
+     Mobile Card
+     ========================================= */
+  --mobile-card-background: #ffffff;
+  --mobile-card-border: 1px solid #e5e7eb;
+  --mobile-card-border-radius: 12px;
+  --mobile-card-padding: 16px;
+  --mobile-card-box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  --mobile-card-hover-box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  --mobile-card-hover-border-color: #0064EA;
+
+  /* =========================================
+     Mobile Card Header
+     ========================================= */
+  --mobile-card-header-margin-bottom: 12px;
+  --mobile-card-title-font-size: 16px;
+  --mobile-card-title-font-weight: 600;
+  --mobile-card-title-color: #1f2937;
+  --mobile-card-subtitle-font-size: 14px;
+  --mobile-card-subtitle-color: #6b7280;
+
+  /* =========================================
+     Mobile Card Actions
+     ========================================= */
+  --mobile-card-actions-gap: 8px;
+  --mobile-action-icon-size: 32px;
+  --mobile-action-icon-border-radius: 8px;
+  --mobile-action-icon-color: #6b7280;
+  --mobile-action-icon-hover-background: #f3f4f6;
+  --mobile-action-icon-hover-color: #0064EA;
+  --mobile-action-icon-delete-hover-background: #fef2f2;
+  --mobile-action-icon-delete-hover-color: #ef4444;
+
+  /* =========================================
+     Mobile Card Footer
+     ========================================= */
+  --mobile-card-footer-padding-top: 12px;
+  --mobile-card-footer-border-top: 1px solid #e5e7eb;
+  --mobile-card-stat-label-font-size: 12px;
+  --mobile-card-stat-label-color: #9ca3af;
+  --mobile-card-stat-value-font-weight: 500;
+  --mobile-card-stat-value-color: #1f2937;
+
+  /* =========================================
+     Level Chip
+     ========================================= */
+  --level-chip-background: #F0F6FD;
+  --level-chip-color: #0064EA;
+  --level-chip-border: 1px solid #0064EA;
+  --level-chip-padding: 4px 12px;
+  --level-chip-border-radius: 16px;
+  --level-chip-font-size: 13px;
+  --level-chip-font-weight: 500;
+
+  /* =========================================
+     Count Pill
+     ========================================= */
+  --count-pill-background: #f0fdf4;
+  --count-pill-color: #15803d;
+  --count-pill-padding: 4px 12px;
+  --count-pill-border-radius: 16px;
+  --count-pill-font-size: 13px;
+  --count-pill-font-weight: 500;
+
+  /* =========================================
+     Create Button
+     ========================================= */
+  --create-button-border-radius: 12px;
+  --create-button-box-shadow: 0px 1px 4px 0px rgba(0, 0, 0, 0.1);
+
+  /* =========================================
+     Paginator
+     ========================================= */
+  --paginator-background: transparent;
+  --paginator-border: none;
+  --paginator-justify-content: end;
+
+  /* =========================================
+     Typography - Headings
+     ========================================= */
+  --heading-h1-font-size: 2rem;
+  --heading-h1-font-weight: 600;
+  --heading-h1-color: #1e293b;
+  --heading-h1-line-height: 1.2;
+
+  --heading-h2-font-size: 1.5rem;
+  --heading-h2-font-weight: 600;
+  --heading-h2-color: #1e293b;
+  --heading-h2-line-height: 1.3;
+
+  --heading-h3-font-size: 1.25rem;
+  --heading-h3-font-weight: 600;
+  --heading-h3-color: #1e293b;
+  --heading-h3-line-height: 1.4;
+
+  --heading-h4-font-size: 1.1rem;
+  --heading-h4-font-weight: 600;
+  --heading-h4-color: #1e293b;
+  --heading-h4-line-height: 1.4;
+
+  --heading-h5-font-size: 1rem;
+  --heading-h5-font-weight: 500;
+  --heading-h5-color: #1e293b;
+  --heading-h5-line-height: 1.5;
+
+  --heading-h6-font-size: 0.875rem;
+  --heading-h6-font-weight: 500;
+  --heading-h6-color: #1e293b;
+  --heading-h6-line-height: 1.5;
+
+  /* =========================================
+     Typography - Body Text
+     ========================================= */
+  --text-base-font-size: 16px;
+  --text-base-font-weight: 300;
+  --text-base-color: #263141;
+  --text-base-line-height: 1.5;
+
+  --text-sm-font-size: 14px;
+  --text-sm-font-weight: 300;
+  --text-sm-color: #263141;
+  --text-sm-line-height: 1.5;
+
+  --text-xs-font-size: 12px;
+  --text-xs-font-weight: 300;
+  --text-xs-color: #6b7280;
+  --text-xs-line-height: 1.4;
+
+  --text-lg-font-size: 18px;
+  --text-lg-font-weight: 300;
+  --text-lg-color: #263141;
+  --text-lg-line-height: 1.5;
+
+  /* =========================================
+     Typography - Labels
+     ========================================= */
+  --label-font-size: 14px;
+  --label-font-weight: 500;
+  --label-color: #374151;
+
+  /* =========================================
+     Typography - Subtitles
+     ========================================= */
+  --subtitle-font-size: 13px;
+  --subtitle-font-weight: 300;
+  --subtitle-color: #64748b;
+
+  /* =========================================
+     Dialog/Modal Styles
+     ========================================= */
+  --dialog-border-radius: 12px;
+  --dialog-content-padding: 0;
+  --dialog-mask-background: rgba(0, 0, 0, 0.5);
+  --dialog-header-background: linear-gradient(135deg, var(--p-primary-color, #1e3a5f) 0%, #2c5282 100%);
+  --dialog-header-padding: 1rem 1.5rem;
+  --dialog-header-color: white;
+
+  /* =========================================
+     Responsive Breakpoints
+     ========================================= */
+  --breakpoint-mobile: 768px;
+  --breakpoint-tablet: 1024px;
+}
+
+/* =========================================
+   Responsive Font Sizes
+   ========================================= */
+@media screen and (max-width: 640px) {
+  :root {
+    --table-header-font-size: 10px;
+    --table-cell-font-size: 10px;
+    --table-header-padding: 4px 2px;
+    --table-cell-padding: 6px 2px;
+    --mobile-search-input-font-size: 12px;
+  }
+}
+
+@media screen and (min-width: 641px) and (max-width: 1024px) {
+  :root {
+    --table-header-font-size: 13px;
+    --table-cell-font-size: 13px;
+    --text-base-font-size: 14px;
+    --text-sm-font-size: 13px;
+  }
+}
+
+/* =========================================
+   Typography Responsive Adjustments
+   ========================================= */
+@media screen and (max-width: 640px) {
+  :root {
+    --heading-h1-font-size: 1.5rem;
+    --heading-h2-font-size: 1.25rem;
+    --heading-h3-font-size: 1.1rem;
+    --heading-h4-font-size: 1rem;
+    --text-base-font-size: 14px;
+    --text-sm-font-size: 12px;
+  }
+}

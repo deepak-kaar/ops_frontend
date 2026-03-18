@@ -1,0 +1,49 @@
+<div class="flex flex-col gap-[10px]">
+  <form [formGroup]="datasourceForm" class="flex flex-col gap-[10px]">
+    <div class="grid grid-cols-1 md:grid-cols-2 md:gap-4">
+      <div class="flex flex-col gap-2">
+        <label for="sysId">System Id<span class="text-[var(--p-red-500)]"> *</span></label>
+        <input pInputText id="sysId" formControlName="sysId" aria-describedby="username-help" />
+      </div>
+      <div class="flex flex-col gap-2">
+        <label for="sysName">System Name<span class="text-[var(--p-red-500)]"> *</span></label>
+        <input pInputText id="sysName" formControlName="sysName" aria-describedby="username-help" />
+      </div>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-2 md:gap-4">
+      <div class="flex flex-col gap-2">
+        <label for="sysType">System Type</label>
+        <p-select formControlName="sysType" [options]="systemTypes" placeholder="Select System Type" class="w-full"
+          [filter]="true" appendTo="body" />
+      </div>
+      <div class="flex flex-col gap-2">
+        <label for="operatingFacility">Operating Facility</label>
+        <input pInputText id="operatingFacility" formControlName="operatingFacility" aria-describedby="username-help" />
+      </div>
+    </div>
+
+    <div class="grid grid-cols-1 gap-4">
+      <div class="flex flex-col gap-2">
+        <label for="description">System Description</label>
+        <textarea rows="3" cols="30" pTextarea formControlName="description" id="description"
+          class="input-field"></textarea>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-1 gap-4">
+      <div class="flex flex-col gap-2">
+        <label for="userJson">User JSON</label>
+        <div class="h-[12rem]">
+          <ngx-monaco-editor style="width:100%; height: 100%" [options]="editorOptions"
+            formControlName="userJson"></ngx-monaco-editor>
+        </div>
+      </div>
+    </div>
+
+  </form>
+  <div class="pt-[10px] md:pt-[0px] flex justify-center gap-[10px]">
+    <p-button styleClass="md:w-[250px]" severity="danger" outlined="true" label="Cancel"
+      (onClick)="cancel()"></p-button>
+    <p-button styleClass="md:w-[250px]" label="Save" (onClick)="createDataSource()"></p-button>
+  </div>
+</div>

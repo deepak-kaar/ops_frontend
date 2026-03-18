@@ -1,0 +1,54 @@
+<div class="pt-[50px] pl-[20px] pr-[20px] w-full">
+    <div class="pt-[10px]">
+        <app-table-wrapper 
+            [data]="notifications" 
+            [columns]="columns" 
+            [actions]="actions"
+            [config]="tableConfig"
+            [selectedItem]="selectedNotif"
+            (onRowSelect)="onNotifSelect($event)"
+            (onRowUnselect)="onNotifUnSelect($event)"
+            (onAction)="onAction($event)"
+            (onCreate)="createNotification()">
+            
+            <!-- Custom body template for notification fields (row and pSelectableRow handled by default template) -->
+            <ng-template #bodyTemplate let-row let-columns="columns">
+                @for(col of columns; track col.field; let first = $first; let last = $last) {
+                <td [class.border-round-left-2xl]="first"
+                    [class.border-round-right-2xl]="last && actions.length === 0"
+                    [class.cursor-pointer]="col.clickable !== false"
+                    class="text-left"
+                    (click)="col.clickable !== false ? onNotifSelect({data: row}) : null">
+                    @if(col.field === 'notificationDescription' || col.field === 'notificationType') {
+                    <span class="ml-1 vertical-align-middle desc">{{ row[col.field] }}</span>
+                    } @else {
+                    <span class="ml-1 vertical-align-middle">{{ row[col.field] }}</span>
+                    }
+                </td>
+                }
+                @if(actions.length > 0) {
+                <td>
+                    <div class="flex gap-2">
+                        @for(action of actions; track action.action) {
+                        <p-button [icon]="action.icon" [rounded]="true" [text]="true" [severity]="$any(action.severity)"
+                            (onClick)="onAction({action: action.action, row: row})" [pTooltip]="action.tooltip" />
+                        }
+                    </div>
+                </td>
+                }
+            </ng-template>
+        </app-table-wrapper>
+    </div>
+
+    <div class="pt-[10px]">
+        @if(isShowDetails){
+        <div class="pt-[10px] pb-[30px]">
+            <p-card class=" w-full">
+                <app-manage-notifications-new [notificationId]="selectedNotif.notificationId" (notificationUpdated)="getNotifications()"></app-manage-notifications-new>
+            </p-card>
+        </div>
+        }
+    </div>
+</div>
+<p-toast [breakpoints]="breakPointForToastComponent"></p-toast>
+<p-confirmDialog></p-confirmDialog>

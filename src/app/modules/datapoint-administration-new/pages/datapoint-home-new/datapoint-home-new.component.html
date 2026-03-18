@@ -1,0 +1,32 @@
+<div class="layout-root surface">
+
+  <!-- MOBILE OVERLAY -->
+  <div class="mobile-overlay" [class.active]="mobileSidebarOpen" (click)="toggleSidebar()"></div>
+
+  <!-- FIXED SIDEBAR -->
+  <aside class="sidebar-wrapper" [class.mobile-open]="mobileSidebarOpen">
+    <app-sidebar-new></app-sidebar-new>
+  </aside>
+
+  <!-- RIGHT SIDE -->
+  <div class="right-pane surface-ground">
+
+    <app-topbar-new (menuToggle)="toggleSidebar()"></app-topbar-new>
+
+    <!-- content that scrolls -->
+    <div class="right-scroll">
+
+      @if(showRoutingCards){
+      <div class="px-6 pt-4 pb-1">
+        <app-filter-new></app-filter-new>
+        <app-datapoint-routing-card-new></app-datapoint-routing-card-new>
+      </div>
+      }
+
+      <router-outlet></router-outlet>
+
+    </div>
+
+  </div>
+
+</div>

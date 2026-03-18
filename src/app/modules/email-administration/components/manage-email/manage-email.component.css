@@ -1,0 +1,65 @@
+::ng-deep .p-editor .ql-toolbar {
+  border-radius: 0.5rem 0.5rem 0 0;
+  border-color: #dcdcdc;
+}
+
+::ng-deep .p-editor .ql-container {
+  border-radius: 0 0 0.5rem 0.5rem;
+  border-color: #dcdcdc;
+}
+
+::ng-deep .p-editor .ql-toolbar button:hover,
+::ng-deep .p-editor .ql-toolbar select:hover {
+  background-color: #f4f4f4;
+}
+
+
+/* Map Quill font classes to your custom font families */
+::ng-deep .ql-font-manifapro {
+  font-family: 'manifapro', sans-serif;
+}
+::ng-deep .ql-font-manifapro-italic {
+  font-family: 'manifapro-italic', sans-serif;
+}
+::ng-deep .ql-font-ghawar {
+  font-family: 'ghawar', sans-serif;
+}
+::ng-deep .ql-font-segoe {
+  font-family: 'segoe', sans-serif;
+}
+::ng-deep .ql-font-trebuchet {
+  font-family: 'trebuchet', sans-serif;
+}
+
+/* Display proper font name in the dropdown */
+::ng-deep .ql-snow .ql-picker.ql-font .ql-picker-label::before,
+.ql-snow .ql-picker.ql-font .ql-picker-item::before {
+  content: attr(data-label);
+}
+
+/* Assign display labels for dropdown */
+::ng-deep .ql-picker.ql-font .ql-picker-item[data-value="manifapro"]::before,
+.ql-picker.ql-font .ql-picker-label[data-value="manifapro"]::before {
+  content: "Manifa Pro";
+  font-family: 'manifapro';
+}
+::ng-deep .ql-picker.ql-font .ql-picker-item[data-value="manifapro-italic"]::before,
+.ql-picker.ql-font .ql-picker-label[data-value="manifapro-italic"]::before {
+  content: "Manifa Pro Italic";
+  font-family: 'manifapro-italic';
+}
+::ng-deep .ql-picker.ql-font .ql-picker-item[data-value="ghawar"]::before,
+.ql-picker.ql-font .ql-picker-label[data-value="ghawar"]::before {
+  content: "Ghawar";
+  font-family: 'ghawar';
+}
+::ng-deep .ql-picker.ql-font .ql-picker-item[data-value="segoe"]::before,
+.ql-picker.ql-font .ql-picker-label[data-value="segoe"]::before {
+  content: "Segoe";
+  font-family: 'segoe';
+}
+::ng-deep .ql-picker.ql-font .ql-picker-item[data-value="trebuchet"]::before,
+.ql-picker.ql-font .ql-picker-label[data-value="trebuchet"]::before {
+  content: "Trebuchet";
+  font-family: 'trebuchet';
+}

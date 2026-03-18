@@ -1,0 +1,288 @@
+<div class="p-6 md:p-8">
+  <!-- Page Header -->
+  <div class="form-header">
+    <button type="button" class="back-button" (click)="goBack()">
+      <i class="pi pi-arrow-left"></i>
+      <span>Back</span>
+    </button>
+    <div class="header-copy">
+      <div class="title">{{ mode === 'edit' ? 'Edit Report Publish' : 'Create Report Publish' }}</div>
+      <div class="subtitle">Configure report publish details and schedule</div>
+    </div>
+    <div class="header-actions">
+      <p-button label="Cancel" [outlined]="true" styleClass="btn-outline" (onClick)="goBack()"></p-button>
+      <p-button [label]="mode === 'edit' ? 'Update' : 'Create'" styleClass="btn-primary"
+        (onClick)="onSubmit()" [loading]="isSubmitting"></p-button>
+    </div>
+  </div>
+
+  <!-- Form Card -->
+  <div class="categories-section">
+    <form [formGroup]="reportPublishForm" (ngSubmit)="onSubmit()">
+
+      <!-- Basic Information -->
+      <div class="form-section">
+        <div class="section-header">
+          <i class="pi pi-info-circle"></i>
+          <span>Basic Information</span>
+        </div>
+        <div class="form-grid">
+          @if (mode === 'edit' && reportPublishData) {
+          <div class="form-field">
+            <label>Page ID</label>
+            <div class="readonly-field">
+              <i class="pi pi-hashtag"></i>
+              <span>{{ reportPublishData.reportPublishId || reportPublishData._id }}</span>
+            </div>
+          </div>
+          }
+
+          <div class="form-field span-2">
+            <label>Page Name <span class="required">*</span></label>
+            <div class="input-with-button">
+              <input pInputText
+                [value]="getSelectedReportsDisplay()"
+                placeholder="Click 'Select Reports' to choose"
+                [readonly]="true"
+                class="readonly-input"
+                [ngClass]="{'invalid': hasError('pageName')}" />
+              <button type="button" pButton label="Select Reports" icon="pi pi-list"
+                (click)="openReportSelectionDialog()"
+                class="browse-btn" severity="info"></button>
+            </div>
+            @if (hasError('pageName')) {
+            <small class="error-text">At least one page name is required</small>
+            }
+          </div>
+
+          <div class="form-field span-2">
+            <label>Page Description</label>
+            <input pInputText formControlName="pageDescription"
+              placeholder="Description auto-filled from selected template"
+              [readonly]="true" class="readonly-input" />
+          </div>
+
+          <div class="form-field">
+            <label>Mapping Updated On</label>
+            <input pInputText [value]="selectedTemplateMappingDate | date:'medium'"
+              placeholder="-" [readonly]="true" class="readonly-input" />
+          </div>
+        </div>
+      </div>
+
+      <!-- Report Location -->
+      <div class="form-section">
+        <div class="section-header">
+          <i class="pi pi-folder"></i>
+          <span>Report Location</span>
+        </div>
+        <div class="form-grid">
+          <div class="form-field span-3">
+            <label>Publish Path <span class="required">*</span></label>
+            <div class="input-with-button">
+              <span class="path-icon"><i class="pi pi-file"></i></span>
+              <input pInputText formControlName="publishPath"
+                placeholder="Enter any file path or location"
+                class="path-input"
+                [ngClass]="{'invalid': hasError('publishPath')}" />
+              <button type="button" pButton icon="pi pi-folder-open" (click)="browseFile()"
+                class="browse-btn" pTooltip="Browse"></button>
+            </div>
+            <small class="help-text">
+              <i class="pi pi-info-circle"></i>
+              Enter any file path or location (network path, local path, URL, etc.)
+            </small>
+            @if (hasError('publishPath')) {
+            <small class="error-text">Publish path is required</small>
+            }
+          </div>
+        </div>
+      </div>
+
+      <!-- Schedule Settings -->
+      <div class="form-section">
+        <div class="section-header">
+          <i class="pi pi-clock"></i>
+          <span>Schedule Settings</span>
+        </div>
+        <div class="form-grid">
+          <div class="form-field">
+            <label>Created By</label>
+            <input pInputText formControlName="createdBy" placeholder="Enter creator name" />
+          </div>
+
+          <div class="form-field">
+            <label>Send After <span class="required">*</span></label>
+            <p-calendar formControlName="sendAfter"
+              [showTime]="true" [timeOnly]="true" hourFormat="12"
+              [showIcon]="true" placeholder="Select time"
+              styleClass="w-full"
+              [ngClass]="{'invalid': hasError('sendAfter')}" />
+            @if (hasError('sendAfter')) {
+            <small class="error-text">Send time is required</small>
+            }
+          </div>
+
+          <div class="form-field">
+            <label>Frequency <span class="required">*</span></label>
+            <p-select formControlName="frequency"
+              [options]="frequencyOptions" optionLabel="label" optionValue="value"
+              placeholder="Select frequency" styleClass="w-full"
+              [ngClass]="{'invalid': hasError('frequency')}" />
+            @if (hasError('frequency')) {
+            <small class="error-text">Frequency is required</small>
+            }
+          </div>
+        </div>
+      </div>
+
+      <!-- Email Settings -->
+      <div class="form-section">
+        <div class="section-header">
+          <i class="pi pi-envelope"></i>
+          <span>Email Settings</span>
+        </div>
+        <div class="form-grid">
+          <div class="form-field span-3">
+            <label>Recipients (To) <span class="required">*</span></label>
+            <input pInputText formControlName="recipients"
+              placeholder="Enter email addresses (comma-separated)"
+              [ngClass]="{'invalid': hasError('recipients')}" />
+            <small class="help-text">
+              <i class="pi pi-users"></i>
+              Separate multiple email addresses with commas
+            </small>
+            @if (hasError('recipients')) {
+            <small class="error-text">At least one recipient is required</small>
+            }
+          </div>
+
+          <div class="form-field">
+            <label>CC</label>
+            <input pInputText formControlName="cc" placeholder="CC email addresses" />
+          </div>
+
+          <div class="form-field">
+            <label>BCC</label>
+            <input pInputText formControlName="bcc" placeholder="BCC email addresses" />
+          </div>
+
+          <div class="form-field">
+            <label>Email Subject <span class="required">*</span></label>
+            <input pInputText formControlName="emailSubject" placeholder="Enter email subject"
+              [ngClass]="{'invalid': hasError('emailSubject')}" />
+            @if (hasError('emailSubject')) {
+            <small class="error-text">Email subject is required</small>
+            }
+          </div>
+
+          <div class="form-field span-3">
+            <label>Email Body</label>
+            <textarea pInputTextarea formControlName="emailBody"
+              placeholder="Enter email body content (HTML supported)"
+              rows="4"></textarea>
+          </div>
+
+          <div class="form-field">
+            <label>&nbsp;</label>
+            <div class="checkbox-field">
+              <p-checkbox formControlName="isActive" [binary]="true" inputId="isActive" />
+              <label for="isActive" class="checkbox-label">
+                <i class="pi pi-check-circle"></i>
+                Is Active
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Audit Info (edit only) -->
+      @if (mode === 'edit' && reportPublishData) {
+      <div class="form-section audit-section">
+        <div class="section-header">
+          <i class="pi pi-history"></i>
+          <span>Audit Information</span>
+        </div>
+        <div class="audit-grid">
+          <div class="audit-item">
+            <span class="audit-label">Created Date</span>
+            <span class="audit-value">{{ reportPublishData.createdDate | date:'medium' }}</span>
+          </div>
+          <div class="audit-item">
+            <span class="audit-label">Last Modified By</span>
+            <span class="audit-value">{{ reportPublishData.modifiedBy || '-' }}</span>
+          </div>
+          <div class="audit-item">
+            <span class="audit-label">Last Modified Date</span>
+            <span class="audit-value">{{ reportPublishData.modifiedDate ? (reportPublishData.modifiedDate | date:'medium') : '-' }}</span>
+          </div>
+          <div class="audit-item">
+            <span class="audit-label">Last Published Status</span>
+            <p-tag [value]="reportPublishData.lastPublishedStatus || 'Never Sent'"
+              [severity]="reportPublishData.lastPublishedStatus === 'success' ? 'success' :
+                         reportPublishData.lastPublishedStatus === 'failed' ? 'danger' : 'secondary'" />
+          </div>
+          <div class="audit-item">
+            <span class="audit-label">Last Published Timestamp</span>
+            <span class="audit-value">{{ reportPublishData.lastPublishedTs ? (reportPublishData.lastPublishedTs | date:'medium') : '-' }}</span>
+          </div>
+          <div class="audit-item">
+            <span class="audit-label">Publish Count</span>
+            <span class="audit-value count-badge">{{ reportPublishData.publishCount || 0 }}</span>
+          </div>
+        </div>
+      </div>
+      }
+
+    </form>
+  </div>
+</div>
+
+<!-- Report Selection Dialog -->
+<p-dialog [(visible)]="showReportSelectionDialog"
+  [modal]="true" [style]="{width: '70vw'}"
+  [draggable]="false" [resizable]="false"
+  header="Select Reports">
+  <div class="report-selection-container">
+    <div class="search-bar">
+      <span class="p-input-icon-left" style="width: 100%;">
+        <i class="pi pi-search"></i>
+        <input pInputText type="text"
+          [(ngModel)]="reportSearchText"
+          (input)="filterReports()"
+          placeholder="Search reports by name or description..."
+          style="width: 100%;" />
+      </span>
+    </div>
+    <div class="selection-info">
+      <p-tag [value]="selectedReports.length + ' selected'" severity="info" />
+    </div>
+    <p-table [value]="filteredTemplateOptions" [scrollable]="true" scrollHeight="400px" styleClass="p-datatable-sm">
+      <ng-template pTemplate="header">
+        <tr>
+          <th style="width: 50px;">
+            <p-checkbox [(ngModel)]="selectAll" [binary]="true" (onChange)="toggleSelectAll()" />
+          </th>
+          <th>Report Name</th>
+          <th>Description</th>
+          <th>Mapping Updated</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-report>
+        <tr>
+          <td><p-checkbox [(ngModel)]="report.selected" [binary]="true" (onChange)="onReportSelect()" /></td>
+          <td>{{ report.label }}</td>
+          <td>{{ report.description || '-' }}</td>
+          <td>{{ report.mappingUpdatedOn ? (report.mappingUpdatedOn | date:'short') : '-' }}</td>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="emptymessage">
+        <tr><td colspan="4" style="text-align: center;">No reports found</td></tr>
+      </ng-template>
+    </p-table>
+  </div>
+  <ng-template pTemplate="footer">
+    <p-button label="Cancel" icon="pi pi-times" (onClick)="closeReportSelectionDialog()" severity="secondary" [text]="true" />
+    <p-button label="Confirm Selection" icon="pi pi-check" (onClick)="confirmReportSelection()" [disabled]="selectedReports.length === 0" />
+  </ng-template>
+</p-dialog>

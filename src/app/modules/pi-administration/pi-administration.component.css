@@ -1,0 +1,13 @@
+.pi-admin-container {
+  padding: 20px;
+}
+
+.pi-admin-container.mobile {
+  padding: 10px;
+  font-size: 14px;
+}
+
+.pi-admin-container.tablet {
+  padding: 15px;
+  font-size: 15px;
+}

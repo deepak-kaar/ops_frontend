@@ -1,0 +1,6 @@
+/* Table header color */
+:host ::ng-deep .p-datatable thead th {
+    background-color: #7dd3fc !important;
+    font-weight: 600;
+    color: #333;
+}

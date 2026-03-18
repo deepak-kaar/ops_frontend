@@ -1,0 +1,75 @@
+/* Match the look & spacing of other "new UI" module pages */
+.section-title {
+  font-weight: 400 !important;
+  font-size: 1rem;
+  color: #263141;
+  font-family: inherit;
+}
+
+.table-wrapper {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.scan-alert {
+  border-radius: 10px;
+  padding: 0.75rem 1rem;
+  border: 1px solid #e2e8f0;
+  font-size: 0.875rem;
+  display: flex;
+  align-items: center;
+}
+
+.scan-alert-info {
+  background: #f9fbfd;
+  color: #263141;
+}
+
+.scan-alert-error {
+  background: #fef2f2;
+  border-color: #fecaca;
+  color: #991b1b;
+}
+
+.empty-state {
+  padding: 2.5rem 1.5rem;
+  text-align: center;
+  border-radius: 12px;
+  background: #f9fbfd;
+  border: 1px dashed #e2e8f0;
+}
+
+.image-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 1rem;
+}
+
+.image-card {
+  border-radius: 12px;
+  border: 1px solid #e9eef5;
+  background: white;
+  padding: 0.75rem;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.04);
+}
+
+.image-preview {
+  width: 100%;
+  height: 160px;
+  object-fit: cover;
+  border-radius: 10px;
+  border: 1px solid #eef2f7;
+}
+
+/* Make p-card match other modules */
+:host ::ng-deep .scan-card.p-card,
+:host ::ng-deep .scan-card .p-card {
+  border-radius: 12px;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.04);
+  border: 1px solid #e9eef5;
+}
+
+:host ::ng-deep .scan-card .p-card-body,
+:host ::ng-deep .scan-card .p-card-content {
+  padding: 1rem 1.25rem;
+}

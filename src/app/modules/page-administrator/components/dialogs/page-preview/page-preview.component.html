@@ -1,0 +1,49 @@
+<div class="w-full h-full flex flex-col">
+  <!-- Header with controls -->
+  <div class="flex justify-between items-center p-4 border-b">
+    <h3 class="text-lg font-semibold">Page Preview</h3>
+    <div class="flex gap-3 items-center">
+      <!-- Sample Data Dropdown (only show if sample data exists) -->
+      @if(sampleDataOptions.length > 0) {
+        <p-select
+          [options]="sampleDataOptions" 
+          [(ngModel)]="selectedSampleIndex"
+          optionLabel="label" 
+          optionValue="value"
+          placeholder="Select Sample Data"
+          styleClass="min-w-[180px]"
+          (onChange)="onSampleDataChange()"
+          [pTooltip]="'Switch between sample data entries'"
+          tooltipPosition="bottom">
+        </p-select>
+        <p-button 
+          icon="pi pi-plus" 
+          [outlined]="true"
+          (onClick)="openSampleDataEditor()" 
+          [pTooltip]="'Add new sample data'"
+          tooltipPosition="bottom">
+        </p-button>
+      }
+      <p-button label="Close" icon="pi pi-times" (onClick)="close()" [outlined]="true"></p-button>
+    </div>
+  </div>
+
+  <!-- Preview Content -->
+  <div class="flex-1 overflow-auto p-4 bg-surface-50">
+    @if(previewPageData) {
+      <!-- Use global-renderer component directly -->
+      <app-global-renderer 
+        [pageData]="previewPageData"
+        [type]="'preview'"
+        [date]="''">
+      </app-global-renderer>
+    } @else {
+      <div class="flex items-center justify-center h-full">
+        <p class="text-surface-500">Loading preview...</p>
+      </div>
+    }
+  </div>
+</div>
+
+<p-toast></p-toast>
+

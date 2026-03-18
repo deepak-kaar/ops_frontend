@@ -1,0 +1,1113 @@
+<div class="layout-root surface">
+  <div class="mobile-overlay" [class.active]="mobileSidebarVisible" (click)="toggleMobileSidebar()"></div>
+  <aside class="sidebar-wrapper" [class.mobile-open]="mobileSidebarVisible">
+    <app-sidebar-new></app-sidebar-new>
+  </aside>
+
+  <div class="right-pane surface-ground">
+    <app-topbar-new (menuToggle)="toggleMobileSidebar()"
+      [showRolloutLabel]="true"
+      [labels]="labels"
+      [(selectedLabel)]="selectedLabel"
+      (labelChange)="onLabelChange()">
+    </app-topbar-new>
+    <div class="right-scroll">
+      <div class="rollout-container px-6 pt-4 pb-6">
+        <p-toast></p-toast>
+        <p-confirmDialog></p-confirmDialog>
+
+        <!-- Page header: title + actions (same pattern as calculation/datasource) -->
+        <div class="flex flex-col md:flex-row justify-between gap-3 mb-4">
+          <div class="flex justify-between items-center md:block">
+            <div class="section-title">
+              <i class="pi pi-code-branch mr-2"></i>Rollout Management
+            </div>
+          </div>
+          <div class="flex flex-wrap gap-2 items-center">
+            <p-button
+              icon="pi pi-plus"
+              label="Add Label"
+              (onClick)="openAddLabelDialog()"
+              severity="secondary"
+              [outlined]="true"
+              class="w-full sm:w-auto">
+            </p-button>
+            <input
+              type="file"
+              #fileInput
+              accept=".xlsx,.xls"
+              style="display: none;"
+              (change)="onImportFileSelected($event)">
+            <p-button
+              icon="pi pi-upload"
+              label="Import Excel"
+              (onClick)="triggerImportFileInput()"
+              severity="info"
+              [loading]="isParsingFile"
+              pTooltip="Import changes from Excel file"
+              class="w-full sm:w-auto">
+            </p-button>
+            <p-button
+              label="Commit Changes"
+              icon="pi pi-check"
+              (onClick)="openCommitDialog()"
+              [disabled]="selectedChanges.length === 0"
+              severity="success"
+              class="w-full sm:w-auto">
+            </p-button>
+          </div>
+        </div>
+
+        <!-- Application and Organization Filter (same pattern as calculation/correlation filter) -->
+        <div class="filter-section mb-4">
+          <div class="flex flex-wrap gap-4 items-center">
+            <div class="flex items-center gap-2">
+              <label class="filter-label">
+                <i class="pi pi-building mr-1"></i>Application:
+              </label>
+              <p-select
+                [options]="apps"
+                [(ngModel)]="selectedApp"
+                optionLabel="appName"
+                optionValue="appId"
+                [filter]="true"
+                filterBy="appName"
+                placeholder="Select Application"
+                (onChange)="onAppFilterChange()"
+                [showClear]="true"
+                styleClass="w-[220px]">
+              </p-select>
+            </div>
+            <div class="flex items-center gap-2">
+              <label class="filter-label">
+                <i class="pi pi-sitemap mr-1"></i>Organization:
+              </label>
+              <p-select
+                [options]="orgs"
+                [(ngModel)]="selectedOrg"
+                optionLabel="orgName"
+                optionValue="orgId"
+                [filter]="true"
+                filterBy="orgName"
+                placeholder="Select Organization"
+                (onChange)="onOrgFilterChange()"
+                [showClear]="true"
+                [disabled]="!selectedApp"
+                styleClass="w-[220px]">
+              </p-select>
+            </div>
+            @if (selectedApp || selectedOrg) {
+              <p-button
+                icon="pi pi-filter-slash"
+                label="Clear Filters"
+                (onClick)="selectedApp = null; selectedOrg = null; orgs = []"
+                severity="secondary"
+                [text]="true"
+                size="small">
+              </p-button>
+            }
+          </div>
+        </div>
+
+        <!-- Tabs in card (same card style as other modules) -->
+        <p-card class="w-full rollout-tabs-card">
+          <div class="card">
+            <p-tabs [value]="0">
+    <p-tablist>
+      <p-tab [value]="0">
+        <i class="pi pi-inbox mr-2"></i>
+        Staged Changes
+      </p-tab>
+      <p-tab [value]="1">
+        <i class="pi pi-history mr-2"></i>
+        Commit History
+      </p-tab>
+    </p-tablist>
+    <p-tabpanels>
+      <p-tabpanel [value]="0">
+        <div class="mb-3 flex justify-end gap-2">
+          <p-button label="Expand All Labels" icon="pi pi-angle-down" (onClick)="expandAll()"
+                    [outlined]="true" size="small" [disabled]="labels.length === 0"></p-button>
+          <p-button label="Collapse All Labels" icon="pi pi-angle-up" (onClick)="collapseAll()"
+                    [outlined]="true" size="small" [disabled]="labels.length === 0"></p-button>
+  </div>
+
+        @if (labels.length === 0) {
+          <div class="empty-state text-center py-8">
+            <i class="pi pi-inbox" style="font-size: 3rem; color: #94a3b8;"></i>
+            <p class="mt-4 text-gray-600">No labels available</p>
+            <p class="text-sm text-gray-500 mt-2">Create a label first to start tracking changes</p>
+          </div>
+        } @else {
+          <p-accordion [multiple]="true" [(activeIndex)]="activeAccordionIndices">
+            @for (label of getAllDisplayLabels(); track label; let i = $index) {
+              <p-accordionTab>
+                <ng-template pTemplate="header">
+                  <div class="flex justify-between items-center w-full pr-4">
+                    <div class="flex items-center gap-3">
+                      <i class="pi pi-tag" [ngClass]="{'text-green-600': labelHasChanges(label), 'text-gray-400': !labelHasChanges(label)}"></i>
+                      <span class="font-semibold">{{ label }}</span>
+                      @if (labelHasChanges(label)) {
+                        <span class="text-sm text-gray-500 ml-2">
+                          | Total: <span class="font-semibold text-blue-600">{{ getChangesCountForLabel(label) }}</span> changes in <span class="font-semibold text-blue-600">{{ getModulesForLabel(label).length }}</span> module(s)
+                        </span>
+                      } @else {
+                        <span class="text-sm text-gray-400 italic">No changes</span>
+                      }
+                    </div>
+                    <div class="flex items-center gap-2" (click)="$event.stopPropagation()">
+                      @if (labelHasChanges(label)) {
+                        <p-button
+                          icon="pi pi-angle-double-down"
+                          (onClick)="expandAllModules(label, $event)"
+                          [rounded]="true"
+                          [text]="true"
+                          severity="secondary"
+                          size="small"
+                          pTooltip="Expand All Modules">
+                        </p-button>
+                        <p-button
+                          icon="pi pi-angle-double-up"
+                          (onClick)="collapseAllModules(label, $event)"
+                          [rounded]="true"
+                          [text]="true"
+                          severity="secondary"
+                          size="small"
+                          pTooltip="Collapse All Modules">
+                        </p-button>
+                        <p-button
+                          icon="pi pi-file-excel"
+                          label="Export Excel"
+                          (onClick)="exportLabelToExcel(label, $event)"
+                          [rounded]="true"
+                          [text]="false"
+                          severity="success"
+                          size="small"
+                          styleClass="text-white"
+                          pTooltip="Export changes to Excel">
+                        </p-button>
+                      }
+                    </div>
+                  </div>
+                </ng-template>
+
+                <!-- Label Content -->
+                <div class="p-2">
+                  @if (!labelHasChanges(label)) {
+                    <!-- No changes for this label -->
+                    <div class="empty-state text-center py-6 bg-gray-50 rounded-lg">
+                      <i class="pi pi-inbox text-3xl text-gray-400"></i>
+                      <p class="mt-3 text-gray-500">No staged changes for this label</p>
+                      <p class="text-sm text-gray-400 mt-1">Changes made under this label will appear here</p>
+                    </div>
+                  } @else {
+                    <!-- Nested Module Accordions -->
+                    <p-accordion [multiple]="true" [(activeIndex)]="activeModuleAccordionIndices[label]" styleClass="module-accordion">
+                      @for (module of getModulesForLabel(label); track module; let j = $index) {
+                        <p-accordionTab>
+                          <ng-template pTemplate="header">
+                            <div class="flex justify-between items-center w-full pr-2">
+                              <div class="flex items-center gap-2">
+                                <i class="pi pi-box text-blue-500"></i>
+                                <span class="font-medium">{{ module }}</span>
+                                <span class="text-sm text-gray-500">
+                                  ({{ getChangesCountForModule(label, module) }} record{{ getChangesCountForModule(label, module) !== 1 ? 's' : '' }})
+                                </span>
+                              </div>
+                            </div>
+                          </ng-template>
+
+                          <!-- Module Changes Table -->
+                          <div class="p-2">
+                            <p-table [value]="getChangesForLabelAndModule(label, module)" [(selection)]="selectedChanges" dataKey="id"
+                                     [tableStyle]="{'min-width': '50rem'}" size="small">
+        <ng-template pTemplate="header">
+          <tr>
+                                  <th style="width: 3rem">
+              <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+            </th>
+            <th>Action</th>
+            <th>Label</th>
+            <th>Timestamp</th>
+            <th>Actions</th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-change>
+                                <tr (click)="onRowClick(change)" class="cursor-pointer hover:bg-gray-50">
+                                  <td (click)="$event.stopPropagation()">
+              <p-tableCheckbox [value]="change"></p-tableCheckbox>
+            </td>
+            <td>
+              <i [class]="getActionIcon(change.action)"
+                 [style.color]="getActionColor(change.action)"></i>
+              <span class="ml-2">{{ change.action | titlecase }}</span>
+            </td>
+            <td>{{ change.label }}</td>
+            <td>{{ change.timestamp | date:'short' }}</td>
+                                  <td (click)="$event.stopPropagation()">
+                                    <p-button icon="pi pi-eye" (onClick)="showDiff(change, $event)"
+                                              [rounded]="true" [text]="true" severity="info"
+                                              pTooltip="View Diff" size="small" class="mr-1"></p-button>
+                                    <p-button icon="pi pi-times" (onClick)="unstageChange(change, $event)"
+                        [rounded]="true" [text]="true" severity="danger"
+                                              pTooltip="Remove from Staged" size="small"></p-button>
+            </td>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="emptymessage">
+          <tr>
+                                  <td colspan="5" class="text-center py-4">
+                                    <p class="text-gray-500">No changes</p>
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+                          </div>
+                        </p-accordionTab>
+                      }
+                    </p-accordion>
+                  }
+                </div>
+              </p-accordionTab>
+            }
+          </p-accordion>
+        }
+      </p-tabpanel>
+
+      <p-tabpanel [value]="1">
+        <div class="table-wrapper">
+      <p-table [value]="committedChanges" [tableStyle]="{'min-width': '60rem'}">
+        <ng-template pTemplate="header">
+          <tr>
+            <th>Module</th>
+            <th>Action</th>
+            <th>Label</th>
+            <th>Committed At</th>
+            <th>Actions</th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-change>
+          <tr (click)="onRowClick(change)" class="cursor-pointer hover:bg-gray-50">
+            <td>
+              <p-tag [value]="change.module" severity="success"></p-tag>
+            </td>
+            <td>
+              <i [class]="getActionIcon(change.action)"
+                 [style.color]="getActionColor(change.action)"></i>
+              <span class="ml-2">{{ change.action | titlecase }}</span>
+            </td>
+            <td>{{ change.label }}</td>
+            <td>{{ change.timestamp | date:'short' }}</td>
+            <td (click)="$event.stopPropagation()">
+              <p-button icon="pi pi-eye" (onClick)="showDiff(change, $event)"
+                        [rounded]="true" [text]="true" severity="info"
+                        pTooltip="View Diff" class="mr-2"></p-button>
+              <p-button icon="pi pi-replay" (onClick)="rollbackChange(change)"
+                        [rounded]="true" [text]="true" severity="warn"
+                        pTooltip="Rollback"></p-button>
+            </td>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="emptymessage">
+          <tr>
+            <td colspan="5" class="text-center">
+              <div class="empty-state">
+                <i class="pi pi-history" style="font-size: 3rem; color: #94a3b8;"></i>
+                <p>No commit history</p>
+              </div>
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+        </div>
+      </p-tabpanel>
+    </p-tabpanels>
+  </p-tabs>
+          </div>
+        </p-card>
+
+  <p-dialog header="Commit Changes" [(visible)]="showCommitDialog" [modal]="true"
+            [style]="{width: '450px'}">
+    <div class="commit-dialog">
+      <p>{{ selectedChanges.length }} change(s) selected</p>
+      <div class="field">
+        <label for="commitMessage">Commit Message</label>
+        <textarea id="commitMessage" pInputTextarea [(ngModel)]="commitMessage"
+                  rows="4" placeholder="Enter commit message..."
+                  class="w-full"></textarea>
+      </div>
+    </div>
+    <ng-template pTemplate="footer">
+      <p-button label="Cancel" icon="pi pi-times" (onClick)="showCommitDialog = false"
+                severity="secondary"></p-button>
+      <p-button label="Commit" icon="pi pi-check" (onClick)="commitChanges()"
+                [disabled]="!commitMessage || isCommitting"
+                [loading]="isCommitting"
+                severity="success"></p-button>
+    </ng-template>
+  </p-dialog>
+
+  <!-- Add Label Dialog -->
+  <p-dialog header="Add New Label" [(visible)]="showAddLabelDialog" [modal]="true"
+            [style]="{width: '400px'}">
+    <div class="field">
+      <label for="newLabelName">Label Name</label>
+      <input id="newLabelName" type="text" pInputText [(ngModel)]="newLabelName"
+             placeholder="Enter label name..." class="w-full" />
+    </div>
+    <ng-template pTemplate="footer">
+      <p-button label="Cancel" icon="pi pi-times" (onClick)="showAddLabelDialog = false"
+                severity="secondary" [disabled]="isCreatingLabel"></p-button>
+      <p-button label="Create" icon="pi pi-check" (onClick)="createLabel()"
+                [disabled]="!newLabelName || isCreatingLabel"
+                [loading]="isCreatingLabel"
+                severity="success"></p-button>
+    </ng-template>
+  </p-dialog>
+
+  <!-- Diff View Dialog -->
+  <p-dialog
+    [header]="selectedChangeForDiff ? 'Change Diff: ' + selectedChangeForDiff.label : 'Change Diff'"
+    [(visible)]="showDiffDialog"
+    [modal]="true"
+    [style]="{width: '90vw', height: '85vh'}"
+    [maximizable]="true"
+    [closable]="true">
+    <div class="diff-dialog-container" *ngIf="selectedChangeForDiff">
+      <div class="diff-header-info">
+        <div class="diff-meta-info">
+          <p-tag [value]="selectedChangeForDiff.module" severity="info" class="mr-2"></p-tag>
+          <p-badge
+            [value]="selectedChangeForDiff.action | titlecase"
+            [severity]="getActionBadgeSeverity(selectedChangeForDiff.action)"
+            class="mr-2">
+          </p-badge>
+          <span class="text-sm text-gray-600">
+            <i class="pi pi-calendar mr-1"></i>
+            {{ selectedChangeForDiff.timestamp | date:'short' }}
+          </span>
+        </div>
+      </div>
+
+      <div class="diff-editor-container">
+        <!-- Old Data (Left Side) -->
+        <div class="diff-editor-wrapper">
+          <div class="diff-editor-header" [ngClass]="{
+            'bg-red-50': selectedChangeForDiff.action === 'delete',
+            'bg-yellow-50': selectedChangeForDiff.action === 'edit',
+            'bg-gray-50': selectedChangeForDiff.action === 'create'
+          }">
+            <span class="diff-label-old">
+              <i [class]="selectedChangeForDiff.action === 'delete' ? 'pi pi-trash' : 'pi pi-minus-circle'" class="mr-1"></i>
+              <span *ngIf="selectedChangeForDiff.action === 'create'">Before (Empty)</span>
+              <span *ngIf="selectedChangeForDiff.action === 'edit'">Previous Value</span>
+              <span *ngIf="selectedChangeForDiff.action === 'delete'">Deleted Data</span>
+            </span>
+          </div>
+          <ngx-monaco-editor
+            *ngIf="showDiffDialog"
+            class="diff-editor diff-editor-old"
+            [options]="{
+              theme: 'vs',
+              language: 'json',
+              readOnly: true,
+              automaticLayout: true,
+              minimap: { enabled: false },
+              scrollBeyondLastLine: false,
+              wordWrap: 'on'
+            }"
+            [ngModel]="oldDataString || (selectedChangeForDiff.action === 'create' ? '// No previous data (new item)' : '// No previous version available')"
+            style="height: calc(85vh - 200px);">
+          </ngx-monaco-editor>
+        </div>
+
+        <!-- New Data (Right Side) -->
+        <div class="diff-editor-wrapper">
+          <div class="diff-editor-header" [ngClass]="{
+            'bg-green-50': selectedChangeForDiff.action === 'create',
+            'bg-blue-50': selectedChangeForDiff.action === 'edit',
+            'bg-gray-50': selectedChangeForDiff.action === 'delete'
+          }">
+            <span class="diff-label-new">
+              <i [class]="selectedChangeForDiff.action === 'create' ? 'pi pi-plus-circle' : selectedChangeForDiff.action === 'edit' ? 'pi pi-pencil' : 'pi pi-minus-circle'" class="mr-1"></i>
+              <span *ngIf="selectedChangeForDiff.action === 'create'">Added Data</span>
+              <span *ngIf="selectedChangeForDiff.action === 'edit'">New Value</span>
+              <span *ngIf="selectedChangeForDiff.action === 'delete'">After (Empty)</span>
+            </span>
+          </div>
+          <ngx-monaco-editor
+            *ngIf="showDiffDialog"
+            class="diff-editor diff-editor-new"
+            [options]="{
+              theme: 'vs',
+              language: 'json',
+              readOnly: true,
+              automaticLayout: true,
+              minimap: { enabled: false },
+              scrollBeyondLastLine: false,
+              wordWrap: 'on'
+            }"
+            [ngModel]="newDataString || (selectedChangeForDiff.action === 'delete' ? '// Item deleted (no data)' : '// No data available')"
+            style="height: calc(85vh - 200px);">
+          </ngx-monaco-editor>
+        </div>
+      </div>
+
+      <div class="diff-summary mt-3" *ngIf="selectedChangeForDiff.action === 'edit'">
+        <div class="summary-header">
+          <i class="pi pi-info-circle mr-2"></i>
+          <strong>Summary:</strong> Only modified fields are shown. Unchanged fields are hidden for clarity.
+        </div>
+      </div>
+    </div>
+    <ng-template pTemplate="footer">
+      <p-button
+        label="Close"
+        icon="pi pi-times"
+        (onClick)="showDiffDialog = false"
+        severity="secondary">
+      </p-button>
+    </ng-template>
+  </p-dialog>
+
+  <!-- Import Preview Dialog -->
+  <p-dialog
+    header="Import Preview"
+    [(visible)]="showImportPreviewDialog"
+    [modal]="true"
+    [style]="{width: '80vw', maxWidth: '1200px'}"
+    [maximizable]="true"
+    [closable]="true"
+    (onHide)="onPreviewDialogHide()">
+    <div class="import-preview-container">
+      <!-- Summary Section -->
+      <div class="import-summary mb-4 p-4 bg-gray-50 rounded-lg">
+        <h3 class="text-lg font-semibold mb-3">
+          <i class="pi pi-list mr-2"></i>
+          Import Summary
+        </h3>
+        <div class="flex gap-4 flex-wrap items-center">
+          <div class="flex items-center gap-2">
+            <span class="inline-flex items-center justify-center w-8 h-8 rounded-full bg-green-100 text-green-700">
+              <i class="pi pi-plus"></i>
+            </span>
+            <span class="font-medium">Add: {{ importCreateActions.length }}</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <span class="inline-flex items-center justify-center w-8 h-8 rounded-full bg-blue-100 text-blue-700">
+              <i class="pi pi-pencil"></i>
+            </span>
+            <span class="font-medium">Edit: {{ importEditActions.length }}</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <span class="inline-flex items-center justify-center w-8 h-8 rounded-full bg-red-100 text-red-700">
+              <i class="pi pi-trash"></i>
+            </span>
+            <span class="font-medium">Delete: {{ importDeleteActions.length }}</span>
+          </div>
+          @if (importIgnoredCount > 0) {
+            <div class="flex items-center gap-2">
+              <span class="inline-flex items-center justify-center w-8 h-8 rounded-full bg-gray-200 text-gray-600">
+                <i class="pi pi-ban"></i>
+              </span>
+              <span class="font-medium text-gray-600">Ignored: {{ importIgnoredCount }}</span>
+            </div>
+          }
+          <div class="flex items-center gap-2 ml-auto">
+            <span class="inline-flex items-center justify-center w-8 h-8 rounded-full bg-purple-100 text-purple-700">
+              <i class="pi pi-hashtag"></i>
+            </span>
+            <span class="font-bold">Total Actions: {{ importActions.length }}</span>
+          </div>
+        </div>
+
+        <!-- Validation Status -->
+        <div class="mt-3 pt-3 border-t border-gray-200">
+          <div class="flex gap-4 items-center">
+            <div class="flex items-center gap-2">
+              <i class="pi pi-check-circle text-green-600"></i>
+              <span class="text-green-700 font-medium">Valid: {{ importValidActions.length }}</span>
+            </div>
+            @if (importInvalidActions.length > 0) {
+              <div class="flex items-center gap-2">
+                <i class="pi pi-exclamation-triangle text-orange-600"></i>
+                <span class="text-orange-700 font-medium">With Errors: {{ importInvalidActions.length }}</span>
+              </div>
+            }
+          </div>
+        </div>
+      </div>
+
+      <!-- Validation Errors Warning -->
+      @if (importInvalidActions.length > 0) {
+        <div class="mb-4 p-3 bg-orange-50 border border-orange-200 rounded-lg">
+          <div class="flex items-start gap-2">
+            <i class="pi pi-exclamation-triangle text-orange-600 text-xl mt-1"></i>
+            <div class="flex-1">
+              <p class="font-semibold text-orange-800">Validation Errors Detected</p>
+              <p class="text-sm text-orange-700 mb-2">
+                The following {{ importInvalidActions.length }} action(s) have validation errors and will be skipped:
+              </p>
+              <div class="max-h-32 overflow-auto">
+                @for (action of importInvalidActions; track action.id || $index) {
+                  <div class="text-sm text-orange-800 p-1 bg-orange-100 rounded mb-1">
+                    <strong>{{ getActionDisplayName(action.action) }}</strong> - {{ action.label }}:
+                    <span class="text-orange-600">{{ action.validationError }}</span>
+                  </div>
+                }
+              </div>
+            </div>
+          </div>
+        </div>
+      }
+
+      <!-- Actions Tabs -->
+      <p-tabs [value]="0">
+        <p-tablist>
+          <p-tab [value]="0">
+            <i class="pi pi-plus text-green-600 mr-2"></i>
+            Add ({{ importCreateActions.length }})
+          </p-tab>
+          <p-tab [value]="1">
+            <i class="pi pi-pencil text-blue-600 mr-2"></i>
+            Edit ({{ importEditActions.length }})
+          </p-tab>
+          <p-tab [value]="2">
+            <i class="pi pi-trash text-red-600 mr-2"></i>
+            Delete ({{ importDeleteActions.length }})
+          </p-tab>
+        </p-tablist>
+        <p-tabpanels>
+          <!-- Add Actions Tab -->
+          <p-tabpanel [value]="0">
+            @if (importCreateActions.length === 0) {
+              <div class="text-center py-8 text-gray-500">
+                <i class="pi pi-inbox text-4xl mb-3"></i>
+                <p>No add actions in this import</p>
+              </div>
+            } @else {
+              <p-table [value]="importCreateActions" [scrollable]="true" scrollHeight="300px"
+                       [tableStyle]="{'min-width': '50rem'}">
+                <ng-template pTemplate="header">
+                  <tr>
+                    <th style="width: 80px">Status</th>
+                    <th>Module</th>
+                    <th>Label</th>
+                    <th>Data Preview</th>
+                    <th style="width: 100px">Edit</th>
+                  </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-action>
+                  <tr [ngClass]="{'bg-orange-50': action.validationError}">
+                    <td>
+                      @if (action.validationError) {
+                        <i class="pi pi-exclamation-triangle text-orange-600" [pTooltip]="action.validationError"></i>
+                      } @else {
+                        <i class="pi pi-check-circle text-green-600" pTooltip="Ready to execute"></i>
+                      }
+                    </td>
+                    <td><p-tag [value]="action.module" severity="info"></p-tag></td>
+                    <td>{{ getTruncatedLabel(action.label) }}</td>
+                    <td>
+                      <pre class="text-xs bg-gray-100 p-2 rounded max-h-20 overflow-auto">{{ formatJsonPreview(action.data) | slice:0:200 }}...</pre>
+                    </td>
+                    <td>
+                      <p-button icon="pi pi-pencil" (onClick)="openEditActionDialog(action)"
+                                [rounded]="true" [text]="true" severity="info"
+                                pTooltip="Edit data before import" size="small"></p-button>
+                    </td>
+                  </tr>
+                </ng-template>
+              </p-table>
+            }
+          </p-tabpanel>
+
+          <!-- Edit Actions Tab -->
+          <p-tabpanel [value]="1">
+            @if (importEditActions.length === 0) {
+              <div class="text-center py-8 text-gray-500">
+                <i class="pi pi-inbox text-4xl mb-3"></i>
+                <p>No edit actions in this import</p>
+              </div>
+            } @else {
+              <p-table [value]="importEditActions" [scrollable]="true" scrollHeight="300px"
+                       [tableStyle]="{'min-width': '50rem'}">
+                <ng-template pTemplate="header">
+                  <tr>
+                    <th style="width: 80px">Status</th>
+                    <th>Module</th>
+                    <th>Label</th>
+                    <th>Data Preview</th>
+                    <th style="width: 100px">Edit</th>
+                  </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-action>
+                  <tr [ngClass]="{'bg-orange-50': action.validationError}">
+                    <td>
+                      @if (action.validationError) {
+                        <i class="pi pi-exclamation-triangle text-orange-600" [pTooltip]="action.validationError"></i>
+                      } @else {
+                        <i class="pi pi-check-circle text-green-600" pTooltip="Ready to execute"></i>
+                      }
+                    </td>
+                    <td><p-tag [value]="action.module" severity="info"></p-tag></td>
+                    <td>{{ getTruncatedLabel(action.label) }}</td>
+                    <td>
+                      <pre class="text-xs bg-gray-100 p-2 rounded max-h-20 overflow-auto">{{ formatJsonPreview(action.data) | slice:0:200 }}...</pre>
+                    </td>
+                    <td>
+                      <p-button icon="pi pi-pencil" (onClick)="openEditActionDialog(action)"
+                                [rounded]="true" [text]="true" severity="info"
+                                pTooltip="Edit data before import" size="small"></p-button>
+                    </td>
+                  </tr>
+                </ng-template>
+              </p-table>
+            }
+          </p-tabpanel>
+
+          <!-- Delete Actions Tab -->
+          <p-tabpanel [value]="2">
+            @if (importDeleteActions.length === 0) {
+              <div class="text-center py-8 text-gray-500">
+                <i class="pi pi-inbox text-4xl mb-3"></i>
+                <p>No delete actions in this import</p>
+              </div>
+            } @else {
+              <p-table [value]="importDeleteActions" [scrollable]="true" scrollHeight="300px"
+                       [tableStyle]="{'min-width': '50rem'}">
+                <ng-template pTemplate="header">
+                  <tr>
+                    <th style="width: 80px">Status</th>
+                    <th>Module</th>
+                    <th>Label</th>
+                    <th>Data to Delete</th>
+                    <th style="width: 100px">Edit</th>
+                  </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-action>
+                  <tr [ngClass]="{'bg-orange-50': action.validationError}">
+                    <td>
+                      @if (action.validationError) {
+                        <i class="pi pi-exclamation-triangle text-orange-600" [pTooltip]="action.validationError"></i>
+                      } @else {
+                        <i class="pi pi-check-circle text-green-600" pTooltip="Ready to execute"></i>
+                      }
+                    </td>
+                    <td><p-tag [value]="action.module" severity="danger"></p-tag></td>
+                    <td>{{ getTruncatedLabel(action.label) }}</td>
+                    <td>
+                      <pre class="text-xs bg-red-50 p-2 rounded max-h-20 overflow-auto">{{ formatJsonPreview(action.data || action.oldData) | slice:0:200 }}...</pre>
+                    </td>
+                    <td>
+                      <p-button icon="pi pi-pencil" (onClick)="openEditActionDialog(action)"
+                                [rounded]="true" [text]="true" severity="info"
+                                pTooltip="Edit data before import" size="small"></p-button>
+                    </td>
+                  </tr>
+                </ng-template>
+              </p-table>
+            }
+          </p-tabpanel>
+        </p-tabpanels>
+      </p-tabs>
+
+      <!-- Warning Message -->
+      <div class="mt-4 p-3 bg-yellow-50 border border-yellow-200 rounded-lg">
+        <div class="flex items-start gap-2">
+          <i class="pi pi-exclamation-triangle text-yellow-600 text-xl"></i>
+          <div>
+            <p class="font-semibold text-yellow-800">Important Notice</p>
+            <p class="text-sm text-yellow-700">
+              Once executed, these actions will be performed asynchronously. Each action is independent -
+              if one fails, others will continue. Review carefully before proceeding.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <ng-template pTemplate="footer">
+      <div class="flex justify-between items-center w-full">
+        <div class="text-sm text-gray-600">
+          @if (importValidActions.length > 0) {
+            <span class="text-green-600 font-medium">{{ importValidActions.length }} action(s) ready to execute</span>
+          } @else {
+            <span class="text-orange-600 font-medium">No valid actions to execute</span>
+          }
+        </div>
+        <div class="flex gap-2">
+          <p-button
+            label="Cancel"
+            icon="pi pi-times"
+            (onClick)="cancelImport()"
+            severity="secondary"
+            [outlined]="true">
+          </p-button>
+          <p-button
+            label="Execute Import"
+            icon="pi pi-check"
+            (onClick)="executeImport()"
+            [disabled]="importValidActions.length === 0"
+            severity="success">
+          </p-button>
+        </div>
+      </div>
+    </ng-template>
+  </p-dialog>
+
+  <!-- Import Result Dialog -->
+  <p-dialog
+    header="Import Results"
+    [(visible)]="showImportResultDialog"
+    [modal]="true"
+    [style]="{width: '80vw', maxWidth: '1000px'}"
+    [maximizable]="true"
+    [closable]="true"
+    (onHide)="onResultDialogHide()">
+    <div class="import-result-container" *ngIf="importSummary">
+      <!-- Result Summary -->
+      <div class="result-summary mb-4 p-4 rounded-lg"
+           [ngClass]="{
+             'bg-green-50': importSummary.failed === 0,
+             'bg-red-50': importSummary.successful === 0,
+             'bg-yellow-50': importSummary.failed > 0 && importSummary.successful > 0
+           }">
+        <div class="flex items-center gap-4 mb-3">
+          <i class="text-3xl"
+             [ngClass]="{
+               'pi pi-check-circle text-green-600': importSummary.failed === 0,
+               'pi pi-times-circle text-red-600': importSummary.successful === 0,
+               'pi pi-exclamation-circle text-yellow-600': importSummary.failed > 0 && importSummary.successful > 0
+             }"></i>
+          <div>
+            <h3 class="text-xl font-bold"
+                [ngClass]="{
+                  'text-green-800': importSummary.failed === 0,
+                  'text-red-800': importSummary.successful === 0,
+                  'text-yellow-800': importSummary.failed > 0 && importSummary.successful > 0
+                }">
+              @if (importSummary.failed === 0) {
+                Import Completed Successfully!
+              } @else if (importSummary.successful === 0) {
+                Import Failed
+              } @else {
+                Import Partially Completed
+              }
+            </h3>
+            <p class="text-gray-600">
+              {{ importSummary.successful }} of {{ importSummary.total }} actions completed successfully
+            </p>
+          </div>
+        </div>
+
+        <div class="flex gap-6 flex-wrap">
+          <div class="flex items-center gap-2">
+            <p-badge [value]="importSummary.successful.toString()" severity="success"></p-badge>
+            <span>Successful</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <p-badge [value]="importSummary.failed.toString()" severity="danger"></p-badge>
+            <span>Failed</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Detailed Results -->
+      <p-tabs [value]="0">
+        <p-tablist>
+          <p-tab [value]="0">
+            <i class="pi pi-list mr-2"></i>
+            All Results ({{ importSummary.total }})
+          </p-tab>
+          <p-tab [value]="1">
+            <i class="pi pi-check text-green-600 mr-2"></i>
+            Successful ({{ importSummary.successful }})
+          </p-tab>
+          <p-tab [value]="2">
+            <i class="pi pi-times text-red-600 mr-2"></i>
+            Failed ({{ importSummary.failed }})
+          </p-tab>
+        </p-tablist>
+        <p-tabpanels>
+          <!-- All Results -->
+          <p-tabpanel [value]="0">
+            <p-table [value]="importSummary.results" [scrollable]="true" scrollHeight="400px"
+                     [tableStyle]="{'min-width': '50rem'}">
+              <ng-template pTemplate="header">
+                <tr>
+                  <th style="width: 80px">Status</th>
+                  <th>Module</th>
+                  <th>Action</th>
+                  <th>Label</th>
+                  <th>Response</th>
+                </tr>
+              </ng-template>
+              <ng-template pTemplate="body" let-result>
+                <tr [ngClass]="{'bg-red-50': !result.success, 'bg-green-50': result.success}">
+                  <td>
+                    <div class="flex items-center gap-2">
+                      <i [class]="result.success ? 'pi pi-check-circle text-green-600' : 'pi pi-times-circle text-red-600'"
+                         style="font-size: 1.2rem"></i>
+                      <span class="text-xs font-medium"
+                            [ngClass]="{'text-green-700': result.success, 'text-red-700': !result.success}">
+                        {{ result.success ? 'Success' : 'Failed' }}
+                      </span>
+                    </div>
+                  </td>
+                  <td><p-tag [value]="result.action.module" severity="info" size="small"></p-tag></td>
+                  <td>
+                    <p-tag
+                      [value]="getActionDisplayName(result.action.action)"
+                      [severity]="result.action.action === 'create' ? 'success' : result.action.action === 'edit' ? 'info' : 'danger'"
+                      size="small">
+                    </p-tag>
+                  </td>
+                  <td>{{ getTruncatedLabel(result.action.label, 25) }}</td>
+                  <td class="text-sm">
+                    @if (result.success) {
+                      <span class="text-green-700">{{ result.message }}</span>
+                    } @else {
+                      <div class="text-red-700">
+                        <div class="font-medium">{{ result.message }}</div>
+                        @if (result.error) {
+                          <div class="mt-1 p-2 bg-red-100 rounded text-xs border border-red-200">
+                            <i class="pi pi-exclamation-circle mr-1"></i>
+                            <strong>Error:</strong> {{ result.error }}
+                          </div>
+                        }
+                      </div>
+                    }
+                  </td>
+                </tr>
+              </ng-template>
+            </p-table>
+          </p-tabpanel>
+
+          <!-- Successful Results -->
+          <p-tabpanel [value]="1">
+            @if (importSummary.successful === 0) {
+              <div class="text-center py-8 text-gray-500">
+                <i class="pi pi-inbox text-4xl mb-3"></i>
+                <p>No successful actions</p>
+              </div>
+            } @else {
+              <p-table [value]="importSummary.results | filterBy:'success':true" [scrollable]="true" scrollHeight="400px"
+                       [tableStyle]="{'min-width': '50rem'}">
+                <ng-template pTemplate="header">
+                  <tr>
+                    <th>Module</th>
+                    <th>Action</th>
+                    <th>Label</th>
+                    <th>Message</th>
+                  </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-result>
+                  <tr class="bg-green-50">
+                    <td><p-tag [value]="result.action.module" severity="info" size="small"></p-tag></td>
+                    <td>
+                      <p-tag
+                        [value]="getActionDisplayName(result.action.action)"
+                        [severity]="result.action.action === 'create' ? 'success' : result.action.action === 'edit' ? 'info' : 'danger'"
+                        size="small">
+                      </p-tag>
+                    </td>
+                    <td>{{ getTruncatedLabel(result.action.label, 25) }}</td>
+                    <td class="text-sm text-green-700">{{ result.message }}</td>
+                  </tr>
+                </ng-template>
+              </p-table>
+            }
+          </p-tabpanel>
+
+          <!-- Failed Results -->
+          <p-tabpanel [value]="2">
+            @if (importSummary.failed === 0) {
+              <div class="text-center py-8 text-gray-500">
+                <i class="pi pi-check-circle text-4xl text-green-500 mb-3"></i>
+                <p>All actions completed successfully!</p>
+              </div>
+            } @else {
+              <p-table [value]="importSummary.results | filterBy:'success':false" [scrollable]="true" scrollHeight="400px"
+                       [tableStyle]="{'min-width': '50rem'}">
+                <ng-template pTemplate="header">
+                  <tr>
+                    <th>Module</th>
+                    <th>Action</th>
+                    <th>Label</th>
+                    <th>Error Details</th>
+                  </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-result>
+                  <tr class="bg-red-50">
+                    <td><p-tag [value]="result.action.module" severity="info" size="small"></p-tag></td>
+                    <td>
+                      <p-tag
+                        [value]="getActionDisplayName(result.action.action)"
+                        [severity]="result.action.action === 'create' ? 'success' : result.action.action === 'edit' ? 'info' : 'danger'"
+                        size="small">
+                      </p-tag>
+                    </td>
+                    <td>{{ getTruncatedLabel(result.action.label, 25) }}</td>
+                    <td class="text-sm">
+                      <div class="text-red-700">
+                        <div class="font-medium mb-1">
+                          <i class="pi pi-times-circle mr-1"></i>
+                          {{ result.message }}
+                        </div>
+                        @if (result.error) {
+                          <div class="p-2 bg-red-100 rounded text-xs border border-red-300">
+                            <strong>Reason:</strong> {{ result.error }}
+                          </div>
+                        }
+                      </div>
+                    </td>
+                  </tr>
+                </ng-template>
+              </p-table>
+            }
+          </p-tabpanel>
+        </p-tabpanels>
+      </p-tabs>
+    </div>
+
+    <!-- Show message if no summary available -->
+    @if (!importSummary) {
+      <div class="text-center py-12">
+        <i class="pi pi-info-circle text-4xl text-gray-400 mb-4"></i>
+        <p class="text-gray-600 text-lg">No import results available</p>
+        <p class="text-gray-500 text-sm mt-2">Click "Back to Preview" to review and execute the import again</p>
+      </div>
+    }
+
+    <ng-template pTemplate="footer">
+      <div class="flex justify-between items-center w-full">
+        <div class="flex gap-2">
+          <p-button
+            label="Back to Preview"
+            icon="pi pi-arrow-left"
+            (onClick)="goBackToImportPreview()"
+            severity="secondary"
+            [outlined]="true"
+            pTooltip="Go back to import preview to re-execute">
+          </p-button>
+          <p-button
+            label="Export Results to Excel"
+            icon="pi pi-file-excel"
+            (onClick)="exportImportResultsToExcel()"
+            severity="success"
+            styleClass="text-white"
+            pTooltip="Export results with editable Action column for re-import">
+          </p-button>
+        </div>
+        <p-button
+          label="Close"
+          icon="pi pi-times"
+          (onClick)="closeImportResultDialog()"
+          severity="secondary">
+        </p-button>
+      </div>
+    </ng-template>
+  </p-dialog>
+
+  <!-- Loading Overlay for Import -->
+  @if (isImporting) {
+    <div class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+      <div class="bg-white p-8 rounded-lg shadow-xl text-center">
+        <i class="pi pi-spin pi-spinner text-4xl text-blue-600 mb-4"></i>
+        <p class="text-lg font-semibold">Executing Import...</p>
+        <p class="text-sm text-gray-600">Please wait while actions are being processed</p>
+      </div>
+    </div>
+  }
+
+  <!-- Edit Action Data Dialog -->
+  <p-dialog
+    header="Edit Action Data"
+    [(visible)]="showEditActionDialog"
+    [modal]="true"
+    [style]="{width: '70vw', maxWidth: '900px'}"
+    [maximizable]="true"
+    [closable]="true"
+    (onHide)="cancelEditActionDialog()">
+    <div class="edit-action-dialog" *ngIf="selectedActionForEdit">
+      <!-- Action Info -->
+      <div class="mb-4 p-3 bg-gray-50 rounded-lg">
+        <div class="flex items-center gap-3 flex-wrap">
+          <div class="flex items-center gap-2">
+            <span class="text-gray-600">Module:</span>
+            <p-tag [value]="selectedActionForEdit.module" severity="info"></p-tag>
+          </div>
+          <div class="flex items-center gap-2">
+            <span class="text-gray-600">Action:</span>
+            <p-tag
+              [value]="selectedActionForEdit.action | titlecase"
+              [severity]="selectedActionForEdit.action === 'create' ? 'success' : selectedActionForEdit.action === 'edit' ? 'info' : 'danger'">
+            </p-tag>
+          </div>
+          <div class="flex items-center gap-2">
+            <span class="text-gray-600">Label:</span>
+            <span class="font-medium">{{ selectedActionForEdit.label }}</span>
+          </div>
+        </div>
+        @if (selectedActionForEdit.validationError) {
+          <div class="mt-3 p-2 bg-orange-100 border border-orange-300 rounded">
+            <div class="flex items-center gap-2 text-orange-800">
+              <i class="pi pi-exclamation-triangle"></i>
+              <span class="font-medium">Validation Error:</span>
+              <span>{{ selectedActionForEdit.validationError }}</span>
+            </div>
+          </div>
+        }
+      </div>
+
+      <!-- JSON Editor -->
+      <div class="mb-3">
+        <label class="block mb-2 font-semibold text-gray-700">
+          <i class="pi pi-code mr-2"></i>
+          Edit JSON Data (modify and save before importing)
+        </label>
+        <ngx-monaco-editor
+          class="border rounded"
+          [options]="{
+            theme: 'vs',
+            language: 'json',
+            readOnly: false,
+            automaticLayout: true,
+            minimap: { enabled: false },
+            scrollBeyondLastLine: false,
+            wordWrap: 'on',
+            formatOnPaste: true,
+            formatOnType: true
+          }"
+          [(ngModel)]="editActionDataString"
+          style="height: 400px;">
+        </ngx-monaco-editor>
+      </div>
+
+      <!-- Help Text -->
+      <div class="text-sm text-gray-500">
+        <i class="pi pi-info-circle mr-1"></i>
+        Edit the JSON data above. For <strong>create</strong> actions, any <code>_id</code> field will be removed automatically.
+        For <strong>edit</strong> actions, ensure the <code>_id</code> field is present to identify the record.
+      </div>
+    </div>
+    <ng-template pTemplate="footer">
+      <p-button
+        label="Cancel"
+        icon="pi pi-times"
+        (onClick)="cancelEditActionDialog()"
+        severity="secondary"
+        [outlined]="true">
+      </p-button>
+      <p-button
+        label="Save Changes"
+        icon="pi pi-check"
+        (onClick)="saveEditedActionData()"
+        severity="success">
+      </p-button>
+    </ng-template>
+  </p-dialog>
+    </div>
+    </div>
+  </div>
+</div>

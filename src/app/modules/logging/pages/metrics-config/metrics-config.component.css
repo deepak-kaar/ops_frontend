@@ -1,0 +1,266 @@
+.metrics-config-container {
+  padding: 24px;
+  background-color: #f8fafc;
+  min-height: 100vh;
+}
+
+.header-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 32px;
+  background: white;
+  padding: 24px;
+  border-radius: 12px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  flex-wrap: wrap;
+  gap: 16px;
+  min-height: 80px;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex: 1;
+}
+
+.back-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  background: #f1f5f9;
+  border: none;
+  border-radius: 8px;
+  color: #64748b;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.back-btn:hover {
+  background: #e2e8f0;
+  color: #1e293b;
+}
+
+.back-btn i {
+  font-size: 16px;
+}
+
+.header-content h1 {
+  font-size: 24px;
+  font-weight: 600;
+  color: #1e293b;
+  margin: 0 0 4px 0;
+}
+
+.header-content p {
+  font-size: 14px;
+  color: #64748b;
+  margin: 0;
+}
+
+.header-actions {
+  display: flex;
+  gap: 12px;
+  flex-shrink: 0;
+  align-items: center;
+}
+
+.action-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 0.75rem 1.25rem;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background-color 0.2s, color 0.2s, border-color 0.2s, box-shadow 0.2s;
+  user-select: none;
+  vertical-align: bottom;
+}
+
+.action-btn.primary {
+  background: #3B82F6;
+  color: #ffffff;
+  border-color: #3B82F6;
+}
+
+.action-btn.primary:hover:not(:disabled) {
+  background: #2563EB;
+  border-color: #2563EB;
+}
+
+.action-btn.primary:active:not(:disabled) {
+  background: #1D4ED8;
+  border-color: #1D4ED8;
+}
+
+.action-btn.secondary {
+  background: #64748B;
+  color: #ffffff;
+  border-color: #64748B;
+}
+
+.action-btn.secondary:hover:not(:disabled) {
+  background: #475569;
+  border-color: #475569;
+}
+
+.action-btn.secondary:active:not(:disabled) {
+  background: #334155;
+  border-color: #334155;
+}
+
+.action-btn:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+
+.action-btn:focus {
+  outline: 0 none;
+  outline-offset: 0;
+  box-shadow: 0 0 0 0.2rem rgba(59, 130, 246, 0.5);
+}
+
+.action-btn i {
+  font-size: 1rem;
+}
+
+.metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+  gap: 24px;
+}
+
+.metric-card {
+  background: white;
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e2e8f0;
+}
+
+.metric-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+  padding-bottom: 16px;
+  border-bottom: 2px solid #f1f5f9;
+}
+
+.metric-header h3 {
+  font-size: 16px;
+  font-weight: 600;
+  color: #1e293b;
+  margin: 0;
+}
+
+.metric-unit {
+  font-size: 12px;
+  color: #64748b;
+  background: #f1f5f9;
+  padding: 4px 12px;
+  border-radius: 12px;
+}
+
+.threshold-section {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.threshold-item {
+  padding: 16px;
+  border-radius: 8px;
+  border-left: 4px solid;
+}
+
+.threshold-item.healthy {
+  background: #f0fdf4;
+  border-left-color: #22c55e;
+}
+
+.threshold-item.warning {
+  background: #fffbeb;
+  border-left-color: #f59e0b;
+}
+
+.threshold-item.critical {
+  background: #fef2f2;
+  border-left-color: #ef4444;
+}
+
+.threshold-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 12px;
+  font-weight: 600;
+  font-size: 13px;
+}
+
+.threshold-item.healthy .threshold-label {
+  color: #16a34a;
+}
+
+.threshold-item.warning .threshold-label {
+  color: #d97706;
+}
+
+.threshold-item.critical .threshold-label {
+  color: #dc2626;
+}
+
+.threshold-label i {
+  font-size: 16px;
+}
+
+.threshold-inputs {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.input-group {
+  flex: 1;
+  min-width: 120px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.input-group label {
+  font-size: 12px;
+  font-weight: 500;
+  color: #475569;
+}
+
+:host ::ng-deep .p-inputnumber {
+  width: 100%;
+}
+
+:host ::ng-deep .p-inputnumber-input {
+  width: 100%;
+  border-radius: 6px;
+  border: 1px solid #cbd5e1;
+  padding: 8px 12px;
+  font-size: 13px;
+}
+
+:host ::ng-deep .p-inputnumber-input:focus {
+  border-color: #0064ea;
+  box-shadow: 0 0 0 2px rgba(0, 100, 234, 0.1);
+}
+
+:host ::ng-deep .p-button {
+  border-radius: 8px;
+  padding: 10px 20px;
+  font-size: 14px;
+  font-weight: 500;
+}

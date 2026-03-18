@@ -1,0 +1,106 @@
+<!-- <input [style]="{
+    border: (required && (!value || value === '')) ? '1px solid red' : '1px solid black',
+    height:'100%',
+    width:'100%',
+    color:style?.color,
+    'font-family':style?.fontFamily,
+    'font-size':style?.fontSize + 'px',
+    'font-weight':style?.fontWeight,
+    'text-align':style?.textAlign,
+    'text-decoration':style?.textDecoration,
+    'padding':style?.padding ,
+    'border-top-left-radius':style?.borderTopLeftRadius + 'px',
+    'border-top-right-radius':style?.borderTopRightRadius + 'px',
+    'border-bottom-left-radius':style?.borderBottomLeftRadius + 'px',
+    'border-bottom-right-radius':style?.borderBottomRightRadius + 'px',
+     }" type="text" pInputText [(ngModel)]="value" />
+
+<p-floatlabel>
+    <input [style]="{
+        border: (required && (!value || value === '')) ? '1px solid red' : '1px solid black',
+        height:'100%',
+        width:'100%',
+        color:style?.color,
+        'font-family':style?.fontFamily,
+        'font-size':style?.fontSize + 'px',
+        'font-weight':style?.fontWeight,
+        'text-align':style?.textAlign,
+        'text-decoration':style?.textDecoration,
+        'padding':style?.padding ,
+        'border-top-left-radius':style?.borderTopLeftRadius + 'px',
+        'border-top-right-radius':style?.borderTopRightRadius + 'px',
+        'border-bottom-left-radius':style?.borderBottomLeftRadius + 'px',
+        'border-bottom-right-radius':style?.borderBottomRightRadius + 'px',
+         }" pInputText id="over_label" [(ngModel)]="value" autocomplete="off" />
+    <label for="over_label">Over Label</label>
+</p-floatlabel>
+
+<p-floatlabel variant="in">
+    <input [style]="{
+        border: (required && (!value || value === '')) ? '1px solid red' : '1px solid black',
+        height:'100%',
+        width:'100%',
+        color:style?.color,
+        'font-family':style?.fontFamily,
+        'font-size':style?.fontSize + 'px',
+        'font-weight':style?.fontWeight,
+        'text-align':style?.textAlign,
+        'text-decoration':style?.textDecoration,
+        'padding':style?.padding ,
+        'border-top-left-radius':style?.borderTopLeftRadius + 'px',
+        'border-top-right-radius':style?.borderTopRightRadius + 'px',
+        'border-bottom-left-radius':style?.borderBottomLeftRadius + 'px',
+        'border-bottom-right-radius':style?.borderBottomRightRadius + 'px',
+         }" pInputText id="in_label" [(ngModel)]="value" autocomplete="off" />
+    <label for="in_label">In Label</label>
+</p-floatlabel>
+
+<p-floatlabel variant="on">
+    <input pInputText id="on_label" [(ngModel)]="value" autocomplete="off" />
+    <label for="on_label">On Label</label>
+</p-floatlabel> -->
+
+
+@if(ch === "true"){
+    <input (dblclick)="onOpenDifferenceDialog()" type="text" tooltipPosition="bottom" [pTooltip]="tooltipContent" pInputText
+           class="ng-invalid ng-dirty" [(ngModel)]="value" [readOnly]="readOnly" [required]="required" [disabled]="disabled" (ngModelChange)="onInputValueChange($event)" />
+    <ng-template #tooltipContent>
+           <div class="card">
+                  <p-table [value]="logs" styleClass="p-datatable-sm">
+                         <ng-template pTemplate="header">
+                                <tr>
+                                       <th class="text-xs text-left" style="color:white;">Value</th>
+                                       <th class="text-xs" style="color:white">Mod.By</th>
+                                       <th class="text-xs" style="color:white">Mod.On</th>
+                                </tr>
+                         </ng-template>
+                         <ng-template pTemplate="body" let-product>
+                                <tr>
+                                       <td class="text-xs">{{ product.modifiedValue }}</td>
+                                       <td class="text-xs">{{ product.modifiedBy }}</td>
+                                       <td class="text-xs">{{ product.modifiedOn | date : 'short'}}</td>
+                                </tr>
+                         </ng-template>
+                  </p-table>
+           </div>
+    </ng-template>
+    }
+    @else {
+    <input type="text" pInputText class="ng-invalid ng-dirty" [(ngModel)]="value" [readOnly]="readOnly"
+           [required]="required" [disabled]="disabled" [style]="{
+    border: (required && (!value || value === '')) ? '1px solid red' : '1px solid var(--p-primary-color)',
+    height:'100%',
+    width:'100%',
+    color:style?.color,
+    'font-family':style?.fontFamily,
+    'font-size':style?.fontSize + 'px',
+    'font-weight':style?.fontWeight,
+    'text-align':style?.textAlign,
+    'text-decoration':style?.textDecoration,
+    'padding':style?.padding ,
+    'border-top-left-radius':style?.borderTopLeftRadius + 'px',
+    'border-top-right-radius':style?.borderTopRightRadius + 'px',
+    'border-bottom-left-radius':style?.borderBottomLeftRadius + 'px',
+    'border-bottom-right-radius':style?.borderBottomRightRadius + 'px',
+    }" (ngModelChange)="onInputValueChange($event)" />
+    }

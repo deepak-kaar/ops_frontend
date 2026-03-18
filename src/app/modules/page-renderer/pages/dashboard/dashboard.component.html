@@ -1,0 +1,70 @@
+<div class="dashboard-filter-bar">
+    <app-filter></app-filter>
+</div>
+
+<div class="dashboard-main">
+    <!-- Left Panel - 20% Custom Order List -->
+    <div class="dashboard-left">
+        <!-- Header with controls -->
+        <div class="dashboard-list-header">
+            <div class="dashboard-list-controls">
+                <p-button [outlined]="true" icon="pi pi-filter-slash" label="Clear" size="small"
+                    (onClick)="searchValue=''; applyListFilter()" />
+                <p-datepicker [(ngModel)]="date1" [showTime]="true" [hourFormat]="'24'" [showIcon]="true"
+                    inputId="dashboard-date" [showOnFocus]="false" (ngModelChange)="onDateChange()"
+                    styleClass="dashboard-datepicker" />
+            </div>
+            <div class="dashboard-search-box">
+                <i class="pi pi-search"></i>
+                <input type="text" (input)="applyListFilter()" [(ngModel)]="searchValue"
+                    placeholder="Search dashboards..." />
+            </div>
+        </div>
+
+        <!-- Scrollable list area -->
+        <div class="dashboard-list-body">
+            @if (displayMappings.length === 0) {
+            <div class="dashboard-list-empty">
+                <i class="pi pi-inbox"></i>
+                <span>No dashboards found</span>
+            </div>
+            } @else {
+            @for (item of displayMappings; track getItemId(item)) {
+            <div class="dashboard-list-item" [class.active]="isSelected(item)" (click)="selectMapping(item)">
+                <div class="dashboard-list-item-main">
+                    <div class="dashboard-list-item-title">{{ item?.name || item?.templateName || item?.mappingName ||
+                        'Unnamed' }}</div>
+                    <div class="dashboard-list-item-desc">{{ item?.description || item?.templateDescription ||
+                        item?.mappingDescription || '' }}</div>
+                </div>
+                <div class="dashboard-list-item-meta">
+                    <span class="dashboard-list-item-badge" [class.active]="item?.status === 'Active'">
+                        {{ item?.status || 'Active' }}
+                    </span>
+                    <span class="dashboard-list-item-date">{{ item?.createdOn || item?.mappingCreatedOn | date: 'MM/dd/yy'
+                        }}</span>
+                </div>
+            </div>
+            }
+            }
+        </div>
+    </div>
+
+    <!-- Right Panel - 80% Preview -->
+    <div class="dashboard-right">
+        @if (getItemId(selectedMapping)) {
+        <div class="dashboard-preview-wrapper">
+            <app-global-renderer [pageType]="'Dashboard'" [embedded]="true"
+                [mappingId]="getItemId(selectedMapping)"
+                [isTemplate]="!selectedMapping?.mappingId" [type]="'View'"
+                [date]="date1.toISOString()">
+            </app-global-renderer>
+        </div>
+        } @else {
+        <div class="dashboard-preview-empty">
+            <i class="pi pi-eye"></i>
+            <span>Select a dashboard to preview</span>
+        </div>
+        }
+    </div>
+</div>

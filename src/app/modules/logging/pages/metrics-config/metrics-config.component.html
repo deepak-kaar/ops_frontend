@@ -1,0 +1,95 @@
+<div class="metrics-config-container">
+  <div class="header-section">
+    <div class="header-left">
+      <button class="back-btn" (click)="goBack()">
+        <i class="pi pi-arrow-left"></i>
+      </button>
+      <div class="header-content">
+        <h1>Metrics Configuration</h1>
+        <p>Configure threshold values for system health monitoring</p>
+      </div>
+    </div>
+    <div class="header-actions">
+      <button class="action-btn secondary" (click)="resetToDefaults()">
+        <i class="pi pi-refresh"></i>
+        <span>Reset</span>
+      </button>
+      <button class="action-btn secondary" (click)="cancelChanges()" [disabled]="!hasChanges()">
+        <i class="pi pi-times"></i>
+        <span>Cancel</span>
+      </button>
+      <button class="action-btn primary" (click)="saveMetricsConfig()" [disabled]="!hasChanges()">
+        <i class="pi pi-check"></i>
+        <span>Save</span>
+      </button>
+    </div>
+  </div>
+
+  <div class="metrics-grid">
+    <div class="metric-card" *ngFor="let metric of metricsList">
+      <div class="metric-header">
+        <h3>{{ metric.label }}</h3>
+        <span class="metric-unit">Unit: {{ metric.unit }}</span>
+      </div>
+
+      <div class="threshold-section">
+        <div class="threshold-item healthy">
+          <div class="threshold-label">
+            <i class="pi pi-check-circle"></i>
+            <span>HEALTHY</span>
+          </div>
+          <div class="threshold-inputs">
+            <div class="input-group" *ngIf="metricsConfig[metric.key]?.healthy?.max !== undefined">
+              <label>Max</label>
+              <p-inputNumber [(ngModel)]="metricsConfig[metric.key].healthy.max" [suffix]="' ' + metric.unit" [min]="0">
+              </p-inputNumber>
+            </div>
+            <div class="input-group" *ngIf="metricsConfig[metric.key]?.healthy?.min !== undefined">
+              <label>Min</label>
+              <p-inputNumber [(ngModel)]="metricsConfig[metric.key].healthy.min" [suffix]="' ' + metric.unit" [min]="0">
+              </p-inputNumber>
+            </div>
+          </div>
+        </div>
+
+        <div class="threshold-item warning">
+          <div class="threshold-label">
+            <i class="pi pi-exclamation-triangle"></i>
+            <span>WARNING</span>
+          </div>
+          <div class="threshold-inputs">
+            <div class="input-group" *ngIf="metricsConfig[metric.key]?.warning?.min !== undefined">
+              <label>Min</label>
+              <p-inputNumber [(ngModel)]="metricsConfig[metric.key].warning.min" [suffix]="' ' + metric.unit" [min]="0">
+              </p-inputNumber>
+            </div>
+            <div class="input-group" *ngIf="metricsConfig[metric.key]?.warning?.max !== undefined">
+              <label>Max</label>
+              <p-inputNumber [(ngModel)]="metricsConfig[metric.key].warning.max" [suffix]="' ' + metric.unit" [min]="0">
+              </p-inputNumber>
+            </div>
+          </div>
+        </div>
+
+        <div class="threshold-item critical">
+          <div class="threshold-label">
+            <i class="pi pi-times-circle"></i>
+            <span>CRITICAL</span>
+          </div>
+          <div class="threshold-inputs">
+            <div class="input-group" *ngIf="metricsConfig[metric.key]?.critical?.min !== undefined">
+              <label>Min</label>
+              <p-inputNumber [(ngModel)]="metricsConfig[metric.key].critical.min" [suffix]="' ' + metric.unit" [min]="0">
+              </p-inputNumber>
+            </div>
+            <div class="input-group" *ngIf="metricsConfig[metric.key]?.critical?.max !== undefined">
+              <label>Max</label>
+              <p-inputNumber [(ngModel)]="metricsConfig[metric.key].critical.max" [suffix]="' ' + metric.unit" [min]="0">
+              </p-inputNumber>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

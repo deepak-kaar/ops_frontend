@@ -1,0 +1,74 @@
+<div class="flex flex-col gap-4">
+  <div class="flex flex-col gap-1">
+    <h3 class="text-lg font-semibold">Customer Access</h3>
+    <p class="text-sm text-gray-600">
+      Customer: <strong>{{ customerName }}</strong>
+    </p>
+  </div>
+
+  @if(!isAuthorized) {
+  <form [formGroup]="authForm" class="flex flex-col gap-4">
+    <div class="grid grid-cols-1 md:grid-cols-2 md:gap-4">
+      <div class="flex flex-col gap-2">
+        <label for="serviceName">Service Name<span class="text-(--p-red-500)"> *</span></label>
+        <input pInputText id="serviceName" formControlName="serviceName" placeholder="Enter service name" />
+      </div>
+      <div class="flex flex-col gap-2">
+        <label for="password">Password</label>
+        <input pInputText id="password" type="password" formControlName="password" placeholder="Enter password" />
+      </div>
+    </div>
+  </form>
+
+  <div class="flex justify-end gap-2 pt-2">
+    <p-button label="Cancel" severity="danger" outlined="true" (onClick)="close()"></p-button>
+    <p-button label="Continue" (onClick)="verifyAccess()"></p-button>
+  </div>
+  }
+
+  @if(isAuthorized) {
+  <div class="flex flex-col gap-3">
+    <div class="flex justify-between items-center">
+      <h4 class="text-md font-semibold">Mapped Attributes</h4>
+      <div class="flex gap-2">
+        <p-button
+          icon="pi pi-copy"
+          severity="secondary"
+          outlined="true"
+          size="small"
+          pTooltip="Copy JSON"
+          (onClick)="copyToClipboard()">
+        </p-button>
+        <p-button
+          icon="pi pi-download"
+          severity="secondary"
+          outlined="true"
+          size="small"
+          pTooltip="Download JSON"
+          (onClick)="downloadJson()">
+        </p-button>
+      </div>
+    </div>
+
+    @if(attributes.length > 0) {
+    <div class="json-container relative" style="max-height: 400px; overflow-y: auto;">
+      <pre
+        class="bg-gray-900 text-gray-100 p-4 rounded-lg text-sm font-mono overflow-x-auto leading-relaxed"
+        [innerHTML]="getFormattedJson()">
+      </pre>
+    </div>
+    <p class="text-xs text-gray-500 mt-1">{{ attributes.length }} attribute(s) found</p>
+    } @else {
+    <div class="text-center p-4 text-gray-500 bg-gray-50 rounded-lg">
+      <i class="pi pi-inbox text-2xl mb-2"></i>
+      <p>No attributes mapped for this customer.</p>
+    </div>
+    }
+
+    <div class="flex justify-end pt-2">
+      <p-button label="Close" (onClick)="close()"></p-button>
+    </div>
+  </div>
+  }
+</div>
+

@@ -1,0 +1,45 @@
+@if ((isMobile$ | async) == false && (isTablet$ | async) == false) {
+  <div>
+    <app-sidebar></app-sidebar>
+  </div>
+}
+
+@if ((isMobile$ | async) || (isTablet$ | async)) {
+  <div class="fixed inset-0 z-50 transition-transform duration-300 ease-in-out" [ngClass]="{
+      'translate-x-0': mobileSidebarVisible,
+      '-translate-x-full': !mobileSidebarVisible
+    }">
+    <div class="absolute w-[300px] h-full bg-white shadow-lg z-50">
+      <app-sidebar></app-sidebar>
+    </div>
+    <div class="fixed inset-0 z-40" (click)="toggleMobileSidebar()"></div>
+  </div>
+}
+
+<div [ngClass]="(isMobile$ | async) || (isTablet$ | async) ? 'pl-[0]' : 'pl-[300px]'" class="h-screen overflow-y-auto z-30">
+    <div class="box-shadow w-full h-[60px]" [ngClass]="(isMobile$ | async) || (isTablet$ | async) ? 'flex justify-between' : 'flex justify-end'">
+        @if ((isMobile$ | async) || (isTablet$ | async)) {
+          <div class="p-2 flex justify-center">
+            <button class="block text-3xl" (click)="toggleMobileSidebar()" aria-label="Toggle sidebar">&#9776;</button>
+          </div>
+        }
+        <div class="p-2 flex">
+            <p-iconfield>
+                <p-inputicon styleClass="pi pi-search" />
+                <input type="text" class="global-search" pInputText placeholder="Search" />
+            </p-iconfield>
+        </div>
+    </div>
+
+    <div class="pt-[20px] px-[20px] md:pt-[50px] flex max-lg:flex-col  gap-[20px] md:gap-[25px] ">
+        <p-select [options]="apps" [(ngModel)]="selectedApp" optionLabel="appName" filterBy="appName"
+            (onChange)="onAppChange($event.value)" [filter]="true" optionValue="appId"
+            placeholder="Select an Application" class=" lg:w-[300px]" showClear="true" />
+        <p-select [options]="orgs" [(ngModel)]="selectedOrg" optionLabel="orgName" filterBy="orgName" [filter]="true"
+            optionValue="orgId" placeholder="Select an Organization" class="lg:w-[300px]" showClear="true" />
+        <p-select [options]="reportTypes" [(ngModel)]="SelectedReport" optionLabel="name" filterBy="appName"
+            [filter]="true" optionValue="type" placeholder="Select a Page Type" class="lg:w-[300px]" showClear="true" />
+    </div>
+    <app-manage-page [app]="selectedApp" [org]="selectedOrg" [reportType]="SelectedReport"></app-manage-page>
+
+</div>

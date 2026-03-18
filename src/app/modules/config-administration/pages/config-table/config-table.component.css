@@ -1,0 +1,210 @@
+/* Note: Global CSS variables are imported in styles.css for use across all components */
+
+.config-page {
+    background: #f7f8fb;
+}
+
+.utility-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    margin-bottom: 12px;
+}
+
+.config-toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 8px 4px 18px 4px;
+    border-bottom: 1px solid #eef1f6;
+}
+
+.config-search {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex: 1;
+    min-width: 0;
+}
+
+.config-list-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: #111827;
+    white-space: nowrap;
+}
+
+.search-field {
+    width: 360px;
+    max-width: 100%;
+}
+
+.config-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+}
+
+@media screen and (max-width: 900px) {
+    .config-toolbar {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .config-search {
+        width: 100%;
+    }
+
+    .config-actions {
+        justify-content: flex-start;
+    }
+}
+
+@media screen and (max-width: 640px) {
+    .utility-actions {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 8px;
+    }
+
+    .config-search {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .config-list-title {
+        margin-bottom: 2px;
+    }
+
+    .search-field {
+        width: 100%;
+    }
+
+    .config-actions {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 8px;
+    }
+
+    :host ::ng-deep .btn-outline .p-button,
+    :host ::ng-deep .btn-primary .p-button,
+    :host ::ng-deep .btn-filter .p-button,
+    :host ::ng-deep .btn-ghost .p-button {
+        width: 100%;
+        justify-content: center;
+    }
+
+    :host ::ng-deep .btn-outline .p-button,
+    :host ::ng-deep .btn-primary .p-button,
+    :host ::ng-deep .btn-filter .p-button {
+        height: 36px;
+        border-radius: 10px;
+        font-size: 13px;
+    }
+
+    :host ::ng-deep .btn-ghost .p-button {
+        height: 32px;
+        font-size: 12px;
+    }
+}
+
+/* Card styling */
+:host ::ng-deep .config-table-card .p-card {
+    border-radius: 16px;
+    border: 1px solid #eef1f6;
+    box-shadow: 0 6px 20px rgba(16, 24, 40, 0.06);
+}
+
+:host ::ng-deep .config-table-card .p-card-body {
+    padding: 18px 20px 20px 20px;
+}
+
+/* Search input */
+:host ::ng-deep .search-field .p-inputtext {
+    height: 44px;
+    border-radius: 12px;
+    border: 1px solid #e1e6ef;
+    background: #f9fbff;
+    padding-left: 38px;
+    font-size: 14px;
+}
+
+:host ::ng-deep .search-field .p-input-icon-left > i {
+    color: #94a3b8;
+}
+
+/* Buttons */
+:host ::ng-deep .btn-outline .p-button {
+    height: 40px;
+    border-radius: 12px;
+    border: 1px solid #d9e1ee;
+    background: #ffffff;
+    color: #1f2937;
+    font-weight: 500;
+}
+
+:host ::ng-deep .btn-outline .p-button:hover {
+    background: #f5f8ff;
+    border-color: #c8d4eb;
+}
+
+:host ::ng-deep .btn-primary .p-button {
+    height: 40px;
+    border-radius: 12px;
+    font-weight: 600;
+}
+
+:host ::ng-deep .btn-filter .p-button {
+    height: 40px;
+    border-radius: 12px;
+    border: 1px solid #d9e1ee;
+    background: #ffffff;
+    color: #334155;
+    font-weight: 500;
+}
+
+:host ::ng-deep .btn-ghost .p-button {
+    height: 34px;
+    border-radius: 10px;
+    border: 1px solid #e6ebf2;
+    background: #ffffff;
+    color: #64748b;
+}
+
+/* Table wrapper for horizontal scrolling */
+.table-wrapper {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+/* Popover styling */
+:host ::ng-deep .p-popover {
+    width: 30% !important;
+    z-index: 999999 !important;
+}
+
+/* Popover styling for config value */
+:host ::ng-deep .config-value-popover .p-popover-content {
+    padding: 0 !important; /* remove white inner space */
+}
+
+:host ::ng-deep .config-value-popover {
+    overflow: hidden;
+    border-radius: 8px;
+}
+
+/* Responsive Design */
+@media screen and (max-width: 640px) {
+    .pt-\[40px\] {
+        padding-top: var(--table-mobile-padding-top, 20px) !important;
+    }
+
+    .pl-\[20px\],
+    .pr-\[20px\] {
+        padding-left: var(--table-mobile-padding-horizontal, 10px) !important;
+        padding-right: var(--table-mobile-padding-horizontal, 10px) !important;
+    }
+}

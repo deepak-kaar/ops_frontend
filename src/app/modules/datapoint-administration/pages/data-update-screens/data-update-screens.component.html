@@ -1,0 +1,75 @@
+<div class="pt-[50px] pl-[20px] pr-[20px] w-full">
+    <div class="flex justify-end pb-3">
+        <!-- @if(isAdmin || createAccess ){
+        <p-button label="Create Entity"
+            [style]="{'border-radius':'12px','height':'37px','background-color':'var(--dark-blue)','border':'none'}"
+            routerLink="/admin/createEntity" />
+        } -->
+    </div>
+    <p-card class="w-full">
+        <p-table #dt1 [value]="apps" dataKey="id" [rowHover]="true" [rows]="20" [showCurrentPageReport]="true"
+            [rowsPerPageOptions]="[20, 30, 50]" [paginator]="true"
+            currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [filterDelay]="0"
+            [globalFilterFields]="['name', 'country.name', 'representative.name', 'status']">
+            <ng-template pTemplate="caption">
+                <div class="flex justify-between">
+                    <div class="flex gap-3">
+                        <p-button [outlined]="true" icon="pi pi-filter-slash" label="Clear" (onClick)="clear(dt1)" />
+                        <p-calendar appendTo="body" [(ngModel)]="date" [showIcon]="true" [showOnFocus]="false" inputId="buttondisplay" />
+                    </div>
+                    <p-iconField iconPosition="left">
+                        <p-inputIcon>
+                            <i class="pi pi-search"></i>
+                        </p-inputIcon>
+                        <input pInputText type="text" [(ngModel)]="searchValue" placeholder="Keyboard Search" />
+                    </p-iconField>
+                </div>
+            </ng-template>
+            <ng-template pTemplate="header">
+                <tr>
+                    <th pSortableColumn="reportName" style="min-width: 14rem" class="border-round-left-2xl">
+                        <div class="flex justify-content-between align-items-center">
+                            Form Name
+                            <p-sortIcon field="reportName" />
+                            <p-columnFilter type="text" field="reportName" display="menu" class="ml-auto" />
+                        </div>
+                    </th>
+                    <th class="border-round-right-2xl" style="min-width: 14rem">Action</th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-entity>
+                <tr class="p-selectable-row">
+                    <td class="text-left cursor-pointer border-round-left-2xl" (click)="openEntity(entity)">
+                        <span class="p-column-title">Report Name</span>
+                        <span class="ml-1 vertical-align-middle desc">{{ entity.templateName }}</span>
+                    </td>
+                    <td class="border-round-right-2xl text-left">
+                        <!-- <p-menu #menu [model]="items" appendTo="body" [popup]="true">
+                            <ng-template pTemplate="item" let-item>
+                                <a pRipple class="flex align-items-center p-menuitem-link"
+                                    (click)="onSplitButtonClick(item,entity)">
+                                    <span [class]="item.icon"></span>
+                                    <span class="ml-2">{{ item.label }}</span>
+                                    <p-badge *ngIf="item.badge" class="ml-auto" [value]="item.badge" />
+                                    <span *ngIf="item.shortcut"
+                                        class="ml-auto border-1 surface-border border-round surface-100 text-xs p-1">
+                                        {{ item.shortcut }}
+                                    </span>
+                                </a>
+                            </ng-template>
+                        </p-menu>
+                        <p-button (onClick)="menu.toggle($event)" [style]="{'height':'30px'}"  icon="pi pi-cog" />  -->
+                        <p-button icon="pi pi-cog" [style]="{'height':'20px'}" [rounded]="true" [text]="true"
+                            (onClick)="onButtonClick(entity)" />
+                    </td>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="emptymessage">
+                <tr>
+                    <td colspan="8">No Data Update Screen found.</td>
+                </tr>
+            </ng-template>
+        </p-table>
+    </p-card>
+</div>
+<p-toast [breakpoints]="breakPointForToastComponent"></p-toast>

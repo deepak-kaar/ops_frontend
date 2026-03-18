@@ -1,0 +1,157 @@
+<div class="flex flex-col gap-3 p-2 md:p-4">
+    <form [formGroup]="appForm" class="flex flex-col gap-3">
+        <!-- Application Name and Description - Stacks vertically on mobile -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+            <div class="flex flex-col gap-2">
+                <label for="appname">Application Name<span class="text-[var(--p-red-500)]"> *</span></label>
+                <input pInputText id="appname" formControlName="appName" class="w-full" />
+            </div>
+            <div class="flex flex-col gap-2">
+                <label for="appdesc">Application Description <span class="text-[var(--p-red-500)]"> *</span></label>
+                <textarea
+                    pInputTextarea
+                    id="appdesc"
+                    rows="4"
+                    class="w-full resize-y"
+                    formControlName="appDescription">
+                </textarea>
+            </div>
+        </div>
+
+        <!-- Admin Role and Classification - Stacks vertically on mobile -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+            <div class="flex flex-col gap-2">
+                <label for="approle">Select Admin Role</label>
+                <p-select
+                    formControlName="appAdminRole"
+                    [options]="adminRoles"
+                    optionLabel="roleName"
+                    optionValue="roleId"
+                    placeholder="Select a Role"
+                    class="w-full">
+                </p-select>
+            </div>
+            <div class="flex flex-col gap-2">
+                <label for="appclass">Application Classification</label>
+                <p-select
+                    formControlName="appClassification"
+                    [options]="classifications"
+                    placeholder="Select a Classification"
+                    class="w-full">
+                </p-select>
+            </div>
+        </div>
+
+        <!-- Application Owner and Contact - Stacks vertically on mobile -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+            <div class="flex flex-col gap-2">
+                <label for="appowner">Application Owner</label>
+                <input pInputText id="appowner" formControlName="appOwner" class="w-full" />
+            </div>
+            <div class="flex flex-col gap-2">
+                <label for="appcontact">Application Contact</label>
+                <input pInputText id="appcontact" formControlName="appContact" class="w-full" />
+            </div>
+        </div>
+
+        <!-- Active Status (conditional) -->
+        @if(mode === 'edit'){
+        <div class="grid grid-cols-1 gap-3">
+            <div class="flex flex-col gap-2">
+                <label for="appstatus">Active Status</label>
+                <p-select
+                    formControlName="appStatus"
+                    [options]="activeStatus"
+                    optionLabel="name"
+                    optionValue="value"
+                    placeholder="Select Active status"
+                    class="w-full">
+                </p-select>
+            </div>
+        </div>
+        }
+
+        <!-- Application Image Upload -->
+        <div class="flex flex-col gap-2">
+            <label class="text-sm font-medium">Application Image</label>
+            
+            <div class="flex flex-col md:flex-row gap-4 items-start p-4 border border-[var(--p-surface-300)] rounded-lg bg-[var(--p-surface-50)]">
+                <!-- Image Preview -->
+                <div class="w-full md:w-[180px] h-[140px] border-2 border-dashed border-[var(--p-surface-400)] rounded-lg bg-white flex items-center justify-center overflow-hidden">
+                    @if(imagePreviewUrl) {
+                        <img [src]="imagePreviewUrl" alt="Application preview" class="max-w-full max-h-full object-contain" />
+                    } @else {
+                        <div class="flex flex-col items-center justify-center text-[var(--p-text-400)] text-center p-4">
+                            <i class="pi pi-image text-3xl mb-2"></i>
+                            <span class="text-xs">No image</span>
+                        </div>
+                    }
+                </div>
+
+                <!-- Upload Controls -->
+                <div class="flex-1 flex flex-col gap-3">
+                    <div class="flex flex-col gap-2">
+                        <input
+                            #fileInput
+                            id="appLogo"
+                            type="file"
+                            accept="image/png,image/jpeg,image/webp"
+                            class="hidden"
+                            (change)="onImageChange($event)" />
+                        
+                        <p-button
+                            label="Choose Image"
+                            icon="pi pi-upload"
+                            [outlined]="true"
+                            size="small"
+                            type="button"
+                            (onClick)="fileInput.click()">
+                        </p-button>
+                        
+                        @if(imagePreviewUrl) {
+                            <p-button
+                                label="Remove"
+                                icon="pi pi-trash"
+                                severity="danger"
+                                [outlined]="true"
+                                size="small"
+                                type="button"
+                                (onClick)="removeImage()">
+                            </p-button>
+                        }
+                    </div>
+                    
+                    @if(selectedImageName) {
+                        <div class="text-sm text-[var(--p-text-600)]">
+                            <i class="pi pi-file mr-2"></i>
+                            <span>{{ selectedImageName }}</span>
+                        </div>
+                    }
+                    
+                    <div class="text-xs text-[var(--p-text-500)]">
+                        <i class="pi pi-info-circle mr-1"></i>
+                        PNG, JPG, WEBP • Max 1 MB
+                    </div>
+                </div>
+            </div>
+        </div>  
+    </form>
+
+    <div class="flex flex-col sm:flex-row justify-center gap-2 sm:gap-3 mt-2">
+        <p-button
+            styleClass="w-full sm:w-44"
+            severity="secondary"
+            [outlined]="true"
+            label="Cancel"
+            type="button"
+            (click)="onDialogCancel()">
+        </p-button>
+
+        <p-button
+            styleClass="w-full sm:w-44"
+            [label]="mode === 'edit' ? 'Update' : 'Save'"
+            type="button"
+            (click)="mode === 'edit' ? updateApp() : createApp()">
+        </p-button>
+    </div>
+</div>

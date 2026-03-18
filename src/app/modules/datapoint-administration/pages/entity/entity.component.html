@@ -1,0 +1,140 @@
+@if(isshowUI){
+<div class="pt-[50px] pl-[20px] pr-[20px] w-full">
+    <!-- <app-filter (filterParam)="onFilterApply($event)"></app-filter> -->
+    <div class="pt-[10px]">
+        <p-card class="w-full">
+            <p-table class="customizePaginator" #dt  [value]="entityList" dataKey="id" [rowHover]="true" [rows]="20" [showCurrentPageReport]="(isMobile$|async)==true? false: true"
+                [rowsPerPageOptions]="[20, 30, 50]" [paginator]="true"
+                currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [filterDelay]="0"
+                [globalFilterFields]="['entityName', 'entityDesc', 'entityLevel', 'status']">
+                <ng-template pTemplate="caption">
+                    @if((isMobile$ |async)==true){
+                    <div class="flex flex-col gap-[10px] md:flex-row justify-between ">
+                        <div class="flex  justify-between items-center">
+                            <p-button [outlined]="true" icon="pi pi-filter-slash" label="Clear" (onClick)="clear(dt)" size="small" />
+                        <p-button label="Create Entity" size="small"
+                                [style]="{'border-radius':'12px','width':'115px','border':'none'}"
+                                (onClick)="createEntity()" />
+                        </div>
+                        <div class="flex items-center">
+                            <p-iconField iconPosition="left" class="w-full">
+                                <p-inputIcon class="w-full">
+                                    <i class="pi pi-search"></i>
+                                </p-inputIcon>
+                                <input pInputText type="text" (keyup)="applyFilterGlobal($event, 'contains')"
+                                    [(ngModel)]="searchValue" placeholder="Keyboard Search" class="w-full"/>
+                            </p-iconField>
+                            
+                        </div>
+                    </div>
+                }
+                @else{
+                    <div class="flex justify-between">
+                        <p-button [outlined]="true" icon="pi pi-filter-slash" label="Clear" (onClick)="clear(dt)" />
+                        <div class="flex gap-[10px] items-center">
+                            <p-iconField iconPosition="left">
+                                <p-inputIcon>
+                                    <i class="pi pi-search"></i>
+                                </p-inputIcon>
+                                <input pInputText type="text" (keyup)="applyFilterGlobal($event, 'contains')"
+                                    [(ngModel)]="searchValue" placeholder="Keyboard Search" />
+                            </p-iconField>
+                            <p-button label="Create Entity/Schema"
+                                [style]="{'border-radius':'12px','height':'37px','border':'none'}"
+                                (onClick)="createEntity()" />
+                        </div>
+                    </div>
+                }
+                </ng-template>
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th pSortableColumn="entityName" style="min-width: 14rem"
+                            class="border-round-left-2xl text-left">
+                            <div class="flex justify-between items-center">
+                                Name
+                                <p-sortIcon field="entityName" />
+                                <p-columnFilter type="text" field="entityName" display="menu" class="ml-auto" />
+                            </div>
+                        </th>
+                        <th pSortableColumn="entityDesc" style="min-width: 14rem">
+                            <div class="flex justify-between items-center">
+                                Description
+                                <p-sortIcon field="entityDesc" />
+                                <p-columnFilter type="text" field="entityDesc" display="menu" class="ml-auto" />
+                            </div>
+                        </th>
+                        <th pSortableColumn="InstanceCount" style="min-width: 10rem">
+                            <div class="flex justify-between items-center">
+                                Instance Count
+                                <p-sortIcon field="balance" />
+                                <p-columnFilter type="numeric" field="InstanceCount" display="menu" currency="USD"
+                                    class="ml-auto" />
+                            </div>
+                        </th>
+                        <th pSortableColumn="entityLevel" class="cursor-pointer" style="min-width: 10rem">
+                            <div class="flex justify-between items-center">
+                                Entity Level
+                                <p-sortIcon field="status" />
+                                <p-columnFilter field="entityLevel" matchMode="equals" display="menu" class="ml-auto">
+                                    <ng-template pTemplate="filter" let-value let-filter="filterCallback">
+                                        <p-select [ngModel]="value" [options]="statuses"
+                                            (onChange)="filter($event.value)" placeholder="Any">
+                                            <ng-template let-option pTemplate="item">
+                                                {{option}}
+                                            </ng-template>
+                                        </p-select>
+                                    </ng-template>
+                                </p-columnFilter>
+                            </div>
+                        </th>
+                        <th style="min-width: 10rem" class="border-round-right-2xl text-left">
+                            Action
+                        </th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-entity>
+                    <tr class="p-selectable-row">
+                        <td class="border-round-left-2xl cursor-pointer text-left"
+                            (click)="openEntity(entity.entityId)">
+                            {{ entity.entityName }}
+                        </td>
+                        <td class="text-left cursor-pointer" (click)="openEntity(entity.entityId)">
+                            <span class="ml-1 vertical-align-middle desc">{{ entity.entityDesc }}</span>
+                        </td>
+                        <td class="text-left cursor-pointer" (click)="openEntity(entity.entityId)">
+                            {{ entity.InstanceCount }}
+                        </td>
+                        <td class="text-left cursor-pointer" (click)="openEntity(entity.entityId)">
+                            {{entity.entityLevel}}
+                        </td>
+                        <td class="border-round-right-2xl text-left">
+                            <!-- <p-menu #menu [model]="items" appendTo="body" [popup]="true">
+                            <ng-template pTemplate="item" let-item>
+                                <a pRipple class="flex items-center p-menuitem-link"
+                                    (click)="onSplitButtonClick(item,entity)">
+                                    <span [class]="item.icon"></span>
+                                    <span class="ml-2">{{ item.label }}</span>
+                                    <p-badge *ngIf="item.badge" class="ml-auto" [value]="item.badge" />
+                                    <span *ngIf="item.shortcut"
+                                        class="ml-auto border-1 surface-border border-round surface-100 text-xs p-1">
+                                        {{ item.shortcut }}
+                                    </span>
+                                </a>
+                            </ng-template>
+                        </p-menu> -->
+                            <p-button icon="pi pi-cog" [style]="{'height':'20px'}" [rounded]="true" [text]="true"
+                                (onClick)="onButtonClick(entity)" />
+                        </td>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="emptymessage">
+                    <tr>
+                        <td colspan="8">No entitys found.</td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </p-card>
+    </div>
+</div>
+}
+<p-toast [breakpoints]="breakPointForToastComponent"></p-toast>

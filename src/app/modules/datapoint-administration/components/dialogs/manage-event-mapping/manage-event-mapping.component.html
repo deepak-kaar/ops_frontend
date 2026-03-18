@@ -1,0 +1,42 @@
+<div class="flex flex-col gap-4">
+    <form [formGroup]="mappingForm">
+        <div class="flex flex-col gap-4">
+            <div class="flex flex-col gap-2">
+                <label for="username">Mapping Description</label>
+                <textarea pTextarea pSize="small" rows="3"></textarea>
+            </div>
+            <div class="flex flex-col gap-2">
+                <label for="username">Choose Flag Type</label>
+                <p-select [options]="typeOptions" appendTo="body" formControlName="flagType" class="w-full">
+                </p-select>
+            </div>
+            @if(this.mappingForm.get('flagType')?.value === 'Flag Template'){
+            <div class="flex flex-col gap-2">
+                <label for="username">Choose Flag</label>
+                <p-select [options]="flags" optionLabel="flagName" appendTo="body" formControlName="flagId"
+                    class="w-full">
+                </p-select>
+            </div>
+            }
+            @else if(this.mappingForm.get('flagType')?.value === 'Flag Instance'){
+            <div class="flex flex-col gap-2">
+                <label for="username">Choose Flag Type</label>
+                <p-select [options]="flags" optionLabel="flagName" appendTo="body" formControlName="flagId"
+                    class="w-full">
+                </p-select>
+            </div>
+            <div class="flex flex-col gap-2">
+                <label for="username">Choose Flag Instances</label>
+                <p-select [options]="flags" optionLabel="flagName" appendTo="body" formControlName="flagInstances"
+                    class="w-full">
+                </p-select>
+            </div>
+            }
+        </div>
+    </form>
+    <div class="flex justify-center gap-[10px]">
+        <p-button styleClass="w-[250px]" severity="danger" outlined="true" label="Cancel"
+            (onClick)="ref.close()"></p-button>
+        <p-button styleClass="w-[250px]" label="Save" (onClick)="createMapping()"></p-button>
+    </div>
+</div>

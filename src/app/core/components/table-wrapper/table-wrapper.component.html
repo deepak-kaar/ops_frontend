@@ -1,0 +1,239 @@
+<!-- Mobile Layout -->
+@if (isMobile && tableConfig.showMobileView) {
+<div class="mobile-container">
+    <!-- Mobile Search Bar -->
+    <div class="mobile-search-row">
+        <div class="search-wrapper">
+            <p-iconField iconPosition="left" class="w-full">
+                <p-inputIcon>
+                    <i class="pi pi-search"></i>
+                </p-inputIcon>
+                <input pInputText type="text" (keyup)="applyFilterGlobal($event, 'contains')" [(ngModel)]="searchValue"
+                    [placeholder]="tableConfig.searchPlaceholder" class="w-full mobile-search-input" />
+            </p-iconField>
+        </div>
+        <button class="filter-btn" (click)="clearFilters()">
+            <i class="pi pi-filter-slash"></i>
+        </button>
+    </div>
+
+    <!-- Mobile Create Button -->
+    @if (tableConfig.showCreateButton) {
+    <button class="mobile-create-btn" (click)="handleCreate()">
+        <i [class]="tableConfig.createButtonIcon"></i>
+        {{ tableConfig.createButtonLabel }}
+    </button>
+    }
+
+    <!-- Mobile Cards -->
+    <div class="cards-container">
+        @if (mobileCardTemplate) {
+        @for (item of data; track trackByFn($index, item)) {
+        <ng-container *ngTemplateOutlet="mobileCardTemplate; context: { $implicit: item, index: $index }">
+        </ng-container>
+        }
+        } @else {
+        @for (item of data; track trackByFn($index, item)) {
+        <div class="mobile-card" (click)="handleRowClick(item)">
+            <div class="mobile-card-header">
+                <div class="mobile-card-info">
+                    @if (tableConfig.mobileCardFields?.title) {
+                    <span class="mobile-card-title">{{ getCellValue(item, tableConfig.mobileCardFields!.title) }}</span>
+                    }
+                    @if (tableConfig.mobileCardFields?.subtitle) {
+                    <span class="mobile-card-subtitle">{{ getCellValue(item, tableConfig.mobileCardFields!.subtitle!)
+                        }}</span>
+                    }
+                </div>
+                <div class="mobile-card-actions">
+                    @for (action of actions; track action.action) {
+                    @if (isActionVisible(action, item)) {
+                    <button class="action-icon" [class.delete]="action.severity === 'danger'"
+                        (click)="handleAction(action.action, item, $event)" [pTooltip]="action.tooltip">
+                        <i [class]="action.icon"></i>
+                    </button>
+                    }
+                    }
+                </div>
+            </div>
+            @if (tableConfig.mobileCardFields?.stats?.length) {
+            <div class="mobile-card-footer">
+                @for (stat of tableConfig.mobileCardFields!.stats; track stat.field) {
+                <div class="mobile-card-stat">
+                    <span class="stat-label">{{ stat.label }}:</span>
+                    <span class="stat-value">{{ getCellValue(item, stat.field) }}</span>
+                </div>
+                }
+            </div>
+            }
+        </div>
+        }
+        }
+    </div>
+</div>
+} @else {
+<!-- Desktop Layout - Table View -->
+<p-card class="w-full">
+    <p-table #dt [value]="data" [dataKey]="tableConfig.dataKey!" [rowHover]="tableConfig.rowHover!" [rows]="tableConfig.rows!"
+        [showCurrentPageReport]="true" [rowsPerPageOptions]="tableConfig.rowsPerPageOptions!"
+        [paginator]="tableConfig.paginator!" [loading]="loading"
+        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [filterDelay]="0"
+        [globalFilterFields]="tableConfig.globalFilterFields!" [selectionMode]="tableConfig.selectionMode!"
+        [(selection)]="selectedItem" (onRowSelect)="handleRowSelect($event)" (onRowUnselect)="handleRowUnselect($event)">
+
+        <!-- Caption Template -->
+        @if (tableConfig.showCaption) {
+        <ng-template pTemplate="caption">
+            <div class="flex justify-between items-center flex-wrap gap-2">
+                <div class="flex items-center gap-2">
+                    @if (captionLeftTemplate) {
+                    <ng-container *ngTemplateOutlet="captionLeftTemplate"></ng-container>
+                    } @else {
+                    @if (tableConfig.showSearch) {
+                    <p-iconField iconPosition="left">
+                        <p-inputIcon>
+                            <i class="pi pi-search"></i>
+                        </p-inputIcon>
+                        <input pInputText type="text" (keyup)="applyFilterGlobal($event, 'contains')"
+                            [(ngModel)]="searchValue" [placeholder]="tableConfig.searchPlaceholder" />
+                    </p-iconField>
+                    }
+                    @if (tableConfig.showClearFilter) {
+                    <p-button [outlined]="true" icon="pi pi-filter-slash" label="Clear" (onClick)="clearFilters()" />
+                    }
+                    }
+                </div>
+
+                <div class="flex items-center gap-2">
+                    @if (captionRightTemplate) {
+                    <ng-container *ngTemplateOutlet="captionRightTemplate"></ng-container>
+                    } @else {
+                    @if (tableConfig.showCreateButton) {
+                    <p-button [icon]="tableConfig.createButtonIcon!" [label]="tableConfig.createButtonLabel!"
+                        class="create-button" (onClick)="handleCreate()" />
+                    }
+                    }
+                </div>
+            </div>
+        </ng-template>
+        }
+
+        <!-- Header Template -->
+        <ng-template pTemplate="header">
+            @if (headerTemplate) {
+            <ng-container *ngTemplateOutlet="headerTemplate; context: { columns: columns, tableConfig: tableConfig, dt: dt }"></ng-container>
+            } @else {
+            <tr>
+                @if (tableConfig.selectionMode === 'multiple') {
+                <th style="width: 4rem">
+                    <p-tableHeaderCheckbox />
+                </th>
+                }
+                @for (col of columns; track col.field; let first = $first; let last = $last) {
+                <th [pSortableColumn]="col.sortable ? col.field : ''" [style.min-width]="col.minWidth || '10rem'"
+                    [class.border-round-left-2xl]="first && tableConfig.selectionMode !== 'multiple'"
+                    [class.border-round-right-2xl]="last && actions.length === 0" class="text-left">
+                    <div class="flex justify-between items-center">
+                        {{ col.header }}
+                        @if (col.sortable) {
+                        <p-sortIcon [field]="col.field" />
+                        }
+                        @if (col.filterable) {
+                        @switch (col.filterType) {
+                        @case ('select') {
+                        <p-columnFilter [field]="col.field" matchMode="equals" display="menu" class="ml-auto">
+                            <ng-template pTemplate="filter" let-value let-filter="filterCallback">
+                                <p-select [ngModel]="value" [options]="getFilterOptions(col.filterOptions)"
+                                    (onChange)="filter($event.value)" placeholder="Any">
+                                    <ng-template let-option pTemplate="item">
+                                        {{ option }}
+                                    </ng-template>
+                                </p-select>
+                            </ng-template>
+                        </p-columnFilter>
+                        }
+                        @case ('numeric') {
+                        <p-columnFilter type="numeric" [field]="col.field" display="menu" class="ml-auto" />
+                        }
+                        @case ('date') {
+                        <p-columnFilter type="date" [field]="col.field" display="menu" class="ml-auto" />
+                        }
+                        @default {
+                        <p-columnFilter type="text" [field]="col.field" display="menu" class="ml-auto" />
+                        }
+                        }
+                        }
+                    </div>
+                </th>
+                }
+                @if (actions.length > 0) {
+                <th style="min-width: 8rem" class="border-round-right-2xl text-left">
+                    Action
+                </th>
+                }
+            </tr>
+            }
+        </ng-template>
+
+        <!-- Body Template -->
+        <ng-template pTemplate="body" let-row let-rowIndex="rowIndex">
+            <tr class="p-selectable-row" [pSelectableRow]="tableConfig.selectionMode ? row : null"
+                [class]="(row.styleClass || '') + (row.isUnmapped ? ' unmapped-row' : '')">
+                @if (tableConfig.selectionMode === 'multiple') {
+                <td>
+                    <p-tableCheckbox [value]="row"></p-tableCheckbox>
+                </td>
+                }
+                @if (bodyTemplate) {
+                <ng-container
+                    *ngTemplateOutlet="bodyTemplate; context: { $implicit: row, index: rowIndex, columns: columns, tableConfig: tableConfig, dt: dt }">
+                </ng-container>
+                } @else {
+                @for (col of columns; track col.field; let first = $first; let last = $last) {
+                <td [class.border-round-left-2xl]="first && tableConfig.selectionMode !== 'multiple'"
+                    [class.border-round-right-2xl]="last && actions.length === 0"
+                    [class.cursor-pointer]="col.clickable !== false" [class]="col.styleClass"
+                    (click)="col.clickable !== false ? handleRowClick(row) : null">
+                    @switch (col.template) {
+                    @case ('date') {
+                    {{ getCellValue(row, col.field) | date }}
+                    }
+                    @case ('tag') {
+                    <span class="level-chip">{{ getCellValue(row, col.field) }}</span>
+                    }
+                    @case ('count') {
+                    <span class="count-pill">{{ getCellValue(row, col.field) }}</span>
+                    }
+                    @default {
+                    <span class="ml-1 vertical-align-middle">{{ getCellValue(row, col.field) }}</span>
+                    }
+                    }
+                </td>
+                }
+                @if (actions.length > 0) {
+                <td class="border-round-right-2xl text-left">
+                    <div class="flex gap-2">
+                        @for (action of actions; track action.action) {
+                        @if (isActionVisible(action, row)) {
+                        <p-button [icon]="action.icon" [rounded]="true" [text]="true" [severity]="$any(action.severity)"
+                            (onClick)="handleAction(action.action, row, $event)" [pTooltip]="action.tooltip" />
+                        }
+                        }
+                    </div>
+                </td>
+                }
+                }
+            </tr>
+        </ng-template>
+
+        <!-- Empty Message Template -->
+        <ng-template pTemplate="emptymessage">
+            <tr>
+                <td [attr.colspan]="columns.length + (tableConfig.selectionMode === 'multiple' ? 1 : 0) + (actions.length > 0 ? 1 : 0)">
+                    {{ tableConfig.emptyMessage }}
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+</p-card>
+}

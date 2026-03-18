@@ -1,0 +1,43 @@
+<div class="flex flex-col gap-[10px]">
+  <form [formGroup]="canvasForm">
+    <div class="flex flex-col gap-[5px]">
+      <label class="pl-[5px]" for="canvasType">Select Canvas Type</label>
+      <p-select inputId="on_label" filter="true" filterBy="name" appendTo="body" id="canvasType" [options]="canvasTypes"
+        formControlName="canvasType" placeholder="Choose canvas type" optionLabel="name" optionValue="name"
+        styleClass="w-full" />
+    </div>
+    @if(canvasForm.get('canvasType')?.value === 'Card Design'){
+    <div class="flex flex-col gap-[5px]">
+      <label class="pl-[5px]" for="width">Width (px)</label>
+      <input id="width" type="number" pInputText formControlName="canvasWidth" />
+    </div>
+
+    <div class="flex flex-col gap-[5px]">
+      <label class="pl-[5px]" for="width">Height (px)</label>
+      <input id="height" type="number" pInputText formControlName="canvasHeight" />
+    </div>
+    }
+    @else if(canvasForm.get('canvasType')?.value==='Form Design'){
+    <div class="flex gap-[5px]">
+      <label class="pl-[5px]" for="width">Target Form : </label>
+      <p-checkbox formControlName="targetForm" [binary]="true" />
+    </div>
+    }
+    <div class="flex flex-col gap-[5px]">
+      <label class="pl-[5px]" for="width">Choose an App</label>
+      <p-select appendTo="body" (onChange)="onAppChange($event.value)" id="app" placeholder="choose an application"
+        [options]="apps" optionLabel="appName" optionValue="appId" formControlName="app">
+      </p-select>
+    </div>
+    <div class="flex flex-col gap-[5px]">
+      <label class="pl-[5px]" for="width">Choose an Organization</label>
+      <p-select appendTo="body" id="org" placeholder="Choose an Organization" [options]="orgs" formControlName="org"
+        optionLabel="orgName" optionValue="orgId">
+      </p-select>
+    </div>
+  </form>
+  <div class="w-full">
+    <p-button styleClass="w-full" label="Apply" (click)="applyCanvasSettings()"></p-button>
+  </div>
+</div>
+<p-toast [breakpoints]="breakPointForToastComponent"></p-toast>

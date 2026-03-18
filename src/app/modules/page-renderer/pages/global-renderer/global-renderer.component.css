@@ -1,0 +1,139 @@
+/* Global Renderer Styles */
+
+/* Root container */
+.global-renderer-root {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* When embedded in MDE preview - fit to container */
+.global-renderer-root.embedded-view {
+  height: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+/* Canvas container in embedded mode - force fit */
+:host ::ng-deep .embedded-canvas {
+  width: 100% !important;
+  max-width: 100% !important;
+}
+
+/* Widget containers */
+.renderer-widget-root {
+  box-sizing: border-box;
+}
+
+/* Ensure all inputs/selects don't overflow */
+:host ::ng-deep .p-inputtext,
+:host ::ng-deep .p-dropdown,
+:host ::ng-deep .p-multiselect,
+:host ::ng-deep .p-select,
+:host ::ng-deep .p-calendar,
+:host ::ng-deep .p-datepicker {
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+/* Charts should scale */
+:host ::ng-deep .p-chart {
+  width: 100% !important;
+  max-width: 100% !important;
+}
+
+:host ::ng-deep canvas {
+  max-width: 100% !important;
+}
+
+/* Tables should scroll if needed but not cause parent overflow */
+:host ::ng-deep .p-datatable {
+  max-width: 100%;
+}
+
+:host ::ng-deep .p-datatable-wrapper {
+  overflow-x: auto;
+}
+
+/* Images responsive */
+:host ::ng-deep img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Last Generated Info */
+.last-generated-info {
+  font-size: 0.82rem;
+  color: var(--p-text-muted-color, #6b7280);
+  font-weight: 500;
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+/* 
+.last-generated-info::before {
+  content: '\e91a';
+  font-family: 'primeicons';
+  font-size: 0.85rem;
+} */
+
+/* Version History Modal */
+.version-history-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.version-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--p-surface-200);
+  transition: background-color 0.15s;
+}
+
+.version-item:last-child {
+  border-bottom: none;
+}
+
+.version-item:hover {
+  background-color: var(--p-surface-50);
+}
+
+.version-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.version-label {
+  display: flex;
+  align-items: center;
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+.version-title {
+  color: var(--p-text-color);
+}
+
+.version-date {
+  font-size: 0.8rem;
+  color: var(--p-text-muted-color);
+  padding-left: 26px;
+}
+
+.version-actions {
+  display: flex;
+  gap: 4px;
+  flex-shrink: 0;
+}
+
+/* PDF Preview iframe */
+.pdf-preview-iframe {
+  width: 100%;
+  height: calc(90vh - 100px);
+  border: none;
+  border-radius: 6px;
+}

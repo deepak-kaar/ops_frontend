@@ -1,0 +1,314 @@
+<div class="create-container" [ngClass]="'active-step-' + activeStep">
+    <!-- Header Section -->
+    <div class="header-section">
+        <div class="header-left">
+            <button *ngIf="!flagId" class="back-btn" (click)="goBack()">
+                <i class="pi pi-arrow-left"></i>
+                <span>Back</span>
+            </button>
+            <div class="header-title">
+                <h1>{{ flagId ? 'Manage Flags' : 'Create Flags' }}</h1>
+                <p>List your flag items</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Custom Stepper Header (Visual Only) -->
+    <div class="custom-stepper-header">
+        <div class="stepper-track">
+            <!-- Progress Line Background -->
+            <div class="stepper-line"></div>
+            <!-- Progress Line Active -->
+            <div class="stepper-line-progress" [ngClass]="{
+                'progress-step-1': activeStep === 1,
+                'progress-step-2': activeStep === 2,
+                'progress-step-3': activeStep === 3
+            }"></div>
+
+            <!-- Step 1 -->
+            <div class="stepper-step" [ngClass]="{'active': activeStep >= 1, 'completed': activeStep > 1}">
+                <div class="step-circle">
+                    <i *ngIf="activeStep > 1" class="pi pi-check"></i>
+                    <span *ngIf="activeStep <= 1">1</span>
+                </div>
+                <div class="step-info">
+                    <span class="step-title">Add Flag</span>
+                    <span class="step-subtitle">Basic information</span>
+                </div>
+            </div>
+
+            <!-- Step 2 -->
+            <div class="stepper-step" [ngClass]="{'active': activeStep >= 2, 'completed': activeStep > 2}">
+                <div class="step-circle">
+                    <i *ngIf="activeStep > 2" class="pi pi-check"></i>
+                    <span *ngIf="activeStep <= 2">2</span>
+                </div>
+                <div class="step-info">
+                    <span class="step-title">Input Variables</span>
+                    <span class="step-subtitle">Configure variables</span>
+                </div>
+            </div>
+
+            <!-- Step 3 -->
+            <div class="stepper-step" [ngClass]="{'active': activeStep >= 3, 'completed': activeStep > 3}">
+                <div class="step-circle">
+                    <i *ngIf="activeStep > 3" class="pi pi-check"></i>
+                    <span *ngIf="activeStep <= 3">3</span>
+                </div>
+                <div class="step-info">
+                    <span class="step-title">Expression Creation</span>
+                    <span class="step-subtitle">Define logic</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Stepper Content (Hidden Header, Panels Only) -->
+    <div class="stepper-content">
+        <p-stepper [value]="activeStep" (valueChange)="onStepChange($event)">
+
+            <p-step-list class="hidden-step-list">
+                <p-step [value]="1"></p-step>
+                <p-step [value]="2"></p-step>
+                <p-step [value]="3"></p-step>
+            </p-step-list>
+
+            <p-step-panels>
+                <!-- Step 1: Add Flag -->
+                <p-step-panel [value]="1">
+                    <ng-template #content let-activateCallback="activateCallback">
+                        <div class="form-card">
+                            <div class="card-header">
+                                <h2>Add new Flags</h2>
+                                <p>Define the basic information of your flags</p>
+                            </div>
+                            <div class="card-content">
+                                <form [formGroup]="flagForm">
+                                    <div class="form-field">
+                                        <label for="flagName">Flag Name<span class="required">*</span></label>
+                                        <input type="text" pInputText formControlName="flagName"
+                                            placeholder="Enter flag name" id="flagName" />
+                                        <small
+                                            *ngIf="flagForm.get('flagName')?.invalid && flagForm.get('flagName')?.touched"
+                                            class="error-text">
+                                            Flag Name is required
+                                        </small>
+                                    </div>
+                                    <div class="form-field full-width">
+                                        <label for="flagDesc">Flag Description<span class="required">*</span></label>
+                                        <textarea pTextarea formControlName="description" rows="4"
+                                            placeholder="Enter a detailed description of the flag..."
+                                            id="flagDesc"></textarea>
+                                        <small
+                                            *ngIf="flagForm.get('description')?.invalid && flagForm.get('description')?.touched"
+                                            class="error-text">
+                                            Flag Description is required
+                                        </small>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        <div class="nav-buttons">
+                            <p-button label="Previous" [disabled]="true" [outlined]="true" severity="secondary"
+                                icon="pi pi-arrow-left" />
+                            <p-button label="Next" (onClick)="goToStep(2, activateCallback)" icon="pi pi-arrow-right"
+                                iconPos="right" />
+                        </div>
+                    </ng-template>
+                </p-step-panel>
+
+                <!-- Step 2: Input Variables -->
+                <p-step-panel [value]="2">
+                    <ng-template #content let-activateCallback="activateCallback">
+                        <div class="form-card">
+                            <div class="card-header-with-action">
+                                <div class="card-header-info">
+                                    <h2>Flag</h2>
+                                    <p>Define the variables of your flags</p>
+                                </div>
+                                <p-button icon="pi pi-plus" label="Create Variable" (onClick)="addVariable()" />
+                            </div>
+                            <div class="card-content">
+                                <form [formGroup]="variableForm">
+                                    <div formArrayName="variables">
+                                        <div *ngFor="let variable of variables.controls; let i = index"
+                                            [formGroupName]="i" class="variable-item">
+                                            <div class="form-field flex-1">
+                                                <label>Variable {{i + 1}}</label>
+                                                <input type="text" pInputText formControlName="variableName"
+                                                    placeholder="Enter variable name" />
+                                            </div>
+                                            <p-button icon="pi pi-trash" [rounded]="true" [text]="true"
+                                                severity="danger" (onClick)="removeVariable(i)" />
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        <div class="nav-buttons">
+                            <p-button label="Previous" (onClick)="goToStep(1, activateCallback)" [outlined]="true"
+                                severity="secondary" icon="pi pi-arrow-left" />
+                            <p-button label="Next" (onClick)="goToStep(3, activateCallback)" icon="pi pi-arrow-right"
+                                iconPos="right" />
+                        </div>
+                    </ng-template>
+                </p-step-panel>
+
+                <!-- Step 3: Expression Creation -->
+                <p-step-panel [value]="3">
+                    <ng-template #content let-activateCallback="activateCallback">
+                        <form [formGroup]="expressionForm">
+                            <div formArrayName="expressions">
+                                <div *ngFor="let expression of expressions.controls; let i = index" [formGroupName]="i">
+                                    <div class="form-card">
+                                        <div class="card-header">
+                                            <h2>Expression {{i + 1}}</h2>
+                                            <p>Define the expressions of your flags</p>
+                                        </div>
+                                        <div class="card-content">
+                                            <div class="expression-item">
+                                                <div class="form-row">
+                                                    <div class="form-field">
+                                                        <label>Flag Severity</label>
+                                                        <p-select [options]="flagSeverity" optionLabel="name"
+                                                            formControlName="severity" placeholder="Select severity"
+                                                            appendTo="body" />
+                                                    </div>
+                                                </div>
+                                                <div class="editor-toggle">
+                                                    <p-selectbutton [options]="expressionOptions"
+                                                        formControlName="editorType" />
+                                                </div>
+
+                                                <div *ngIf="expression.get('editorType')?.value === 'Flow Editor'"
+                                                    formArrayName="conditions" class="conditions-list">
+                                                    <ng-container
+                                                        *ngFor="let condition of getConditionsControls(i); let conditionIndex = index">
+                                                        <div [formGroupName]="conditionIndex" class="condition-row">
+                                                            <div class="form-field flex-1">
+                                                                <label>Value Type <span
+                                                                        class="required">*</span></label>
+                                                                <p-select [options]="valueTypes"
+                                                                    formControlName="leftValueType" appendTo="body" />
+                                                            </div>
+                                                            <div class="form-field flex-1">
+                                                                <label>{{ condition.get('leftValueType')?.value ===
+                                                                    'Constant' ? 'Constant Value' : 'Variable' }} <span
+                                                                        class="required">*</span></label>
+                                                                <input
+                                                                    *ngIf="condition.get('leftValueType')?.value === 'Constant'"
+                                                                    type="number" pInputText formControlName="leftValue"
+                                                                    placeholder="Enter a number" class="w-full" />
+                                                                <p-select
+                                                                    *ngIf="condition.get('leftValueType')?.value !== 'Constant'"
+                                                                    [options]="variables.value"
+                                                                    optionLabel="variableName"
+                                                                    formControlName="leftValue" appendTo="body" />
+                                                            </div>
+                                                            <div class="form-field flex-1">
+                                                                <label>Operator <span class="required">*</span></label>
+                                                                <p-select [options]="operators" optionLabel="name"
+                                                                    formControlName="operator" appendTo="body" />
+                                                            </div>
+                                                            <div class="form-field flex-1">
+                                                                <label>Value Type <span
+                                                                        class="required">*</span></label>
+                                                                <p-select [options]="valueTypes"
+                                                                    formControlName="rightValueType" appendTo="body" />
+                                                            </div>
+                                                            <div class="form-field flex-1">
+                                                                <label>{{ condition.get('rightValueType')?.value ===
+                                                                    'Constant' ? 'Constant Value' : 'Variable' }} <span
+                                                                        class="required">*</span></label>
+                                                                <input
+                                                                    *ngIf="condition.get('rightValueType')?.value === 'Constant'"
+                                                                    type="number" pInputText
+                                                                    formControlName="rightValue"
+                                                                    placeholder="Enter a number" class="w-full" />
+                                                                <p-select
+                                                                    *ngIf="condition.get('rightValueType')?.value !== 'Constant'"
+                                                                    [options]="variables.value"
+                                                                    optionLabel="variableName"
+                                                                    formControlName="rightValue" appendTo="body" />
+                                                            </div>
+                                                            <p-button icon="pi pi-trash" [rounded]="true" [text]="true"
+                                                                severity="danger"
+                                                                (onClick)="removeCondition(i, conditionIndex)" />
+                                                        </div>
+                                                        <div *ngIf="conditionIndex < getConditionsControls(i).length - 1"
+                                                            class="flex justify-center my-3">
+                                                            <p-selectbutton [options]="logicalOptions"
+                                                                optionLabel="label" optionValue="value"
+                                                                [formControl]="getConditionsControls(i)[conditionIndex].get('conditionOperator')"
+                                                                [style]="{ '--p-button-primary-background': 'var(--p-primary-color)', '--p-button-primary-border-color': 'var(--p-primary-color)' }" />
+                                                        </div>
+                                                    </ng-container>
+                                                    <p-button icon="pi pi-plus" label="Add Condition" [text]="true"
+                                                        (onClick)="addCondition(i)" />
+                                                </div>
+
+                                                <div *ngIf="expression.get('editorType')?.value === 'Code Editor'"
+                                                    class="code-editor-container">
+                                                    <ngx-monaco-editor [options]="editorOptions" formControlName="code"
+                                                        style="height: 300px; width: 100%;"></ngx-monaco-editor>
+                                                </div>
+
+                                                <div class="form-field full-width mt-4">
+                                                    <label>Output Message</label>
+                                                    <textarea pTextarea formControlName="outputMessage" rows="3"
+                                                        placeholder="Enter output message"></textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="flex gap-3 justify-end" style="margin-top: 16px;padding:10px">
+                                            <p-button icon="pi pi-plus" label="Add Expression"
+                                                (onClick)="addExpression()" />
+                                            <p-button *ngIf="i > 0" icon="pi pi-trash" [rounded]="true" [text]="true"
+                                                severity="danger" (onClick)="removeExpression(i)" />
+                                        </div>
+                                    </div>
+
+                                    <!-- Connecting SVG between expression cards -->
+                                    <div *ngIf="i < expressions.controls.length - 1"
+                                        class="conditon-class flex surface-100 items-center justify-center">
+                                        <svg width="108" height="70" viewBox="0 0 108 128" fill="none"
+                                            xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M50.4998 86.7495L50.5004 127.407M50.5 -0.000199901L50.5005 40.6569"
+                                                stroke="var(--p-primary-color)" stroke-width="2" />
+                                            <rect width="108" height="51.7753" transform="translate(0 38.2153)"
+                                                fill="none" />
+                                            <g clip-path="url(#clip0_666_19657)">
+                                                <path
+                                                    d="M41.5 64.103C41.5 65.2897 41.1481 66.4498 40.4888 67.4364C39.8295 68.4231 38.8925 69.1922 37.7961 69.6463C36.6997 70.1004 35.4933 70.2192 34.3295 69.9877C33.1656 69.7562 32.0965 69.1848 31.2574 68.3457C30.4182 67.5065 29.8468 66.4375 29.6153 65.2736C29.3838 64.1097 29.5026 62.9033 29.9567 61.8069C30.4109 60.7106 31.1799 59.7735 32.1666 59.1142C33.1533 58.4549 34.3133 58.103 35.5 58.103C37.0913 58.103 38.6174 58.7352 39.7426 59.8604C40.8679 60.9856 41.5 62.5117 41.5 64.103Z"
+                                                    fill="var(--p-primary-color)" />
+                                                <text x="48" y="68" font-size="12" font-family="Arial, sans-serif"
+                                                    fill="var(--p-primary-color)">ELSE IF</text>
+                                            </g>
+                                            <path
+                                                d="M1 43.2153H86.1124C97.6483 43.2153 107 52.567 107 64.103C107 75.6389 97.6483 84.9906 86.1124 84.9906H1V43.2153Z"
+                                                stroke="var(--p-primary-color)" stroke-width="2" />
+                                            <defs>
+                                                <clipPath id="clip0_666_19657">
+                                                    <path
+                                                        d="M0 42.2153H86.1124C98.2006 42.2153 108 52.0148 108 64.103V64.103C108 76.1912 98.2006 85.9906 86.1124 85.9906H0V42.2153Z"
+                                                        fill="var(--p-primary-color)" />
+                                                </clipPath>
+                                            </defs>
+                                        </svg>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                        <div class="nav-buttons">
+                            <p-button label="Previous" (onClick)="goToStep(2, activateCallback)" [outlined]="true"
+                                severity="secondary" icon="pi pi-arrow-left" />
+                            <p-button label="Save" (onClick)="onSubmit()" icon="pi pi-check" />
+                        </div>
+                    </ng-template>
+                </p-step-panel>
+            </p-step-panels>
+        </p-stepper>
+    </div>
+</div>
+
+<p-toast [breakpoints]="breakPointForToastComponent"></p-toast>

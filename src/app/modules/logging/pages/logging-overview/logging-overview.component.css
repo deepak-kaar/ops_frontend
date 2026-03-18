@@ -1,0 +1,142 @@
+.surface {
+  background-color: #f7fafc;
+}
+
+/* ROOT CONTAINER */
+.layout-root {
+  display: flex;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* LEFT SIDEBAR */
+.sidebar-wrapper {
+  width: 260px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  background-color: #f7fafc;
+  overflow-y: auto;
+  z-index: 1000;
+  transition: transform 0.3s ease;
+}
+
+/* RIGHT MAIN SECTION */
+.right-pane {
+  margin-left: 260px;
+  width: calc(100% - 260px);
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* RIGHT SCROLL CONTAINER */
+.right-scroll {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+/* MOBILE & TABLET RESPONSIVE */
+@media (max-width: 1024px) {
+  .sidebar-wrapper {
+    transform: translateX(-100%);
+  }
+
+  .sidebar-wrapper.mobile-open {
+    transform: translateX(0);
+  }
+
+  .right-pane {
+    margin-left: 0;
+    width: 100%;
+  }
+}
+
+/* MOBILE OVERLAY */
+.mobile-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 999;
+  display: none;
+}
+
+.mobile-overlay.active {
+  display: block;
+}
+
+
+.page-container {
+  margin-top: 10px;
+  padding: 20px;
+  background-color: #f8fafc;
+  min-height: 100vh;
+}
+
+.page-title {
+  font-size: 2rem;
+  font-weight: 300;
+  color: #1f2937;
+  margin-bottom: 2rem;
+}
+
+.chart-container {
+  position: relative;
+  height: 300px;
+  width: 100%;
+}
+
+.module-card {
+  transition: all 0.2s ease-in-out;
+}
+
+.module-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+.status-indicator {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  display: inline-block;
+  margin-right: 8px;
+}
+
+.status-healthy {
+  background-color: #10b981;
+}
+
+.status-warning {
+  background-color: #f59e0b;
+}
+
+.status-critical {
+  background-color: #ef4444;
+}
+
+.insight-card {
+  border-left: 4px solid #3b82f6;
+  background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+}
+
+.event-item {
+  border-radius: 8px;
+  transition: background-color 0.2s ease;
+}
+
+.event-item:hover {
+  background-color: #f1f5f9;
+}
+
+@media (max-width: 768px) {
+  .page-container {
+    padding: 10px;
+  }
+  
+  .page-title {
+    font-size: 1.5rem;
+  }
+}

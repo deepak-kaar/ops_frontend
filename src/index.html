@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <title>OpsInsight</title>
+  <base href="/">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Operation Insight Hub">
+  <script src="/assets/js/tailwindcss.js"></script>
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <link rel="preload" as="image" href="/assets/images/pngs/aramco1.png">
+  <link rel="preload" href="/assets/fonts/ghawar/Ghawar_1.311 VariableGX.ttf.ttf" as="font" type="font/ttf" crossorigin>
+</head>
+
+<body>
+  <div id="lcp-fallback" style="font-size:48px; font-weight:400; color:white; text-align:center; margin-top:40px;">
+    Operation Insight Hub
+  </div>
+  <app-root></app-root>
+</body>
+<script>
+  // Remove fallback after Angular mounts
+  window.addEventListener('DOMContentLoaded', () => {
+    const fallback = document.getElementById('lcp-fallback');
+    if (fallback) fallback.remove();
+  });
+</script>
+
+</html>

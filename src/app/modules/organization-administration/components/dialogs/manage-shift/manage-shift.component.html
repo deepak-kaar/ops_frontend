@@ -1,0 +1,48 @@
+<div class="flex flex-col gap-[10px]">
+    <form [formGroup]="shiftForm" class="flex flex-col gap-[10px]">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div class="flex flex-col gap-2">
+                <label for="appname">Shift Name<span class="text-[var(--p-red-500)]"> *</span></label>
+                <input pInputText id="shiftname" formControlName="shiftName" aria-describedby="username-help" />
+            </div>
+            <div class="flex flex-col gap-2">
+                <label for="appdesc">Shift Description <span class="text-[var(--p-red-500)]"> *</span></label>
+                <input pInputText formControlName="shiftDescription" id="shiftdesc" aria-describedby="username-help" />
+            </div>
+        </div>
+
+
+        <div class="grid grid-cols-1 gap-4">
+            <div class="flex flex-col gap-2">
+                <label for="appowner">Interval<span class="text-[var(--p-red-500)]"> *</span></label>
+                <p-select [options]="hours" formControlName="hourFormat"
+                    class="w-full" />
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div class="flex flex-col gap-2">
+                <label for="appowner">Start Time<span class="text-[var(--p-red-500)]"> *</span></label>
+                <p-datepicker appendTo="body" [iconDisplay]="'input'" [showIcon]="true" [style]="{'width':'100%'}"
+                    [hourFormat]="'12'" inputId="calendar-timeonly" formControlName="startTime" [timeOnly]="true">
+                    <ng-template #inputicon let-clickCallBack="clickCallBack">
+                        <i class="pi pi-clock" (click)="clickCallBack($event)"></i>
+                    </ng-template>
+                </p-datepicker>
+            </div>
+            <div class="flex flex-col gap-2">
+                <label for="appowner">End Time<span class="text-[var(--p-red-500)]"> *</span></label>
+                <p-datepicker appendTo="body" [iconDisplay]="'input'" [showIcon]="true" [style]="{'width':'100%'}"
+                    [hourFormat]="'12'" inputId="calendar-timeonly" formControlName="endTime" [timeOnly]="true">
+                    <ng-template #inputicon let-clickCallBack="clickCallBack">
+                        <i class="pi pi-clock" (click)="clickCallBack($event)"></i>
+                    </ng-template>
+                </p-datepicker>
+            </div>
+        </div>
+    </form>
+    <div class="flex justify-center gap-[10px]">
+        <p-button styleClass="md:w-[250px]" severity="danger" outlined="true" label="Cancel"></p-button>
+        <p-button styleClass="md:w-[250px]" label="Save" (onClick)="createShift()"></p-button>
+    </div>
+</div>

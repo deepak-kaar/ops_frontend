@@ -1,0 +1,112 @@
+<div class="flex flex-col gap-[10px]">
+  <form [formGroup]="configForm" class="flex flex-col gap-[10px]">
+    <div class="grid grid-cols-1 md:grid-cols-1 md:gap-4">
+      <div class="flex flex-col gap-2">
+        <label for="configName">Config Name<span class="text-[var(--p-red-500)]"> *</span></label>
+        <input pInputText id="configName" formControlName="configName" aria-describedby="username-help" />
+      </div>
+      <!-- <div class="flex flex-col gap-2">
+        <label for="configValue">Config Value<span class="text-[var(--p-red-500)]"> *</span></label>
+         <input pInputText id="configValue" formControlName="configValue" aria-describedby="username-help" />
+      </div> -->
+    </div>
+    <!-- <div class="grid grid-cols-1 md:gap-4" [ngClass]="mode === 'edit' ? 'md:grid-cols-3' : 'md:grid-cols-2'">
+      <div class="flex flex-col gap-2">
+        <label for="createdBy">Created By</label>
+        <input pInputText id="createdBy" formControlName="createdBy" aria-describedby="username-help" />
+      </div>
+       <div *ngIf="mode === 'edit'" class="flex flex-col gap-2">
+        <label for="createdOn">Created On</label>
+        <input pInputText id="createdOn" formControlName="createdOn" aria-describedby="username-help" />
+      </div>
+        <div *ngIf="mode === 'edit'" class="flex flex-col gap-2">
+        <label for="modifiedBy">Modified By</label>
+        <input pInputText id="modifiedBy" formControlName="modifiedBy" aria-describedby="username-help" />
+      </div>
+    </div> -->
+
+    <div class="grid grid-cols-1 gap-4">
+      <div class="flex flex-col gap-2">
+        <div class="flex justify-between items-center">
+          <label for="configData">Config Value</label>
+          <div class="flex gap-2">
+            <p-button icon="pi pi-shield" severity="help" [outlined]="true" size="small" (onClick)="openEncryptDialog()"
+              pTooltip="Encrypt values" label="Encrypt"></p-button>
+            <p-button icon="pi pi-key" severity="warn" [outlined]="true" size="small" (onClick)="openDecryptDialog()"
+              pTooltip="Decrypt values" label="Decrypt"></p-button>
+          </div>
+        </div>
+        <div class="h-[11rem]">
+          <ngx-monaco-editor style="width:100%; height: 100%" [options]="configEditorOptions"
+            formControlName="configValue"></ngx-monaco-editor>
+        </div>
+      </div>
+    </div>
+  </form>
+  <div class="pt-[10px] md:pt-[0px] flex justify-center gap-[10px]">
+    <p-button styleClass="md:w-[250px]" severity="danger" outlined="true" label="Cancel"
+      (onClick)="cancel()"></p-button>
+    <p-button styleClass="md:w-[250px]" label="Save" (onClick)="createConfig()"></p-button>
+  </div>
+</div>
+
+<!-- Encrypt Dialog -->
+<p-dialog header="Encrypt Value" [(visible)]="encryptDialogVisible" [modal]="true" [closable]="true"
+  [style]="{ width: '500px' }" [breakpoints]="{ '960px': '75vw', '640px': '90vw' }">
+  <div class="space-y-4">
+    <div>
+      <label class="block text-sm font-medium mb-2">Enter Value to Encrypt</label>
+      <textarea pInputTextarea [(ngModel)]="encryptInput" class="w-full" rows="3"
+        placeholder="Enter the value you want to encrypt (e.g., password)"></textarea>
+    </div>
+    <div *ngIf="encryptedResult">
+      <label class="block text-sm font-medium mb-2">Encrypted Result</label>
+      <div class="relative">
+        <textarea pInputTextarea [value]="encryptedResult" class="w-full pr-10" rows="3" readonly
+          placeholder="Encrypted value will appear here"></textarea>
+        <button type="button" class="absolute top-2 right-2 p-2 text-gray-500 hover:text-gray-700"
+          (click)="copyToClipboard(encryptedResult)" title="Copy to clipboard">
+          <i class="pi pi-copy"></i>
+        </button>
+      </div>
+      <div class="mt-2">
+        <p-button label="Use in Config" size="small" (click)="useEncryptedValue()" />
+      </div>
+    </div>
+  </div>
+  <ng-template pTemplate="footer">
+    <div class="flex justify-end gap-2">
+      <p-button label="Clear" severity="secondary" [outlined]="true" (click)="clearEncrypt()" />
+      <p-button label="Encrypt" (click)="performEncrypt()" [loading]="isEncrypting" />
+    </div>
+  </ng-template>
+</p-dialog>
+
+<!-- Decrypt Dialog -->
+<p-dialog header="Decrypt Value" [(visible)]="decryptDialogVisible" [modal]="true" [closable]="true"
+  [style]="{ width: '500px' }" [breakpoints]="{ '960px': '75vw', '640px': '90vw' }">
+  <div class="space-y-4">
+    <div>
+      <label class="block text-sm font-medium mb-2">Enter Encrypted Value to Decrypt</label>
+      <textarea pInputTextarea [(ngModel)]="decryptInput" class="w-full" rows="3"
+        placeholder="Paste the encrypted value here"></textarea>
+    </div>
+    <div *ngIf="decryptedResult">
+      <label class="block text-sm font-medium mb-2">Decrypted Result</label>
+      <div class="relative">
+        <textarea pInputTextarea [value]="decryptedResult" class="w-full pr-10" rows="3" readonly
+          placeholder="Decrypted value will appear here"></textarea>
+        <button type="button" class="absolute top-2 right-2 p-2 text-gray-500 hover:text-gray-700"
+          (click)="copyToClipboard(decryptedResult)" title="Copy to clipboard">
+          <i class="pi pi-copy"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+  <ng-template pTemplate="footer">
+    <div class="flex justify-end gap-2">
+      <p-button label="Clear" severity="secondary" [outlined]="true" (click)="clearDecrypt()" />
+      <p-button label="Decrypt" (click)="performDecrypt()" [loading]="isDecrypting" />
+    </div>
+  </ng-template>
+</p-dialog>

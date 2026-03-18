@@ -1,0 +1,30 @@
+@if (isPoisOnlyMode) {
+<div class="h-screen flex bg-[#F7F8FA]">
+    <app-sidebar-new></app-sidebar-new>
+    <main class="flex-1 overflow-y-auto">
+        <div class="p-[20px] md:p-[30px]">
+            <div class="bg-[#FFFFFF33] min-h-[700px] backdrop-blur-[40px] rounded-[12px]">
+                <div class="p-[20px]">
+                    <div class="flex pt-[20px] gap-5 overflow-x-auto">
+                        <app-ongoing-flag-events [cardType]="'Dashboard'"></app-ongoing-flag-events>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+}
+@else {
+<main class="main h-screen overflow-y-auto">
+    <app-topbar></app-topbar>
+    <div class=" pt-[100px]">
+        <div class="bg-[#FFFFFF33] min-h-[700px] m-[30px] backdrop-blur-[40px] rounded-[12px]">
+            <div class="p-[20px]">
+                <div class="flex pt-[20px] gap-5 overflow-x-auto">
+                    <app-ongoing-flag-events [cardType]="'Dashboard'"></app-ongoing-flag-events>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+}

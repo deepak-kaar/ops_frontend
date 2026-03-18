@@ -1,0 +1,59 @@
+<div class="renderer-section-container w-full h-full relative overflow-hidden" [attr.data-section-id]="sectionWidget.id"
+  [ngStyle]="{
+    'background-color': sectionWidget.input?.style?.backgroundColor || 'transparent',
+    'background-image': sectionWidget.input?.style?.backgroundImage || 'none',
+    'background-size': sectionWidget.input?.style?.backgroundSize || 'cover',
+    'background-position': sectionWidget.input?.style?.backgroundPosition || 'center center',
+    'background-repeat': sectionWidget.input?.style?.backgroundRepeat || 'no-repeat',
+    'border-top-style': sectionWidget.input?.style?.borderTopStyle || 'solid',
+    'border-bottom-style': sectionWidget.input?.style?.borderBottomStyle || 'solid',
+    'border-left-style': sectionWidget.input?.style?.borderLeftStyle || 'solid',
+    'border-right-style': sectionWidget.input?.style?.borderRightStyle || 'solid',
+    'border-top-color': sectionWidget.input?.style?.borderTopColor || '#ccc',
+    'border-bottom-color': sectionWidget.input?.style?.borderBottomColor || '#ccc',
+    'border-left-color': sectionWidget.input?.style?.borderLeftColor || '#ccc',
+    'border-right-color': sectionWidget.input?.style?.borderRightColor || '#ccc',
+    'border-top-width': (sectionWidget.input?.style?.borderTopWidth || 0) + 'px',
+    'border-bottom-width': (sectionWidget.input?.style?.borderBottomWidth || 0) + 'px',
+    'border-left-width': (sectionWidget.input?.style?.borderLeftWidth || 0) + 'px',
+    'border-right-width': (sectionWidget.input?.style?.borderRightWidth || 0) + 'px',
+    'border-top-left-radius': (sectionWidget.input?.style?.borderTopLeftRadius || 0) + 'px',
+    'border-top-right-radius': (sectionWidget.input?.style?.borderTopRightRadius || 0) + 'px',
+    'border-bottom-left-radius': (sectionWidget.input?.style?.borderBottomLeftRadius || 0) + 'px',
+    'border-bottom-right-radius': (sectionWidget.input?.style?.borderBottomRightRadius || 0) + 'px',
+    'padding-top': (sectionWidget.input?.style?.paddingTop || 8) + 'px',
+    'padding-right': (sectionWidget.input?.style?.paddingRight || 8) + 'px',
+    'padding-bottom': (sectionWidget.input?.style?.paddingBottom || 8) + 'px',
+    'padding-left': (sectionWidget.input?.style?.paddingLeft || 8) + 'px',
+    'font-family': sectionWidget.input?.style?.fontFamily || '',
+    'font-size': (sectionWidget.input?.style?.fontSize || 14) + 'px',
+    'font-weight': sectionWidget.input?.style?.fontWeight || '',
+    'color': sectionWidget.input?.style?.color || '',
+    'text-align': sectionWidget.input?.style?.textAlign || 'left'
+  }">
+
+  <!-- Nested widgets inside the section -->
+  @if (sectionWidget.children && sectionWidget.children.length > 0) {
+  <div class="absolute w-full h-full">
+    @for (child of sectionWidget.children; track child.id) {
+    <div class="absolute" [ngStyle]="getWidgetStyles(child)">
+      <div class="renderer-widget-root w-full h-full overflow-hidden relative" [ngStyle]="{
+              'border-top-left-radius': (child.input?.style?.borderTopLeftRadius ?? 4) + 'px',
+              'border-top-right-radius': (child.input?.style?.borderTopRightRadius ?? 4) + 'px',
+              'border-bottom-left-radius': (child.input?.style?.borderBottomLeftRadius ?? 4) + 'px',
+              'border-bottom-right-radius': (child.input?.style?.borderBottomRightRadius ?? 4) + 'px',
+              'background-color': child.input?.style?.backgroundColor || (child.input?.style?.backgroundMode === 'transparent' ? 'transparent' : 'var(--p-surface-0)'),
+              'background-image': child.input?.style?.backgroundImage || 'none',
+              'background-size': child.input?.style?.backgroundSize || 'cover',
+              'background-position': child.input?.style?.backgroundPosition || 'center center',
+              'background-repeat': child.input?.style?.backgroundRepeat || 'no-repeat'
+            }">
+        <app-renderer-widget-host [widget]="child" [pageId]="pageId" [date]="date"
+          [frozenAttributeIds]="frozenAttributeIds" [frozenFieldKeys]="frozenFieldKeys">
+        </app-renderer-widget-host>
+      </div>
+    </div>
+    }
+  </div>
+  }
+</div>

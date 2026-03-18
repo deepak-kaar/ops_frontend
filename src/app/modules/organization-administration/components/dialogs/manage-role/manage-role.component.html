@@ -1,0 +1,30 @@
+<div class="flex flex-col gap-[10px]">
+    <form [formGroup]="roleForm" class="flex flex-col gap-[10px]">
+        <div class="grid grid-cols-1 md:grid-cols-2 md:gap-4">
+            <div class="flex flex-col gap-2">
+                <label for="appname">Role Name<span class="text-[var(--p-red-500)]"> *</span></label>
+                <input pInputText id="appname" formControlName="roleName" aria-describedby="username-help" />
+            </div>
+            <div class="flex flex-col gap-2">
+                <label for="appdesc">Role Description</label>
+                <input pInputText formControlName="roleDescription" id="appdesc" aria-describedby="username-help" />
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 md:gap-4">
+            <div class="flex flex-col gap-2">
+                <label for="appowner">Default Access level <span class="text-[var(--p-red-500)]"> *</span></label>
+                <input formControlName="defaultAccessLevel" pInputText id="appowner" aria-describedby="username-help" />
+            </div>
+            <div class="flex flex-col gap-2">
+                <label for="appowner">AD Group<span class="text-[var(--p-red-500)]"> *</span></label>
+                <input formControlName="adGroup" pInputText id="appowner" aria-describedby="username-help" />
+            </div>
+
+        </div>
+    </form>
+    <div class="pt-[10px] md:pt-[0px] flex justify-center gap-[10px]">
+        <p-button styleClass="md:w-[250px]" severity="danger" outlined="true" label="Cancel"></p-button>
+        <p-button styleClass="md:w-[250px]" label="Save" (onClick)="createRole()"></p-button>
+    </div>
+</div>

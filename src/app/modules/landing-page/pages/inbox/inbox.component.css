@@ -1,0 +1,96 @@
+.main {
+    /* background-image: url('/assets/images/pngs/Landing-page.png'); */
+    background-image: url('/assets/images/pngs/aramco1.png');
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.p-carousel-indicator-list {
+    display: flex;
+    flex-direction: row;
+    justify-content: start !important;
+    padding-left: 4rem !important;
+    flex-wrap: wrap;
+    gap: var(--p-carousel-indicator-list-gap);
+    margin: 0;
+    list-style: none;
+}
+
+.p-carousel-indicator-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--p-carousel-indicator-background);
+    width: 8px !important;
+    height: 8px !important;
+    border: 0 none;
+    transition: background var(--p-carousel-transition-duration), color var(--p-carousel-transition-duration), outline-color var(--p-carousel-transition-duration), box-shadow var(--p-carousel-transition-duration);
+    outline-color: transparent;
+    border-radius: var(--p-carousel-indicator-border-radius);
+    padding: 0;
+    margin: 0;
+    user-select: none;
+    cursor: pointer;
+}
+
+.p-carousel-indicator-active .p-carousel-indicator-button {
+    background: var(--p-carousel-indicator-active-background);
+}
+
+.p-button-text.p-button-secondary {
+    background: transparent;
+    border-color: transparent;
+    color: white !important;
+}
+
+.p-iconfield {
+    display: inline-block !important;
+}
+
+.p-button-text.p-button-secondary:not(:disabled):hover {
+    color: grey !important;
+}
+
+@media screen and(min-width:2560px) {
+    .heading1 {
+        font-size: 70px;
+    }
+
+    .heading2 {
+        font-size: 70px;
+    }
+}
+
+@media (max-width:767px) {
+    .p-carousel-indicator-list {
+
+        justify-content: center !important;
+        padding-left: 0 !important;
+    }
+}
+
+.topbar {
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0.7) 12.5%, rgba(0, 0, 0, 0) 100%);
+    backdrop-filter: blur(10px)
+}
+
+.p-button-text:not(:disabled):hover {
+    background: none !important;
+}
+
+.global-search {
+    height: 40px;
+    border-radius: 1000px !important;
+    width: 400px;
+    background: rgba(217, 217, 217, 0.4) !important;
+    border: none !important;
+    /* @media screen and (max-width: 768px) {
+        width: 100%;
+    } */
+}
+
+
+.p-card-title {
+    color: #00843D;
+    font-weight: 300 !important;
+}

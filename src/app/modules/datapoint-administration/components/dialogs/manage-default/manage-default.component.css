@@ -1,0 +1,11 @@
+.p-togglebutton.p-togglebutton-checked::before {
+    box-shadow: var(--p-togglebutton-content-checked-shadow) !important;
+  }
+
+  .p-togglebutton-checked .p-togglebutton-content {
+    background: var(--p-primary-color) !important;
+  }
+  
+  .p-togglebutton.p-togglebutton-checked{
+    color: #FFFFFF !important;
+  }

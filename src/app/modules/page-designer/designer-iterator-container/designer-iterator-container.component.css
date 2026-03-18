@@ -1,0 +1,32 @@
+.designer-iterator-container {
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+}
+
+.iterator-rows {
+  flex: 1;
+  min-height: 0;
+  position: relative;
+}
+
+.iterator-row-wrapper {
+  box-sizing: border-box;
+  transition: box-shadow 0.2s;
+}
+
+.iterator-row-wrapper.cdk-drag-dragging {
+  opacity: 0.9;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+  z-index: 10;
+}
+
+.iterator-row-content {
+  box-sizing: border-box;
+  min-height: 60px;
+  min-width: 80px;
+}
+
+.iterator-row-content .designer-widget-root {
+  box-sizing: border-box;
+}

@@ -1,0 +1,8 @@
+/* Host must fill the widget container so content can resize with the box */
+:host {
+  display: block;
+  width: 100%;
+  height: 100%;
+  min-width: 0;
+  min-height: 0;
+}

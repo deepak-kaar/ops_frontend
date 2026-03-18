@@ -1,0 +1,91 @@
+@if((isMobile$|async) === true){
+    <div class="pt-[50px] pl-[20px] pr-[20px] w-auto">
+
+        <div class="flex items-center gap-2 pl-[6px] pb-[20px]">
+            <p-button
+                icon="pi pi-chevron-left"
+                [rounded]="true"
+                [text]="true"
+                size="small"
+                (onClick)="goBack()">
+            </p-button>
+            <p class="font-normal text-2xl m-0">{{appName}}</p>
+        </div>
+
+        <p-select [options]="appActions" [(ngModel)]="selectedAction" [checkmark]="true" class="w-full md:w-56"  />
+        <!-- <p-selectbutton [options]="appActions" [(ngModel)]="selectedAction" [allowEmpty]="false" size="small" /> -->
+        @switch (selectedAction) {
+        @case ('Operating Organization') {
+        <app-orgs-manager [appId]="appId"></app-orgs-manager>
+        }
+        @case ('Role') {
+        <app-app-roles-manager [appId]="appId"></app-app-roles-manager>
+        }
+        @case ('Role Assignment') {
+        <app-roles-assigner [appId]="appId"></app-roles-assigner>
+        }
+        @case ('Frequency') {
+        <app-frequency-manager [appId]="appId"></app-frequency-manager>
+        }
+        @case("Shift"){
+            <app-shifts-manager [appId]="appId"></app-shifts-manager>
+        }
+        }
+    </div>
+
+}
+@else {
+<div class="pt-[20px] pl-[20px] pr-[20px] w-full">
+
+    <div class="flex items-center gap-2 pl-[6px] pb-[20px]">
+        <p-button
+            icon="pi pi-chevron-left"
+            [rounded]="true"
+            [text]="true"
+            size="small"
+            (onClick)="goBack()">
+        </p-button>
+        <p class="font-normal text-2xl m-0">{{ appName }}</p>
+    </div>
+
+    <!-- Card-style action selector -->
+    <div class="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 mb-4">
+        @for (card of appActionCards; track card.value) {
+            <p-card
+                [styleClass]="'home-card ' + (selectedAction === card.value ? 'active' : '')"
+                (click)="onActionCardClick(card.value)">
+                <div class="flex items-center gap-2">
+                    <div class="icon-box" [ngClass]="card.bgClass">
+                        <i [class]="card.icon"></i>
+                    </div>
+
+                    <div class="flex flex-col flex-1 min-w-0">
+                        <span class="title">{{ card.label }}</span>
+                        <span class="subtitle">{{ card.subtitle }}</span>
+                    </div>
+                </div>
+            </p-card>
+        }
+    </div>
+
+    <p-card class="w-full">
+        @switch (selectedAction) {
+        @case ('Operating Organization') {
+        <app-orgs-manager [appId]="appId"></app-orgs-manager>
+        }
+        @case ('Role') {
+        <app-app-roles-manager [appId]="appId"></app-app-roles-manager>
+        }
+        @case ('Role Assignment') {
+        <app-roles-assigner [appId]="appId"></app-roles-assigner>
+        }
+        @case ('Frequency') {
+        <app-frequency-manager [appId]="appId"></app-frequency-manager>
+        }
+        @case ('Shift') {
+        <app-shifts-manager [appId]="appId"></app-shifts-manager>
+        }
+        }
+    </p-card>
+</div>
+}

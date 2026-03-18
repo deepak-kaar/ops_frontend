@@ -1,0 +1,19 @@
+p-select {
+    width: 100%;
+    
+}
+
+.static-form-field {
+    flex: 0.5;
+}
+
+
+.input-field {
+    width: 100%;
+    
+}
+
+.form-fields {
+    height: 90vh;
+    overflow-y: auto;
+}

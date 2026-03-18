@@ -1,0 +1,206 @@
+<!-- ...existing code... -->
+
+<div class="h-screen flex items-start overflow-hidden">
+  <!-- Desktop Sidebar -->
+  @if ((isMobile$ | async) == false && (isTablet$ | async) == false) {
+    <aside class="w-[300px] shrink-0 h-screen">
+      <div class="h-full overflow-y-auto">
+        <app-sidebar-new></app-sidebar-new>
+      </div>
+    </aside>
+  }
+
+  <!-- Mobile/Tablet Sidebar -->
+  @if ((isMobile$ | async) || (isTablet$ | async)) {
+    <div
+      class="fixed inset-0 z-50 transition-transform duration-300 ease-in-out"
+      [ngClass]="{
+        'translate-x-0': mobileSidebarVisible,
+        '-translate-x-full': !mobileSidebarVisible
+      }"
+    >
+      <div class="absolute w-[300px] h-full bg-white shadow-lg z-50">
+        <app-sidebar-new></app-sidebar-new>
+      </div>
+      <div class="fixed inset-0 z-40" (click)="toggleMobileSidebar()"></div>
+    </div>
+  }
+
+  <!-- Main Content -->
+  <div class="flex-1 min-w-0 flex flex-col h-screen overflow-y-auto z-30">
+    <!-- Show header only on mobile/tablet -->
+    @if ((isMobile$ | async) || (isTablet$ | async)) {
+      <div class="box-shadow w-full h-[60px] flex items-center bg-white">
+        <div class="p-2">
+          <button class="block text-3xl" (click)="toggleMobileSidebar()" aria-label="Toggle sidebar">
+            &#9776;
+          </button>
+        </div>
+      </div>
+    }
+
+    <div class="page-container px-4 md:px-6 pb-6">
+      <!-- Back Button -->
+      <div class="mb-4">
+        <p-button icon="pi pi-arrow-left" label="Back to Overview"
+                  (onClick)="goBackToOverview()"
+                  severity="secondary"
+                  [outlined]="true" />
+      </div>
+
+      <h2 class="page-title">Logging Dashboard</h2>
+
+      <!-- Source Selector -->
+      <div class="flex flex-wrap gap-[25px] mb-6">
+        <p-select [options]="sources" [(ngModel)]="selectedSource" optionLabel="label" optionValue="value"
+          (onChange)="changeSource($event.value)" [filter]="true" placeholder="Select Log Source" class="w-[300px]"
+          showClear="false" />
+      </div>
+
+      <!-- Summary Cards -->
+      <div
+        class="pt-[30px] grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-[15px] mb-4 ml-4 mr-4 cursor-pointer"
+      >
+        <div class="summary-card">
+          <h3>Total Logs</h3>
+          <p>{{ summary.total }}</p>
+        </div>
+
+        <div class="summary-card">
+          <h3>Errors</h3>
+          <p>{{ summary.errors }}</p>
+        </div>
+
+        <div class="summary-card">
+          <h3>Security Alerts</h3>
+          <p>{{ summary.security }}</p>
+        </div>
+
+        <div class="summary-card">
+          <h3>Audit Trails</h3>
+          <p>{{ summary.audit }}</p>
+        </div>
+
+        <div class="summary-card">
+          <h3>Success Rate</h3>
+          <p>{{ getSuccessRate() }}%</p>
+        </div>
+
+        <div class="summary-card">
+          <h3>Avg Res Time</h3>
+          <p>{{ getAvgResponseTime() }}ms</p>
+        </div>
+      </div>
+
+      <!-- Charts -->
+      <div class="chart-row">
+
+        <div class="chart-card pie-card">
+          <h3>Log Distribution</h3>
+          <canvas id="pieChart"></canvas>
+        </div>
+
+        <div class="chart-card">
+          <h3>Response Time Trends</h3>
+          <canvas id="responseTimeChart"></canvas>
+        </div>
+
+        <div class="chart-card">
+          <h3>Activity Patterns</h3>
+          <canvas id="donutChart"></canvas>
+        </div>
+
+      </div>
+
+      <!-- Insights Panel -->
+      <div class="bg-white rounded-lg shadow-md p-6 mb-6 ml-4 mr-4">
+        <h3 class="text-lg font-semibold mb-4 text-gray-800">System Insights</h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          <div class="insight-item">
+            <div class="flex items-center mb-2">
+              <i class="pi pi-exclamation-triangle text-orange-500 mr-2"></i>
+              <span class="font-medium">Error Rate Analysis</span>
+            </div>
+            <p class="text-sm text-gray-600">{{ getErrorRateInsight() }}</p>
+          </div>
+
+          <div class="insight-item">
+            <div class="flex items-center mb-2">
+              <i class="pi pi-clock text-blue-500 mr-2"></i>
+              <span class="font-medium">Performance Status</span>
+            </div>
+            <p class="text-sm text-gray-600">{{ getPerformanceInsight() }}</p>
+          </div>
+
+          <div class="insight-item">
+            <div class="flex items-center mb-2">
+              <i class="pi pi-shield text-green-500 mr-2"></i>
+              <span class="font-medium">Security Health</span>
+            </div>
+            <p class="text-sm text-gray-600">{{ getSecurityInsight() }}</p>
+          </div>
+        </div>
+      </div>
+
+
+      <!-- Category Tabs -->
+      <div class="log-category-container">
+        <button *ngFor="let c of categories" class="category-btn" [class.active]="selectedCategory === c.value"
+          (click)="changeCategory(c.value)">
+          {{ c.label }}
+        </button>
+      </div>
+
+      <!-- Filters -->
+      <div class="filter-panel">
+        <input type="text" class="filter-input" placeholder="Search keyword..." [(ngModel)]="searchText"
+          (input)="applyFilter()" />
+
+        <input type="date" class="filter-input" [(ngModel)]="dateFilter" (change)="applyFilter()" />
+      </div>
+
+      <!-- Table -->
+      <div class="table-container">
+        <table class="log-table">
+          <thead>
+            <tr>
+              <th>Time</th>
+              <th>Category</th>
+              <th>Action</th>
+              <th>User</th>
+              <th>Message</th>
+              <th>View</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <tr *ngFor="let log of filteredLogs">
+              <td>{{ log.timestamp | date:'short' }}</td>
+              <td>{{ log.category }}</td>
+              <td>{{ log.action }}</td>
+              <td>{{ log.user?.username || 'Unknown' }}</td>
+              <td>{{ log.message }}</td>
+
+              <td>
+                <button class="view-btn" (click)="openModal(log)">View</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Modal -->
+      <p-dialog header="Log Details" [(visible)]="modalVisible" [modal]="true"
+        [style]="{ width: '70vw', height: '80vh' }">
+
+        <ngx-monaco-editor [(ngModel)]="selectedLogJson" [options]="jsonEditorOptions" (onInit)="onEditorInit($event)"
+          style="height: calc(100% - 10px);
+                 border-radius: 8px;
+                 border: 1px solid #d1d5db;">
+        </ngx-monaco-editor>
+
+      </p-dialog>
+
+    </div>
+  </div>
+</div>

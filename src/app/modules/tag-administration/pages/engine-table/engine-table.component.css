@@ -1,0 +1,27 @@
+.p-datatable-thead>tr>th {
+    background-color: var(--p-primary-300) !important;
+}
+
+.p-datatable-thead>tr>th.p-datatable-column-sorted {
+    background: var(--p-primary-100) !important;
+    color: var(--p-datatable-header-cell-selected-color);
+}
+
+@media (prefers-color-scheme:dark) {
+    .p-datatable-thead>tr>th.p-datatable-column-sorted {
+        background: var(--p-primary-100) !important;
+        color: black;
+    }
+}
+
+.p-togglebutton.p-togglebutton-checked::before {
+    box-shadow: var(--p-togglebutton-content-checked-shadow) !important;
+}
+
+.p-togglebutton-checked .p-togglebutton-content {
+    background: var(--p-primary-color) !important;
+}
+
+.p-togglebutton.p-togglebutton-checked {
+    color: #FFFFFF !important;
+}

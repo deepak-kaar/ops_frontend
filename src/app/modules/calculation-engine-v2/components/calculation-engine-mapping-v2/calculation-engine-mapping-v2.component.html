@@ -1,0 +1,220 @@
+<div class="w-full">
+    <div class="pt-[10px]">
+        <p-card class="w-full">
+            <p-table #dt [value]="mappings" dataKey="id" [rowHover]="true" [rows]="20" [showCurrentPageReport]="true"
+                [rowsPerPageOptions]="[20, 30, 50]" [paginator]="true"
+                currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [filterDelay]="0"
+                [globalFilterFields]="['calculationName', 'calculationDesc']">
+                <ng-template pTemplate="caption">
+                    <div class="flex justify-between">
+                        <p-button [outlined]="true" icon="pi pi-filter-slash" label="Clear" (onClick)="clear(dt)" />
+                        <div class="flex gap-[10px] items-center">
+                            <p-iconField iconPosition="left">
+                                <p-inputIcon>
+                                    <i class="pi pi-search"></i>
+                                </p-inputIcon>
+                                <input pInputText type="text" (keyup)="applyFilterGlobal($event, 'contains')"
+                                    [(ngModel)]="searchValue" placeholder="Keyboard Search" />
+                            </p-iconField>
+                            <p-button label="Create Mapping"
+                                [style]="{'border-radius':'12px','height':'37px','border':'none'}"
+                                (onClick)="createAttributeTemplate()" />
+                        </div>
+                    </div>
+                </ng-template>
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th pSortableColumn="calculationName" style="min-width: 14rem" class="border-round-left-2xl text-left">
+                            <div class="flex justify-between items-center">
+                                Name
+                                <p-sortIcon field="calculationName" />
+                                <p-columnFilter type="text" field="calculationName" display="menu" class="ml-auto" />
+                            </div>
+                        </th>
+                        <th pSortableColumn="calculationDesc" style="min-width: 14rem">
+                            <div class="flex justify-between items-center">
+                                Description
+                                <p-sortIcon field="calculationDesc" />
+                                <p-columnFilter type="text" field="calculationDesc" display="menu" class="ml-auto" />
+                            </div>
+                        </th>
+                        <th>
+                            <div class="flex justify-between items-center">
+                                Execution
+                            </div>
+                        </th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-flag>
+                    <tr class="p-selectable-row">
+                        <td class="text-left cursor-pointer" (click)="openMapping(flag)">
+                            <span class="ml-1 vertical-align-middle desc">{{ flag.calculationName }}</span>
+                        </td>
+                        <td class="text-left cursor-pointer" (click)="openMapping(flag)">
+                            {{ flag.calculationDesc }}
+                        </td>
+                        <td class="text-left cursor-pointer">
+                            <p-button icon="pi pi-play" (onClick)="confirm(flag)" [text]="true"></p-button>
+                        </td>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="emptymessage">
+                    <tr>
+                        <td colspan="8">No calculation mappings found.</td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </p-card>
+    </div>
+</div>
+
+<p-toast [breakpoints]="breakPointForToastComponent"></p-toast>
+<p-dialog header="Edit Profile" [modal]="true" [(visible)]="visible">
+    <ng-template #headless>
+        <div class="flex flex-col items-center p-8 bg-surface-0 dark:bg-surface-900 rounded">
+            <div
+                class="rounded-full bg-primary text-primary-contrast inline-flex justify-center items-center h-24 w-24 -mt-20">
+                <i class="pi pi-play-circle !text-5xl"></i>
+            </div>
+            <div class="pt-3">
+                <p class="text-center">Please Pick Date & Time</p>
+                <p-datepicker inputId="calendar-12h" [(ngModel)]="testDate" [showTime]="true" hourFormat="12" />
+            </div>
+            @if(showResult){
+            <div class="pt-3">
+                <p-table [value]="resultData" [tableStyle]="{ 'min-width': '30rem' }">
+                    <ng-template #header>
+                        <tr>
+                            <th>Date & Time</th>
+                            <th>Output Variable Name</th>
+                            <th>Value</th>
+                        </tr>
+                    </ng-template>
+                    <ng-template #body let-product>
+                        <tr>
+                            <td>{{this.testDate |date: 'short'}}</td>
+                            <td>{{product.outputAttr}}</td>
+                            <td>{{ product.result }}</td>
+                        </tr>
+                    </ng-template>
+                </p-table>
+            </div>
+            }
+            @if(showCycleError && cycleError){
+            <div class="pt-3 w-full max-w-4xl max-h-[70vh] overflow-y-auto">
+                <div class="bg-red-50 dark:bg-red-900/20 border-l-4 border-red-500 dark:border-red-400 rounded-lg p-4 mb-4">
+                    <div class="flex items-start">
+                        <i class="pi pi-exclamation-triangle text-red-600 dark:text-red-400 text-xl mr-3 mt-1"></i>
+                        <div class="flex-1">
+                            <h4 class="text-red-800 dark:text-red-200 font-semibold mb-2">
+                                Circular Dependency Detected
+                            </h4>
+                            <p class="text-red-700 dark:text-red-300 text-sm">
+                                {{cycleError.error}}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg p-4">
+                    <p class="text-red-700 dark:text-red-300 mb-4 text-sm">
+                        The following calculations form a circular dependency. Please review and modify your calculation logic to break the cycle.
+                    </p>
+                    <div class="space-y-4">
+                        @for(cycle of cycleError.cycles; track $index){
+                        <div class="bg-white dark:bg-surface-800 rounded-lg p-4 border border-red-200 dark:border-red-700 shadow-sm">
+                            <p class="text-sm font-semibold text-red-800 dark:text-red-200 mb-3">
+                                Cycle {{$index + 1}}:
+                            </p>
+                            <div class="flex flex-wrap items-center gap-2 text-sm mb-4 pb-3 border-b border-red-100 dark:border-red-800">
+                                @for(attr of (cycle.path || cycle); track $index; let isLast = $last){
+                                <span class="inline-flex items-center">
+                                    <span class="bg-red-100 dark:bg-red-900/40 text-red-800 dark:text-red-200 px-3 py-1 rounded-md font-mono text-xs">
+                                        {{formatAttributeName(attr)}}
+                                    </span>
+                                    @if(!isLast){
+                                    <i class="pi pi-arrow-right mx-2 text-red-600 dark:text-red-400"></i>
+                                    }
+                                </span>
+                                }
+                            </div>
+                            @if(cycle.calculations && cycle.calculations.length > 0){
+                            <div class="space-y-3">
+                                @for(calc of cycle.calculations; track calc.calculationId){
+                                <div class="bg-gray-50 dark:bg-surface-700 rounded-lg p-3 border border-gray-200 dark:border-gray-600">
+                                    <div class="mb-3">
+                                        <p class="text-sm font-semibold text-gray-800 dark:text-gray-200 mb-1">
+                                            {{calc.calculationName || 'Unnamed Calculation'}}
+                                        </p>
+                                        @if(calc.calculationDesc){
+                                        <p class="text-xs text-gray-600 dark:text-gray-400">
+                                            {{calc.calculationDesc}}
+                                        </p>
+                                        }
+                                        <p class="text-xs text-gray-500 dark:text-gray-500 mt-1 font-mono">
+                                            ID: {{calc.calculationId}}
+                                        </p>
+                                    </div>
+                                    @if(calc.inputValues && hasKeys(calc.inputValues)){
+                                    <div class="mb-3">
+                                        <p class="text-xs font-semibold text-gray-700 dark:text-gray-300 mb-2">
+                                            Input Values:
+                                        </p>
+                                        <div class="flex flex-wrap gap-2">
+                                            @for(attrId of calc.inputAttributes; track attrId){
+                                            @if(calc.inputValues[attrId]){
+                                            <div class="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded px-2 py-1">
+                                                <span class="text-xs font-mono text-blue-800 dark:text-blue-200">
+                                                    {{formatAttributeName(attrId)}} = 
+                                                    <span class="font-bold">{{calc.inputValues[attrId].value !== null && calc.inputValues[attrId].value !== undefined ? calc.inputValues[attrId].value : 'null'}}</span>
+                                                </span>
+                                            </div>
+                                            }
+                                            }
+                                        </div>
+                                    </div>
+                                    }
+                                    <div class="mb-3">
+                                        <p class="text-xs font-semibold text-gray-700 dark:text-gray-300 mb-2">
+                                            Calculation Logic:
+                                        </p>
+                                        <div class="bg-gray-900 dark:bg-black rounded p-3 overflow-x-auto">
+                                            <pre class="text-xs text-green-400 font-mono whitespace-pre-wrap break-words">{{calc.jsLogic || 'No logic defined'}}</pre>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <p class="text-xs font-semibold text-gray-700 dark:text-gray-300 mb-1">
+                                            Output:
+                                        </p>
+                                        <span class="bg-green-100 dark:bg-green-900/40 text-green-800 dark:text-green-200 px-2 py-1 rounded text-xs font-mono">
+                                            {{formatAttributeName(calc.outputAttribute)}}
+                                        </span>
+                                    </div>
+                                </div>
+                                }
+                            </div>
+                            } @else {
+                            <div class="text-sm text-gray-600 dark:text-gray-400 italic">
+                                Calculation details not available
+                            </div>
+                            }
+                        </div>
+                        }
+                    </div>
+                    <div class="mt-4 p-3 bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800 rounded">
+                        <p class="text-sm text-yellow-800 dark:text-yellow-200">
+                            <i class="pi pi-info-circle mr-2"></i>
+                            <strong>How to fix:</strong> Remove or modify one of the calculations in the cycle to break the circular dependency. 
+                            For example, if A→B→C→A, you can make one attribute an input (not calculated) or change the dependency structure.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            }
+            <div class="flex items-center gap-2 mt-6">
+                <p-button label="Run" styleClass="w-32"></p-button>
+                <p-button label="Test" (onClick)="run()" styleClass="w-32"></p-button>
+                <p-button label="Close" [outlined]="true" (onClick)="closeRun()" styleClass="w-32"></p-button>
+            </div>
+        </div>
+    </ng-template>
+</p-dialog>

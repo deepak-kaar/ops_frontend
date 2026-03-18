@@ -1,0 +1,27 @@
+.filter-container {
+  display: flex;
+  gap: 25px;
+}
+
+.filter-select {
+  width: 300px;
+}
+
+/* Tablet responsive */
+@media (max-width: 1024px) {
+  .filter-select {
+    width: 250px;
+  }
+}
+
+/* Mobile responsive */
+@media (max-width: 768px) {
+  .filter-container {
+    flex-direction: column;
+    gap: 12px;
+  }
+  
+  .filter-select {
+    width: 100%;
+  }
+}

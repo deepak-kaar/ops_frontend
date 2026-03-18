@@ -1,0 +1,56 @@
+.container {
+  max-width: 700px;
+  margin: 40px auto;
+  padding: 20px;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+h2 {
+  margin-bottom: 20px;
+}
+
+.form-group {
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+label {
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+select {
+  padding: 8px;
+  font-size: 14px;
+}
+
+.job-details {
+  margin-top: 30px;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  background-color: #f9f9f9;
+}
+
+.detail-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.detail-row label {
+  font-weight: bold;
+}
+
+:host ::ng-deep label {
+  font-weight: 300 !important;
+}
+
+:host ::ng-deep .p-card {
+  font-weight: 300 !important;
+}
+
+:host ::ng-deep .p-inputtext {
+  font-weight: 300 !important;
+}

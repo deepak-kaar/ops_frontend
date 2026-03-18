@@ -1,0 +1,70 @@
+<div class="reports-filter-bar">
+    <app-filter></app-filter>
+</div>
+
+<div class="reports-main">
+    <!-- Left Panel - 20% Custom Order List -->
+    <div class="reports-left">
+        <!-- Header with controls -->
+        <div class="reports-list-header">
+            <div class="reports-list-controls">
+                <p-button [outlined]="true" icon="pi pi-filter-slash" label="Clear" size="small"
+                    (onClick)="searchValue=''; applyListFilter()" />
+                <p-datepicker [(ngModel)]="date1" [showTime]="true" [hourFormat]="'24'" [showIcon]="true"
+                    inputId="reports-date" [showOnFocus]="false" (ngModelChange)="onDateChange()"
+                    styleClass="reports-datepicker" />
+            </div>
+            <div class="reports-search-box">
+                <i class="pi pi-search"></i>
+                <input type="text" (input)="applyListFilter()" [(ngModel)]="searchValue"
+                    placeholder="Search reports..." />
+            </div>
+        </div>
+
+        <!-- Scrollable list area -->
+        <div class="reports-list-body">
+            @if (displayMappings.length === 0) {
+            <div class="reports-list-empty">
+                <i class="pi pi-inbox"></i>
+                <span>No reports found</span>
+            </div>
+            } @else {
+            @for (item of displayMappings; track getItemId(item)) {
+            <div class="reports-list-item" [class.active]="isSelected(item)" (click)="selectMapping(item)">
+                <div class="reports-list-item-main">
+                    <div class="reports-list-item-title">{{ item?.name || item?.templateName || item?.mappingName ||
+                        'Unnamed' }}</div>
+                    <div class="reports-list-item-desc">{{ item?.description || item?.templateDescription ||
+                        item?.mappingDescription || '' }}</div>
+                </div>
+                <div class="reports-list-item-meta">
+                    <span class="reports-list-item-badge" [class.active]="item?.status === 'Active'">
+                        {{ item?.status || 'Active' }}
+                    </span>
+                    <span class="reports-list-item-date">{{ item?.createdOn || item?.mappingCreatedOn | date: 'MM/dd/yy'
+                        }}</span>
+                </div>
+            </div>
+            }
+            }
+        </div>
+    </div>
+
+    <!-- Right Panel - 80% Preview -->
+    <div class="reports-right">
+        @if (selectedMapping?.mappingId || selectedMapping?.templateId) {
+        <div class="reports-preview-wrapper">
+            <app-global-renderer [pageType]="'Report'" [embedded]="true"
+                [mappingId]="selectedMapping.mappingId || selectedMapping.templateId"
+                [isTemplate]="!selectedMapping.mappingId && !!selectedMapping.templateId" [type]="'View'"
+                [date]="date1.toISOString()">
+            </app-global-renderer>
+        </div>
+        } @else {
+        <div class="reports-preview-empty">
+            <i class="pi pi-eye"></i>
+            <span>Select a report to preview</span>
+        </div>
+        }
+    </div>
+</div>

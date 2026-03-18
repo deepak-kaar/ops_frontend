@@ -1,0 +1,1001 @@
+@if(showUi){
+<app-sidebar [option]="sidebarState"></app-sidebar>
+<main class="pl-[65px] p-[10px] flex h-screen overflow-y-auto">
+    <div class="pl-[14px] h-full w-[17%]">
+        <div class="h-full w-full !rounded-[6px] pannel shadow-[var(--p-card-shadow)] overflow-y-auto">
+            <div class="p-2">
+                <div class="flex items-center justify-center w-full">
+                    <p-selectbutton [options]="tempActions" [(ngModel)]="selectedBtn" (onOptionClick)="onTabClick()"
+                        [allowEmpty]="false" size="small" />
+                </div>
+            </div>
+            <div class="p-2">
+                <div class="w-full">
+                    @if(selectedBtn === 'Templates'){
+                    <div class="flex flex-col gap-3">
+                        <div>
+                            @for(template of templates;track template.templateName) {
+                            <div class="p-1" pDraggable (onDragEnd)="loadTemplate(template)">
+                                <a pRipple (click)="loadTemplate(template)"
+                                    class="flex items-center cursor-pointer p-3 border-round bg-[var(--p-surface-0)] "
+                                    [style.border-left]="'4px solid ' + getTemplateBorderColor(template)">
+                                    <span class="text-sm">{{ template.templateName }}</span>
+                                </a>
+                            </div>
+                            }
+                        </div>
+                        <p-divider class="my-1"></p-divider>
+                    </div>
+                    }
+                    @else if(selectedBtn === 'Entity / Instance'){
+                    <div class="entity-tree-wrapper">
+                        <div class="flex items-center justify-between mb-2">
+                            <span
+                                class="text-xs font-semibold tracking-[0.08em] uppercase text-[var(--p-text-600)]">Entity
+                                / Instance</span>
+                        </div>
+                        <div class="entity-tree-container">
+                            @if(entityInstanceTree.length){
+                            <p-tree [value]="entityInstanceTree" [filter]="true" filterPlaceholder="Search"
+                                class="entity-tree" selectionMode="single" [(selection)]="selectedTreeNode"
+                                (onNodeSelect)="onTreeNodeSelect($event)" (onNodeExpand)="onTreeNodeExpand($event)">
+                                <ng-template pTemplate="default" let-node>
+                                    <div class="flex items-center gap-2 text-sm">
+                                        <i class="pi text-xs"
+                                            [ngClass]="{'pi-database text-primary-500': node.type === 'entity', 'pi-box text-orange-400': node.type === 'instance', 'pi-circle-fill text-emerald-400 text-[0.45rem]': node.type === 'attribute'}">
+                                        </i>
+                                        <span class="truncate">{{ node.label }}</span>
+                                    </div>
+                                </ng-template>
+                            </p-tree>
+                            }
+                            @else {
+                            <p class="text-xs text-[var(--p-text-500)] text-center py-4">No entity data available
+                                for
+                                the selected filters.</p>
+                            }
+                        </div>
+                        @if(selectedAttributeNode?.type === 'attribute'){
+                        <div class="mt-3 p-3 border-1 surface-border border-round bg-[var(--p-surface-0)] flex flex-col gap-3">
+                            <div class="text-sm font-semibold">Selected Attribute</div>
+                            <div class="text-xs text-[var(--p-text-500)] break-words">
+                                {{ selectedAttributeNode?.label }}
+                            </div>
+                            @if(attributeComponentOptions.length > 1){
+                            <p-select [options]="attributeComponentOptions" optionLabel="name"
+                                [(ngModel)]="selectedAttributeComponent" placeholder="Choose a component"
+                                appendTo="body" (onChange)="onAttributeDropdownChange($event)">
+                            </p-select>
+                            }
+                            @else if(attributeComponentOptions.length === 1){
+                            <div class="flex items-center justify-between text-sm">
+                                <span>Component</span>
+                                <p-tag [value]="attributeComponentOptions[0]?.name || 'Default'"></p-tag>
+                            </div>
+                            }
+                            @else {
+                            <p-message severity="warn" text="No display component configured for this attribute.">
+                            </p-message>
+                            }
+                            @if(attributeValuePreview){
+                            <div class="flex flex-col gap-1">
+                                <span class="text-xs text-[var(--p-text-500)]">Value</span>
+                                <input type="text" pInputText [value]="attributeValuePreview" readonly />
+                            </div>
+                            }
+                        </div>
+                        }
+                    </div>
+                    }
+                    @else {
+                    <p-accordion [value]="0">
+                        @for(widget of tabs;track widget.category) {
+                        <p-accordion-panel class="pt-[10px]" [value]="widget.value">
+                            <p-accordion-header class="!text-[16px]">{{ widget.category }}</p-accordion-header>
+                            <p-accordion-content>
+                                <div class="grid pt-[10px] grid-cols-2 gap-[5px] pb-[10px]">
+                                    @for(widget of widget.items; track widget.label) {
+                                    <div (click)="addWidget('Template',$event,widget.type)"
+                                        (onDragEnd)="addWidget('Template', $event, widget.type)" pDraggable class="widget
+                                                min-w-[60px] flex flex-col justify-center items-center 
+                                                p-2 2xl:text-[14px] text-[12px] cursor-grab">
+                                        <span [innerHTML]="sanitizer.bypassSecurityTrustHtml(widget.icon)"
+                                            class="text-center widget-icon"></span>
+                                        <span class="font-medium text-center">{{ widget.label }}</span>
+                                    </div>
+                                    }
+                                </div>
+                            </p-accordion-content>
+                        </p-accordion-panel>
+                        }
+                    </p-accordion>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="w-[70%] h-full pl-[14px] overflow-y-auto">
+        <p-card class="menu-card" styleClass="w-full !rounded-[6px]">
+            <div class="flex justify-between">
+                <div class="flex gap-[10px]">
+                    <!-- <p-button styleClass="h-[30px] !rounded-[4px] !bg-[var(--p-surface-700)] !border-none label-color"
+                        label="Code" icon="pi pi-code" (onClick)="openCodeEditor()" /> -->
+                    <p-splitbutton appendTo="body" styleClass="h-[30px] !rounded-[4px]" label="Editor"
+                        [model]="items1" />
+                    <!-- <p-button styleClass="h-[30px] !rounded-[4px] !bg-[var(--p-surface-700)] !border-none label-color"
+                        label="Undo" icon="pi pi-undo" />
+                    <p-button styleClass="h-[30px] !rounded-[4px] !bg-[var(--p-surface-700)] !border-none label-color"
+                        label="Redo" icon="pi pi-refresh" /> -->
+                </div>
+                <div class="flex gap-[20px]">
+                    <div class="flex gap-[10px]">
+                        <p-button
+                            styleClass="h-[30px] !bg-[var(--p-surface-0)] !border-1 !text-[var(--p-primary-800)] !rounded-[4px]"
+                            label="Delete" icon="pi pi-trash" (onClick)="deleteWidget()" />
+                        <p-button
+                            styleClass="h-[30px] !bg-[var(--p-surface-0)] !border-1 !text-[var(--p-primary-800)] !rounded-[4px]"
+                            label="Preview" icon="pi pi-eye" (onClick)="preview()" />
+                        <p-button
+                            styleClass="h-[30px] !bg-[var(--p-surface-0)] !border-1 !text-[var(--p-primary-800)] !rounded-[4px]"
+                            label="Clear" icon="pi pi-eraser" (onClick)="clearGrid()" />
+                        <p-splitbutton appendTo="body" styleClass="h-[30px] !rounded-[4px]" con="pi pi-save"
+                            label="Save" [model]="items" />
+
+                    </div>
+                </div>
+            </div>
+        </p-card>
+        <div class="grid-zone mt-[20px] rounded-[8px]" [style]="gridStyle">
+            <div class="grid-container">
+                <gridstack [options]="gridOptionsFull" (click)="onWidgetClick($event)">
+                </gridstack>
+            </div>
+        </div>
+    </div>
+    <div class="pl-[14px] h-full w-[17%]">
+        <div class="h-full w-full !rounded-[6px] pannel shadow-[var(--p-card-shadow)] overflow-y-auto">
+            <div class="p-2">
+                <div class="flex items-center justify-center w-full">
+                    <p-selectbutton [options]="widgetOptions" [(ngModel)]="selectedOpt" (onOptionClick)="onTabClick()"
+                        [allowEmpty]="false" size="small" />
+                </div>
+            </div>
+            @if(selectedOpt === 'Styles'){
+            <div class="p-2">
+                <div class="w-full">
+                    <p-accordion [value]="0">
+                        <p-accordion-panel class="pt-[10px]" [value]="1">
+                            <p-accordion-header class="!text-[16px]">Typography</p-accordion-header>
+                            <p-accordion-content>
+                                <div class="sm-properties h-70 p-2 overflow-y-auto">
+                                    <div class="sm-property">
+                                        <label>Font Family</label>
+                                        <div class="fields">
+                                            <p-select appendTo="body" [options]="fontFamilies"
+                                                [(ngModel)]="widgetStyles.fontFamily" placeholder="Select Font Family"
+                                                [style]="{ width: '199px' }" (ngModelChange)="onStyleChange()">
+                                            </p-select>
+                                        </div>
+                                    </div>
+                                    <div class="sm-property">
+                                        <label>Font Size</label>
+                                        <div class="fields">
+                                            <p-inputNumber [(ngModel)]="widgetStyles.fontSize"
+                                                (ngModelChange)="onStyleChange()" [showButtons]="true" min="1"
+                                                placeholder="Enter size" [suffix]="'px'" inputStyleClass="!w-[199px]">
+                                            </p-inputNumber>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="sm-property">
+                                        <label>Font Weight</label>
+                                        <div class="fields w-full">
+                                            <p-select appendTo="body" [style]="{ width: '199px' }"
+                                                [options]="fontWeights" [(ngModel)]="widgetStyles.fontWeight"
+                                                placeholder="Select Font Weight" (ngModelChange)="onStyleChange()">
+                                            </p-select>
+                                        </div>
+                                    </div>
+
+                                    <div class="sm-property">
+                                        <label>Color</label>
+                                        <div class="fields">
+                                            <input type="color" [(ngModel)]="widgetStyles.color"
+                                                (ngModelChange)="onStyleChange()" class="color-picker" />
+                                            <span class="text-sm">{{ widgetStyles.color }}</span>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="sm-property">
+                                        <label>Text Align</label>
+                                        <div class="fields">
+                                            <p-select appendTo="body" [style]="{ width: '199px' }"
+                                                [options]="justifyOptions" [(ngModel)]="widgetStyles.textAlign"
+                                                optionValue="justify" optionLabel="justify"
+                                                placeholder="Select Font Weight" (ngModelChange)="onStyleChange()">
+                                            </p-select>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="sm-property">
+                                        <label>Text Decoration</label>
+                                        <p-selectButton optionValue="decoration" [options]="decorationOptions"
+                                            [(ngModel)]="widgetStyles.textDecoration" (ngModelChange)="onStyleChange()"
+                                            optionLabel="icon" [style]="{ width: '100%' }">
+                                            <ng-template #item let-item>
+                                                <img [src]="item.icon" />
+                                            </ng-template>
+                                        </p-selectButton>
+                                    </div>
+                                </div>
+                            </p-accordion-content>
+                        </p-accordion-panel>
+                        <p-accordion-panel class="pt-[10px]" [value]="2">
+                            <p-accordion-header class="!text-[16px]">Dimensions</p-accordion-header>
+                            <p-accordion-content>
+                                <div class="sm-properties h-70 p-2 overflow-y-auto">
+                                    <label>Padding</label>
+                                    <div class="grid">
+                                        @if(highlightedWidget?.selector === 'app-section'){
+                                        <div class="col">
+                                            <div class="sm-property">
+                                                <label>Cols</label>
+                                                <p-inputNumber [(ngModel)]="colWidth" [showButtons]="true" min="1"
+                                                    placeholder="size" inputStyleClass="!w-[199px]">
+                                                </p-inputNumber>
+                                            </div>
+                                        </div>
+                                        }
+                                        @else {
+                                        <div class="col">
+                                            <div class="sm-property">
+                                                <label>Col Span</label>
+                                                <p-inputNumber [(ngModel)]="colSpan" [showButtons]="true" min="1"
+                                                    placeholder="size" inputStyleClass="!w-[199px]" max="2">
+                                                </p-inputNumber>
+                                            </div>
+                                        </div>
+                                        }
+
+                                        <div class="col">
+                                            <div class="sm-property">
+                                                <label>Top</label>
+                                                <p-inputNumber [(ngModel)]="widgetStyles.paddingTop"
+                                                    (ngModelChange)="onStyleChange()" [showButtons]="true" min="1"
+                                                    placeholder="size" [suffix]="'px'" inputStyleClass="!w-[199px]">
+                                                </p-inputNumber>
+                                            </div>
+
+                                        </div>
+                                        <div class="col">
+                                            <div class="sm-property">
+                                                <label>Right</label>
+                                                <p-inputNumber [(ngModel)]="widgetStyles.paddingRight"
+                                                    (ngModelChange)="onStyleChange()" [showButtons]="true" min="1"
+                                                    placeholder="size" [suffix]="'px'" inputStyleClass="!w-[199px]">
+                                                </p-inputNumber>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="grid">
+                                        <div class="col">
+                                            <div class="sm-property">
+                                                <label>Bottom</label>
+                                                <p-inputNumber [(ngModel)]="widgetStyles.paddingBottom"
+                                                    (ngModelChange)="onStyleChange()" [showButtons]="true" min="1"
+                                                    placeholder="size" [suffix]="'px'" inputStyleClass="!w-[199px]">
+                                                </p-inputNumber>
+                                            </div>
+                                        </div>
+                                        <div class="col">
+                                            <div class="sm-property">
+                                                <label>Left</label>
+                                                <p-inputNumber [(ngModel)]="widgetStyles.paddingLeft"
+                                                    (ngModelChange)="onStyleChange()" [showButtons]="true" min="1"
+                                                    placeholder="size" [suffix]="'px'" inputStyleClass="!w-[199px]">
+                                                </p-inputNumber>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </p-accordion-content>
+                        </p-accordion-panel>
+                        <p-accordion-panel class="pt-[10px]" [value]="3">
+                            <p-accordion-header class="!text-[16px]">Background and Effects</p-accordion-header>
+                            <p-accordion-content>
+                                <div class="sm-properties h-70 p-2 overflow-y-auto">
+                                    <div class="sm-property">
+                                        <label>Background Type</label>
+                                        <div class="fields">
+                                            <p-selectButton
+                                                [options]="[{label: 'Color', value: 'color'}, {label: 'Image', value: 'image'}, {label: 'Gradient', value: 'gradient'}]"
+                                                optionLabel="label" optionValue="value"
+                                                [(ngModel)]="widgetStyles.backgroundMode"
+                                                (ngModelChange)="onStyleChange()"
+                                                [style]="{ width: '100%' }">
+                                            </p-selectButton>
+                                        </div>
+                                    </div>
+
+                                    <!-- Solid color -->
+                                    @if(!widgetStyles.backgroundMode || widgetStyles.backgroundMode === 'color'){
+                                    <div class="sm-property">
+                                        <label>Background color</label>
+                                        <div class="fields">
+                                            <input type="color" [(ngModel)]="colorHex"
+                                                (ngModelChange)="generateRGBA()" class="color-picker" />
+                                            <span class="text-sm">{{ widgetStyles.backgroundColor }}</span>
+                                        </div>
+                                    </div>
+                                    <div class="sm-property">
+                                        <label>Opacity</label>
+                                        <div class="fields">
+                                            <input type="text" pInputText [(ngModel)]="alphaPercent" class="w-full"
+                                                (ngModelChange)="generateRGBA()" />
+                                            <p-slider [(ngModel)]="alphaPercent" class="w-full"
+                                                (ngModelChange)="generateRGBA()" />
+                                        </div>
+                                    </div>
+                                    }
+
+                                    <!-- Background image -->
+                                    @if(widgetStyles.backgroundMode === 'image'){
+                                    <div class="sm-property">
+                                        <label>Background image URL</label>
+                                        <div class="fields flex gap-2 items-center">
+                                            <input type="text" pInputText
+                                                [(ngModel)]="widgetStyles.backgroundImageUrl"
+                                                (ngModelChange)="onStyleChange()"
+                                                class="flex-1"
+                                                placeholder="https://... or /assets/...">
+                                            <p-button label="Upload" size="small"
+                                                (onClick)="openBackgroundImageUpload()">
+                                            </p-button>
+                                        </div>
+                                    </div>
+                                    <div class="sm-property">
+                                        <label>Size</label>
+                                        <div class="fields">
+                                            <p-select appendTo="body" [style]="{ width: '199px' }"
+                                                [options]="bgSizeOptions"
+                                                [(ngModel)]="widgetStyles.backgroundSize"
+                                                (ngModelChange)="onStyleChange()">
+                                            </p-select>
+                                        </div>
+                                    </div>
+                                    <div class="sm-property">
+                                        <label>Position</label>
+                                        <div class="fields">
+                                            <p-select appendTo="body" [style]="{ width: '199px' }"
+                                                [options]="bgPositionOptions"
+                                                [(ngModel)]="widgetStyles.backgroundPosition"
+                                                (ngModelChange)="onStyleChange()">
+                                            </p-select>
+                                        </div>
+                                    </div>
+                                    <div class="sm-property">
+                                        <label>Repeat</label>
+                                        <div class="fields">
+                                            <p-select appendTo="body" [style]="{ width: '199px' }"
+                                                [options]="bgRepeatOptions"
+                                                [(ngModel)]="widgetStyles.backgroundRepeat"
+                                                (ngModelChange)="onStyleChange()">
+                                            </p-select>
+                                        </div>
+                                    </div>
+                                    }
+
+                                    <!-- Gradient -->
+                                    @if(widgetStyles.backgroundMode === 'gradient'){
+                                    <div class="sm-property">
+                                        <label>Gradient Type</label>
+                                        <div class="fields">
+                                            <p-select appendTo="body" [style]="{ width: '199px' }"
+                                                [options]="['linear', 'radial']"
+                                                [(ngModel)]="widgetStyles.gradientType"
+                                                (ngModelChange)="onStyleChange()">
+                                            </p-select>
+                                        </div>
+                                    </div>
+                                    @if(widgetStyles.gradientType === 'linear'){
+                                    <div class="sm-property">
+                                        <label>Angle</label>
+                                        <div class="fields">
+                                            <p-inputNumber [(ngModel)]="widgetStyles.gradientAngle"
+                                                (ngModelChange)="onStyleChange()" [showButtons]="true" [min]="0"
+                                                [max]="360" suffix="°" inputStyleClass="!w-[199px]">
+                                            </p-inputNumber>
+                                        </div>
+                                    </div>
+                                    }
+                                    <div class="sm-property">
+                                        <label>Start color</label>
+                                        <div class="fields">
+                                            <input type="color"
+                                                [(ngModel)]="widgetStyles.gradientStartColor"
+                                                (ngModelChange)="onStyleChange()" class="color-picker" />
+                                            <span class="text-sm">{{ widgetStyles.gradientStartColor }}</span>
+                                        </div>
+                                    </div>
+                                    <div class="sm-property">
+                                        <label>End color</label>
+                                        <div class="fields">
+                                            <input type="color"
+                                                [(ngModel)]="widgetStyles.gradientEndColor"
+                                                (ngModelChange)="onStyleChange()" class="color-picker" />
+                                            <span class="text-sm">{{ widgetStyles.gradientEndColor }}</span>
+                                        </div>
+                                    </div>
+                                    }
+                                </div>
+                            </p-accordion-content>
+                        </p-accordion-panel>
+                        <p-accordion-panel class="pt-[10px]" [value]="4">
+                            <p-accordion-header class="!text-[16px]">Decorations</p-accordion-header>
+                            <p-accordion-content>
+                                <div class="sm-properties h-70 p-2 overflow-y-auto">
+                                    <div class="sm-property p-2">
+                                        <label class="font-semibold pt-3">Border</label>
+                                        <div class="grid">
+                                            <div class="col">
+                                                <div class="sm-property">
+                                                    <label>Border Top Style</label>
+                                                    <p-select appendTo="body" [style]="{ width: '199px' }" [options]=""
+                                                        [(ngModel)]="widgetStyles.borderTopStyle"
+                                                        placeholder="Select Border Style"
+                                                        (ngModelChange)="onStyleChange()">
+                                                    </p-select>
+                                                    <label>Border Top Style</label>
+                                                    <p-select appendTo="body" [style]="{ width: '199px' }"
+                                                        [options]="borderStyles"
+                                                        [(ngModel)]="widgetStyles.borderTopStyle"
+                                                        placeholder="Select Border Style"
+                                                        (ngModelChange)="onStyleChange()">
+                                                    </p-select>
+                                                    <label>Border Top Color</label>
+                                                    <div class="flex gap-2 items-center">
+                                                        <input type="color" [(ngModel)]="widgetStyles.borderTopColor"
+                                                            (ngModelChange)="onStyleChange()" class="color-picker" />
+                                                        <span class="text-sm">{{ widgetStyles.borderTopColor }}</span>
+
+                                                    </div>
+                                                    <label>Border Top Width</label>
+                                                    <p-inputNumber [(ngModel)]="widgetStyles.borderTopWidth"
+                                                        (ngModelChange)="onStyleChange()" [showButtons]="true" min="1"
+                                                        placeholder="size" [suffix]="'px'" inputStyleClass="!w-[199px]">
+                                                    </p-inputNumber>
+                                                </div>
+                                            </div>
+                                            <div class="col">
+                                                <div class="sm-property">
+                                                    <label>Border Right Style</label>
+                                                    <p-select appendTo="body" [style]="{ width: '199px' }"
+                                                        [options]="borderStyles"
+                                                        [(ngModel)]="widgetStyles.borderRightStyle"
+                                                        placeholder="Select Border Style"
+                                                        (ngModelChange)="onStyleChange()">
+                                                    </p-select>
+                                                    <label>Border Right Color</label>
+                                                    <div class="flex gap-2 items-center">
+                                                        <input type="color" [(ngModel)]="widgetStyles.borderRightColor"
+                                                            (ngModelChange)="onStyleChange()" class="color-picker" />
+                                                        <span class="text-sm">{{ widgetStyles.borderRightColor }}</span>
+
+                                                    </div>
+                                                    <label>Border Right Width</label>
+                                                    <p-inputNumber [(ngModel)]="widgetStyles.borderRightWidth"
+                                                        (ngModelChange)="onStyleChange()" [showButtons]="true" min="1"
+                                                        placeholder="size" [suffix]="'px'" inputStyleClass="!w-[199px]">
+                                                    </p-inputNumber>
+                                                </div>
+                                            </div>
+                                            <div class="col">
+                                                <div class="sm-property">
+                                                    <label>Border Bottom Style</label>
+                                                    <p-select appendTo="body" [style]="{ width: '199px' }"
+                                                        [options]="borderStyles"
+                                                        [(ngModel)]="widgetStyles.borderBottomStyle"
+                                                        placeholder="Select Border Style"
+                                                        (ngModelChange)="onStyleChange()">
+                                                    </p-select>
+                                                    <label>Border Bottom Color</label>
+                                                    <div class="flex gap-2 items-center">
+                                                        <input type="color" [(ngModel)]="widgetStyles.borderBottomColor"
+                                                            (ngModelChange)="onStyleChange()" class="color-picker" />
+                                                        <span class="text-sm">{{ widgetStyles.borderBottomColor
+                                                            }}</span>
+
+                                                    </div>
+                                                    <label>Border Bottom Width</label>
+                                                    <p-inputNumber [(ngModel)]="widgetStyles.borderBottomWidth"
+                                                        (ngModelChange)="onStyleChange()" [showButtons]="true" min="1"
+                                                        placeholder="size" [suffix]="'px'" inputStyleClass="!w-[199px]">
+                                                    </p-inputNumber>
+                                                </div>
+                                            </div>
+                                            <div class="col">
+                                                <div class="sm-property">
+                                                    <label>Border Left Style</label>
+                                                    <p-select appendTo="body" [style]="{ width: '199px' }"
+                                                        [options]="borderStyles"
+                                                        [(ngModel)]="widgetStyles.borderLeftStyle"
+                                                        placeholder="Select Border Style"
+                                                        (ngModelChange)="onStyleChange()">
+                                                    </p-select>
+                                                    <label>Border Top Color</label>
+                                                    <div class="flex gap-2 items-center">
+                                                        <input type="color" [(ngModel)]="widgetStyles.borderLeftColor"
+                                                            (ngModelChange)="onStyleChange()" class="color-picker" />
+                                                        <span class="text-sm">{{ widgetStyles.borderLeftColor }}</span>
+
+                                                    </div>
+                                                    <label>Border Top Width</label>
+                                                    <p-inputNumber [(ngModel)]="widgetStyles.borderLeftWidth"
+                                                        (ngModelChange)="onStyleChange()" [showButtons]="true" min="1"
+                                                        placeholder="size" [suffix]="'px'" inputStyleClass="!w-[199px]">
+                                                    </p-inputNumber>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <label class="font-semibold pt-3">Border radius</label>
+                                        <div class="grid">
+                                            <div class="col">
+                                                <div class="sm-property">
+                                                    <label>Top Left</label>
+                                                    <p-inputNumber [(ngModel)]="widgetStyles.borderTopLeftRadius"
+                                                        (ngModelChange)="onStyleChange()" [showButtons]="true" min="1"
+                                                        placeholder="size" [suffix]="'px'" inputStyleClass="!w-[199px]">
+                                                    </p-inputNumber>
+                                                </div>
+                                            </div>
+                                            <div class="col">
+                                                <div class="sm-property">
+                                                    <label>Top Right</label>
+                                                    <p-inputNumber [(ngModel)]="widgetStyles.borderTopRightRadius"
+                                                        (ngModelChange)="onStyleChange()" [showButtons]="true" min="1"
+                                                        placeholder="size" [suffix]="'px'" inputStyleClass="!w-[199px]">
+                                                    </p-inputNumber>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="grid">
+                                            <div class="col">
+                                                <div class="sm-property">
+                                                    <label>Bottom Left</label>
+                                                    <p-inputNumber [(ngModel)]="widgetStyles.borderBottomLeftRadius"
+                                                        (ngModelChange)="onStyleChange()" [showButtons]="true" min="1"
+                                                        placeholder="size" [suffix]="'px'" inputStyleClass="!w-[199px]">
+                                                    </p-inputNumber>
+                                                </div>
+                                            </div>
+                                            <div class="col">
+                                                <div class="sm-property">
+                                                    <label>Bottom Right</label>
+                                                    <p-inputNumber [(ngModel)]="widgetStyles.borderBottomRightRadius"
+                                                        (ngModelChange)="onStyleChange()" [showButtons]="true" min="1"
+                                                        placeholder="size" [suffix]="'px'" inputStyleClass="!w-[199px]">
+                                                    </p-inputNumber>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </p-accordion-content>
+                        </p-accordion-panel>
+                        <p-accordion-panel class="pt-[10px]" [value]="5">
+                            <p-accordion-header class="!text-[16px]">Component Specific</p-accordion-header>
+                            <p-accordion-content>
+                                <div class="sm-properties p-2">
+                                    <div class="fields flex flex-wrap gap-2">
+                                        @if(highlightedWidget?.selector === 'app-tag'){
+                                        <p-select [options]="dividerTypes" [(ngModel)]="widgetStyles.dividerType"
+                                            filterBy="name" appendTo="body" [showClear]="true"
+                                            placeholder="Select a Country">
+                                            <ng-template #selectedItem let-selectedOption>
+                                                <div class="flex items-center gap-2">
+                                                    <i class="pi pi-check" style="color: slateblue"></i>
+                                                    <div>{{ dividerTypes }}</div>
+                                                </div>
+                                            </ng-template>
+                                            <ng-template let-country #item>
+                                                <div class="flex items-center gap-2">
+                                                    <img src="https://primefaces.org/cdn/primeng/images/demo/flag/flag_placeholder.png"
+                                                        [class]="'flag flag-' + country.code.toLowerCase()"
+                                                        style="width: 18px" />
+                                                    <div>{{ dividerTypes }}</div>
+                                                </div>
+                                            </ng-template>
+                                        </p-select>
+
+                                        }
+                                        @if(highlightedWidget?.selector === 'app-date-picker')
+                                        {
+                                        <div class="flex flex-col gap-[5px]">
+                                            <div class="flex items-center">
+                                                <p-checkbox [(ngModel)]="widgetStyles.buttonBar" [binary]="true"
+                                                    (ngModelChange)="onStyleChange()"></p-checkbox>
+                                                <label for="bb" class="pl-2">Button Bar</label>
+                                            </div>
+                                            <div class="flex items-center">
+                                                <p-checkbox [(ngModel)]="widgetStyles.selectionRange" [binary]="true"
+                                                    (ngModelChange)="onStyleChange()"></p-checkbox>
+                                                <label for="sr" class="pl-2">Selection Range</label>
+                                            </div>
+
+                                            @if(!widgetStyles.year){
+                                            <div class="flex items-center">
+                                                <p-checkbox [(ngModel)]="widgetStyles.month" [binary]="true"
+                                                    label="Month Only" (ngModelChange)="onStyleChange()"></p-checkbox>
+                                                <label for="mo" class="pl-2">Month Only</label>
+                                            </div>
+                                            }
+                                            @if(!widgetStyles.month){
+                                            <div class="flex items-center">
+                                                <p-checkbox [(ngModel)]="widgetStyles.year" [binary]="true"
+                                                    label="Year Only" (ngModelChange)="onStyleChange()"></p-checkbox>
+                                                <label for="yo" class="pl-2">Year Only</label>
+                                            </div>
+                                            }
+                                        </div>
+                                        }
+                                        @if(highlightedWidget?.selector === 'app-divider'){
+                                        <p-select appendTo="body" [style]="{ width: '199px' }" [options]="dividerTypes"
+                                            [(ngModel)]="widgetStyles.dividerType" placeholder="Select Divider Type"
+                                            (ngModelChange)="onStyleChange()">
+                                        </p-select>
+                                        <p-select appendTo="body" [style]="{ width: '199px' }"
+                                            [options]="dividerLayouts" [(ngModel)]="widgetStyles.dividerLayout"
+                                            placeholder="Select Divider Type" (ngModelChange)="onStyleChange()">
+                                        </p-select>
+                                        }
+                                        @if(highlightedWidget?.selector === 'app-button')
+                                        {
+                                        <div class="flex flex-col gap-[5px]">
+                                            <div class="flex items-center">
+                                                <p-checkbox [(ngModel)]="widgetStyles.raised" [binary]="true"
+                                                    (ngModelChange)="onStyleChange()"></p-checkbox>
+                                                <label for="ny" class="pl-2">Raised</label>
+                                            </div>
+                                            <div class="flex items-center">
+                                                <p-checkbox [(ngModel)]="widgetStyles.rounded" [binary]="true"
+                                                    label="Rounded" (ngModelChange)="onStyleChange()"></p-checkbox>
+                                                <label for="ny" class="pl-2">Rounded</label>
+                                            </div>
+
+                                            <div class="flex items-center">
+                                                <p-checkbox [(ngModel)]="widgetStyles.text" [binary]="true" label="Text"
+                                                    (ngModelChange)="onStyleChange()"></p-checkbox>
+                                                <label for="ny" class="pl-2">Text</label>
+                                            </div>
+                                            <div class="flex items-center">
+                                                <p-checkbox [(ngModel)]="widgetStyles.outlined" [binary]="true"
+                                                    label="Outline" (ngModelChange)="onStyleChange()"></p-checkbox>
+                                                <label for="ny" class="pl-2">Outline</label>
+                                            </div>
+                                        </div>
+                                        } @if(isChartWidget()){
+                                        <div class="sm-property pt-3">
+                                            <label class="font-semibold">Tooltip Background</label>
+                                            <div class="fields">
+                                                <input type="color" [(ngModel)]="widgetStyles.tooltipBgColor"
+                                                    (ngModelChange)="onStyleChange()" class="color-picker" />
+                                                <span class="text-sm">{{ widgetStyles.tooltipBgColor }}</span>
+                                            </div>
+                                        </div>
+
+
+                                        <div class="sm-property pt-3">
+                                            <label class="font-semibold">Tooltip Color</label>
+                                            <div class="fields">
+                                                <input type="color" [(ngModel)]="widgetStyles.tooltipColor"
+                                                    (ngModelChange)="onStyleChange()" class="color-picker" />
+                                                <span class="text-sm">{{ widgetStyles.tooltipColor }}</span>
+                                            </div>
+                                        </div>
+                                        }
+                                        @if(isGridChart()){
+                                        <div class="sm-property pt-3">
+                                            <label class="font-semibold">Grid Color</label>
+                                            <div class="fields">
+                                                <input type="color" [(ngModel)]="widgetStyles.gridColor"
+                                                    (ngModelChange)="onStyleChange()" class="color-picker" />
+                                                <span class="text-sm">{{ widgetStyles.gridColor }}</span>
+                                            </div>
+                                        </div>
+                                        }
+                                        @if ((highlightedWidget?.selector === 'app-polar-area') || (
+                                        highlightedWidget?.selector === 'app-donut' ) ||
+                                        ( highlightedWidget?.selector === 'app-pie-chart') ||
+                                        (highlightedWidget?.selector === 'app-bar-chart'))
+                                        {
+                                        <div class="sm-property pt-3">
+                                            <label class="font-semibold">Background Colors</label>
+                                            <div class="fields">
+                                                <input type="color" [(ngModel)]="widgetStyles.backgroundColors[0]"
+                                                    class="color-picker" (ngModelChange)="onStyleChange()" />
+                                                <span class="text-sm">{{
+                                                    widgetStyles.backgroundColors[0]
+                                                    }}</span>
+                                            </div>
+                                            <div class="fields">
+                                                <input type="color" [(ngModel)]="widgetStyles.backgroundColors[1]"
+                                                    class="color-picker" (ngModelChange)="onStyleChange()" />
+                                                <span class="text-sm">{{
+                                                    widgetStyles.backgroundColors[1]
+                                                    }}</span>
+                                            </div>
+                                            <div class="fields">
+                                                <input type="color" [(ngModel)]="widgetStyles.backgroundColors[2]"
+                                                    class="color-picker" (ngModelChange)="onStyleChange()" />
+                                                <span class="text-sm">{{
+                                                    widgetStyles.backgroundColors[2]
+                                                    }}</span>
+                                            </div>
+                                        </div>
+
+                                        <div class="sm-property pt-3">
+                                            <label class="font-semibold">
+                                                {{ highlightedWidget?.selector === "app-bar-chart"? "BorderColors" :
+                                                "Hover Background Colors" }}
+                                            </label>
+                                            <div class="fields">
+                                                <input type="color" [(ngModel)]="widgetStyles.borderColors[0]"
+                                                    class="color-picker" (ngModelChange)="onStyleChange()" />
+                                                <span class="text-sm">{{
+                                                    widgetStyles.borderColors[0]
+                                                    }}</span>
+                                            </div>
+                                            <div class="fields">
+                                                <input type="color" [(ngModel)]="widgetStyles.borderColors[1]"
+                                                    class="color-picker" (ngModelChange)="onStyleChange()" />
+                                                <span class="text-sm">{{
+                                                    widgetStyles.borderColors[1]
+                                                    }}</span>
+                                            </div>
+                                            <div class="fields">
+                                                <input type="color" [(ngModel)]="widgetStyles.borderColors[2]"
+                                                    class="color-picker" (ngModelChange)="onStyleChange()" />
+                                                <span class="text-sm">{{
+                                                    widgetStyles.borderColors[2]
+                                                    }}</span>
+                                            </div>
+                                        </div>
+                                        } @if(highlightedWidget?.selector === 'app-horizontal-bar'){
+                                        <div class="sm-property pt-3">
+                                            <label>Dataset Background Color</label>
+                                            <div class="fields">
+                                                <input type="color" [(ngModel)]="widgetStyles.bgColor"
+                                                    (ngModelChange)="onStyleChange()" class="color-picker" />
+                                                <span class="text-sm">{{ widgetStyles.bgColor }}</span>
+                                            </div>
+                                        </div>
+
+                                        <div class="sm-property pt-3">
+                                            <label class="font-semibold">Dataset Border Color</label>
+                                            <div class="fields">
+                                                <input type="color" [(ngModel)]="widgetStyles.borderColor"
+                                                    (ngModelChange)="onStyleChange()" class="color-picker" />
+                                                <span class="text-sm">{{ widgetStyles.borderColor }}</span>
+                                            </div>
+                                        </div>
+                                        } @if(highlightedWidget?.selector === 'app-line'){
+                                        <div class="sm-property pt-3">
+                                            <label class="font-semibold">Dataset Border Color</label>
+                                            <div class="fields">
+                                                <input type="color" [(ngModel)]="widgetStyles.borderColor"
+                                                    (ngModelChange)="onStyleChange()" class="color-picker" />
+                                                <span class="text-sm">{{ widgetStyles.borderColor }}</span>
+                                            </div>
+                                        </div>
+                                        } @if(highlightedWidget?.selector === 'app-radar'){
+                                        <div class="sm-property pt-3">
+                                            <label class="font-semibold">Dataset Background Color</label>
+                                            <div class="fields">
+                                                <input type="color" [(ngModel)]="widgetStyles.bgColor"
+                                                    (ngModelChange)="onStyleChange()" class="color-picker" />
+                                                <span class="text-sm">{{ widgetStyles.bgColor }}</span>
+                                            </div>
+                                        </div>
+
+                                        <div class="sm-property pt-3">
+                                            <label class="font-semibold">Dataset Border Color</label>
+                                            <div class="fields">
+                                                <input type="color" [(ngModel)]="widgetStyles.borderColor"
+                                                    (ngModelChange)="onStyleChange()" class="color-picker" />
+                                                <span class="text-sm">{{ widgetStyles.borderColor }}</span>
+                                            </div>
+                                        </div>
+
+                                        <div class="sm-property pt-3">
+                                            <label class="font-semibold">Point Border Color</label>
+                                            <div class="fields">
+                                                <input type="color" [(ngModel)]="widgetStyles.pBorderColor"
+                                                    (ngModelChange)="onStyleChange()" class="color-picker" />
+                                                <span class="text-sm">{{ widgetStyles.pBorderColor }}</span>
+                                            </div>
+                                        </div>
+
+                                        <div class="sm-property pt-3">
+                                            <label class="font-semibold">
+                                                Point Hover Background Color</label>
+                                            <div class="fields">
+                                                <input type="color" [(ngModel)]="widgetStyles.phBgColor"
+                                                    (ngModelChange)="onStyleChange()" class="color-picker" />
+                                                <span class="text-sm">{{ widgetStyles.phBgColor }}</span>
+                                            </div>
+                                        </div>
+
+                                        <div class="sm-property pt-3">
+                                            <label class="font-semibold"> Point Hover Border Color</label>
+                                            <div class="fields">
+                                                <input type="color" [(ngModel)]="widgetStyles.phBorderColor"
+                                                    (ngModelChange)="onStyleChange()" class="color-picker" />
+                                                <span class="text-sm">{{ widgetStyles.phBorderColor }}</span>
+                                            </div>
+                                        </div>
+                                        } @if(highlightedWidget?.selector === 'app-sv-bar' ||
+                                        highlightedWidget?.selector ===
+                                        'app-sh-bar'){
+                                        <div class="sm-property pt-3">
+                                            <label class="font-semibold"> Dataset 1 Background Color</label>
+                                            <div class="fields">
+                                                <input type="color" [(ngModel)]="widgetStyles.bg1"
+                                                    (ngModelChange)="onStyleChange()" class="color-picker" />
+                                                <span class="text-sm">{{ widgetStyles.bg1 }}</span>
+                                            </div>
+                                        </div>
+
+                                        <div class="sm-property pt-3">
+                                            <label> Dataset 2 Background Color</label>
+                                            <div class="fields">
+                                                <input type="color" [(ngModel)]="widgetStyles.bg2"
+                                                    (ngModelChange)="onStyleChange()" class="color-picker" />
+                                                <span class="text-sm">{{ widgetStyles.bg2 }}</span>
+                                            </div>
+                                        </div>
+                                        }
+                                    </div>
+                                </div>
+                            </p-accordion-content>
+                        </p-accordion-panel>
+                    </p-accordion>
+                </div>
+            </div>
+            }
+            @else {
+            <div class="h-[50%] overflow-y-auto">
+                <div class="flex mb-2 gap-2 justify-end">
+                    <p-button (onClick)="tabValue = 0" rounded="true" styleClass="w-8 h-8 p-0"
+                        [outlined]="tabValue !== 0" label="1" />
+                    <p-button (onClick)="tabValue = 1" rounded="true" styleClass="w-8 h-8 p-0"
+                        [outlined]="tabValue !== 1" label="2" />
+                    <p-button (onClick)="tabValue = 2" rounded="true" styleClass="w-8 h-8 p-0"
+                        [outlined]="tabValue !== 2" label="3" />
+                </div>
+                <p-tabs [value]="tabValue">
+                    <p-tablist>
+                        <p-tab [value]="0">Attributes</p-tab>
+                        <p-tab [value]="1">Static</p-tab>
+                        <p-tab [value]="2">Entity</p-tab>
+                    </p-tablist>
+                    <p-tabpanels>
+                        <p-tabpanel [value]="0">
+                            <ul class="list-none flex flex-col gap-2 p-2 m-0">
+                                @for(attr of attributes;track attr;let i = $index) {
+                                <li class="p-2 bg-white dark:bg-[var(--p-surface-900)] shadow-2xs border-round cursor-pointer shadow-1"
+                                    pDraggable (onDragStart)="dragStart(attr)"
+                                    (click)="addWidget('Attribute',$event,attr)">
+                                    <div class="flex items-center gap-2">
+                                        <img src="assets/images/svgs/drag.svg" />
+                                        <span class="text-xs">
+                                            {{ attr.
+                                            attributeName}}
+                                        </span>
+                                    </div>
+                                </li>
+                                }
+                            </ul>
+                        </p-tabpanel>
+                        <p-tabpanel [value]="1">
+                            <div class="p-2">
+                                <div class="header flex justify-between items-center pb-2">
+                                    <p-iconField iconPosition="right">
+                                        <p-inputIcon styleClass="pi pi-search" />
+                                        <input type="text" pInputText placeholder="Search"
+                                            class="search-bar h-[40px] w-[97%]" />
+                                    </p-iconField>
+                                </div>
+                                <div class="content h-full overflow-y-auto">
+                                    <ul class="list-none flex flex-col gap-2 p-2 m-0">
+                                        @for(event of staticList;track event;let i = $index) {
+                                        <li class="p-2 bg-white dark:bg-[var(--p-surface-900)] border-round cursor-pointer shadow-2xs entity-list"
+                                            pDraggable (onDragStart)="dragStart(event)" (onDragEnd)="dragEnd()">
+                                            <div class="flex align-items-center gap-2">
+                                                <img src="/assets/images/svgs/drag.svg" />
+                                                <span class="text-sm">
+                                                    {{ camelToPascalSpace(event.name) }}
+                                                </span>
+                                            </div>
+                                        </li>
+                                        }
+                                    </ul>
+                                </div>
+                            </div>
+                        </p-tabpanel>
+                        <p-tabpanel [value]="2">
+                            <div class="p-2">
+                                <div class="header flex justify-between items-center pib-2">
+                                    <p-iconField iconPosition="right">
+                                        <p-inputIcon styleClass="pi pi-search" />
+                                        <input type="text" pInputText placeholder="Search"
+                                            class="search-bar h-[40px] w-[97%]" />
+                                    </p-iconField>
+                                </div>
+                                <div class="content overflow-y-auto">
+                                    <ul class="list-none flex flex-col gap-2 p-2 m-0">
+                                        @for(entity of entityList;track entity;let i = $index) {
+                                        <li class="p-2 bg-white dark:bg-[var(--p-surface-900)] border-round cursor-pointer shadow-2xs entity-list"
+                                            pDraggable (onDragStart)="dragStart(entity)" (onDragEnd)="dragEnd()"
+                                            (click)="getAttributes(entity.id)">
+                                            <div class="flex items-center gap-2">
+                                                <img src="assets/images/svgs/drag.svg" />
+                                                <span class="text-sm">
+                                                    {{entity.name}}
+                                                    <!-- {{ camelToPascalSpace(entity.name) }} -->
+                                                </span>
+                                            </div>
+                                        </li>
+                                        }
+                                    </ul>
+                                </div>
+                            </div>
+                        </p-tabpanel>
+                    </p-tabpanels>
+                </p-tabs>
+            </div>
+            <div class="h-[50%] overflow-y-auto">
+                <div class="drop-comp flex flex-col gap-3 overflow-y-auto">
+                    @for(item of inputProps; track item;let i = $index){ }
+                    <div *ngFor="let item of inputProps; let i = index" class="p-2 mb-4">
+                        <div class="flex items-center justify-between pb-[3px]">
+                            <span class="text-left text-sm block mb-2">{{ item.displayName }}
+                            </span>
+                            <p-tag severity="success" class="!text-sm" [value]="item.type" />
+                        </div>
+
+                        <div class="p-2 border-1 surface-border border-round drop-box min-h-[100px]" pDroppable
+                            (onDrop)="drop(item, $event)">
+                            <p class="text-center surface-border border-bottom-1 text-sm">
+                                Drag & Drop
+                            </p>
+
+                            <ul *ngIf="droppedItemsByProp[item.name]"
+                                class="list-none flex flex-col gap-2 p-0 m-0 cursor-pointer">
+                                <li *ngFor="let droppedItem of droppedItemsByProp[item.name]"
+                                    class="p-2 border-round shadow-1">
+                                    <div class="flex w-full bg-white items-center shadow-2xs justify-between">
+                                        <img src="assets/images/svgs/drag.svg" alt="drag" />
+                                        <span class="text-xs" (click)="onStaticClick(droppedItem,item)">
+                                            {{ (droppedItem.name) }}
+                                        </span>
+                                        <img src="assets/images/svgs/clear.svg" alt="clear"
+                                            (click)="removeItem(item.name, droppedItem)" />
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            }
+        </div>
+    </div>
+</main>
+}
+<p-toast [breakpoints]="breakPointForToastComponent"></p-toast>

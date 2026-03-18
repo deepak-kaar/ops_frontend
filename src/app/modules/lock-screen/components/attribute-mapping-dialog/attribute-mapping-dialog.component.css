@@ -1,0 +1,133 @@
+.attribute-mapping-dialog {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    min-height: 500px;
+}
+
+.dialog-content {
+    display: flex;
+    gap: 1.5rem;
+    flex: 1;
+    overflow: hidden;
+    min-height: 400px;
+}
+
+.pages-section {
+    flex: 0 0 300px;
+    border-right: 1px solid var(--surface-border);
+    padding-right: 1.5rem;
+    overflow-y: auto;
+}
+
+.attributes-section {
+    flex: 1;
+    overflow-y: auto;
+}
+
+.section-title {
+    font-size: 1.125rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    color: var(--text-color);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.attribute-count {
+    font-size: 0.875rem;
+    font-weight: normal;
+    color: var(--text-color-secondary);
+}
+
+.selected-count {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--primary-color);
+}
+
+.pages-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.page-item {
+    padding: 1rem;
+    border: 1px solid var(--surface-border);
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s;
+    background: var(--surface-ground);
+}
+
+.page-item:hover {
+    background: var(--surface-hover);
+    border-color: var(--primary-color);
+}
+
+.page-item.selected {
+    background: color-mix(in srgb, var(--primary-color) 20%, var(--surface-ground));
+    border-color: var(--primary-color);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    border-left: 3px solid var(--primary-color);
+}
+
+.page-item.selected .page-name {
+    color: var(--primary-color);
+}
+
+.page-item.selected .page-description {
+    color: var(--text-color-secondary);
+}
+
+.page-header {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.page-name {
+    font-weight: 600;
+    color: var(--text-color);
+}
+
+.page-description {
+    font-size: 0.875rem;
+    color: var(--text-color-secondary);
+    margin: 0;
+    margin-top: 0.25rem;
+}
+
+.attributes-list {
+    margin-top: 1rem;
+}
+
+.loading-state,
+.empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    text-align: center;
+}
+
+.loading-state {
+    gap: 1rem;
+}
+
+.empty-state {
+    gap: 0.5rem;
+}
+
+.dialog-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.5rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--surface-border);
+    margin-top: 1rem;
+}

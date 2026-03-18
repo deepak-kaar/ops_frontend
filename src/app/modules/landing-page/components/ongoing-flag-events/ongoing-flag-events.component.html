@@ -1,0 +1,66 @@
+@if(isShowUi && hasAdminAccess) {
+<div class="flex">
+  <div class="pt-3">
+    <div class="grid-zone flex flex-wrap gap-5">
+      @for(widget of cards;track widget) {
+      <div class="bg-white border-round-md rounded-[12px]"
+        [style]="{'width':widget.templateWidth+'px','height':widget.templateHeight+'px'}">
+        <div style="position: relative" #componentHtml>
+          @for(item of widget.children;track item;let i = $index){
+          <div class="grid-stack-item" [style.left]="getLeft(item.x)" [style.top]="getTop(item.y)"
+            [style.width]="getWidthPercentage(item.w)" [style.height]="getHeight(item.h)"
+            style="position:absolute; padding: 2px;">
+            @switch(item.selector){
+            @case("app-tag"){
+            <app-tag [value]="item.input?.value" [style]="item.input?.style"></app-tag>
+            }
+            @case("app-image"){
+            <app-image [src]="item.input?.src" [style]="item.input?.style"
+              [alterateText]="item.input?.alterateText"></app-image>
+            } @case("app-paragraph"){
+            <app-paragraph [content]="item.input?.content" [style]="item.input?.style"></app-paragraph>
+            }
+            @case("app-label"){
+            <app-label [label]="item.input?.label" [style]="item.input?.style"></app-label>
+            }
+            @case("app-bar-chart"){
+            <app-bar-chart [style]="item.input?.style" [labels]="item.input?.labels"
+              [values]="item?.input.values"></app-bar-chart>
+            }
+            @case("app-button"){
+            <app-button [buttonLabel]="item.input?.buttonLabel" [style]="item.input?.style"></app-button>
+            }
+            @case("app-divider"){
+            <app-divider [style]="item.input?.style"></app-divider>
+            }
+            @case('app-donut'){
+            <app-donut [style]="item.input?.style" [labels]="item.input?.labels"
+              [values]="item?.input.values"></app-donut>
+            }
+            @case('app-line'){
+            <app-line [id]="item?.odtId" [emitterId]="item?.emitterId" [style]="item.input?.style"
+              [labels]="item.input?.labels" [values]="item?.input.values" [title]="item.input?.title"
+              [inputOdt]="item?.inputOdt"></app-line>
+            }
+            @case("app-radar"){
+            <app-radar [id]="item?.odtId" [emitterId]="item?.emitterId" [style]="item.input?.style"
+              [labels]="item.input?.labels" [values]="item?.input.values" [title]="item.input?.title"
+              [inputOdt]="item?.inputOdt"></app-radar>
+            } @case("app-pie-chart"){
+            <app-pie-chart [id]="item?.odtId" [emitterId]="item?.emitterId" [style]="item.input?.style"
+              [labels]="item.input?.labels" [values]="item?.input.values" [inputOdt]="item?.inputOdt"></app-pie-chart>
+            }
+
+            @default {
+            <div>Unknown Component</div>
+            }
+            }
+          </div>
+          }
+        </div>
+      </div>
+      }
+    </div>
+  </div>
+</div>
+}

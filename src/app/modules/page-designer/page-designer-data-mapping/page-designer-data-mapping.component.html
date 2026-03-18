@@ -1,0 +1,79 @@
+<!-- No selection state -->
+@if (!selectedWidget) {
+<div class="empty-state">
+    <i class="pi pi-mouse-pointer" style="font-size: 2rem; color: var(--p-primary-300)"></i>
+    <p class="text-sm font-semibold">No widget selected</p>
+    <p class="text-xs" style="color: var(--p-text-muted-color)">Click a widget on the canvas to configure its data
+        mappings.</p>
+</div>
+} @else if (widgetPropDefs.length === 0) {
+<!-- Widget selected but no props to map -->
+<div class="empty-state">
+    <i class="pi pi-info-circle" style="font-size: 2rem; color: var(--p-primary-300)"></i>
+    <p class="text-sm font-semibold">No mappable properties</p>
+    <p class="text-xs" style="color: var(--p-text-muted-color)">
+        The selected <strong>{{ selectedWidget.type }}</strong> widget has no configurable data properties.
+    </p>
+</div>
+} @else {
+<!-- Widget selected — show mapping rows -->
+<div class="mb-3">
+    <div class="flex items-center gap-2 mb-2">
+        <i class="pi pi-box" style="color: var(--p-primary-500)"></i>
+        <span class="text-xs font-semibold uppercase tracking-wider" style="color: var(--p-text-muted-color)">
+            {{ selectedWidget.label || selectedWidget.type }}
+        </span>
+    </div>
+    <p class="text-xs" style="color: var(--p-text-muted-color)">
+        Map each widget property to an entity or instance attribute.
+    </p>
+</div>
+
+@for (prop of widgetPropDefs; track prop.key) {
+<div class="mapping-row">
+    <!-- Row header -->
+    <div class="mapping-row-header">
+        <span class="text-xs font-semibold" style="color: var(--p-text-color)">
+            <i class="pi pi-tag mr-1" style="color: var(--p-primary-400)"></i>{{ prop.label }}
+        </span>
+        @if (getMappingSummary(prop.key)) {
+        <span class="mapping-summary" [title]="getMappingSummary(prop.key)">
+            {{ getMappingSummary(prop.key) }}
+        </span>
+        }
+        @if (mappings[prop.key].attribute) {
+        <p-button icon="pi pi-times" size="small" [text]="true" severity="danger" pTooltip="Clear mapping"
+            (onClick)="clearMapping(prop.key)" styleClass="!w-[24px] !h-[24px] !p-0">
+        </p-button>
+        }
+    </div>
+
+    <!-- Dropdown 1: Source type -->
+    <p-select [options]="sourceTypes" [(ngModel)]="mappings[prop.key].type" (onChange)="onTypeChange(prop.key)"
+        placeholder="Select Source" appendTo="body" styleClass="w-full text-xs" [style]="{ fontSize: '12px' }">
+    </p-select>
+
+    <!-- Dropdown 2: Entity/Instance list -->
+    @if (mappings[prop.key].type) {
+    <p-select [options]="typeOptions[prop.key] || []" [(ngModel)]="mappings[prop.key].typeName"
+        (onChange)="onTypeNameChange(prop.key)" optionLabel="name" [placeholder]="'Select ' + mappings[prop.key].type"
+        [filter]="true" filterBy="name" appendTo="body" styleClass="w-full text-xs" [style]="{ fontSize: '12px' }">
+    </p-select>
+    }
+
+    <!-- Dropdown 3: Attributes -->
+    @if (mappings[prop.key].typeName) {
+    <p-select [options]="attributeOptions[prop.key] || []" [(ngModel)]="mappings[prop.key].attribute"
+        (onChange)="onAttributeChange(prop.key)" optionLabel="name" optionValue="id" placeholder="Select Attribute"
+        [filter]="true" filterBy="name" appendTo="body" styleClass="w-full text-xs" [style]="{ fontSize: '12px' }">
+    </p-select>
+    }
+</div>
+}
+
+<!-- Save button -->
+<div class="mt-4 flex justify-end gap-2">
+    <p-button label="Save Mappings" icon="pi pi-save" size="small" (onClick)="saveMappings()" styleClass="!text-xs">
+    </p-button>
+</div>
+}

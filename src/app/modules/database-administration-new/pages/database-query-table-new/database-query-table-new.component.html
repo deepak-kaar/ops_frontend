@@ -1,0 +1,179 @@
+<div class="pt-[40px] pl-[20px] pr-[20px] w-full pb-[40px]">
+
+  <!-- Buttons above card -->
+  <div class="flex justify-end pb-[10px] gap-[10px]">
+    <p-button icon="pi pi-plus" (onClick)="createDBQuery()" label="Create"></p-button>
+  </div>
+
+  <!-- Mobile Layout -->
+  @if((isMobile$ | async) == true){
+  <div class="mobile-database-container">
+    <!-- Search Bar with Filter -->
+    <div class="mobile-search-row">
+      <div class="search-wrapper">
+        <p-iconField iconPosition="left" class="w-full">
+          <p-inputIcon>
+            <i class="pi pi-search"></i>
+          </p-inputIcon>
+          <input pInputText type="text" (input)="onGlobalFilter($event)"
+            [(ngModel)]="searchDBQueryValue" placeholder="Search queries..."
+            class="w-full mobile-search-input" />
+        </p-iconField>
+      </div>
+      <p-button icon="pi pi-filter-slash" [outlined]="true" [rounded]="true" (onClick)="searchDBQueryValue = ''" />
+    </div>
+
+    <!-- Database Query Cards -->
+    <div class="database-cards-container">
+      @for(data of db_query_data$ | async; track data._id){
+      <div class="database-card">
+        <div class="database-card-header">
+          <div class="database-info">
+            <span class="database-name">{{ data.queryId }}</span>
+            <span class="database-desc">{{ data.description }}</span>
+          </div>
+          <div class="database-actions">
+            <p-button icon="pi pi-pencil" [rounded]="true" [outlined]="true" severity="info" (onClick)="editDBQuery(data)" pTooltip="Edit" />
+            <p-button icon="pi pi-trash" [rounded]="true" [outlined]="true" severity="danger" (onClick)="deleteDBQuery(data)" pTooltip="Delete" />
+          </div>
+        </div>
+        <div class="database-card-footer">
+          <div class="database-stat">
+            <span class="stat-label">System:</span>
+            <span class="stat-value">{{ data.sysName || 'N/A' }}</span>
+          </div>
+          <div class="database-stat">
+            <p-button icon="pi pi-eye" [rounded]="true" [outlined]="true" severity="success"
+              (onClick)="op.toggle($event)" pTooltip="View Query" />
+            <p-popover #op appendTo="body"
+              [style]="{ width: (isMobile$ | async) ? '20rem' : '30rem', maxWidth: '75vw' }">
+              <div class="flex flex-col gap-2">
+                <div class="w-full h-[10rem] min-w-0">
+                  <ngx-monaco-editor style="display:block; width:100%; height:100%"
+                    [options]="data.editorOptions" [(ngModel)]="data.query">
+                  </ngx-monaco-editor>
+                </div>
+              </div>
+            </p-popover>
+          </div>
+        </div>
+      </div>
+      }
+    </div>
+  </div>
+  }
+  @else{
+  <!-- Desktop Layout - Table View -->
+  <p-card class="w-full">
+    <div class="card">
+      <!-- Title + Search/Filter inside card -->
+      <div class="flex flex-col md:flex-row md:justify-between gap-3 mb-4">
+        <div class="flex justify-between items-center md:block">
+          <div>List of Database Queries</div>
+          <div class="block md:hidden">
+            <p-button [outlined]="true" icon="pi pi-filter-slash" (click)="clearDBQueryTable(dt)" class="sm:w-auto" />
+          </div>
+        </div>
+        <div class="flex flex-col sm:flex-row md:items-center md:justify-end gap-2 w-full md:w-auto">
+          <div class="hidden md:block">
+            <p-button [outlined]="true" icon="pi pi-filter-slash" (click)="clearDBQueryTable(dt)" class="sm:w-auto" />
+          </div>
+          <div class="w-full sm:w-auto">
+            <p-iconField iconPosition="left" class="w-full sm:w-auto">
+              <p-inputIcon><i class="pi pi-search"></i></p-inputIcon>
+              <input pInputText type="text" (input)="onGlobalFilter($event)"
+                [(ngModel)]="searchDBQueryValue" placeholder="Search" class="w-full" />
+            </p-iconField>
+          </div>
+        </div>
+      </div>
+
+      <!-- Table -->
+      <div class="table-wrapper">
+        <p-table class="customizePaginator" #dt [value]="db_query_data$ | async" dataKey="_id" [rowHover]="true"
+          [rows]="20" [showCurrentPageReport]="true" [rowsPerPageOptions]="[20, 30, 50]" [paginator]="true"
+          [paginatorDropdownAppendTo]="'body'"
+          currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [filterDelay]="0"
+          [globalFilterFields]="['queryId', 'description', 'query', 'sysName']">
+          <ng-template pTemplate="header">
+            <tr>
+              <th pSortableColumn="queryId" style="min-width: 12rem" class="border-round-left-2xl text-left">
+                <div class="flex justify-between items-center">
+                  Query ID
+                  <p-sortIcon field="queryId" />
+                  <p-columnFilter type="text" field="queryId" display="menu" class="ml-auto" />
+                </div>
+              </th>
+              <th pSortableColumn="description" style="min-width: 14rem">
+                <div class="flex justify-between items-center">
+                  Description
+                  <p-sortIcon field="description" />
+                  <p-columnFilter type="text" field="description" display="menu" class="ml-auto" />
+                </div>
+              </th>
+              <th style="min-width: 8rem">
+                <div class="flex justify-between items-center">
+                  Query
+                </div>
+              </th>
+              <th pSortableColumn="sysName" style="min-width: 10rem">
+                <div class="flex justify-between items-center">
+                  System Name
+                  <p-sortIcon field="sysName" />
+                </div>
+              </th>
+              <th style="min-width: 10rem" class="border-round-right-2xl text-left">
+                Action
+              </th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-data>
+            <tr class="p-selectable-row">
+              <td class="border-round-left-2xl text-left">
+                {{ data.queryId }}
+              </td>
+              <td class="text-left">
+                <span class="ml-1 vertical-align-middle">{{ data.description }}</span>
+              </td>
+              <td class="text-left">
+                <p-button icon="pi pi-eye" [rounded]="true" [outlined]="true" severity="success"
+                  [size]="(isMobile$ | async) ? 'small' : 'large'"
+                  (onClick)="op.toggle($event)" pTooltip="View Query" />
+                <p-popover #op appendTo="body"
+                  [style]="{ width: (isMobile$ | async) ? '20rem' : '30rem', maxWidth: '75vw' }">
+                  <div class="flex flex-col gap-2">
+                    <div class="w-full h-[10rem] min-w-0">
+                      <ngx-monaco-editor style="display:block; width:100%; height:100%"
+                        [options]="data.editorOptions" [(ngModel)]="data.query">
+                      </ngx-monaco-editor>
+                    </div>
+                  </div>
+                </p-popover>
+              </td>
+              <td class="text-left">
+                {{ data.sysName || 'N/A' }}
+              </td>
+              <td class="border-round-right-2xl text-left">
+                <div class="flex gap-2">
+                  <p-button icon="pi pi-pencil" [rounded]="true" [outlined]="true" severity="info"
+                    [size]="(isMobile$ | async) ? 'small' : 'large'"
+                    (onClick)="editDBQuery(data)" pTooltip="Edit" />
+                  <p-button icon="pi pi-trash" [rounded]="true" [outlined]="true" severity="danger"
+                    [size]="(isMobile$ | async) ? 'small' : 'large'"
+                    (onClick)="deleteDBQuery(data)" pTooltip="Delete" />
+                </div>
+              </td>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="emptymessage">
+            <tr>
+              <td colspan="5">No queries found.</td>
+            </tr>
+          </ng-template>
+        </p-table>
+      </div>
+    </div>
+  </p-card>
+  }
+
+</div>

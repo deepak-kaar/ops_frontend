@@ -1,0 +1,135 @@
+.surface {
+  background-color: #f7fafc;
+}
+
+/* ROOT CONTAINER */
+.layout-root {
+  display: flex;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* LEFT SIDEBAR */
+.sidebar-wrapper {
+  width: 260px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  background-color: #f7fafc;
+  overflow-y: auto;
+  z-index: 1000;
+  transition: transform 0.3s ease;
+}
+
+/* RIGHT MAIN SECTION */
+.right-pane {
+  margin-left: 260px;
+  width: calc(100% - 260px);
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* RIGHT SCROLL CONTAINER */
+.right-scroll {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+/* MOBILE & TABLET RESPONSIVE */
+@media (max-width: 1024px) {
+  .sidebar-wrapper {
+    transform: translateX(-100%);
+  }
+
+  .sidebar-wrapper.mobile-open {
+    transform: translateX(0);
+  }
+
+  .right-pane {
+    margin-left: 0;
+    width: 100%;
+  }
+}
+
+/* MOBILE OVERLAY */
+.mobile-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 999;
+  display: none;
+}
+
+.mobile-overlay.active {
+  display: block;
+}
+
+/* TABLE WRAPPER */
+.table-wrapper {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* TABLE STYLING */
+:host ::ng-deep .p-datatable {
+  border-radius: 16px;
+  background: white;
+}
+
+:host ::ng-deep .p-datatable-header {
+  border: none !important;
+}
+
+:host ::ng-deep .p-datatable-thead>tr>th {
+  font-weight: 300;
+  font-size: 16px !important;
+  padding: 8px 16px;
+  color: #808080;
+  border: none !important;
+  background: #f9fbfd !important;
+  font-family: inherit;
+}
+
+:host ::ng-deep .p-datatable-thead>tr>th div {
+  font-size: 16px !important;
+}
+
+:host ::ng-deep .p-datatable-tbody>tr>td {
+  padding: 14px 16px;
+  font-size: 16px !important;
+  font-weight: 300;
+  color: #263141;
+  border: none !important;
+  font-family: inherit;
+}
+
+:host ::ng-deep .p-datatable-tbody>tr:hover {
+  background: #f7f9ff;
+}
+
+:host ::ng-deep .p-paginator {
+  justify-content: end;
+  border: none !important;
+}
+
+/* mobile paginator nowrap */
+@media (max-width: 1024px) {
+  :host ::ng-deep .p-paginator.p-component {
+    flex-wrap: nowrap !important;
+  }
+}
+
+/* RESPONSIVE PADDING */
+@media screen and (max-width: 640px) {
+  .pt-\[20px\] {
+    padding-top: 10px !important;
+  }
+
+  .px-\[20px\] {
+    padding-left: 10px !important;
+    padding-right: 10px !important;
+  }
+}

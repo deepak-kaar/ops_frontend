@@ -1,0 +1,153 @@
+/* Role Hierarchy page styles */
+.role-hierarchy-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.role-hierarchy-header .title {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text-color, #1f2937);
+}
+
+.role-hierarchy-header .subtitle {
+  font-size: 12px;
+  font-weight: 400;
+  color: var(--subtitle-color, #6b7280);
+}
+
+.role-hierarchy-main {
+  display: flex;
+  gap: 12px;
+  min-height: 520px;
+}
+
+.role-hierarchy-left {
+  width: 28%;
+  min-width: 240px;
+  max-width: 320px;
+  border: var(--table-cell-border);
+  border-radius: 8px;
+  background: #f9fbfd;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.role-hierarchy-list-header {
+  padding: 10px 12px;
+  border-bottom: var(--table-header-border);
+  background: var(--table-header-background);
+  font-size: var(--text-sm-font-size);
+  font-weight: var(--text-base-font-weight);
+  color: var(--mobile-card-title-color);
+}
+
+.role-hierarchy-list-body {
+  flex: 1;
+  overflow-y: auto;
+}
+
+.role-hierarchy-list-item {
+  padding: 10px 12px;
+  border-bottom: var(--table-cell-border-bottom);
+}
+
+.role-hierarchy-list-item .role-name {
+  font-size: var(--text-sm-font-size);
+  font-weight: var(--text-base-font-weight);
+  color: var(--mobile-card-title-color);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.role-hierarchy-list-item .role-meta {
+  font-size: var(--text-xs-font-size);
+  color: var(--subtitle-color);
+}
+
+.role-hierarchy-right {
+  flex: 1;
+  border: var(--table-cell-border);
+  border-radius: 8px;
+  background: #ffffff;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.role-hierarchy-grid-header {
+  display: grid;
+  grid-template-columns: 1.2fr 0.5fr 0.6fr 0.6fr;
+  padding: 10px 12px;
+  border-bottom: var(--table-header-border);
+  background: #e9f2fb;
+  font-size: var(--text-xs-font-size);
+  font-weight: var(--text-base-font-weight);
+  color: var(--mobile-card-title-color);
+}
+
+.role-hierarchy-grid-body {
+  flex: 1;
+  overflow-y: auto;
+}
+
+.role-hierarchy-grid-row {
+  display: grid;
+  grid-template-columns: 1.2fr 0.5fr 0.6fr 0.6fr;
+  align-items: center;
+  padding: 10px 12px;
+  border-bottom: var(--table-cell-border-bottom);
+}
+
+.role-hierarchy-grid-row .col-role .role-name {
+  font-size: var(--text-sm-font-size);
+  font-weight: var(--text-base-font-weight);
+  color: var(--mobile-card-title-color);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.role-hierarchy-grid-row .col-role .role-meta {
+  font-size: var(--text-xs-font-size);
+  color: var(--subtitle-color);
+}
+
+.role-hierarchy-input {
+  width: 120px;
+}
+
+.role-hierarchy-empty,
+.role-hierarchy-empty-inline {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  color: var(--subtitle-color);
+  padding: 24px;
+}
+
+.role-hierarchy-empty i {
+  font-size: 28px;
+  opacity: 0.5;
+}
+
+@media screen and (max-width: 1024px) {
+  .role-hierarchy-main {
+    flex-direction: column;
+  }
+
+  .role-hierarchy-left {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .role-hierarchy-right {
+    width: 100%;
+  }
+}

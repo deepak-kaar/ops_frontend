@@ -1,0 +1,338 @@
+/* Note: Global CSS variables are imported in styles.css for use across all components */
+
+.delete-confirmation-dialog {
+  padding: var(--dialog-content-padding, 1.5rem);
+}
+
+.dialog-content {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.icon-message-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  text-align: center;
+}
+
+.warning-icon {
+  font-size: 3rem;
+  color: var(--p-warn-color, #f59e0b);
+  margin-bottom: 0.5rem;
+  display: block;
+}
+
+.message-text {
+  font-size: var(--heading-h4-font-size);
+  font-weight: var(--heading-h4-font-weight);
+  color: var(--heading-h4-color);
+  margin: 0;
+  line-height: var(--heading-h4-line-height);
+}
+
+.item-name {
+  font-size: var(--body-text-font-size);
+  font-weight: 600;
+  color: var(--body-text-color);
+  margin: 0;
+  padding: 0.5rem 1rem;
+  background: var(--table-header-background);
+  border-radius: 8px;
+  border: 1px solid var(--table-cell-border-top);
+}
+
+.button-container {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.75rem;
+  margin-top: 0.5rem;
+}
+
+/* Cancel Button */
+:host ::ng-deep .cancel-btn {
+  border-radius: 8px;
+  font-size: var(--body-text-font-size);
+  font-weight: 500;
+  padding: 0.625rem 1.25rem;
+}
+
+/* Delete Button - Red icon and text, not background */
+:host ::ng-deep .delete-btn {
+  border-radius: 8px;
+  font-size: var(--body-text-font-size);
+  font-weight: 500;
+  padding: 0.625rem 1.25rem;
+  border-color: var(--p-red-500, #ef4444) !important;
+  color: var(--p-red-500, #ef4444) !important;
+  background: transparent !important;
+}
+
+:host ::ng-deep .delete-btn:hover {
+  background: var(--p-red-50, #fef2f2) !important;
+  border-color: var(--p-red-600, #dc2626) !important;
+  color: var(--p-red-600, #dc2626) !important;
+}
+
+:host ::ng-deep .delete-btn:focus {
+  box-shadow: 0 0 0 2px rgba(239, 68, 68, 0.2) !important;
+}
+
+:host ::ng-deep .delete-btn .p-button-icon {
+  color: var(--p-red-500, #ef4444) !important;
+}
+
+:host ::ng-deep .delete-btn:hover .p-button-icon {
+  color: var(--p-red-600, #dc2626) !important;
+}
+
+/* Dialog Header Override */
+:host ::ng-deep .p-dialog .p-dialog-header .p-dialog-title {
+  font-weight: var(--heading-h3-font-weight) !important;
+  font-size: var(--heading-h3-font-size) !important;
+  color: var(--heading-h3-color) !important;
+}
+
+/* Responsive */
+@media (max-width: 640px) {
+  .delete-confirmation-dialog {
+    padding: 1rem;
+  }
+
+  .warning-icon {
+    font-size: 2.5rem;
+  }
+
+  .message-text {
+    font-size: var(--heading-h5-font-size);
+  }
+
+  .button-container {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  :host ::ng-deep .cancel-btn,
+  :host ::ng-deep .delete-btn {
+    width: 100%;
+  }
+}
+
+:host {
+  display: block;
+}
+
+.delete-confirmation {
+  padding: 24px;
+  color: #111827;
+  background: #ffffff;
+  border-radius: 8px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.dc-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.dc-header-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex: 1;
+}
+
+.dc-icon-wrap {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: #fee2e2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.dc-icon-wrap i {
+  color: #ef4444;
+  font-size: 24px;
+}
+
+.dc-title-block {
+  min-width: 0;
+  flex: 1;
+  padding-top: 2px;
+}
+
+.dc-title {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 28px;
+  color: #111827;
+  letter-spacing: -0.01em;
+}
+
+.dc-subtitle {
+  margin: 0;
+  font-size: 14px;
+  line-height: 20px;
+  color: #9ca3af;
+  font-weight: 400;
+}
+
+.dc-close-btn {
+  border: none;
+  background: transparent;
+  width: 20px;
+  height: 20px;
+  border-radius: 4px;
+  cursor: pointer;
+  color: #9ca3af;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  padding: 0;
+  font-size: 14px;
+  margin-top: 4px;
+}
+
+.dc-close-btn:hover {
+  background: #f3f4f6;
+  color: #6b7280;
+}
+
+.dc-close-btn i {
+  font-size: 14px;
+}
+
+.dc-body {
+  margin-top: 0;
+  padding-left: 0;
+}
+
+.dc-question,
+.dc-description {
+  margin: 0;
+  font-size: 14px;
+  line-height: 20px;
+  color: #6b7280;
+}
+
+.dc-question {
+  color: #374151;
+}
+
+.dc-description {
+  margin-top: 4px;
+  color: #6b7280;
+}
+
+.dc-warning {
+  margin-top: 16px;
+  border: 1px solid #fecaca;
+  background: #fef2f2;
+  border-radius: 6px;
+  padding: 12px;
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  color: #dc2626;
+  font-size: 13px;
+  line-height: 18px;
+}
+
+.dc-warning i {
+  margin-top: 1px;
+  font-size: 13px;
+  flex-shrink: 0;
+  color: #dc2626;
+}
+
+.dc-footer {
+  margin-top: 24px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  padding-top: 0;
+}
+
+.delete-confirmation .dc-footer .p-button {
+  height: 40px;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  padding: 0 20px;
+  min-width: 100px;
+  transition: all 0.2s ease;
+}
+
+.delete-confirmation .dc-btn-cancel.p-button {
+  background: #ffffff;
+  border: 1px solid #d1d5db;
+  color: #374151;
+}
+
+.delete-confirmation .dc-btn-cancel.p-button:hover {
+  background: #f9fafb;
+  border-color: #9ca3af;
+  color: #111827;
+}
+
+.delete-confirmation .dc-btn-delete.p-button {
+  background: #ef4444;
+  border: 1px solid #ef4444;
+  color: #ffffff;
+}
+
+.delete-confirmation .dc-btn-delete.p-button:hover {
+  background: #dc2626;
+  border-color: #dc2626;
+}
+
+.delete-confirmation .dc-btn-delete.p-button:focus,
+.delete-confirmation .dc-btn-cancel.p-button:focus {
+  box-shadow: none !important;
+}
+
+/* PrimeNG dialog shell (apply with styleClass: 'delete-confirmation-modal') */
+.delete-confirmation-modal.p-dialog {
+  border-radius: 8px !important;
+  overflow: visible !important;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04) !important;
+}
+
+.delete-confirmation-modal .p-dialog-header {
+  display: none !important;
+}
+
+.delete-confirmation-modal .p-dialog-content {
+  padding: 0 !important;
+  border-radius: 8px !important;
+  overflow: visible !important;
+  background: transparent !important;
+}
+
+/* Auto-apply for this component even if page forgets showHeader/styleClass */
+.p-dialog:has(app-delete-confirmation-dialog) {
+  border-radius: 8px !important;
+  overflow: visible !important;
+}
+
+.p-dialog:has(app-delete-confirmation-dialog) .p-dialog-header {
+  display: none !important;
+}
+
+.p-dialog:has(app-delete-confirmation-dialog) .p-dialog-content {
+  padding: 0 !important;
+  border-radius: 8px !important;
+  overflow: visible !important;
+  background: transparent !important;
+}

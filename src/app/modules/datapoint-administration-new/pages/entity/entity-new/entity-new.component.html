@@ -1,0 +1,48 @@
+@if(isshowUI){
+<div class="pt-[10px] pl-[20px] pr-[20px] w-full">
+    <div class="pt-[10px]">
+        <app-table-wrapper 
+            [data]="entityList" 
+            [columns]="columns" 
+            [actions]="actions" 
+            [config]="tableConfig"
+            [isMobile]="(isMobile$ | async) || false"
+            (onRowClick)="onRowClick($event)"
+            (onAction)="onAction($event)"
+            (onCreate)="createEntity()">
+            
+            <!-- Custom body template for entity description with truncation (row and pSelectableRow handled by default template) -->
+            <ng-template #bodyTemplate let-row let-columns="columns">
+                @for(col of columns; track col.field; let first = $first; let last = $last) {
+                <td [class.border-round-left-2xl]="first"
+                    [class.border-round-right-2xl]="last && actions.length === 0"
+                    [class.cursor-pointer]="col.clickable !== false"
+                    (click)="col.clickable !== false ? onRowClick(row) : null">
+                    @if(col.field === 'entityDesc') {
+                    <span class="ml-1 vertical-align-middle desc">{{ row[col.field] }}</span>
+                    } @else if(col.template === 'tag') {
+                    <span class="level-chip">{{ row[col.field] }}</span>
+                    } @else if(col.template === 'count') {
+                    <span class="count-pill">{{ row[col.field] }}</span>
+                    } @else {
+                    <span class="ml-1 vertical-align-middle">{{ row[col.field] }}</span>
+                    }
+                </td>
+                }
+                @if(actions.length > 0) {
+                <td class="border-round-right-2xl text-left">
+                    <div class="flex gap-2">
+                        @for(action of actions; track action.action) {
+                        <p-button [icon]="action.icon" [rounded]="true" [text]="true" [severity]="$any(action.severity)"
+                            (onClick)="onAction({action: action.action, row: row})" [pTooltip]="action.tooltip" />
+                        }
+                    </div>
+                </td>
+                }
+            </ng-template>
+        </app-table-wrapper>
+    </div>
+</div>
+}
+<p-toast [breakpoints]="breakPointForToastComponent"></p-toast>
+<p-confirmDialog></p-confirmDialog>

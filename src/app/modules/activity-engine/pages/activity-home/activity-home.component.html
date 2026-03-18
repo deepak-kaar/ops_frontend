@@ -1,0 +1,44 @@
+<div class="layout-root surface">
+    <!-- MOBILE OVERLAY -->
+    <div class="mobile-overlay" [class.active]="mobileSidebarVisible" (click)="toggleMobileSidebar()"></div>
+
+    <!-- FIXED SIDEBAR -->
+    <aside class="sidebar-wrapper" [class.mobile-open]="mobileSidebarVisible">
+        <app-sidebar-new></app-sidebar-new>
+    </aside>
+
+    <!-- RIGHT SIDE -->
+    <div class="right-pane surface-ground">
+        <app-topbar-new (menuToggle)="toggleMobileSidebar()"></app-topbar-new>
+
+        <!-- content that scrolls -->
+        <div class="right-scroll">
+            <div class="px-6 pt-4 pb-1">
+                <app-filter></app-filter>
+            </div>
+
+            <div class="px-6 pt-2 pb-4">
+                <div class="section-header">
+                    <div class="section-title">Activity Engine</div>
+                    <div class="section-subtitle">Quick access to core activity modules</div>
+                </div>
+
+                <div class="activity-card-grid">
+                    @for(card of cardList;track card;let idx = $index){
+                    <p-card [styleClass]="'activity-card ' + getCardClass(idx)" (click)="change(idx)">
+                        <div class="activity-card-inner">
+                            <div class="activity-card-icon"
+                                [innerHTML]="sanitizer.bypassSecurityTrustHtml(card.svg)"></div>
+                            <div class="activity-card-text">{{card.name}}</div>
+                        </div>
+                    </p-card>
+                    }
+                </div>
+            </div>
+
+            <router-outlet></router-outlet>
+        </div>
+    </div>
+</div>
+
+<p-toast></p-toast>

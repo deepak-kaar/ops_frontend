@@ -1,0 +1,151 @@
+<div class="mde-filter-bar">
+    <app-filter></app-filter>
+</div>
+
+<div class="mde-main">
+    <!-- Left Panel - 20% Custom Order List -->
+    <div class="mde-left">
+        <!-- Approval Screen toggle button (Lock Screen) -->
+        <div class="mde-approval-toggle">
+            <p-button
+                label="Approval Screen"
+                icon="pi pi-lock"
+                [outlined]="!showApprovalPanel"
+                [severity]="showApprovalPanel ? 'primary' : 'secondary'"
+                size="small"
+                (onClick)="toggleApprovalPanel()">
+            </p-button>
+        </div>
+
+        <!-- Header with controls -->
+        <div class="mde-list-header">
+            <div class="mde-list-controls">
+                <p-button [outlined]="true" icon="pi pi-filter-slash" label="Clear" size="small"
+                    (onClick)="searchValue=''; applyListFilter()" />
+                <p-datepicker [(ngModel)]="date1" [showTime]="true" [hourFormat]="'24'" [showIcon]="true"
+                    inputId="mde-date" [showOnFocus]="false" (ngModelChange)="onDateChange()"
+                    styleClass="mde-datepicker" />
+            </div>
+            <div class="mde-search-box">
+                <i class="pi pi-search"></i>
+                <input type="text" (input)="applyListFilter()" [(ngModel)]="searchValue"
+                    placeholder="Search mappings..." />
+            </div>
+        </div>
+
+        <!-- Scrollable list area -->
+        <div class="mde-list-body">
+            @if (displayMappings.length === 0) {
+            <div class="mde-list-empty">
+                <i class="pi pi-inbox"></i>
+                <span>No mappings found</span>
+            </div>
+            } @else {
+            @for (item of displayMappings; track item.mappingId || item._id) {
+            <div class="mde-list-item" [class.active]="isSelected(item)" (click)="selectMapping(item)">
+                <div class="mde-list-item-main">
+                    <div class="mde-list-item-title">{{ item?.name || item?.mappingName || 'Unnamed' }}</div>
+                    <div class="mde-list-item-desc">{{ item?.description || item?.mappingDescription || '' }}</div>
+                </div>
+                <div class="mde-list-item-meta">
+                    <span class="mde-list-item-badge" [class.active]="item?.status === 'Active'">
+                        {{ item?.status || 'Active' }}
+                    </span>
+                    <span class="mde-list-item-date">{{ item?.mappingCreatedOn | date: 'MM/dd/yy' }}</span>
+                </div>
+            </div>
+            }
+            }
+        </div>
+    </div>
+
+    <!-- Right Panel - 80%: Preview or Approval Screen -->
+    <div class="mde-right">
+        @if (showApprovalPanel) {
+        <!-- Approval Screen content on the right side -->
+        <div class="mde-approval-panel card">
+            <div class="mde-approval-header">
+                <div class="title">
+                    <span class="label">Approval Screen</span>
+                    <span class="subtitle">Freeze / unfreeze categories by role</span>
+                </div>
+                <p-button
+                    label="Save"
+                    icon="pi pi-check"
+                    size="small"
+                    [loading]="savingApproval"
+                    (onClick)="saveApprovalSettings()">
+                </p-button>
+            </div>
+
+            @if (approvalLoading) {
+            <div class="mde-approval-loading">
+                <i class="pi pi-spin pi-spinner"></i>
+                <span>Loading approval categories...</span>
+            </div>
+            } @else if (!approvalCategories.length) {
+            <div class="mde-approval-empty">
+                <span>No approval categories found for your role.</span>
+            </div>
+            } @else {
+            <div class="mde-approval-list mde-approval-grid">
+                <div class="mde-approval-search-box">
+                    <i class="pi pi-search"></i>
+                    <input
+                        type="text"
+                        [(ngModel)]="approvalSearchValue"
+                        placeholder="Search category name..." />
+                </div>
+                <div class="mde-approval-grid-header">
+                    <span class="col-category">Category</span>
+                    @for (role of approvalRoleColumns; track role.key) {
+                    <span class="col-role">{{ role.label }}</span>
+                    }
+                </div>
+                @for (cat of filteredApprovalCategories; track cat._id) {
+                <div class="mde-approval-grid-row">
+                    <span class="col-category">{{ cat.categoryName }}</span>
+                    @for (role of approvalRoleColumns; track role.key) {
+                    <div class="col-role">
+                        @if (hasRoleInCategory(cat, role.key)) {
+                        <p-checkbox
+                            [binary]="true"
+                            [ngModel]="isRoleCategoryFrozen(cat, role.key)"
+                            [disabled]="!canEditCategory(cat) || !canEditRoleColumn(role)"
+                            (onChange)="toggleRoleCategoryFreeze(cat, role)">
+                        </p-checkbox>
+                        }
+                    </div>
+                    }
+                </div>
+                }
+                @if (!filteredApprovalCategories.length) {
+                <div class="mde-approval-empty-inline">
+                    No categories match your search.
+                </div>
+                }
+            </div>
+            }
+        </div>
+        } @else {
+        <!-- Default preview when Approval Screen is not active -->
+        @if (selectedMapping?.mappingId || selectedMapping?._id) {
+        <div class="mde-preview-wrapper">
+            <app-global-renderer
+                [embedded]="true"
+                [mappingId]="selectedMapping.mappingId || selectedMapping._id"
+                [type]="'View'"
+                [date]="date1.toISOString()"
+                [frozenAttributeIds]="frozenAttributeIds"
+                [frozenFieldKeys]="frozenFieldKeys">
+            </app-global-renderer>
+        </div>
+        } @else {
+        <div class="mde-preview-empty">
+            <i class="pi pi-eye"></i>
+            <span>Select a mapping to preview</span>
+        </div>
+        }
+        }
+    </div>
+</div>

@@ -1,0 +1,110 @@
+<div class="global-renderer-root" [class.h-screen]="!embedded" [class.overflow-y-auto]="!embedded"
+  [class.embedded-view]="embedded">
+  <div class="w-full" [ngClass]="embedded ? 'embedded-content' : 'pt-[50px] px-[20px]'">
+
+    @if (type === 'View') {
+    <div class="flex gap-2 justify-between items-center w-full my-3 px-3">
+      <ng-container *ngIf="pageType === 'Report' && lastReport?.updatedAt; else emptySpan">
+        <span class="last-generated-info">
+          Last Generated on {{ lastReport.updatedAt | date:'medium' }} by {{ lastReport.createdBy ?
+          lastReport.createdBy : 'System' }}
+        </span>
+      </ng-container>
+      <ng-template #emptySpan><span></span></ng-template>
+      <div class="flex gap-2 items-center">
+        <p-button label="Save as PDF" (onClick)="downloadVersion(reportHistory[0])" [outlined]="true" />
+        @if (pageType === 'Report') {
+        <p-button label="Mail" (onClick)="mailReport(reportHistory[0])" [outlined]="true" />
+        <p-button label="Preview" (onClick)="previewVersion(reportHistory[0])" [outlined]="true" />
+        <p-button label="Export to Excel" (onClick)="exportToExcel()" [outlined]="true" />
+        <p-button label="Regenerate" (onClick)="regenerateReport()" [outlined]="true" />
+        <p-button label="View History" (onClick)="openHistoryModal()" [outlined]="true" icon="pi pi-history" />
+
+        }
+        @if (pageType === 'Dashboard') {
+        <p-button [icon]="isFullscreen ? 'pi pi-window-minimize' : 'pi pi-window-maximize'"
+          [label]="isFullscreen ? 'Exit Full Screen' : 'Full Screen'" (onClick)="toggleFullScreen()"
+          [outlined]="true" />
+        }
+      </div>
+    </div>
+    }
+
+    @if (pageData) {
+    <!-- Canvas Container -->
+    <div #reportCanvas class="relative" [class.mx-auto]="!embedded" [class.embedded-canvas]="embedded"
+      [style.width]="getCanvasWidth()" [style.min-height]="getCanvasHeight()" [ngStyle]="getCanvasStyles()">
+
+      <!-- Render Widgets -->
+      @for (widget of pageData.widgets; track widget.id + (widget._refreshKey || '')) {
+      <div class="absolute" [ngStyle]="getWidgetStyles(widget)">
+        <div class="renderer-widget-root w-full h-full overflow-hidden relative" [ngStyle]="{
+                  'border-top-left-radius': (widget.input?.style?.borderTopLeftRadius ?? 4) + 'px',
+                  'border-top-right-radius': (widget.input?.style?.borderTopRightRadius ?? 4) + 'px',
+                  'border-bottom-left-radius': (widget.input?.style?.borderBottomLeftRadius ?? 4) + 'px',
+                  'border-bottom-right-radius': (widget.input?.style?.borderBottomRightRadius ?? 4) + 'px',
+                  'background-color': widget.input?.style?.backgroundColor || (widget.input?.style?.backgroundMode === 'transparent' ? 'transparent' : 'var(--p-surface-0)'),
+                  'background-image': widget.input?.style?.backgroundImage || 'none',
+                  'background-size': widget.input?.style?.backgroundSize || 'cover',
+                  'background-position': widget.input?.style?.backgroundPosition || 'center center',
+                  'background-repeat': widget.input?.style?.backgroundRepeat || 'no-repeat'
+                }">
+          <app-renderer-widget-host [date]="date" [pageId]="mappingId" [widget]="widget"
+            [widgetStyles]="getWidgetStyles(widget)" [frozenAttributeIds]="frozenAttributeIds"
+            [frozenFieldKeys]="frozenFieldKeys">
+          </app-renderer-widget-host>
+        </div>
+      </div>
+      }
+    </div>
+    }
+  </div>
+</div>
+
+<!-- Version History Modal -->
+<p-dialog header="Report Version History" [(visible)]="showHistoryModal" [modal]="true"
+  [style]="{ width: '700px', maxHeight: '80vh' }" [draggable]="false" [resizable]="false">
+
+  @if (loadingHistory) {
+  <div class="flex justify-center items-center py-8">
+    <p-progressSpinner [style]="{ width: '40px', height: '40px' }" strokeWidth="4" />
+  </div>
+  } @else if (reportHistory.length === 0) {
+  <div class="flex flex-col items-center justify-center py-8 text-center">
+    <i class="pi pi-inbox text-4xl mb-3" style="color: var(--p-text-muted-color)"></i>
+    <p style="color: var(--p-text-muted-color)">No version history available for this report.</p>
+  </div>
+  } @else {
+  <div class="version-history-list">
+    @for (version of reportHistory; track $index) {
+    <div class="version-item">
+      <div class="version-info">
+        <div class="version-label">
+          <i class="pi pi-file-pdf" style="color: var(--p-red-500); margin-right: 8px;"></i>
+          <span class="version-title">{{ version.data?.reportName || ('Version ' + (version.version || ($index + 1)))
+            }}</span>
+        </div>
+        <span class="version-date">
+          {{ (version.data?.updatedAt || version.updatedAt) ? ((version.data?.updatedAt || version.updatedAt) |
+          date:'medium') : 'Date not available' }}
+        </span>
+      </div>
+      <div class="version-actions">
+        <p-button icon="pi pi-eye" label="View" [text]="true" size="small" (onClick)="previewVersion(version)" />
+        <p-button icon="pi pi-download" label="Download" [text]="true" size="small"
+          (onClick)="downloadVersion(version)" />
+        <p-button icon="pi pi-print" label="Print" [text]="true" size="small" (onClick)="printVersion(version)" />
+      </div>
+    </div>
+    }
+  </div>
+  }
+</p-dialog>
+
+<!-- PDF Preview Modal -->
+<p-dialog header="PDF Preview" [(visible)]="showPdfPreview" [modal]="true" [style]="{ width: '90vw', height: '90vh' }"
+  [draggable]="false" [resizable]="false" (onHide)="closePreview()">
+  @if (previewPdfSrc) {
+  <iframe [src]="previewPdfSrc" class="pdf-preview-iframe"></iframe>
+  }
+</p-dialog>

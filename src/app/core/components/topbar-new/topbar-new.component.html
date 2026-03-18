@@ -1,0 +1,61 @@
+<div class="topbar">
+
+  <!-- MENU ICON (Mobile/Tablet only) -->
+  <button class="menu-btn" (click)="onMenuClick()" type="button">
+    <i class="pi pi-bars"></i>
+  </button>
+
+  <!-- LEFT AREA -->
+  <div class="left-section">
+    <!-- App Title for Mobile -->
+    <span class="app-title">OpsInsights</span>
+
+    <!-- global search (Desktop) -->
+    <span class="p-input-icon-left search-box desktop-search">
+      <i class="pi pi-search"></i>
+      <input pInputText type="text" placeholder="Search Anything..." />
+    </span>
+  </div>
+
+  <!-- RIGHT AREA -->
+  <div class="right-section">
+
+    <!-- Rollout Label (if enabled) -->
+    @if(showRolloutLabel){
+    <div class="rollout-label-section">
+      <label class="text-sm font-medium mr-2">Rollout Label:</label>
+      <p-select 
+        [options]="labels" 
+        [(ngModel)]="selectedLabel" 
+        placeholder="Select Label"
+        (onChange)="onLabelChange()"
+        styleClass="w-[200px]">
+      </p-select>
+    </div>
+    }
+
+    <!-- search icon (Mobile) -->
+    <button class="mobile-search-icon" type="button">
+      <i class="pi pi-search"></i>
+    </button>
+
+    <!-- notification icon -->
+    <i class="pi pi-bell notification-icon"></i>
+
+    <!-- user profile -->
+    <div class="profile" (click)="menu.toggle($event)">
+      <p-avatar icon="pi pi-user" shape="circle"></p-avatar>
+
+      <div class="profile-text">
+        <div class="username">{{ getUserDisplayName() }}</div>
+        <div class="role">{{ getUserRoles() }}</div>
+      </div>
+      <i class="pi pi-chevron-down profile-arrow"></i>
+    </div>
+
+    <!-- User Menu -->
+    <p-menu #menu [model]="userMenuItems" [popup]="true" appendTo="body"></p-menu>
+
+  </div>
+
+</div>

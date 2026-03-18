@@ -1,0 +1,265 @@
+@if(widget){
+  <ng-container [ngSwitch]="widget.type">
+    <!-- Form fields -->
+    <app-label 
+      *ngSwitchCase="'label'"
+      [label]="widget.input?.label || widget.label || 'Label'"
+      [style]="widget.input?.style">
+    </app-label>
+    <app-paragraph 
+      *ngSwitchCase="'paragraph'"
+      [content]="widget.input?.content || 'Paragraph'"
+      [style]="widget.input?.style">
+    </app-paragraph>
+    <app-text-area 
+      *ngSwitchCase="'text-area'"
+      [value]="widget.input?.value || ''"
+      [style]="widget.input?.style">
+    </app-text-area>
+    <app-checkbox 
+      *ngSwitchCase="'checkbox'"
+      [checked]="widget.input?.checked || false"
+      [style]="widget.input?.style">
+    </app-checkbox>
+    <app-date-picker 
+      *ngSwitchCase="'date-picker'"
+      [date]="widget.input?.date"
+      [style]="widget.input?.style">
+    </app-date-picker>
+    <app-dropdown 
+      *ngSwitchCase="'dropdown'"
+      [data]="widget.input?.data || widget.input?.options || []"
+      [value]="widget.input?.value"
+      [style]="widget.input?.style">
+    </app-dropdown>
+    <app-input-text 
+      *ngSwitchCase="'input-text'"
+      [value]="widget.input?.value || ''"
+      [style]="widget.input?.style">
+    </app-input-text>
+    <app-radio-button 
+      *ngSwitchCase="'radio-button'"
+      [label1]="widget.input?.label1 || 'Option 1'"
+      [label2]="widget.input?.label2 || 'Option 2'"
+      [checked]="widget.input?.checked || false">
+    </app-radio-button>
+    <app-file-upload 
+      *ngSwitchCase="'file-upload'"
+      [style]="widget.input?.style">
+    </app-file-upload>
+
+    <!-- Form widgets (PrimeNG wrappers) -->
+    <app-progress-bar
+      *ngSwitchCase="'progress-bar'"
+      [value]="widget.input?.value ?? 50"
+      [showValue]="widget.input?.showValue !== false"
+      [style]="widget.input?.style">
+    </app-progress-bar>
+    <app-rating
+      *ngSwitchCase="'rating'"
+      [value]="widget.input?.value ?? 3"
+      [stars]="widget.input?.stars ?? 5"
+      [readonly]="true"
+      [style]="widget.input?.style">
+    </app-rating>
+    <app-input-number
+      *ngSwitchCase="'input-number'"
+      [value]="widget.input?.value ?? 0"
+      [min]="widget.input?.min ?? 0"
+      [max]="widget.input?.max ?? 100"
+      [style]="widget.input?.style">
+    </app-input-number>
+    <app-input-otp
+      *ngSwitchCase="'input-otp'"
+      [value]="widget.input?.value ?? ''"
+      [length]="widget.input?.length ?? 6"
+      [style]="widget.input?.style">
+    </app-input-otp>
+    <app-knob
+      *ngSwitchCase="'knob'"
+      [value]="widget.input?.value ?? 50"
+      [min]="widget.input?.min ?? 0"
+      [max]="widget.input?.max ?? 100"
+      [readonly]="true"
+      [style]="widget.input?.style">
+    </app-knob>
+    <app-primeng-multiselect
+      *ngSwitchCase="'primeng-multiselect'"
+      [options]="widget.input?.options ?? []"
+      [value]="widget.input?.value ?? []"
+      [optionLabel]="widget.input?.optionLabel ?? 'name'"
+      [placeholder]="'Select'"
+      [style]="widget.input?.style">
+    </app-primeng-multiselect>
+    <app-tree-select
+      *ngSwitchCase="'tree-select'"
+      [options]="widget.input?.options ?? []"
+      [value]="widget.input?.value"
+      [placeholder]="'Select'"
+      [style]="widget.input?.style">
+    </app-tree-select>
+    <app-toggle-switch
+      *ngSwitchCase="'toggle-switch'"
+      [checked]="widget.input?.checked ?? false"
+      [style]="widget.input?.style">
+    </app-toggle-switch>
+    <app-toggle-button
+      *ngSwitchCase="'toggle-button'"
+      [onLabel]="widget.input?.onLabel ?? 'On'"
+      [offLabel]="widget.input?.offLabel ?? 'Off'"
+      [checked]="widget.input?.checked ?? false"
+      [style]="widget.input?.style">
+    </app-toggle-button>
+
+    <!-- Buttons -->
+    <app-button 
+      *ngSwitchCase="'btn'"
+      [buttonLabel]="widget.input?.buttonLabel || 'Button'"
+      [style]="widget.input?.style">
+    </app-button>
+    <app-icon-button 
+      *ngSwitchCase="'btn-icon'"
+      [icon]="widget.input?.icon || 'pi pi-user'"
+      [style]="widget.input?.style">
+    </app-icon-button>
+
+    <!-- Tables -->
+    <app-dynamic-table 
+      *ngSwitchCase="'primeng-dynamic-table'"
+      [dataSets]="widget.input?.dataSets"
+      [style]="widget.input?.style"
+      [emitterId]="widget.input?.emitterId"
+      [id]="widget.input?.id">
+    </app-dynamic-table>
+    <app-static-table 
+      *ngSwitchCase="'static-table'"
+      [style]="widget.input?.style">
+    </app-static-table>
+
+    <!-- Charts (Chart.js based) -->
+    <app-pie-chart
+      *ngSwitchCase="'pie-chart'"
+      [labels]="widget.input?.labels"
+      [values]="widget.input?.values"
+      [style]="widget.input?.style"
+    ></app-pie-chart>
+    <app-donut
+      *ngSwitchCase="'donut-chart'"
+      [labels]="widget.input?.labels"
+      [values]="widget.input?.values"
+      [style]="widget.input?.style"
+    ></app-donut>
+    <app-polar-area
+      *ngSwitchCase="'polar'"
+      [labels]="widget.input?.labels"
+      [values]="widget.input?.values"
+      [style]="widget.input?.style"
+    ></app-polar-area>
+    <app-radar
+      *ngSwitchCase="'radar'"
+      [labels]="widget.input?.labels"
+      [values]="widget.input?.values"
+      [style]="widget.input?.style"
+    ></app-radar>
+    <app-horizontal-bar
+      *ngSwitchCase="'hbar'"
+      [labels]="widget.input?.labels"
+      [values]="widget.input?.values"
+      [title]="widget.input?.title"
+      [style]="widget.input?.style"
+    ></app-horizontal-bar>
+    <app-sh-bar
+      *ngSwitchCase="'shbar'"
+      [labels]="widget.input?.labels"
+      [values1]="widget.input?.values1"
+      [values2]="widget.input?.values2"
+      [title1]="widget.input?.title1"
+      [title2]="widget.input?.title2"
+      [style]="widget.input?.style"
+    ></app-sh-bar>
+    <app-sv-bar
+      *ngSwitchCase="'svbar'"
+      [labels]="widget.input?.labels"
+      [values1]="widget.input?.values1"
+      [values2]="widget.input?.values2"
+      [title1]="widget.input?.title1"
+      [title2]="widget.input?.title2"
+      [style]="widget.input?.style"
+    ></app-sv-bar>
+    <app-line
+      *ngSwitchCase="'line'"
+      [labels]="widget.input?.labels"
+      [values]="widget.input?.values"
+      [title]="widget.input?.title"
+      [style]="widget.input?.style"
+    ></app-line>
+    <app-bar-chart
+      *ngSwitchCase="'bar-chart'"
+      [labels]="widget.input?.labels"
+      [values]="widget.input?.values"
+      [title]="widget.input?.title"
+      [style]="widget.input?.style"
+    ></app-bar-chart>
+
+    <!-- Apex charts: only line (apexspline) exists in WidgetsModule -->
+    <app-apexspline
+      *ngSwitchCase="'apex-line-chart'"
+      [labels]="widget.input?.labels"
+      [values]="widget.input?.values"
+      [style]="widget.input?.style"
+    ></app-apexspline>
+
+    <!-- Assets -->
+    <app-image 
+      *ngSwitchCase="'image'"
+      [src]="widget.input?.src"
+      [alterateText]="widget.input?.alterateText || 'Image'"
+      [style]="widget.input?.style">
+    </app-image>
+    <app-video 
+      *ngSwitchCase="'video'"
+      [videoSrc]="widget.input?.videoSrc"
+      [thumbnail]="widget.input?.thumbnail"
+      [style]="widget.input?.style">
+    </app-video>
+
+    <!-- Others -->
+    <app-map *ngSwitchCase="'map'"></app-map>
+    <app-tag *ngSwitchCase="'tag'"></app-tag>
+    <app-date-tag *ngSwitchCase="'date-tag'"></app-date-tag>
+    <app-location-tag *ngSwitchCase="'location-tag'"></app-location-tag>
+    <app-spacer *ngSwitchCase="'spacer'"></app-spacer>
+    <!-- Section widget with nested widget support -->
+    <app-designer-section-container 
+      *ngSwitchCase="'section'"
+      [sectionWidget]="widget"
+      [onWidgetClick]="onSectionWidgetClick"
+      [onWidgetDragStart]="onSectionWidgetDragStart"
+      [onWidgetDragEnd]="onSectionWidgetDragEnd"
+      [onWidgetResizeStart]="onSectionWidgetResizeStart"
+      [selectedWidgetId]="selectedWidgetId">
+    </app-designer-section-container>
+    <!-- Iterator / Repeater: rows of widgets, add/delete/reorder rows -->
+    <app-designer-iterator-container
+      *ngSwitchCase="'iterator'"
+      [iteratorWidget]="widget"
+      [selectedWidgetId]="selectedWidgetId"
+      [onWidgetClick]="onIteratorWidgetClick"
+      [onWidgetDragStart]="onSectionWidgetDragStart"
+      [onWidgetDragEnd]="onIteratorDragEnd"
+      [onWidgetResizeStart]="onIteratorResizeStart"
+      (addRow)="onIteratorAddRow && onIteratorAddRow(widget)"
+      (deleteRow)="onIteratorDeleteRow && onIteratorDeleteRow(widget, $event)"
+      (reorderRows)="onIteratorReorderRows && onIteratorReorderRows(widget, $event.fromIndex, $event.toIndex)">
+    </app-designer-iterator-container>
+    <app-divider *ngSwitchCase="'divider'"></app-divider>
+    <app-speed-guage *ngSwitchCase="'guage'"></app-speed-guage>
+
+    <!-- Fallback -->
+    <div *ngSwitchDefault class="w-full h-full flex items-center justify-center text-xs">
+      {{ widget.label || widget.type }}
+    </div>
+  </ng-container>
+}
+
+

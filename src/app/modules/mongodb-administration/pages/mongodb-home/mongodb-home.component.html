@@ -1,0 +1,440 @@
+@if ((isMobile$ | async) == false && (isTablet$ | async) == false) {
+<div><app-sidebar></app-sidebar></div>
+}
+
+<!-- Mobile/Tablet Sidebar -->
+<div class="fixed inset-0 z-50 lg:hidden transition-transform duration-300 ease-in-out" [ngClass]="{
+       'translate-x-0': mobileSidebarVisible,
+       '-translate-x-full': !mobileSidebarVisible
+     }" [style.pointer-events]="mobileSidebarVisible ? 'auto' : 'none'">
+  <div class="absolute w-[300px] h-full bg-white shadow-lg z-50">
+    <app-sidebar></app-sidebar>
+  </div>
+  <div class="fixed inset-0 z-40 lg:hidden" (click)="toggleMobileSidebar()"
+    [style.pointer-events]="mobileSidebarVisible ? 'auto' : 'none'"></div>
+</div>
+
+<div class="pl-[0] lg:pl-[300px] h-screen flex flex-col overflow-y-scroll z-30">
+
+  <!-- Header -->
+  <div class="box-shadow w-full flex justify-between lg:justify-end h-[60px] flex-shrink-0 bg-white">
+    <div class="p-2 flex justify-center lg:hidden">
+      <button class="block text-3xl" (click)="toggleMobileSidebar()" aria-label="Toggle sidebar">
+        &#9776;
+      </button>
+    </div>
+  </div>
+
+  <!-- Main Content -->
+  <div class="flex-1 flex flex-col overflow-hidden">
+    <!-- Filter Section -->
+    <div class="pt-[20px] px-[20px] md:pt-[50px] flex flex-wrap items-center gap-[15px] md:gap-[20px] flex-shrink-0">
+      <app-filter (collectionChanged)="onCollectionChanged($event)"></app-filter>
+      <p-button label="Search" icon="pi pi-search" (click)="performSearch()" [disabled]="isLoading"
+        class="sm:w-auto"></p-button>
+    </div>
+
+    <!-- Sticky Result Header + Query Toolbar -->
+    <div *ngIf="!isLoading && mongoDocuments.length > 0" class="results-header sticky-header">
+
+      <!-- Toggle Button for Query Toolbar (Mobile Only) -->
+      <button *ngIf="(isMobile$ | async)" class="toggle-query-btn" (click)="toggleQueryToolbar()">
+        <i class="pi" [ngClass]="queryToolbarVisible ? 'pi-eye-slash' : 'pi-eye'"></i>
+        {{ queryToolbarVisible ? 'Hide' : 'Show' }} Query Toolbar
+      </button>
+
+      <!-- Query Toolbar -->
+      <div *ngIf="queryToolbarVisible || !(isMobile$ | async)" class="query-toolbar-wrapper">
+        <div class="query-toolbar">
+          <div class="query-buttons-left">
+            <button class="query-btn" [class.active]="activeSection === 'filter'" (click)="toggleSection('filter')">
+              <i class="pi pi-filter"></i> Filter
+            </button>
+            <button class="query-btn" [class.active]="activeSection === 'projection'"
+              (click)="toggleSection('projection')">
+              <i class="pi pi-eye"></i> Projection
+            </button>
+            <button class="query-btn" [class.active]="activeSection === 'sort'" (click)="toggleSection('sort')">
+              <i class="pi pi-sort-alt"></i> Sort
+            </button>
+            <button class="query-btn" [class.active]="activeSection === 'options'" (click)="toggleSection('options')">
+              <i class="pi pi-cog"></i> Options
+            </button>
+          </div>
+
+          <div class="query-buttons-right">
+            <p-button (click)="triggerImport()" icon="pi pi-file-import" label="Import Excel"
+              pTooltip="Import from Excel" severity="secondary" size="small" class="sm:w-auto"></p-button>
+
+            <div class="export-wrapper" [class.open]="exportMenuOpen">
+              <button class="export-btn" (click)="toggleExportMenu()">
+                <i class="pi pi-file-export"></i> Export
+              </button>
+              <ul class="export-menu">
+                <li (click)="exportData('excel')">
+                  <i class="pi pi-file-excel" style="color:#28a745"></i> Excel
+                </li>
+                <li (click)="exportData('csv')">
+                  <i class="pi pi-file" style="color:#f39c12"></i> CSV
+                </li>
+                <li (click)="exportData('json')">
+                  <i class="pi pi-code" style="color:#3498db"></i> JSON
+                </li>
+              </ul>
+            </div>
+
+
+            <button pButton label="Add New" icon="pi pi-plus-circle" (click)="onAddNew()" class="sm:w-auto"></button>
+          </div>
+        </div>
+
+        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mt-4 gap-3">
+          <h3 class="text-lg font-semibold text-gray-700">
+            Documents in "{{ selectedCollection }}"
+          </h3>
+          <div class="flex flex-col sm:flex-row items-start sm:items-center gap-3 w-full sm:w-auto">
+            <span class="text-sm text-gray-500">
+              Showing {{ mongoDocuments.length }} of {{ totalDocuments }} documents
+            </span>
+
+            <!-- View Switcher -->
+            <div class="view-switcher">
+              <button class="view-btn" [class.active]="viewMode === 'json'" (click)="switchView('json')"
+                title="JSON View">
+                <i class="fas fa-braces"> <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M9 7c-1.5 0-2.5 1-2.5 2.5v1c0 1.2-1 1.5-1 1.5s1 0.3 1 1.5v1c0 1.5 1 2.5 2.5 2.5" />
+                    <path d="M15 7c1.5 0 2.5 1 2.5 2.5v1c0 1.2 1 1.5 1 1.5s-1 0.3-1 1.5v1c0 1.5-1 2.5-2.5 2.5" />
+                  </svg></i>
+              </button>
+              <button class="view-btn" [class.active]="viewMode === 'table'" (click)="switchView('table')"
+                title="Table View">
+                <i class="pi pi-table"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Expandable Query Section -->
+        <div class="query-sections" [class.expanded]="activeSection !== null">
+
+          <!-- Filter -->
+          <div *ngIf="activeSection === 'filter'" class="query-box">
+            <h4><i class="pi pi-filter"></i> Filter Query (JSON)</h4>
+            <ngx-monaco-editor [(ngModel)]="filterJson" [options]="jsonEditorOptions"
+              style="height: 180px; border-radius: 8px; border: 1px solid #d1d5db;"></ngx-monaco-editor>
+          </div>
+
+          <!-- Projection -->
+          <div *ngIf="activeSection === 'projection'" class="query-box">
+            <h4><i class="pi pi-eye"></i> Projection (Fields to show)</h4>
+            <ngx-monaco-editor [(ngModel)]="projectionJson" [options]="jsonEditorOptions"
+              style="height: 160px; border-radius: 8px; border: 1px solid #d1d5db;"></ngx-monaco-editor>
+          </div>
+
+          <!-- Sort -->
+          <div *ngIf="activeSection === 'sort'" class="query-box">
+            <h4><i class="pi pi-sort-alt"></i> Sort Order</h4>
+            <ngx-monaco-editor [(ngModel)]="sortJson" [options]="jsonEditorOptions"
+              style="height: 140px; border-radius: 8px; border: 1px solid #d1d5db;"></ngx-monaco-editor>
+          </div>
+
+          <!-- Options -->
+          <div *ngIf="activeSection === 'options'" class="query-box">
+            <h4><i class="pi pi-cog"></i> Options</h4>
+            <div class="flex items-center gap-3">
+              <label>Skip:</label>
+              <input type="number" [(ngModel)]="skip" class="input-number" />
+              <label>Limit:</label>
+              <input type="number" [(ngModel)]="limit" class="input-number" />
+            </div>
+          </div>
+
+          <div class="text-right mt-3">
+            <button class="search-btn" (click)="searchDocuments()">
+              <i class="pi pi-search"></i> Search
+            </button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Scrollable Data Section -->
+    <div #scrollContainer class="flex-1 overflow-y-auto mt-[10px] px-[20px] pb-[20px]"
+      (scroll)="onContainerScroll($event)">
+      <!-- Error -->
+      <p *ngIf="errorMessage" class="text-red-600 mb-3">{{ errorMessage }}</p>
+
+      <!-- JSON View -->
+      <div *ngIf="!isLoading && mongoDocuments.length > 0 && viewMode === 'json'"
+        class="mongo-container rounded-lg shadow-2xl bg-gray-100">
+        <div class="mongo-content px-4 pb-4">
+          <div *ngFor="let doc of mongoDocuments; let index = index"
+            class="border-b border-gray-200 hover:bg-gray-50 transition-colors mb-4 p-4 rounded-lg bg-white relative">
+
+            <div class="flex justify-between items-center mb-2">
+              <div>
+                <span class="text-xs text-gray-400 font-mono">{{ doc._id || 'No ID' }}</span>
+                <!-- Deleted Badge (Red) -->
+                <div *ngIf="doc.isDeleted" class="bg-red-600 text-white text-xs px-3 py-1 rounded mb-2"
+                  (click)="openDeleteModal(doc)">
+                  ⚠️ This record is marked for deletion
+                </div>
+
+                <!-- Edited Badge (Yellow) -->
+                <div *ngIf="doc.isEdit && !doc.isDeleted"
+                  class="bg-yellow-500 text-black text-xs px-3 py-1 rounded mb-2 cursor-pointer hover:bg-yellow-400 transition"
+                  (click)="openEditedModal(doc)">
+                  ✏️ This record was edited — click to view changes
+                </div>
+
+              </div>
+              <div class="flex flex-row gap-2" *ngIf="!doc.isDeleted && !doc.isEdit">
+
+
+                <p-button icon="pi pi-pencil" [rounded]="true" [outlined]="true" size="small" (click)="onEdit(doc)" />
+                <p-button icon="pi pi-trash text-red-600" [rounded]="true" [outlined]="true" size="small"
+                  (click)="onDelete(doc)" />
+                <p-button icon="pi pi-copy text-green-600" [rounded]="true" [outlined]="true" size="small"
+                  (click)="onCopy(doc)" />
+                <p-button icon="pi pi-clone" [rounded]="true" [outlined]="true" size="small"
+                  (click)="onClone(doc)"></p-button>
+
+
+              </div>
+            </div>
+            <pre [innerHTML]="formatJSON(doc)" class="vscode-json"></pre>
+          </div>
+        </div>
+
+        <div *ngIf="isLoadingMore" class="text-center py-4">
+          <i class="pi pi-spin pi-spinner mr-2"></i>
+          <span class="text-gray-600">Loading more documents...</span>
+        </div>
+
+        <div *ngIf="!hasMoreData && mongoDocuments.length > 0" class="text-center py-4 border-t">
+          <span class="text-gray-500 text-sm">All documents loaded</span>
+        </div>
+      </div>
+
+
+      <!-- PrimeNG Table View -->
+      <div *ngIf="!isLoading && mongoDocuments.length > 0 && viewMode === 'table'" class="primeng-table-container">
+        <p-table [value]="mongoDocuments" [paginator]="true" [rows]="tableRows" [first]="tableFirst"
+          [rowsPerPageOptions]="rowsPerPageOptions" [totalRecords]="totalDocuments" [lazy]="false"
+          [showCurrentPageReport]="true"
+          currentPageReportTemplate="Showing {first} to {last} of {totalRecords} documents"
+          (onPage)="onTablePageChange($event)" styleClass="p-datatable-gridlines p-datatable-sm"
+          [tableStyle]="{ 'min-width': '50rem' }" [scrollable]="true" scrollHeight="calc(100vh - 450px)"
+          [rowHover]="true">
+
+          <!-- Dynamic Columns -->
+          <ng-template pTemplate="header">
+            <tr>
+              <th *ngFor="let col of tableColumns" [pSortableColumn]="col">
+                {{ col }}
+                <p-sortIcon [field]="col"></p-sortIcon>
+              </th>
+              <th class="action-column-header">Actions</th>
+            </tr>
+          </ng-template>
+
+          <ng-template pTemplate="body" let-doc>
+            <tr [ngClass]="{
+              'deleted-row': doc.isDeleted,
+              'editing-row': isEditing(doc)
+            }">
+              <!-- Dynamic Data Columns -->
+              <td *ngFor="let col of tableColumns" class="table-cell">
+                <!-- Editing Mode -->
+                <div *ngIf="isEditing(doc) && isCellEditable(col)" class="cell-editor">
+                  <input type="text" class="cell-input" [value]="editingRowData[col]"
+                    (input)="updateCellValue(col, $event)" [placeholder]="col">
+                </div>
+
+                <!-- Display Mode -->
+                <span *ngIf="!isEditing(doc) || !isCellEditable(col)" class="table-cell-content"
+                  [pTooltip]="getCellDisplayValue(doc, col)" tooltipPosition="top">
+                  {{ getCellDisplayValue(doc, col) }}
+                </span>
+              </td>
+
+              <!-- Actions Column -->
+              <td class="action-column-fixed">
+                <!-- Normal Actions -->
+                <div class="compass-actions" *ngIf="!isEditing(doc) && !doc.isDeleted && !doc.isEdit">
+                  <button pButton type="button" icon="pi pi-pencil"
+                    class="p-button-rounded p-button-text p-button-sm action-edit" (click)="startEditRow(doc)"
+                    pTooltip="Edit" tooltipPosition="top"></button>
+
+                  <button pButton type="button" icon="pi pi-clone"
+                    class="p-button-rounded p-button-text p-button-sm action-clone" (click)="onClone(doc)"
+                    pTooltip="Clone" tooltipPosition="top"></button>
+
+                  <button pButton type="button" icon="pi pi-copy"
+                    class="p-button-rounded p-button-text p-button-sm action-copy" (click)="onCopy(doc)"
+                    pTooltip="Copy JSON" tooltipPosition="top"></button>
+
+                  <button pButton type="button" icon="pi pi-trash"
+                    class="p-button-rounded p-button-text p-button-sm action-delete" (click)="deleteRowInline(doc)"
+                    pTooltip="Delete" tooltipPosition="top"></button>
+                </div>
+
+                <!-- Editing Actions -->
+                <div class="compass-actions editing-actions" *ngIf="isEditing(doc)">
+                  <button pButton type="button" icon="pi pi-check" class="p-button-success p-button-sm p-button-rounded"
+                    (click)="saveEditRow(doc)" pTooltip="Save" tooltipPosition="top"></button>
+
+                  <button pButton type="button" icon="pi pi-times"
+                    class="p-button-secondary p-button-sm p-button-rounded" (click)="cancelEditRow()" pTooltip="Cancel"
+                    tooltipPosition="top"></button>
+                </div>
+
+                <!-- Status Badges -->
+                <div *ngIf="doc.isDeleted" class="status-badge deleted-badge" (click)="openDeleteModal(doc)">
+                  <i class="pi pi-exclamation-triangle"></i> Deleted
+                </div>
+                <div *ngIf="doc.isEdit && !doc.isDeleted" class="status-badge edited-badge"
+                  (click)="openEditedModal(doc)" style="cursor: pointer;">
+                  <i class="pi pi-pencil"></i> Edited
+                </div>
+              </td>
+            </tr>
+          </ng-template>
+
+          <!-- Empty Message -->
+          <ng-template pTemplate="emptymessage">
+            <tr>
+              <td [attr.colspan]="tableColumns.length + 1" class="text-center py-4">
+                No documents found.
+              </td>
+            </tr>
+          </ng-template>
+        </p-table>
+      </div>
+
+      <p *ngIf="!isLoading && mongoDocuments.length === 0 && !errorMessage" class="text-center text-gray-500 mt-10">
+        No data available. Select a collection and click Search.
+      </p>
+    </div>
+  </div>
+
+  <router-outlet></router-outlet>
+</div>
+
+<!-- Confirmation Dialog -->
+<p-confirmDialog></p-confirmDialog>
+
+<!-- Edit Document Modal -->
+<p-dialog header="Edit Document" [(visible)]="editDialogVisible" [modal]="true"
+  [style]="{ width: '70vw', height: '80vh' }" [closable]="true">
+  <ngx-monaco-editor [(ngModel)]="editJson" [options]="editorOptions"
+    style="height: calc(100% - 70px); border-radius: 8px;"></ngx-monaco-editor>
+  <div class="flex justify-end gap-2 mt-3">
+    <button pButton label="Cancel" class="p-button-secondary" (click)="cancelEdit()"></button>
+    <button pButton label="Update" class="p-button-success" (click)="confirmEdit()"></button>
+  </div>
+</p-dialog>
+
+<!-- Create New Document Modal -->
+<p-dialog header="Create New Document" [(visible)]="createDialogVisible" [modal]="true"
+  [style]="{ width: '70vw', height: '80vh' }" [closable]="true" (onHide)="onDialogClose()">
+  <!-- ✅ Dynamic Dropdowns -->
+  <div class="mb-3 flex gap-4">
+    <!-- Organization Dropdown -->
+    <div *ngIf="showOrgDropdown" class="flex-1">
+      <label class="block text-sm font-semibold mb-1 text-gray-300">Select Organization</label>
+      <select [(ngModel)]="selectedOrg"
+        class="w-full p-2.5 bg-gray-700 border border-gray-600 rounded-lg text-white text-sm focus:ring-blue-500 focus:border-blue-500 placeholder-gray-400">
+        <option *ngFor="let org of orgs" [value]="org.orgId">
+          {{ org.orgName }}
+        </option>
+      </select>
+    </div>
+
+    <!-- Application Dropdown -->
+    <div *ngIf="showAppDropdown" class="flex-1">
+      <label class="block text-sm font-semibold mb-1 text-gray-300">Select Application</label>
+      <select [(ngModel)]="selectedApp"
+        class="w-full p-2.5 bg-gray-700 border border-gray-600 rounded-lg text-white text-sm focus:ring-blue-500 focus:border-blue-500 placeholder-gray-400">
+        <option value="" disabled selected>Choose Application</option>
+        <option *ngFor="let app of appList" [value]="app">
+          {{ app }}
+        </option>
+      </select>
+    </div>
+  </div>
+
+  <!-- ✅ Attachment Section -->
+  <div *ngIf="showAttachmentSection" class="mb-3">
+    <label class="block text-sm font-semibold mb-1 text-gray-300">Upload Attachment</label>
+    <input type="file" (change)="onFileSelected($event)"
+      class="p-2 border border-gray-400 rounded w-full text-gray-200 bg-gray-800" />
+  </div>
+
+  <!-- ✅ JSON Editor Section -->
+  <div style="height: calc(80vh - 200px); margin-top: 10px;">
+    <ngx-monaco-editor *ngIf="createDialogVisible" [(ngModel)]="createJson" [options]="editorOptions"
+      style="height: 100%; border-radius: 8px;" (onInit)="onMonacoInit($event)"></ngx-monaco-editor>
+  </div>
+
+  <!-- ✅ Footer Buttons -->
+  <div class="flex justify-end gap-2 mt-3">
+    <button pButton label="Cancel" class="p-button-secondary"
+      (click)="createDialogVisible = false; onDialogClose();"></button>
+    <button pButton label="Create" class="p-button-success" (click)="confirmCreate()"></button>
+  </div>
+</p-dialog>
+
+<!-- Clone Document Modal -->
+<p-dialog header="Clone Document" [(visible)]="cloneDialogVisible" [modal]="true"
+  [style]="{ width: '70vw', height: '80vh' }" [closable]="true">
+  <ngx-monaco-editor [(ngModel)]="cloneJson" [options]="editorOptions"
+    style="height: calc(100% - 70px); border-radius: 8px;"></ngx-monaco-editor>
+
+  <div class="flex justify-end gap-2 mt-3">
+    <button pButton label="Cancel" class="p-button-secondary" (click)="cancelClone()"></button>
+    <button pButton label="Clone" class="p-button-success" (click)="confirmClone()"></button>
+  </div>
+</p-dialog>
+
+
+<!-- Edited Data Viewer Modal -->
+<p-dialog header="Edited Data" [(visible)]="editedViewVisible" [modal]="true"
+  [style]="{ width: '70vw', height: '80vh' }" [closable]="true">
+
+  <ngx-monaco-editor [options]="jsonEditorOptionsReadOnly" [(ngModel)]="editedJson"
+    style="height: calc(100% - 70px); border-radius: 8px;">
+  </ngx-monaco-editor>
+
+  <div class="flex justify-end gap-2 mt-3">
+    <button pButton label="Close" class="p-button-secondary" (click)="editedViewVisible = false"></button>
+
+    <button pButton label="Confirm Edit" class="p-button-success" (click)="confirmEditedChanges()"></button>
+  </div>
+</p-dialog>
+
+
+<!-- confirm delete modal -->
+<p-dialog header="Delete Document" [(visible)]="deleteViewVisible" [modal]="true" [style]="{ width: '50vw' }">
+
+  <p class="text-red-500 font-semibold mb-3">
+    Are you sure you want to delete this document permanently?
+  </p>
+
+  <ngx-monaco-editor [options]="jsonEditorOptionsReadOnly" [(ngModel)]="deleteJson" style="height: 300px;">
+  </ngx-monaco-editor>
+
+  <div class="flex justify-end gap-2 mt-3">
+    <button pButton label="Cancel" class="p-button-secondary" (click)="deleteViewVisible = false"></button>
+
+    <button pButton label="Confirm Delete" class="p-button-danger" (click)="confirmHardDelete()"></button>
+  </div>
+
+</p-dialog>
+
+
+
+<!-- Toast Messages -->
+<p-toast></p-toast>

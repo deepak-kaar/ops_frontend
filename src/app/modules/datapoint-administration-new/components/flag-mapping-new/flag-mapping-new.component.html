@@ -1,0 +1,62 @@
+<div class="w-full">
+    <div class="pt-[10px]">
+        <p-card class="w-full">
+            <div class="flex justify-between items-center mb-4">
+                <div class="flex gap-[10px] items-center ml-auto">
+                    <p-button label="Create Mapping" [style]="{'border-radius':'12px','height':'37px','border':'none'}"
+                        (onClick)="createFlag(true)" />
+                </div>
+            </div>
+
+            <p-accordion [multiple]="true">
+                @for (item of flags; track item.category) {
+                <p-accordionTab>
+                    <ng-template pTemplate="header">
+                        <div class="flex justify-between items-center w-full pr-4">
+                            <span class="accordion-label">{{ item.category }}</span>
+                            <div class="flex items-center gap-1">
+                                <p-button icon="pi pi-pencil" (onClick)="onEditMapping(item); $event.stopPropagation()"
+                                    [rounded]="true" [text]="true" size="small" pTooltip="Edit Mapping" />
+                                <p-button icon="pi pi-trash" (onClick)="onDeleteMapping(item); $event.stopPropagation()"
+                                    [rounded]="true" [text]="true" size="small" severity="danger" pTooltip="Delete Mapping" />
+                            </div>
+                        </div>
+                    </ng-template>
+
+                    <p-table [value]="item.variables" styleClass="p-datatable-sm">
+                        <ng-template pTemplate="header">
+                            <tr>
+                                <th class="border-round-left-2xl">Variable Name</th>
+                                <th>Entity/Instance</th>
+                                <th>Name</th>
+                                <th>Attribute</th>
+                                <th>Frequency</th>
+                                <th class="border-round-right-2xl">Offset</th>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-variable>
+                            <tr>
+                                <td class="border-round-left-2xl">{{ variable.variableName }}</td>
+                                <td>{{ variable.type || '—' }}</td>
+                                <td>{{ variable.typeName || '—' }}</td>
+                                <td>{{ variable.attribute || '—' }}</td>
+                                <td>{{ variable.frequency || '—' }}</td>
+                                <td class="border-round-right-2xl">{{ variable.offset ?? '—' }}</td>
+                            </tr>
+                        </ng-template>
+                    </p-table>
+                </p-accordionTab>
+                }
+                @if (!flags?.length) {
+                <div class="p-4 text-center text-gray-500">
+                    No flag mappings found.
+                </div>
+                }
+            </p-accordion>
+        </p-card>
+    </div>
+</div>
+
+<p-confirmDialog [style]="{width: '450px'}"></p-confirmDialog>
+
+<p-toast [breakpoints]="breakPointForToastComponent"></p-toast>

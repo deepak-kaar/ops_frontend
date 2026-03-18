@@ -1,0 +1,132 @@
+<div class="flex flex-col h-full entity-form">
+    <div class="w-full flex justify-center pt-6">
+        <div class="min-w-[700px]">
+            <div class="mt-auto flex items-center justify-between">
+                <div>
+                    <span class="font-normal text-2xl">Manage Notification</span>
+                </div>
+                <div class="flex justify-content-end gap-2 pr-2 pb-2">
+                    <p-button label="Save" (onClick)="onSubmit()" [style]="{
+                'border-radius': '12px',
+                height: '37px'
+              }" />
+                    <p-button label="Back" (onClick)="closeCallback($event)" [style]="{
+                'border-radius': '12px',
+                height: '37px',
+              }" />
+                </div>
+            </div>
+            @if(isShowUi){
+            <div [formGroup]="notificationForm" class="form-fields">
+                <p-stepper [value]="1" class="basis-[50rem]">
+                    <p-step-list>
+                        <p-step [value]="1">Input Variable Creation</p-step>
+                        <p-step [value]="2">Notification Creation</p-step>
+                    </p-step-list>
+                    <p-step-panels>
+                        <p-step-panel [value]="1">
+                            <ng-template #content let-activateCallback="activateCallback">
+                                <div class="surface-border border-bottom-2 p-1 flex content-end justify-end">
+                                    <p-button label="Add Variable" icon="pi pi-plus" outlined="true"
+                                        (onClick)="addInputVariable()" />
+                                </div>
+                                <div formArrayName="inputVariables">
+                                    @for(variable of inputMappings.controls;track variable;let idx =
+                                    $index){
+                                    <div class="w-full flex gap-4 card items-center pt-10 flex-wrap"
+                                        [formGroupName]="idx">
+                                        <div class="flex-1">
+                                            <div class="w-full">
+                                                <label for="variableName">Variable Name</label>
+                                                <input id="variableName" type="text" pInputText style='width:100%'
+                                                    formControlName="variableName"
+                                                    (change)="checkDuplicateVariableName(idx)" />
+<!-- 
+                                                @if(isDuplicateError[idx]){
+                                                <small class="p-error pl-2">
+                                                    Variable Name already exists.
+                                                </small>
+                                                } @else if(variable.get('variableName')?.invalid &&
+                                                variable.get('variableName')?.touched){
+                                                <small class="p-error pl-2">
+                                                    Variable Name is required.</small>
+                                                } -->
+                                            </div>
+                                        </div>
+                                        <div class="pt-4">
+                                            <p-button icon="pi pi-trash" [rounded]="true" [text]="true" [raised]="true"
+                                                [style]="{ color: '#F97316', background: '#FFEADC' }"
+                                                (onClick)="onRemoveVaribale(idx)" />
+                                        </div>
+                                    </div>
+                                    }
+                                </div>
+                            </ng-template>
+                        </p-step-panel>
+
+                        <p-step-panel [value]="2">
+                            <ng-template #content let-activateCallback="activateCallback">
+                                <div class="flex items-center flex-col gap-8 justify-center pt-6">
+                                    <div class="w-full">
+                                        <p-floatLabel>
+                                            <input pInputText id="event_name" formControlName="notificationName"
+                                                class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full" />
+                                            <label for="Event name">Notification name <span
+                                                    class="text-red-500">*</span></label>
+                                        </p-floatLabel>
+                                        <small
+                                            *ngIf="notificationForm.get('notificationName')?.invalid && notificationForm.get('notificationName')?.touched "
+                                            class="p-error pl-2">
+                                            Notification Name name is required.
+                                        </small>
+                                    </div>
+                                    <div class="w-full">
+                                        <p-floatLabel>
+                                            <label for="Event name">Notification Description</label>
+                                            <textarea rows="3" class="w-full" pTextarea
+                                                formControlName="notificationDescription"></textarea>
+                                        </p-floatLabel>
+                                    </div>
+                                    <div class="w-full">
+                                        <p-floatLabel>
+                                            <label for="Event name">Notification Type</label>
+                                            <p-select [options]="notifTypes" (onChange)="changeType($event.value)"
+                                                formControlName="notificationType" class="w-full" />
+                                        </p-floatLabel>
+                                    </div>
+                                    @if(this.notificationForm.get('notificationType')?.value === 'SMS' ||
+                                    this.notificationForm.get('notificationType')?.value === 'APP'){
+                                    <div class="w-full">
+                                        <p-floatLabel>
+                                            <label for="Event name">Notification Body</label>
+                                            <textarea rows="3" class="w-full" pTextarea
+                                                formControlName="notificationBody"></textarea>
+                                        </p-floatLabel>
+                                    </div>
+                                    }
+                                    @else if (this.notificationForm.get('notificationType')?.value === 'EMAIL') {
+                                    <div class="h-[25rem] w-full">
+                                        <ngx-monaco-editor style="width:100%; height: 100%" [options]="editorOptions"
+                                            formControlName="notificationBody"></ngx-monaco-editor>
+                                    </div>
+
+                                    <div class="w-full">
+                                        <div
+                                            [innerHTML]="sanitizer.bypassSecurityTrustHtml(this.notificationForm.get('notificationBody')?.value)">
+                                        </div>
+                                    </div>
+                                    }
+                                </div>
+                            </ng-template>
+                        </p-step-panel>
+
+
+                    </p-step-panels>
+                </p-stepper>
+            </div>
+            }
+
+        </div>
+    </div>
+</div>
+ <p-toast [breakpoints]="breakPointForToastComponent"></p-toast>

@@ -1,0 +1,74 @@
+<div class="pt-[50px] pl-[20px] pr-[20px] w-full">
+    <div class="pt-[10px]">
+        <app-table-wrapper 
+            [data]="events" 
+            [columns]="columns" 
+            [actions]="actions"
+            [config]="tableConfig"
+            [selectedItem]="selectedEvent"
+            (onRowSelect)="onEventSelect($event)"
+            (onRowUnselect)="onEventUnSelect($event)"
+            (onAction)="onAction($event)"
+            (onCreate)="createEvent()">
+            
+            <!-- Custom body template -->
+            <ng-template #bodyTemplate let-row let-columns="columns">
+                @for(col of columns; track col.field; let first = $first; let last = $last) {
+                <td [class.border-round-left-2xl]="first"
+                    [class.border-round-right-2xl]="last && actions.length === 0"
+                    [class.cursor-pointer]="col.clickable !== false"
+                    class="text-left"
+                    (click)="col.clickable !== false ? onEventSelect({data: row}) : null">
+                    @if(col.field === 'isActive') {
+                        <p-tag [value]="row[col.field] ? 'Active' : 'Inactive'" [severity]="getSeverity(row[col.field])" />
+                    } @else if(col.field === 'eventName') {
+                        <span class="ml-1 vertical-align-middle font-normal text-color">{{ row[col.field] }}</span>
+                        <div class="text-sm text-500 mt-1 ml-1" *ngIf="row.flagName">{{ row.flagName }}  {{ row.flagCondition }}</div>
+                    } @else if(col.field === 'eventDescription') {
+                        <span class="ml-1 vertical-align-middle desc">{{ row[col.field] }}</span>
+                    } @else {
+                        <span class="ml-1 vertical-align-middle">{{ row[col.field] }}</span>
+                    }
+                </td>
+                }
+                @if(actions.length > 0) {
+                <td class="border-round-right-2xl text-left">
+                    <div class="flex gap-2">
+                        @for(action of actions; track action.action) {
+                        <p-button [icon]="action.icon" [rounded]="true" [text]="true" [severity]="$any(action.severity)"
+                            (onClick)="onAction({action: action.action, row: row}); $event.stopPropagation()" [pTooltip]="action.tooltip" />
+                        }
+                    </div>
+                </td>
+                }
+            </ng-template>
+        </app-table-wrapper>
+    </div>
+</div>
+
+<p-dialog header="Event Logs" [(visible)]="displayLogsModal" [modal]="true" [style]="{width: '50vw'}">
+    <p-table [value]="eventLogs" [paginator]="true" [rows]="10" styleClass="p-datatable-sm p-datatable-striped">
+        <ng-template pTemplate="header">
+            <tr>
+                <th>Phase</th>
+                <th>Time</th>
+                <th>Message / Details</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-log>
+            <tr>
+                <td>{{ log.phase }}</td>
+                <td>{{ log.timestamp | date:'short' }}</td>
+                <td>{{ log.message || 'Event trigger' }}</td>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="emptymessage">
+            <tr>
+                <td colspan="3" class="text-center">No logs found for this event.</td>
+            </tr>
+        </ng-template>
+    </p-table>
+</p-dialog>
+
+<p-toast [breakpoints]="breakPointForToastComponent"></p-toast>
+<p-confirm-dialog></p-confirm-dialog>

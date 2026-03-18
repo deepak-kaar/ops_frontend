@@ -1,0 +1,33 @@
+<div class="topbar h-[60px] w-full fixed z-1000 pl-[20px] pr-[20px]">
+    <div class="h-full flex items-center justify-between">
+        <p class="text-white text-[16px] md:text-[20px] font-[400]">Operations Insights</p>
+        @if((isMobile$|async) ==false){
+        <div class="flex items-center gap-4">
+            <p-button label="Home" styleClass="!rounded-[12px] h-[30px] !text-white !bg-transparent !border-none"
+                routerLink="/home/main" routerLinkActive="active-link"></p-button>
+            <p-button label="Dashboard" styleClass="!rounded-[12px] h-[30px] !text-white !bg-transparent !border-none"
+                routerLink="/home/dashboard" [queryParams]="{ pois: '0' }" routerLinkActive="active-link"></p-button>
+            <p-button label="Inbox" styleClass="!rounded-[12px] h-[30px] !text-white !bg-transparent !border-none"
+                routerLinkActive="active-link" routerLink="/home/inbox" [queryParams]="{ pois: '0' }"></p-button>
+            <p-button label="Services" styleClass="!rounded-[12px] h-[30px] !text-white !bg-transparent !border-none"
+                routerLinkActive="active-link" routerLink="/home/services"></p-button>
+        </div>
+
+
+        <div class="p-2 flex">
+            <p-iconfield>
+                <input type="text" class="global-search" pInputText placeholder="Search" />
+                <p-inputicon styleClass="pi pi-search !text-white" />
+            </p-iconfield>
+        </div>
+        }
+        <div>
+            @if((isMobile$|async)){
+            <p-inputicon styleClass="pi pi-search !text-white" />
+            }
+            <p-button icon="pi pi-bell" styleClass="
+             !text-white" [rounded]="true" ariaLabel="notification" [text]="true" />
+            <p-button icon="pi pi-palette" styleClass="!text-white" ariaLabel="customiser" [rounded]="true" [text]="true" />
+        </div>
+    </div>
+</div>

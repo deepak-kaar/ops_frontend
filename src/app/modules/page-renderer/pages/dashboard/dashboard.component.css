@@ -1,0 +1,383 @@
+/* Dashboard Master-Detail Layout - SAP Style */
+/* Note: Uses global CSS variables from table-wrapper.variables.css */
+
+/* Filter bar at top - flush against sidebar */
+.dashboard-filter-bar {
+  padding: 16px 16px 0 16px;
+}
+
+/* Main container - fills viewport below filter */
+.dashboard-main {
+  display: flex;
+  height: calc(100vh - 140px);
+  overflow: hidden;
+  margin: 12px 16px 0 16px;
+  border: var(--card-container-border);
+  border-radius: var(--card-container-border-radius);
+  background: var(--table-container-background);
+  box-shadow: var(--card-container-box-shadow);
+  font-family: ghawar, sans-serif;
+}
+
+/* ========== LEFT PANEL - 20% ========== */
+.dashboard-left {
+  width: 20%;
+  min-width: 240px;
+  max-width: 320px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  border-right: var(--table-cell-border);
+  background: #f9fbfd;
+}
+
+/* List header with controls */
+.dashboard-list-header {
+  flex-shrink: 0;
+  padding: 12px;
+  border-bottom: var(--table-header-border);
+  background: var(--table-header-background);
+}
+
+.dashboard-list-controls {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.dashboard-list-controls :host ::ng-deep .p-button {
+  font-size: var(--text-sm-font-size);
+  font-weight: var(--text-sm-font-weight);
+}
+
+:host ::ng-deep .dashboard-datepicker {
+  flex: 1;
+}
+
+:host ::ng-deep .dashboard-datepicker .p-inputtext {
+  font-size: var(--text-sm-font-size);
+  font-weight: var(--text-sm-font-weight);
+  padding: 6px 8px;
+  width: 100%;
+}
+
+/* Search box */
+.dashboard-search-box {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.dashboard-search-box i {
+  position: absolute;
+  left: 10px;
+  color: var(--subtitle-color);
+  font-size: var(--text-sm-font-size);
+}
+
+.dashboard-search-box input {
+  width: 100%;
+  padding: var(--mobile-search-input-padding);
+  border: var(--mobile-search-input-border);
+  border-radius: var(--mobile-search-input-border-radius);
+  font-size: var(--text-sm-font-size);
+  font-weight: var(--text-sm-font-weight);
+  font-family: ghawar, sans-serif;
+  background: var(--mobile-search-input-background);
+  outline: none;
+  transition: border-color 0.15s;
+}
+
+.dashboard-search-box input:focus {
+  border-color: var(--p-primary-500, #0064EA);
+}
+
+.dashboard-search-box input::placeholder {
+  color: var(--subtitle-color);
+  font-weight: var(--text-sm-font-weight);
+}
+
+/* Scrollable list body */
+.dashboard-list-body {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+/* Empty state */
+.dashboard-list-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  color: var(--subtitle-color);
+  font-size: var(--text-sm-font-size);
+  font-weight: var(--text-sm-font-weight);
+  gap: 8px;
+}
+
+.dashboard-list-empty i {
+  font-size: 32px;
+  opacity: 0.5;
+}
+
+/* List item */
+.dashboard-list-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: var(--table-cell-padding);
+  border-bottom: var(--table-cell-border-bottom);
+  cursor: pointer;
+  transition: background-color 0.15s;
+  gap: 8px;
+}
+
+.dashboard-list-item:hover {
+  background: var(--table-row-hover-background);
+}
+
+.dashboard-list-item.active {
+  background: var(--table-row-selected-background);
+  border-left: 3px solid var(--p-primary-500, #0064EA);
+  padding-left: 11px;
+}
+
+.dashboard-list-item-main {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+}
+
+.dashboard-list-item-title {
+  font-size: var(--mobile-card-title-font-size);
+  font-weight: var(--text-base-font-weight);
+  color: var(--mobile-card-title-color);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-bottom: 4px;
+}
+
+.dashboard-list-item-desc {
+  font-size: var(--mobile-card-subtitle-font-size);
+  font-weight: var(--text-sm-font-weight);
+  color: var(--mobile-card-subtitle-color);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.dashboard-list-item-meta {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 4px;
+  flex-shrink: 0;
+}
+
+.dashboard-list-item-badge {
+  font-size: var(--text-xs-font-size);
+  font-weight: var(--text-xs-font-weight);
+  padding: 2px 8px;
+  border-radius: 4px;
+  background: #fef3c7;
+  color: #a16207;
+}
+
+.dashboard-list-item-badge.active {
+  background: #dcfce7;
+  color: #15803d;
+}
+
+.dashboard-list-item-date {
+  font-size: var(--mobile-card-stat-label-font-size);
+  font-weight: var(--text-xs-font-weight);
+  color: var(--mobile-card-stat-label-color);
+}
+
+/* ========== RIGHT PANEL - 80% ========== */
+.dashboard-right {
+  flex: 1;
+  height: 100%;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  background: var(--table-container-background);
+  font-family: ghawar, sans-serif;
+}
+
+/* Preview wrapper - contains the renderer */
+.dashboard-preview-wrapper {
+  flex: 1;
+  height: 100%;
+  width: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+/* Force global renderer to fit within bounds */
+:host ::ng-deep .dashboard-preview-wrapper app-global-renderer {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+}
+
+:host ::ng-deep .dashboard-preview-wrapper .global-renderer-root {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+:host ::ng-deep .dashboard-preview-wrapper .global-renderer-root.embedded-view {
+  height: auto;
+  min-height: 100%;
+}
+
+:host ::ng-deep .dashboard-preview-wrapper .embedded-content {
+  width: 100%;
+  max-width: 100%;
+  padding: 12px;
+  box-sizing: border-box;
+}
+
+/* Canvas must fit 100% width */
+:host ::ng-deep .dashboard-preview-wrapper .embedded-canvas {
+  width: 100% !important;
+  max-width: 100% !important;
+}
+
+/* Widgets inside canvas */
+:host ::ng-deep .dashboard-preview-wrapper .renderer-widget-root {
+  max-width: 100%;
+}
+
+/* All elements should respect container bounds */
+:host ::ng-deep .dashboard-preview-wrapper img {
+  max-width: 100%;
+  height: auto;
+}
+
+:host ::ng-deep .dashboard-preview-wrapper canvas {
+  max-width: 100% !important;
+}
+
+:host ::ng-deep .dashboard-preview-wrapper .p-chart {
+  width: 100% !important;
+  max-width: 100% !important;
+}
+
+:host ::ng-deep .dashboard-preview-wrapper table {
+  max-width: 100%;
+  table-layout: fixed;
+}
+
+:host ::ng-deep .dashboard-preview-wrapper .p-datatable-wrapper {
+  overflow-x: auto;
+  max-width: 100%;
+}
+
+/* Form inputs should not overflow */
+:host ::ng-deep .dashboard-preview-wrapper .p-inputtext,
+:host ::ng-deep .dashboard-preview-wrapper .p-dropdown,
+:host ::ng-deep .dashboard-preview-wrapper .p-multiselect,
+:host ::ng-deep .dashboard-preview-wrapper .p-calendar {
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+/* Empty preview state */
+.dashboard-preview-empty {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: var(--subtitle-color);
+  font-size: var(--text-base-font-size);
+  font-weight: var(--text-base-font-weight);
+  gap: 12px;
+  background: #f9fbfd;
+}
+
+.dashboard-preview-empty i {
+  font-size: 48px;
+  opacity: 0.3;
+}
+
+/* Scrollbar styling */
+.dashboard-list-body::-webkit-scrollbar,
+.dashboard-preview-wrapper::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+
+.dashboard-list-body::-webkit-scrollbar-track,
+.dashboard-preview-wrapper::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.dashboard-list-body::-webkit-scrollbar-thumb,
+.dashboard-preview-wrapper::-webkit-scrollbar-thumb {
+  background: var(--p-surface-300, #d1d5db);
+  border-radius: 3px;
+}
+
+.dashboard-list-body::-webkit-scrollbar-thumb:hover,
+.dashboard-preview-wrapper::-webkit-scrollbar-thumb:hover {
+  background: var(--p-surface-400, #9ca3af);
+}
+
+/* ========== RESPONSIVE ========== */
+@media screen and (max-width: 1024px) {
+  .dashboard-left {
+    min-width: 200px;
+    max-width: 280px;
+  }
+
+  .dashboard-list-item-title {
+    font-size: var(--text-sm-font-size);
+  }
+
+  .dashboard-list-item-desc {
+    font-size: var(--text-xs-font-size);
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .dashboard-filter-bar {
+    padding: 12px 12px 0 12px;
+  }
+
+  .dashboard-main {
+    flex-direction: column;
+    height: calc(100vh - 120px);
+    margin: 8px 12px 0 12px;
+  }
+
+  .dashboard-left {
+    width: 100%;
+    min-width: 100%;
+    max-width: 100%;
+    height: 35%;
+    border-right: none;
+    border-bottom: var(--table-cell-border);
+  }
+
+  .dashboard-right {
+    height: 65%;
+  }
+
+  .dashboard-list-item-title {
+    font-size: var(--text-sm-font-size);
+  }
+
+  .dashboard-list-item-desc {
+    font-size: var(--text-xs-font-size);
+  }
+
+  .dashboard-search-box input {
+    font-size: var(--text-xs-font-size);
+  }
+}

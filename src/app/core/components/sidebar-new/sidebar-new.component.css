@@ -1,0 +1,217 @@
+.sidebar {
+  width: 260px;
+  min-width: 260px;
+  height: 100vh;
+  position: sticky;
+  display: flex;
+  flex-direction: column;
+  background: #ffffff;
+  border-top-right-radius: 50px;
+  border-bottom-right-radius: 50px;
+  border-right: 2px solid #ebeef0;
+  /* padding: 14px 10px; */
+  overflow: hidden;
+  transition: width 0.3s ease, min-width 0.3s ease, padding 0.3s ease;
+}
+
+.sidebar-content {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.sidebar.sidebar-collapsed {
+  width: 72px;
+  min-width: 72px;
+  padding: 14px 8px;
+}
+
+/* Logo Row */
+.sidebar-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-weight: 300;
+  font-size: 24px;
+  margin-bottom: 18px;
+  padding: 6px 10px;
+}
+
+.logo-icon {
+  color: #2563eb;
+  font-size: 45px;
+}
+
+.logo-img {
+  width: 26px;
+  height: 26px;
+  object-fit: contain;
+}
+
+.logo-text {
+  margin-top: 2px;
+  color: #000000;
+}
+
+/* Collapsed state: hide long label, show short "OI" */
+.header-display {
+  display: none !important;
+}
+
+.logo-text-short {
+  font-weight: 600;
+  font-size: 18px;
+}
+
+/* Hide labels when collapsed, show when expanded */
+.invisible {
+  visibility: hidden;
+  opacity: 0;
+  width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  transition: visibility 0.2s, opacity 0.2s;
+}
+
+.visible {
+  visibility: visible;
+  opacity: 1;
+}
+
+/* Section Title */
+.sidebar-section-title {
+  font-size: 12px;
+  color: #263141cc;
+  opacity: 0.8;
+  padding: 6px 10px;
+  letter-spacing: 0.05em;
+}
+
+/* Menu item */
+.sidebar-item {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 10px 12px;
+  margin: 2px 4px;
+  border-radius: 8px;
+  color: #111827;
+  cursor: pointer;
+  transition: 0.15s ease;
+}
+
+/* Keep icon/svg from shrinking - first non-label child */
+.sidebar-item > i,
+.sidebar-item > svg {
+  flex-shrink: 0;
+}
+
+/* Hover */
+.sidebar-item:hover {
+  background: #f3f6ff;
+}
+
+.sidebar-item i {
+  font-size: 14px;
+}
+
+.sidebar-item svg {
+  width: 16px;
+  height: 16px;
+}
+
+.sidebar-item.active {
+  background: #f0f5f9;
+  color: #0064ea;
+  border: 1px solid #f0f5f9;
+}
+
+.sidebar-logout {
+  margin-top: 8px;
+  border-top: 1px solid #ebeef0;
+  border-radius: 0;
+}
+
+/* Collapse toggle button - sticks to bottom via flex */
+.sidebar-collapse-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: auto;
+  flex-shrink: 0;
+  padding: 10px 12px;
+  margin: 8px 4px;
+  border-radius: 8px;
+  cursor: pointer;
+  color: #fff;
+  background: var(--p-primary-500, #0064EA);
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.sidebar-collapse-toggle:hover {
+  background: var(--p-primary-600, #0056d6);
+  transform: scale(1.05);
+}
+
+.sidebar-collapse-toggle i {
+  font-size: 14px;
+}
+
+/* Collapsed: center icons in items and make them larger */
+.sidebar-collapsed .sidebar-item {
+  justify-content: center;
+  padding: 10px;
+  gap: 0;
+}
+
+.sidebar-collapsed .sidebar-item > i {
+  font-size: 20px;
+}
+
+.sidebar-collapsed .sidebar-item > svg {
+  width: 20px;
+  height: 20px;
+  min-width: 20px;
+  min-height: 20px;
+}
+
+.sidebar-collapsed .sidebar-header {
+  justify-content: center;
+  padding: 6px 0;
+}
+
+/* Scrollbar clean */
+.sidebar-content::-webkit-scrollbar {
+  width: 6px;
+}
+
+.sidebar-content::-webkit-scrollbar-thumb {
+  background: #e5e7eb;
+  border-radius: 10px;
+}
+
+/* POIS-only mode: keep sidebar compact when non-overview sections are hidden */
+.sidebar.pois-only .sidebar-content {
+  overflow-y: hidden;
+}
+
+.sidebar.pois-only .sidebar-header {
+  margin-bottom: 12px;
+}
+
+.sidebar.pois-only .sidebar-section-title {
+  margin-top: 0;
+  padding-top: 2px;
+  padding-bottom: 2px;
+}
+
+/* Show Scan Document only on mobile layout */
+.scan-mobile-only {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .scan-mobile-only {
+    display: flex;
+  }
+}

@@ -1,0 +1,147 @@
+<div class="pt-[20px] lg:pt-[50px] pl-[20px] pr-[20px] w-full">
+    <div class="flex gap-[10px]">
+        <p-select optionLabel="name" placeholder="Select a Page" class="w-full lg:w-[30%]" />
+    </div>
+    <div class="flex pt-[20px] flex-wrap gap-[25px]">
+        <div class="flex-1">
+            <p-card class="w-full">
+                <p-table #dt [value]="availableRoles" [(selection)]="selectedRoles" dataKey="code">
+                    <ng-template #caption>
+                        @if((isMobile$|async)==true){
+                            <div class="flex flex-col gap-[10px]">
+                                <div class="flex justify-between gap-[5px] items-center">
+                                    <div class="flex items-center gap-[10px]">
+                                        <span>Avaiable Roles</span>
+                                    </div>
+                                    <div class="flex gap-[10px]">
+                                        <p-button>
+                                            <div class="flex items-center gap-[5px]">
+                                                <svg width="16" height="18" viewBox="0 0 16 18" fill="none"
+                                                    xmlns="http://www.w3.org/2000/svg">
+                                                    <path
+                                                        d="M1.43644 16.1066C1.03822 16.1066 0.699259 15.9658 0.419556 15.6842C0.139852 15.4027 0 15.0617 0 14.6615V3.23474C0 2.83506 0.139852 2.49413 0.419556 2.21197C0.699259 1.9304 1.03822 1.78962 1.43644 1.78962H5.61422C5.53304 1.33267 5.64148 0.920163 5.93955 0.552098C6.23704 0.184033 6.62755 0 7.11111 0C7.60592 0 8.00237 0.184033 8.30044 0.552098C8.59852 0.920163 8.70133 1.33267 8.60889 1.78962H12.7867C13.1837 1.78962 13.5224 1.9304 13.8027 2.21197C14.0824 2.49354 14.2222 2.83476 14.2222 3.23563V8.55975C14.0664 8.50547 13.917 8.46132 13.7742 8.42732C13.632 8.39392 13.485 8.36051 13.3333 8.3271V3.23563C13.3333 3.09783 13.2764 2.97137 13.1627 2.85623C13.0489 2.7411 12.9233 2.68383 12.7858 2.68443H1.43644C1.29956 2.68443 1.17393 2.7417 1.05956 2.85623C0.945185 2.97077 0.888296 3.09724 0.888889 3.23563V14.6615C0.888889 14.7987 0.945778 14.9248 1.05956 15.04C1.17333 15.1551 1.29867 15.2124 1.43556 15.2118H6.472C6.49333 15.3788 6.52089 15.5342 6.55467 15.678C6.58844 15.8211 6.632 15.964 6.68533 16.1066H1.43644ZM0.888889 14.317V15.2118V2.68443V8.3271V8.25999V14.317ZM3.11111 12.7689H6.63111C6.6637 12.6156 6.70815 12.4674 6.76444 12.3242L6.94222 11.8732H3.11111V12.7689ZM3.11111 9.39551H8.96C9.25215 9.1891 9.53985 9.01432 9.82311 8.87115C10.1064 8.72738 10.4104 8.61464 10.7351 8.53291V8.5007H3.11111V9.39551ZM3.11111 6.02207H11.1111V5.12726H3.11111V6.02207ZM7.11111 2.18602C7.3037 2.18602 7.46311 2.12279 7.58933 1.99632C7.71555 1.86985 7.77837 1.70939 7.77778 1.51491C7.77718 1.32044 7.71407 1.16027 7.58844 1.0344C7.46281 0.90853 7.3037 0.844701 7.11111 0.842911C6.91852 0.841121 6.75941 0.904653 6.63378 1.03351C6.50815 1.16236 6.44504 1.32253 6.44444 1.51402C6.44385 1.70551 6.50696 1.86598 6.63378 1.99543C6.76059 2.12488 6.9197 2.189 7.11111 2.18602ZM12.4444 18C11.4542 18 10.6142 17.6525 9.92444 16.9575C9.23407 16.2632 8.88889 15.4176 8.88889 14.4208C8.88889 13.4239 9.23407 12.578 9.92444 11.8831C10.6148 11.1881 11.4548 10.8409 12.4444 10.8415C13.4341 10.8421 14.2744 11.1893 14.9653 11.8831C15.6563 12.5769 16.0012 13.4227 16 14.4208C16 15.417 15.6551 16.2626 14.9653 16.9575C14.2744 17.6525 13.4341 18 12.4444 18ZM12.1031 17.0014H12.7867V14.7644H15.0089V14.0754H12.7867V11.8383H12.1022V14.0754H9.88V14.7644H12.1022L12.1031 17.0014Z"
+                                                        fill="white" />
+                                                </svg>
+                                                <span>Assign</span>
+                                            </div>
+                                        </p-button>
+                                        <p-button [outlined]="true" icon="pi pi-filter-slash" (click)="clear(dt)" />
+                                       
+                                    </div>
+                                </div>
+                                <p-iconField iconPosition="left" class="w-full">
+                                    <p-inputIcon class="w-full">
+                                        <i class="pi pi-search"></i>
+                                    </p-inputIcon>
+                                    <input pInputText type="text" [(ngModel)]="searchValue" placeholder="Search" class="w-full" />
+                                </p-iconField>
+                            </div>
+                        }
+                        @else{
+                        <div class="flex justify-between gap-[5px] items-center">
+                            <div class="flex items-center gap-[10px]">
+                                <span>Avaiable Roles</span>
+                            </div>
+                            <div class="flex gap-[10px]">
+                                <p-button>
+                                    <div class="flex items-center gap-[5px]">
+                                        <svg width="16" height="18" viewBox="0 0 16 18" fill="none"
+                                            xmlns="http://www.w3.org/2000/svg">
+                                            <path
+                                                d="M1.43644 16.1066C1.03822 16.1066 0.699259 15.9658 0.419556 15.6842C0.139852 15.4027 0 15.0617 0 14.6615V3.23474C0 2.83506 0.139852 2.49413 0.419556 2.21197C0.699259 1.9304 1.03822 1.78962 1.43644 1.78962H5.61422C5.53304 1.33267 5.64148 0.920163 5.93955 0.552098C6.23704 0.184033 6.62755 0 7.11111 0C7.60592 0 8.00237 0.184033 8.30044 0.552098C8.59852 0.920163 8.70133 1.33267 8.60889 1.78962H12.7867C13.1837 1.78962 13.5224 1.9304 13.8027 2.21197C14.0824 2.49354 14.2222 2.83476 14.2222 3.23563V8.55975C14.0664 8.50547 13.917 8.46132 13.7742 8.42732C13.632 8.39392 13.485 8.36051 13.3333 8.3271V3.23563C13.3333 3.09783 13.2764 2.97137 13.1627 2.85623C13.0489 2.7411 12.9233 2.68383 12.7858 2.68443H1.43644C1.29956 2.68443 1.17393 2.7417 1.05956 2.85623C0.945185 2.97077 0.888296 3.09724 0.888889 3.23563V14.6615C0.888889 14.7987 0.945778 14.9248 1.05956 15.04C1.17333 15.1551 1.29867 15.2124 1.43556 15.2118H6.472C6.49333 15.3788 6.52089 15.5342 6.55467 15.678C6.58844 15.8211 6.632 15.964 6.68533 16.1066H1.43644ZM0.888889 14.317V15.2118V2.68443V8.3271V8.25999V14.317ZM3.11111 12.7689H6.63111C6.6637 12.6156 6.70815 12.4674 6.76444 12.3242L6.94222 11.8732H3.11111V12.7689ZM3.11111 9.39551H8.96C9.25215 9.1891 9.53985 9.01432 9.82311 8.87115C10.1064 8.72738 10.4104 8.61464 10.7351 8.53291V8.5007H3.11111V9.39551ZM3.11111 6.02207H11.1111V5.12726H3.11111V6.02207ZM7.11111 2.18602C7.3037 2.18602 7.46311 2.12279 7.58933 1.99632C7.71555 1.86985 7.77837 1.70939 7.77778 1.51491C7.77718 1.32044 7.71407 1.16027 7.58844 1.0344C7.46281 0.90853 7.3037 0.844701 7.11111 0.842911C6.91852 0.841121 6.75941 0.904653 6.63378 1.03351C6.50815 1.16236 6.44504 1.32253 6.44444 1.51402C6.44385 1.70551 6.50696 1.86598 6.63378 1.99543C6.76059 2.12488 6.9197 2.189 7.11111 2.18602ZM12.4444 18C11.4542 18 10.6142 17.6525 9.92444 16.9575C9.23407 16.2632 8.88889 15.4176 8.88889 14.4208C8.88889 13.4239 9.23407 12.578 9.92444 11.8831C10.6148 11.1881 11.4548 10.8409 12.4444 10.8415C13.4341 10.8421 14.2744 11.1893 14.9653 11.8831C15.6563 12.5769 16.0012 13.4227 16 14.4208C16 15.417 15.6551 16.2626 14.9653 16.9575C14.2744 17.6525 13.4341 18 12.4444 18ZM12.1031 17.0014H12.7867V14.7644H15.0089V14.0754H12.7867V11.8383H12.1022V14.0754H9.88V14.7644H12.1022L12.1031 17.0014Z"
+                                                fill="white" />
+                                        </svg>
+                                        <span>Assign</span>
+                                    </div>
+                                </p-button>
+                                <p-button [outlined]="true" icon="pi pi-filter-slash" (click)="clear(dt)" />
+                                <p-iconField iconPosition="left">
+                                    <p-inputIcon>
+                                        <i class="pi pi-search"></i>
+                                    </p-inputIcon>
+                                    <input pInputText type="text" [(ngModel)]="searchValue" placeholder="Search" />
+                                </p-iconField>
+                            </div>
+                        </div>
+                    }
+                    </ng-template>
+                    <ng-template #header>
+                        <tr>
+                            <th style="width: 4rem"><p-tableHeaderCheckbox /></th>
+                            <th>Page Name</th>
+                            <th>Page Description</th>
+                        </tr>
+                    </ng-template>
+                    <ng-template #body let-product>
+                        <tr>
+                            <td>
+                                <p-tableCheckbox [value]="product" />
+                            </td>
+                            <td>{{product.code}}</td>
+                            <td>{{product.name}}</td>
+                        </tr>
+                    </ng-template>
+                </p-table>
+            </p-card>
+        </div>
+        <div class="flex-1">
+            <p-card class="w-full">
+                <p-table [value]="selectedRoles" [(selection)]="unSelectedRoles" dataKey="code">
+                    <ng-template #caption>
+                        @if((isMobile$|async)==true){
+                            <div class="flex flex-col gap-[10px]">
+                                <div class="flex justify-between gap-[5px] items-center">
+                                    <span>Assigned Roles</span>
+                                    <div class="flex gap-[10px]">
+                                        <p-button label="Save" icon="pi pi-save" />
+                                        <p-button [outlined]="true" icon="pi pi-filter-slash" (click)="clear(dt)" />
+                                       
+                                    </div>
+        
+                                </div>
+                                <p-iconField iconPosition="left" class="w-full">
+                                    <p-inputIcon class="w-full">
+                                        <i class="pi pi-search"></i>
+                                    </p-inputIcon>
+                                    <input pInputText type="text" [(ngModel)]="searchValue" placeholder="Search" class="w-full" />
+                                </p-iconField>
+                            </div>
+                        }
+                        @else{
+                        <div class="flex justify-between gap-[5px] items-center">
+                            <span>Assigned Roles</span>
+                            <div class="flex gap-[10px]">
+                                <p-button label="Save" icon="pi pi-save" />
+                                <p-button [outlined]="true" icon="pi pi-filter-slash" (click)="clear(dt)" />
+                                <p-iconField iconPosition="left">
+                                    <p-inputIcon>
+                                        <i class="pi pi-search"></i>
+                                    </p-inputIcon>
+                                    <input pInputText type="text" [(ngModel)]="searchValue" placeholder="Search" />
+                                </p-iconField>
+                            </div>
+
+                        </div>
+                    }
+                    </ng-template>
+                    <ng-template #header>
+                        <tr>
+                            <th style="width: 4rem"><p-tableHeaderCheckbox /></th>
+                            <th>Page Name</th>
+                            <th>Page Description</th>
+                        </tr>
+                    </ng-template>
+                    <ng-template #body let-product>
+                        <tr>
+                            <td>
+                                <p-tableCheckbox [value]="product" />
+                            </td>
+                            <td>{{product.code}}</td>
+                            <td>{{product.name}}</td>
+                        </tr>
+                    </ng-template>
+                </p-table>
+            </p-card>
+        </div>
+    </div>
+</div>

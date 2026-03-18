@@ -1,0 +1,91 @@
+<div class="flex flex-col gap-[10px] manage-calculation">
+    <form [formGroup]="stepForm" class="flex flex-col gap-[10px]">
+        <div class="grid grid-cols-2 gap-4">
+            <div class="flex flex-col gap-2">
+                <label for="calculationName">Activity Step Name<span class="text-[var(--p-red-500)]">
+                        *</span></label>
+                <input pInputText id="fmName" formControlName="stepName" aria-describedby="username-help" />
+            </div>
+            <div class="flex flex-col gap-2">
+                <label for="calculationDesc">Activity Step Description</label>
+                <input pInputText id="fmDesc" formControlName="stepDesc" aria-describedby="username-help" />
+            </div>
+        </div>
+        <div>
+            <label for="fmName">Run Mode</label>
+            <p-select [options]="runModes" [filter]="true" appendTo="body" styleClass="w-full"
+                formControlName="runMode"></p-select>
+        </div>
+        <div>
+            <label for="fmName">Retry Rule</label>
+            <p-select [options]="retryRules" [filter]="true" appendTo="body" styleClass="w-full"
+                formControlName="retryRule"></p-select>
+        </div>
+
+        <div>
+            <label for="fmName">Choose Function Model</label>
+            <p-select [options]="fmData$ | async" [filter]="true" appendTo="body" optionLabel="functionName"
+                (onChange)="onFmChange($event)" optionValue="functionId" styleClass="w-full"></p-select>
+        </div>
+
+        <div class="grid grid-cols-2 gap-4">
+            <div class="flex flex-col gap-2">
+                <div class="flex items-center justify-between">
+                    <label for="outputAttributes">Input Attributes</label>
+                </div>
+                <div formArrayName="ipAttributes">
+                    @for(variable of inputAttr.controls;track variable;let idx =
+                    $index){
+                    <div class="flex items-center gap-5" [formGroupName]="idx">
+                        <div class="w-full">
+                            <label for="ipName">Name</label>
+                            <input id="ipName" type="text" pInputText style='width:100%' formControlName="ipName" />
+                        </div>
+                        <div class="w-full">
+                            <label for="ipName">Type</label>
+                            <p-select [options]="dataTypes" [filter]="true" appendTo="body" styleClass="w-full"
+                                formControlName="type"></p-select>
+                        </div>
+                        <div class="w-full">
+                            <label for="ipName">Value</label>
+                            <input id="ipValue" type="text" pInputText style='width:100%' formControlName="value" />
+                        </div>
+                    </div>
+                    }
+                </div>
+            </div>
+
+            <div class="flex flex-col gap-2">
+                <div class="flex items-center justify-between">
+                    <label for="outputAttributes">Output Attributes</label>
+                </div>
+                <div formArrayName="opAttributes">
+                    @for(variable of outputAttr.controls;track variable;let idx =
+                    $index){
+                    <div class="flex items-center gap-5" [formGroupName]="idx">
+                        <div class="w-full">
+                            <label for="ipName">Name</label>
+                            <input id="opName" type="text" pInputText style='width:100%' formControlName="opName" />
+                        </div>
+                        <div class="w-full">
+                            <label for="ipName">Type</label>
+                            <p-select [options]="dataTypes" [filter]="true" appendTo="body" styleClass="w-full"
+                                formControlName="type"></p-select>
+                        </div>
+                        <div class="w-full">
+                            <label for="ipName">Value</label>
+                            <input id="ipValue" type="text" pInputText style='width:100%' formControlName="value" />
+                        </div>
+                    </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </form>
+
+    <div class="flex justify-center gap-[10px]">
+        <p-button styleClass="w-[250px]" severity="danger" outlined="true" label="Cancel"
+            (onClick)="cancel()"></p-button>
+        <p-button styleClass="w-[250px]" label="Save" (onClick)="create()"></p-button>
+    </div>
+</div>

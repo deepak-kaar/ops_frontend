@@ -1,0 +1,351 @@
+<div class="layout-root surface">
+
+  <!-- MOBILE OVERLAY -->
+  <div class="mobile-overlay" [class.active]="mobileSidebarVisible" (click)="toggleMobileSidebar()"></div>
+
+  <!-- FIXED SIDEBAR -->
+  <aside class="sidebar-wrapper" [class.mobile-open]="mobileSidebarVisible">
+    <app-sidebar-new></app-sidebar-new>
+  </aside>
+
+  <!-- RIGHT SIDE -->
+  <div class="right-pane surface-ground">
+
+    <app-topbar-new (menuToggle)="toggleMobileSidebar()"
+      [showRolloutLabel]="true"
+      [labels]="labels"
+      [(selectedLabel)]="selectedLabel"
+      (labelChange)="onLabelChange()">
+    </app-topbar-new>
+
+    <!-- content that scrolls -->
+    <div class="right-scroll">
+
+      <!-- Filter Section -->
+      <div class="pt-[20px] px-[20px] md:pt-[50px] flex flex-wrap items-center gap-[15px] md:gap-[20px]">
+        <app-filter-new (attributeSelected)="onAttributeSelected($event)"></app-filter-new>
+        <button pButton label="Search" icon="pi pi-search" (click)="onSearch()" class="sm:w-auto"></button>
+      </div>
+
+      @if(appDetails || orgDetails){
+      <div class="mt-[30px] px-[20px]">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+          @if(appDetails){
+          <div class="bg-white rounded-lg shadow-md p-6 border border-gray-200">
+            <h2 class="text-l font-semibold mb-4 text-gray-800 border-b pb-2">Application Details</h2>
+            <div class="space-y-3">
+              <div class="flex flex-row items-center gap-3">
+                <label class="text-sm font-medium text-gray-600">Application Name: </label>
+                <span class="text-base text-gray-900 font-medium">{{ appDetails.appName || '-' }}</span>
+              </div>
+              <div class="flex flex-row items-center gap-3">
+                <label class="text-sm font-medium text-gray-600">Application Owner: </label>
+                <span class="text-base text-gray-900 font-medium">{{ appDetails.appOwner || '-' }}</span>
+              </div>
+              <div class="flex flex-row items-center gap-3">
+                <label class="text-sm font-medium text-gray-600">Description: </label>
+                <span class="text-base text-gray-900 font-medium">{{ appDetails.appDescription || '-' }}</span>
+              </div>
+            </div>
+          </div>
+          }
+          @if(orgDetails){
+          <div class="bg-white rounded-lg shadow-md p-6 border border-gray-200">
+            <h2 class="text-l font-semibold mb-4 text-gray-800 border-b pb-2">Organization Details</h2>
+            <div class="space-y-3">
+              <div class="flex flex-row items-center gap-3">
+                <label class="text-sm font-medium text-gray-600">Organization Name: </label>
+                <span class="text-base text-gray-900 font-medium">{{ orgDetails.orgName || '-' }}</span>
+              </div>
+              <div class="flex flex-row items-center gap-3">
+                <label class="text-sm font-medium text-gray-600">Code: </label>
+                <span class="text-base text-gray-900 font-medium">{{ orgDetails.orgCode || '-' }}</span>
+              </div>
+              <div class="flex flex-row items-center gap-3">
+                <label class="text-sm font-medium text-gray-600">Description: </label>
+                <span class="text-base text-gray-900 font-medium">{{ orgDetails.orgDescription || '-' }}</span>
+              </div>
+            </div>
+          </div>
+          }
+        </div>
+      </div>
+      }
+
+      @if(entityDetails){
+      <div class="mt-[30px] px-[20px] overflow-x-auto">
+        <div class="mb-8 bg-white rounded-lg shadow-md p-6 border border-gray-200">
+          <h2 class="text-l font-semibold mb-4 text-gray-800 border-b pb-2">Entity Details</h2>
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            <div class="flex flex-row items-center gap-3">
+              <label class="text-sm font-medium text-gray-600">Entity Name: </label>
+              <span class="text-base text-gray-900 font-medium">{{ entityDetails.entityName || '-' }}</span>
+            </div>
+            <div class="flex flex-row items-center gap-3">
+              <label class="text-sm font-medium text-gray-600">Entity Level Name: </label>
+              <span class="text-base text-gray-900 font-medium">{{ entityDetails.entityLevelName || '-' }}</span>
+            </div>
+            <div class="flex flex-row items-center gap-3">
+              <label class="text-sm font-medium text-gray-600">Description: </label>
+              <span class="text-base text-gray-900 font-medium">{{ entityDetails.entityDesc || '-' }}</span>
+            </div>
+            <div class="flex flex-row items-center gap-3">
+              <label class="text-sm font-medium text-gray-600">Created On: </label>
+              <span class="text-base text-gray-900 font-medium">{{ entityDetails.createdOn | date: 'medium' }}</span>
+            </div>
+            <div class="flex flex-row items-center gap-3">
+              <label class="text-sm font-medium text-gray-600">Modified On: </label>
+              <span class="text-base text-gray-900 font-medium">{{ entityDetails.updatedOn | date: 'medium' }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      }
+
+      @if(instanceDetails){
+      <div class="mt-[30px] px-[20px] overflow-x-auto">
+        <div class="mb-8 bg-white rounded-lg shadow-md p-6 border border-gray-200">
+          <h2 class="text-l font-semibold mb-4 text-gray-800 border-b pb-2">Instance Details</h2>
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            <div class="flex flex-row items-center gap-3">
+              <label class="text-sm font-medium text-gray-600">Entity Name: </label>
+              <span class="text-base text-gray-900 font-medium">{{ instanceDetails.entityLookUpDetails.entityName || '-' }}</span>
+            </div>
+            <div class="flex flex-row items-center gap-3">
+              <label class="text-sm font-medium text-gray-600">Instance Name: </label>
+              <span class="text-base text-gray-900 font-medium">{{ instanceDetails.instanceName || '-' }}</span>
+            </div>
+            <div class="flex flex-row items-center gap-3">
+              <label class="text-sm font-medium text-gray-600">Instance Level Name: </label>
+              <span class="text-base text-gray-900 font-medium">{{ instanceDetails.instanceLevelName || '-' }}</span>
+            </div>
+            <div class="flex flex-row items-center gap-3">
+              <label class="text-sm font-medium text-gray-600">Description: </label>
+              <span class="text-base text-gray-900 font-medium">{{ instanceDetails.instanceDesc || '-' }}</span>
+            </div>
+            <div class="flex flex-row items-center gap-3">
+              <label class="text-sm font-medium text-gray-600">Location: </label>
+              <span class="text-base text-gray-900 font-medium">{{ instanceDetails.instanceLocation || '-' }}</span>
+            </div>
+            <div class="flex flex-row items-center gap-3">
+              <label class="text-sm font-medium text-gray-600">Created On: </label>
+              <span class="text-base text-gray-900 font-medium">{{ instanceDetails.createdOn | date: 'medium' }}</span>
+            </div>
+            <div class="flex flex-row items-center gap-3">
+              <label class="text-sm font-medium text-gray-600">Modified On: </label>
+              <span class="text-base text-gray-900 font-medium">{{ instanceDetails.updatedOn | date: 'medium' }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      }
+
+      <div class="mt-[30px] px-[20px] overflow-x-auto pb-[40px]">
+        @if (attributeDetails) {
+        <div class="mb-8 bg-white rounded-lg shadow-md p-6 border border-gray-200">
+          <div class="flex items-center justify-between mb-4 border-b pb-2">
+            <h2 class="text-l font-semibold text-gray-800">Attribute Details</h2>
+          </div>
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            <div class="flex flex-row items-center gap-3">
+              <label class="text-sm font-medium text-gray-600">Attribute Name: </label>
+              <span class="text-base text-gray-900 font-medium">{{ attributeDetails.attributeName || '-' }}</span>
+            </div>
+            <div class="flex flex-row items-center gap-3">
+              <label class="text-sm font-medium text-gray-600">Data Type: </label>
+              <span class="text-base text-gray-900 font-medium">{{ attributeDetails.dataPointID?.dataType || '-' }}</span>
+            </div>
+            <div class="flex flex-row items-center gap-3">
+              <label class="text-sm font-medium text-gray-600">Time Series Value: </label>
+              <span class="text-base text-gray-900 font-medium">{{ attributeDetails.timeSeriesValue || '-' }}</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <label class="text-sm font-medium text-gray-600">Is Active: </label>
+              <p-checkbox [(ngModel)]="attributeDetails.isActive" [binary]="true" [disabled]="true" styleClass="pointer-events-none" />
+            </div>
+            <div class="flex items-center gap-2">
+              <label class="text-sm font-medium text-gray-600">Time Series: </label>
+              <p-checkbox [(ngModel)]="attributeDetails.timeSeries" [binary]="true" [disabled]="true" styleClass="pointer-events-none" />
+            </div>
+            <div class="flex flex-row items-center gap-3">
+              <label class="text-sm font-medium text-gray-600">Comments: </label>
+              <span class="text-base text-gray-900 font-medium">{{ attributeDetails.comments || '-' }}</span>
+            </div>
+            <div class="flex flex-row items-center gap-3">
+              <label class="text-sm font-medium text-gray-600">Created On: </label>
+              <span class="text-base text-gray-900 font-medium">{{ attributeDetails.createdOn | date: 'medium' }}</span>
+            </div>
+            <div class="flex flex-row items-center gap-3">
+              <label class="text-sm font-medium text-gray-600">Created By: </label>
+              <span class="text-base text-gray-900 font-medium">{{ attributeDetails.createdBy }}</span>
+            </div>
+            <div class="flex flex-row items-center gap-3">
+              <label class="text-sm font-medium text-gray-600">Modified On: </label>
+              <span class="text-base text-gray-900 font-medium">{{ attributeDetails.updatedOn | date: 'medium' }}</span>
+            </div>
+          </div>
+        </div>
+        }
+
+        <!-- Calculation Data Table -->
+        <div class="text-l mb-3 flex justify-between items-center">
+          <span>Calculation Engine Data</span>
+          <span>{{ calculationData.length }} Records</span>
+        </div>
+        <div class="table-wrapper">
+          <p-table [value]="calculationData" [rows]="20" [paginator]="true" [rowsPerPageOptions]="[20,30,50]" [rowHover]="true" [loading]="isLoading">
+            <ng-template pTemplate="header">
+              <tr>
+                <th class="border-round-left-2xl">Application Name</th>
+                <th>Organization Name</th>
+                <th>Calculation Name</th>
+                <th>Description</th>
+                <th>Created On</th>
+                <th>Created By</th>
+                <th class="border-round-right-2xl">Actions</th>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-item>
+              <tr>
+                <td class="border-round-left-2xl">{{ appDetails?.appName ?? '-' }}</td>
+                <td>{{ orgDetails?.orgName ?? '-' }}</td>
+                <td>{{ item.calculationName }}</td>
+                <td>{{ item.calculationDesc }}</td>
+                <td>{{ item.createdOn | date: 'short' }}</td>
+                <td>{{ item.createdBy}}</td>
+                <td class="border-round-right-2xl">
+                  <p-button icon="pi pi-eye" [rounded]="true" [outlined]="true" size="small" (click)="editCalculation(item)" />
+                </td>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="emptymessage">
+              <tr>
+                <td colspan="7" class="text-center">No Calculation Data found.</td>
+              </tr>
+            </ng-template>
+          </p-table>
+        </div>
+
+        <!-- Correlation Data Table -->
+        <div class="text-l mt-10 mb-3 flex justify-between items-center">
+          <span>Correlation Engine Data</span>
+          <span>{{ correlationData.length }} Records</span>
+        </div>
+        <div class="table-wrapper">
+          <p-table [value]="correlationData" [rows]="20" [paginator]="true" [rowsPerPageOptions]="[20,30,50]" [rowHover]="true" [loading]="isLoading">
+            <ng-template pTemplate="header">
+              <tr>
+                <th class="border-round-left-2xl">Application Name</th>
+                <th>Organization Name</th>
+                <th>Correlation Name</th>
+                <th>Description</th>
+                <th>Created On</th>
+                <th>Created By</th>
+                <th class="border-round-right-2xl">Actions</th>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-item>
+              <tr>
+                <td class="border-round-left-2xl">{{ appDetails?.appName ?? '-' }}</td>
+                <td>{{ orgDetails?.orgName ?? '-' }}</td>
+                <td>{{ item.correlationName }}</td>
+                <td>{{ item.correlationDesc }}</td>
+                <td>{{ item.createdOn | date: 'short' }}</td>
+                <td>{{ item.createdBy}}</td>
+                <td class="border-round-right-2xl">
+                  <p-button icon="pi pi-eye" [rounded]="true" [outlined]="true" size="small" (click)="editCorrelation(item)" />
+                </td>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="emptymessage">
+              <tr>
+                <td colspan="7" class="text-center">No Correlation Data found.</td>
+              </tr>
+            </ng-template>
+          </p-table>
+        </div>
+
+        <!-- Activity Data Table -->
+        <div class="text-l mt-10 mb-3 flex justify-between items-center">
+          <span>Activity Engine Data</span>
+          <span>{{ activityData.length }} Records</span>
+        </div>
+        <div class="table-wrapper">
+          <p-table [value]="activityData" [rows]="20" [paginator]="true" [rowsPerPageOptions]="[20,30,50]" [rowHover]="true" [loading]="isLoading">
+            <ng-template pTemplate="header">
+              <tr>
+                <th class="border-round-left-2xl">Application Name</th>
+                <th>Organization Name</th>
+                <th>Template Name</th>
+                <th>Description</th>
+                <th>Created On</th>
+                <th>Created By</th>
+                <th class="border-round-right-2xl">Actions</th>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-item>
+              <tr>
+                <td class="border-round-left-2xl">{{ appDetails?.appName ?? '-' }}</td>
+                <td>{{ orgDetails?.orgName ?? '-' }}</td>
+                <td>{{ item.templateName }}</td>
+                <td>{{ item.templateDesc }}</td>
+                <td>{{ item.createdOn | date: 'short' }}</td>
+                <td>{{ item.createdBy}}</td>
+                <td class="border-round-right-2xl">
+                  <p-button icon="pi pi-eye" [rounded]="true" [outlined]="true" size="small" (click)="editActivity(item)" />
+                </td>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="emptymessage">
+              <tr>
+                <td colspan="7" class="text-center">No Activity Data found.</td>
+              </tr>
+            </ng-template>
+          </p-table>
+        </div>
+
+        <!-- IDT Data Table -->
+        <div class="text-l mt-10 mb-3 flex justify-between items-center">
+          <span>IDT Data</span>
+          <span>{{ idtData.length }} Records</span>
+        </div>
+        <div class="table-wrapper">
+          <p-table [value]="idtData" [rows]="20" [paginator]="true" [rowsPerPageOptions]="[20,30,50]" [rowHover]="true" [loading]="isLoading">
+            <ng-template pTemplate="header">
+              <tr>
+                <th class="border-round-left-2xl">Application Name</th>
+                <th>Organization Name</th>
+                <th>Template Name</th>
+                <th>Description</th>
+                <th>Created On</th>
+                <th>Created By</th>
+                <th class="border-round-right-2xl">Actions</th>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-item>
+              <tr>
+                <td class="border-round-left-2xl">{{ appDetails?.appName ?? '-'}}</td>
+                <td>{{ orgDetails?.orgName ?? '-'}}</td>
+                <td>{{ item.templateName  ?? '-'}}</td>
+                <td>{{ item.templateDesc || '-' }}</td>
+                <td>{{ item.createdOn | date: 'short' }}</td>
+                <td>{{ item.createdBy}}</td>
+                <td class="border-round-right-2xl">
+                  <p-button icon="pi pi-eye" [rounded]="true" [outlined]="true" size="small" (click)="editIdt(item)" />
+                </td>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="emptymessage">
+              <tr>
+                <td colspan="7" class="text-center">No IDT Data found.</td>
+              </tr>
+            </ng-template>
+          </p-table>
+        </div>
+      </div>
+
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+</div>
+<p-toast></p-toast>

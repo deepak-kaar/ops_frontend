@@ -1,0 +1,186 @@
+@if(isShowUi){
+    <div class="pt-[30px] md:pt-[50px] pl-[0px] md:pl-[20px] flex flex-col gap-[20px] md:pr-[20px] w-full">
+
+        <!-- keep only mobile top action -->
+        @if((isMobile$|async)==true){
+        <div class="flex justify-end pb-[10px] gap-[10px]">
+            <p-select [options]="appActions" placeholder="Select Action" [(ngModel)]="selectedAction"
+                (onChange)="createFreq()" [checkmark]="true" class="w-full md:w-56" />
+        </div>
+        }
+
+        <p-card class="w-full">
+            <div class="card">
+                <p-table #dt [value]="freqs" selectionMode="single" [(selection)]="selectedFreq" dataKey="frequencyId"
+                    [rowHover]="true" [rows]="20" [showCurrentPageReport]="(isMobile$ |async)== false" [rowsPerPageOptions]="[20, 30, 50]"
+                    [loading]="loading" [paginator]="true"
+                    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [filterDelay]="0"
+                    (onRowSelect)="onFreqSelect($event)" (onRowUnselect)="onFreqUnSelect($event)"
+                    [globalFilterFields]="['frequencyName', 'frequencyType', 'frequencyDescription', 'createdOn']"
+                    class="customizePaginator">
+
+                    <ng-template #caption>
+                        @if((isMobile$ |async)==true){
+                        <!-- removed "List of Frequencies" -->
+                        <div class="flex w-full items-center gap-[10px]">
+                            <p-iconField iconPosition="left" class="w-full">
+                                <p-inputIcon>
+                                    <i class="pi pi-search"></i>
+                                </p-inputIcon>
+                                <input pInputText type="text" [(ngModel)]="searchValue"
+                                    (input)="onGlobalFilter(dt, $event)" placeholder="Search" class="w-full" />
+                            </p-iconField>
+                            <p-button [outlined]="true" icon="pi pi-filter-slash" (onClick)="clear(dt)" />
+                        </div>
+                        }
+                        @else{
+                        <div class="flex justify-between items-center gap-[10px] flex-nowrap">
+                            <!-- left: search + filter -->
+                            <div class="flex gap-[10px] items-center flex-1 min-w-0">
+                                <p-iconField iconPosition="left" class="w-full">
+                                    <p-inputIcon>
+                                        <i class="pi pi-search"></i>
+                                    </p-inputIcon>
+                                    <input pInputText type="text" [(ngModel)]="searchValue"
+                                        (input)="onGlobalFilter(dt, $event)" placeholder="Search" class="w-full" />
+                                </p-iconField>
+                                <p-button [outlined]="true" icon="pi pi-filter-slash" (onClick)="clear(dt)" />
+                            </div>
+
+                            <!-- right: import/export/create -->
+                            <div class="flex gap-[10px] items-center shrink-0">
+                                <p-button icon="pi pi-file-import" label="Import" pTooltip="Import" styleClass="toolbar-btn"></p-button>
+                                <p-button icon="pi pi-upload" label="Export" pTooltip="Export" styleClass="toolbar-btn"></p-button>
+                                <p-button (onClick)="createFreq()">Create New Frequency</p-button>
+                            </div>
+                        </div>
+                        }
+                    </ng-template>
+
+                    <ng-template #header>
+                        <tr>
+                            <th pSortableColumn="templateName" style="min-width: 5rem">
+                                <div class="flex justify-between items-center">
+                                    Frequency Name
+                                    <p-sortIcon field="templateName" />
+                                    <!-- <p-columnFilter type="text" field="name" display="menu" class="ml-auto" /> -->
+                                </div>
+                            </th>
+
+                            <th pSortableColumn="orgCode" style="min-width: 5rem">
+                                <div class="flex justify-between items-center">
+                                    Frequency Type
+                                    <p-sortIcon field="orgCode" />
+                                    <!-- <p-columnFilter type="text" field="name" display="menu" class="ml-auto" /> -->
+                                </div>
+                            </th>
+
+                            <th pSortableColumn="templateDescription" style="min-width: 14rem">
+                                <div class="flex justify-between items-center">
+                                    Description
+                                    <p-sortIcon field="templateDescription" />
+                                    <!-- <p-columnFilter type="text" field="country.name" display="menu" class="ml-auto" /> -->
+                                </div>
+                            </th>
+
+
+                            <th pSortableColumn="createdOn" style="min-width: 10rem">
+                                <div class="flex justify-between items-center">
+                                    Date
+                                    <p-sortIcon field="createdOn" />
+                                    <!-- <p-columnFilter type="date" field="date" display="menu" class="ml-auto" /> -->
+                                </div>
+                            </th>
+                            <th style="width: 5rem">
+                                <div class="flex justify-between items-center">
+                                    Action
+                                </div>
+                            </th>
+                        </tr>
+                    </ng-template>
+                    <ng-template #body let-freq>
+                        <tr [pSelectableRow]="freq">
+                            <td>
+                                {{ freq.frequencyName }}
+                            </td>
+                            <td>
+                                {{ freq.frequencyType }}
+                            </td>
+                            <td>
+                                {{ freq.frequencyDescription }}
+                            </td>
+                            <td>
+                                {{ freq.createdOn | date: 'MM/dd/yyyy' }}
+                            </td>
+                            <td class="flex gap-[5px]">
+                                <!-- <p-button icon="pi pi-pencil" [rounded]="true" [outlined]="true" (click)="editOrg(org)" /> -->
+                                <p-button icon="pi pi-trash" severity="danger" [rounded]="true" [outlined]="true"
+                                    (onClick)="confirmDelete($event, freq.frequencyId)" />
+                            </td>
+                        </tr>
+                    </ng-template>
+                    <ng-template #emptymessage>
+                        <tr>
+                            <td colspan="8">No Frequencies found.</td>
+                        </tr>
+                    </ng-template>
+                </p-table>
+            </div>
+        </p-card>
+
+        @if(isShowOrdDetails){
+        <p-card class="w-full pb-[30px]">
+
+            <div class="flex w-full justify-end pb-[20px]">
+                <p-button label="update" (onClick)="updateFreq()"></p-button>
+            </div>
+            <form [formGroup]="freqForm" class="flex flex-col gap-[10px]">
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="flex flex-col gap-2">
+                        <label for="appname">Frequency Name<span class="text-[var(--p-red-500)]"> *</span></label>
+                        <input pInputText id="frequencyname" formControlName="frequencyName" aria-describedby="username-help" />
+                    </div>
+                    <div class="flex flex-col gap-2">
+                        <label for="created by">Created By</label>
+                        <input pInputText id="createdby" formControlName="createdBy" aria-describedby="username-help" />
+                    </div>
+                </div>
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="flex flex-col gap-2">
+                        <label for="appdesc">Frequency Description</label>
+                        <input pInputText formControlName="frequencyDescription" id="frequencydesc" aria-describedby="username-help" />
+                    </div>
+                    <div class="flex flex-col gap-2">
+                        <label for="appcontact">Created Date</label>
+                        <input pInputText id="appcontact" formControlName="createdOn" aria-describedby="username-help" />
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="flex flex-col gap-2">
+                        <label for="appowner">Frequency Type<span class="text-[var(--p-red-500)]"> *</span></label>
+                        <input formControlName="frequencyType" pInputText id="frequencytype" aria-describedby="username-help" />
+                    </div>
+                    <div class="flex flex-col gap-2">
+                        <label for="Modified By">Modified By</label>
+                        <input pInputText id="Modifiedby" formControlName="modifiedBy" aria-describedby="username-help" />
+                    </div>
+                </div>
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="flex flex-col gap-2">
+                        <label for="Modified Date">Modified Date</label>
+                        <input pInputText id="Modifieddate" formControlName="modifiedOn" formControlName="modifiedOn" aria-describedby="username-help" />
+                    </div>
+                </div>
+            </form>
+        </p-card>
+        }
+    </div>
+}
+
+<p-toast>
+
+
+
+<p-confirmdialog></p-confirmdialog>
+<p-toast></p-toast>

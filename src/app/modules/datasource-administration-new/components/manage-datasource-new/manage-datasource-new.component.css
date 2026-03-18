@@ -1,0 +1,40 @@
+/* Custom styling to match reportimage-administration-new theme */
+
+/* Form styling */
+:host ::ng-deep .p-inputtext {
+  width: 100%;
+}
+
+:host ::ng-deep .p-select {
+  width: 100%;
+}
+
+:host ::ng-deep .p-textarea {
+  width: 100%;
+}
+
+/* Button styling */
+:host ::ng-deep .p-button {
+  border-radius: 8px;
+}
+
+/* Mobile responsive */
+@media (max-width: 768px) {
+  :host ::ng-deep .p-dialog {
+    width: 95vw !important;
+    max-width: 95vw !important;
+    margin: 10px;
+  }
+  
+  :host ::ng-deep .p-dialog-content {
+    padding: 1rem !important;
+  }
+}
+
+/* Tablet responsive */
+@media (min-width: 769px) and (max-width: 1024px) {
+  :host ::ng-deep .p-dialog {
+    width: 90vw !important;
+    max-width: 90vw !important;
+  }
+}

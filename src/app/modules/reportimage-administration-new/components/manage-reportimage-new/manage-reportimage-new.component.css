@@ -1,0 +1,17 @@
+/* Custom file upload styling */
+:host ::ng-deep .custom-fileupload .p-fileupload-content {
+  border: 2px dashed #e5e7eb;
+  border-radius: 12px;
+  background: #f9fafb;
+  padding: 1rem;
+}
+
+:host ::ng-deep .custom-fileupload .p-fileupload-buttonbar {
+  background: transparent;
+  border: none;
+  padding: 0.5rem 0;
+}
+
+:host ::ng-deep .custom-fileupload .p-button {
+  border-radius: 8px;
+}

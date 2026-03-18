@@ -1,0 +1,42 @@
+<div class="flex flex-col gap-[10px]">
+    <form [formGroup]="enablerForm" class="flex flex-col gap-[10px]">
+        <div class="grid grid-cols-1 md:grid-cols-2 md:gap-2">
+            <div class="flex flex-col gap-2">
+                <label for="role">Role<span class="text-[var(--p-red-500)]"> *</span></label>
+                <p-select formControlName="role" optionLabel="label" optionValue="roleName" [options]="roles"
+                    placeholder="Select Role" class="w-full" />
+            </div>
+            <div class="flex flex-col gap-2">
+                <label for="duration">Duration<span class="text-[var(--p-red-500)]"> *</span></label>
+                <p-select formControlName="duration" optionLabel="label" optionValue="value" [options]="durationOptions"
+                    placeholder="Select Duration" class="w-full" />
+            </div>
+
+            <!-- <div class="flex flex-col gap-2">
+                <label for="isActive">Status</label>
+                <p-select formControlName="isActive" [options]="activeOptions" placeholder="Select Status"></p-select>
+            </div> -->
+
+        </div>
+        <div class="grid md:grid-cols-1 gap-4">
+            <div class="flex flex-col gap-2">
+                <label for="incident">Incident Number<span class="text-[var(--p-red-500)]"> *</span></label>
+                <input pInputText id="incident" formControlName="incident" aria-describedby="username-help" />
+            </div>
+        </div>
+
+
+        <div class="grid grid-cols-1 gap-4">
+            <div class="flex flex-col gap-2">
+                <label for="justification">Justification</label>
+                <textarea rows="3" cols="30" pTextarea formControlName="justification" id="justification"
+                    class="input-field"></textarea>
+            </div>
+        </div>
+    </form>
+    <div class="pt-[10px] md:pt-[0px] flex justify-center gap-[10px]">
+        <p-button styleClass="md:w-[250px]" severity="danger" outlined="true" label="Cancel"
+            (onClick)="cancel()"></p-button>
+        <p-button styleClass="md:w-[250px]" label="Save" (onClick)="save()"></p-button>
+    </div>
+</div>
