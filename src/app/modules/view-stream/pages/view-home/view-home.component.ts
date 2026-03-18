@@ -104,7 +104,7 @@ export class ViewHomeComponent implements OnInit, OnDestroy {
 
   loadStreams() {
     this.isLoading = true;
-    this.http.get<any>(`${this.backendUrl}/api/streams`).subscribe({
+    this.http.get<any>(`${this.backendUrl}/vs/streams`).subscribe({
       next: (res) => {
         this.isLoading = false;
         if (res.success) {
